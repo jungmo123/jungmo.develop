@@ -29,4 +29,35 @@
 	<mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**"/>
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>
 
+	<bean id = "dataSource" class = "org.springframework.jndi.JndiObjectFactoryBean">
+		<property name ="jndiName" value = "java:comp/env/jdbc/jungmo"/>
+		<property name = "resourceRef" value = "true"/>
+	</bean>
+	<bean id = "sqlSessionFactory" class = "org.mybatis.spring.SqlSessionFactoryBean">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "configLocation"
+			value = "classpath:jungmo/shoppingmall/config/dao/SqlMapConfig.xml"/>
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:jungmo/shoppingmall/**/dao/mapper/*.xml</value>
+			</array>
+		</property>
+	</bean>
+	<mybatis:scan base-package = "jungmo/shoppingmall.**.dao.mapper"/>
+	
+	<bean id = "transactionManager" class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name = "dataSource" ref = "dataSource"/>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<aop:aspectj-autoproxy />
+	
+	<bean id = "loginInteceptor" class = "jungmo.shoppingmall.interceptor.LoginInterceptor"></bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<ref bean = "loginInteceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 </beans>

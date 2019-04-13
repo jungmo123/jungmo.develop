@@ -401,9 +401,9 @@
 				</div>
 				<div id = "nav">
 					<div id = "loginBar">
-						<a href = "USER/JOIN/01.html"><span>회원가입</span></a>
+						<a href = "/user/login/login.jsp"><span>회원가입</span></a>
 						<span>&#124;</span>
-						<a href = "USER/LOGIN/01.html"><span>로그인</span></a>
+						<a href = "login"><span>로그인</span></a>
 						<span>&#124;</span>
 						<a href = "MANAGER/LOGING/01.html"><span>관리자 로그인</span></a>
 						<span>&#124;</span>

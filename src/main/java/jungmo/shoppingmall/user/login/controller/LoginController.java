@@ -1,13 +1,22 @@
 package jungmo.shoppingmall.user.login.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
 	@RequestMapping("/")
-	public String home(Model model){
+	public String home(){
+		return "main";
+	}
+
+	@RequestMapping("/login")
+	public String login(){
+		return "user/login/login";
+	}
+	
+	@RequestMapping(value= "/login",method=RequestMethod.POST)
+	public String loginSubmit(){
 		return "main";
 	}
 }
