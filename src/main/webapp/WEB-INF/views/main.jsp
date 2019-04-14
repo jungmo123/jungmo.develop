@@ -401,7 +401,7 @@
 				</div>
 				<div id = "nav">
 					<div id = "loginBar">
-						<a href = "/user/login/login.jsp"><span>회원가입</span></a>
+						<a href = "register01"><span>회원가입</span></a>
 						<span>&#124;</span>
 						<a href = "login"><span>로그인</span></a>
 						<span>&#124;</span>

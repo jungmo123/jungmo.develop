@@ -3,6 +3,6 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-			<package name = "spring.web.ch04.ex02.domain"/>
+			<typeAlias alias = "user" type = "jungmo.shoppingmall.user.login.domain.User"/>
 	</typeAliases>
 </configuration>

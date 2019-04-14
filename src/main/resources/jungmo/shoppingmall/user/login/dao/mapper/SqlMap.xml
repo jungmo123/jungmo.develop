@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
-<mapper namespace="spring.web.ch04.ex01.dao.mapper.TodayMapper">
-	<select id="getCurrentDate" resultType="date">
-		select sysdate from dual
-	</select>
-</mapper>
+<mapper namespace="jungmo.shoppingmall.user.lgoin.dao.mapper.LoginMapper">
+	<insert id="addUser" parameterType="user">
+		insert into users
+		values(#{userId},#{userPwd},#{userEmail},#{userPhone},#{userSi},#{userGu},#{userDong},#{userDetailArea},1,sysdate,0,#{userMailAgreement},0,null)
+	</insert>
+</mapper> 
