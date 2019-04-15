@@ -1,18 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ page import= "jungmo.shoppingmall.user.register.service.RegisterService" %>
-<%@ page import= "jungmo.shoppingmall.user.register.service.RegisterServiceImpl" %>
-<%@ page import= "jungmo.shoppingmall.user.register.domain.Clause" %>
-<%@ page import= "java.util.List" %>
-<%@ page import= "java.util.ArrayList" %>
 <%
-	List<Clause> clauses = (List<Clause>)request.getAttribute("clauses");
-	List<String> names = new ArrayList<>();
-	for(int i = 0 ; i < clauses.size() ; i++){
-		names.add(i, String.valueOf(clauses.get(i).getClsNum()));
-	}
-	session.setAttribute("names", names);
+	session.setAttribute("clauses",request.getAttribute("clauses"));
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -23,7 +13,6 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
@@ -143,9 +132,13 @@
  <div id="terms">
    <h4>|라라마켓 서비스 약관 동의</h4>
    <hr>
-   <form id = "registerForm" action = "register02" method = "post">
-   		<div>
+   		<form id = "registerForm" action = "register02" method = "post">
 			<c:forEach var = "clause" items = "${clauses}" varStatus = "state">
+				<div>
+					<p>${clause.clsTitle}</p>
+					<div>
+					<textarea>${clause.clsContent}</textarea>
+					</div>
 					<input id = "${clause.clsNum}" type = "checkbox" name = "${clause.clsNum}" value = "동의">
 					<label for = "${clause.clsNum}">
 						<c:choose>
@@ -157,8 +150,8 @@
 							</c:when>					
 						</c:choose>
 					</label>
+					</div>
 			</c:forEach>
-		</div>
 		<div>
 		   <input type="checkbox" id ="check_all">
 		   <label id = "check_all">모두 동의</label>

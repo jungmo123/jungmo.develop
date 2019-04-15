@@ -4,7 +4,7 @@
 <mapper namespace="jungmo.shoppingmall.user.register.dao.mapper.RegisterMapper">
 	<insert id="addUser" parameterType="user">
 		insert into users
-		values(#{userId},#{userPwd},#{userEmail},#{userPhone},#{userSi},#{userGu},#{userDong},#{userDetailArea},1,sysdate,0,#{userMailAgreement},0,null)
+		values(#{userId},#{userName},#{userPwd},#{userEmail},#{userPhone},#{userPostcode},#{userStreet},#{userDetailArea},1,sysdate,0,#{userMailAgreement},0,sysdate)
 	</insert>
 	
 	<select id = "getClauses" resultType = "cls">

@@ -1,19 +1,13 @@
 package jungmo.shoppingmall.user.register.controller;
+import javax.servlet.http.*;
 
-import java.util.List;
+import jungmo.shoppingmall.user.login.domain.*;
+import jungmo.shoppingmall.user.register.service.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import jungmo.shoppingmall.user.login.domain.User;
-import jungmo.shoppingmall.user.register.service.RegisterService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RegisterController {
@@ -48,31 +42,29 @@ public class RegisterController {
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		String userName = request.getParameter("userName");
-		String userEmail = request.getParameter("userEmail");
-		int userPhone = Integer.parseInt(request.getParameter("userPhone"));
-		String userSi = request.getParameter("userSi");
-		String userGu = request.getParameter("userGu");
-		String userDong = request.getParameter("userDong");
+		String email1 = request.getParameter("email1");
+		String email2 = request.getParameter("email2");
+		String userEmail = email1 + "@" + email2;
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone3 = request.getParameter("phone3");
+		String userPhone = phone1+phone2+phone3;
+		String userPostcode = request.getParameter("userPostcode");
+		String userStreet = request.getParameter("userStreet");
 		String userDetailArea = request.getParameter("userDetailArea");
-		String userMailAgreement = request.getParameter("userMailAgreement");
-		
-		if(userId != null &&
-			userPwd != null &&
-			userName != null &&
-			userEmail != null &&
-			userPhone != 0 &&
-			userSi != null &&
-			userGu != null &&
-			userDong != null &&
-			userDetailArea != null &&
-			userMailAgreement != null){
-			User user = new User(userId,userName,userPwd,userEmail,userPhone,userSi,
-					userGu,userDong,userDetailArea,userMailAgreement);
-			registerService.addUser(user);
-			address = "redirect:main";
+		String mail = request.getParameter("userMailAgreement");
+		String userMailAgreement;
+		if(mail.equals("on")){
+			userMailAgreement = "동의";
 		}else{
-			address = "redirect:user/register/register02";
+			userMailAgreement = "거부";
 		}
-		return address;
+		System.out.println(userId + " " + userPwd + " " + userName + " " + userEmail + " " + userPhone + " " + userPostcode + 
+				" " + userStreet + " " + userDetailArea + " " +userMailAgreement);
+		
+			User user = new User(userId,userName,userPwd,userEmail,userPhone,userPostcode,userStreet,userDetailArea);
+			registerService.addUser(user);
+
+		return "register02";
 	}
 }

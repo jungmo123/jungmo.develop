@@ -1,15 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import = "java.util.*" %>
+<%@ page import= "java.util.*" %>
+<%@ page import = "java.util.Map" %>
+<%@ page import= "jungmo.shoppingmall.user.register.domain.Clause" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%
-	List<String> names = (List<String>)session.getAttribute("names");
-	List<String> clauses = new ArrayList<>();
-	HashMap<String,String> items = new HashMap<>();
-
-	for(int i = 0 ; i < names.size() ; i++){
-		clauses.add(i,items.put(String.valueOf(names.get(i)),(String)request.getAttribute(String.valueOf(names.get(i)))));
+	List<Clause> clauses = (List<Clause>)session.getAttribute("clauses");
+	Map<String,String> values = new HashMap<>();
+	
+	List<String> names = new ArrayList<>();
+	if(clauses != null){
+		for(int i = 0 ; i < clauses.size() ; i++){
+			String str =(String)request.getParameter(String.valueOf(clauses.get(i).getClsNum()));
+			names.add(i, values.put(String.valueOf(clauses.get(i).getClsNum()), str));
+		}
+		session.setAttribute("names", names);		
+	}else{
+		response.sendRedirect("register01");
 	}
 %>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -261,7 +272,7 @@ input[type="number"]::-webkit-inner-spin-button {
 						<td><span>이름</span></td>
 						<td>
 							<div>
-								<input class="form-control" type="text" name="username" />
+								<input class="form-control" type="text" name="userName" />
 							</div>
 							<div>
 								 <span>한글로 5글자 이내로 입력해 주세요</span>
@@ -272,7 +283,7 @@ input[type="number"]::-webkit-inner-spin-button {
 						<td><span>아이디</span></td>
 						<td>
 							<div>
-								<input id = "userId" class="form-control" type="text" name="id" />
+								<input id = "userId" class="form-control" type="text" name="userId" />
 							</div>
 							<div>
 								<button id = "overlap" class="btn btn-default">중복 확인</button>
@@ -289,7 +300,7 @@ input[type="number"]::-webkit-inner-spin-button {
 						<td><span>비밀번호</span></td>
 						<td>
 							<div>
-								<input id = "password" class="form-control" type="password" name="password" placeholder="비밀번호 입력" />
+								<input id = "password" class="form-control" type="password" name="userPwd" placeholder="비밀번호 입력" />
 							</div>
 							<div>
 								<input class="form-control" type="password" name="confirmpassword" placeholder="비밀번호 확인" />								
@@ -327,7 +338,7 @@ input[type="number"]::-webkit-inner-spin-button {
 						<td><span>휴대폰 번호</span></td>
 						<td>
 							<div>
-								<select class="form-control">
+								<select class="form-control" name = "phone1">
 									<option>010</option>
 									<option>011</option>
 									<option>016</option>
@@ -354,22 +365,22 @@ input[type="number"]::-webkit-inner-spin-button {
 						<td><span>주소</span></td>
 						<td>
 							<div>
-								<input id="postcode" type="text" class="form-control"
-									name="postcode" readonly>
+								<input id="userPostcode" type="text" class="form-control"
+									name="userPostcode" readonly>
 								<a class="btn btn-default" onclick="showPostcode()">우편번호
 									검색</a>
 							</div>
 							<div>
-								<input id="homeAddress" type="text" class="form-control" name="homeAddress" readonly>
+								<input id="userStreet" type="text" class="form-control" name="userStreet" readonly>
 							</div>
 							<div>
-								<input id="detailAddress" type="text" class="form-control" name="detailAddress" >
+								<input id="userDetailArea" type="text" class="form-control" name="userDetailArea" >
 							</div>
 						</td>
 					</tr>
 				</table>			
 				<div id="mailDiv">
-					<input type="checkbox" name="mail" /> <span>메일 수신(이벤트, 신상품 등
+					<input type="checkbox" name="userMailAgreement" /> <span>메일 수신(이벤트, 신상품 등
 						고객님께 혜택이 되는 소식을 알려드립니다.)</span>
 				</div>
 			<div id="qualification">
@@ -379,11 +390,6 @@ input[type="number"]::-webkit-inner-spin-button {
 				<button class="btn btn-default" type = "submit">확인</button>
 				<button class="btn btn-default"
 					onclick="location.href='main'">취소</button>
-			</div>
-			<div>
-				<c:forEach var = "name" items = "${names}" varStatus = "state">
-					<input id = "${name}" type = "checkbox" name = "${clause.clsNum}" value = "동의">
-				</c:forEach>
 			</div>
 			</form>
 		</div>
@@ -423,17 +429,17 @@ input[type="number"]::-webkit-inner-spin-button {
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("homeAddress").value = extraAddr;
+                    document.getElementById("userStreet").value = extraAddr;
                 
                 } else {
-                    document.getElementById("homeAddress").value = '';
+                    document.getElementById("userStreet").value = '';
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postcode').value = data.zonecode;
-                document.getElementById("homeAddress").value = addr;
+                document.getElementById('userPostcode').value = data.zonecode;
+                document.getElementById("userStreet").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("detailAddress").focus();
+                document.getElementById("userDetailArea").focus();
             }
         }).open();    
     }
@@ -461,16 +467,16 @@ input[type="number"]::-webkit-inner-spin-button {
 	$(function() {
 			$("#registerForm").validate({
 				rules : {
-					username : {
+					userName : {
 						required : true,
 						minlength : 2,
 						maxlength : 5,
 						usernameck : true
 					},
-					id : {
+					userId : {
 						required : true
 					},
-					password : {
+					userPwd : {
 						required : true,
 						minlength : 8
 					},
@@ -500,7 +506,7 @@ input[type="number"]::-webkit-inner-spin-button {
 					}
 				},
 				messages : {					
-					username : {
+					userName : {
 						required : function(){
 							return "이름을 입력하세요";
 						},
@@ -514,7 +520,7 @@ input[type="number"]::-webkit-inner-spin-button {
 							return "한글로 입력하세요";
 						}
 					},
-					password : {
+					userPwd : {
 						required : function(){
 							
 							return "암호를 입력하세요";
@@ -531,7 +537,7 @@ input[type="number"]::-webkit-inner-spin-button {
 							return "위 암호와 똑같이 입력하세요.";
 						}
 					},
-					id : {
+					userId : {
 						required : function(){
 							return "아이디를 입력하세요.";
 						}
@@ -579,6 +585,10 @@ input[type="number"]::-webkit-inner-spin-button {
 	$("#userId").keyup(function(){
 		$("#overlabCK").prop("checked",false);
 		console.log($("#overlabCK").prop("checked"));
+	})
+	
+	$("#selectEmail").change(function(){
+		$("#emailAddress-error").css("display","none");
 	})
 	
 	$("#overlap").click(function(e){

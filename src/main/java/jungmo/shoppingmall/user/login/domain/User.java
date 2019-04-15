@@ -7,10 +7,9 @@ public class User {
 	private String userName;
 	private String userPwd;
 	private String userEmail;
-	private int userPhone;
-	private String userSi;
-	private String userGu;
-	private String userDong;
+	private String userPhone;
+	private String userPostcode;
+	private String userStreet;
 	private String userDetailArea;
 	private int userLevel;
 	private Date userJoinDate;
@@ -29,30 +28,29 @@ public class User {
 	
 	// 회원 가입
 	public User(String userId, String userName, String userPwd,
-			String userEmail, int userPhone, String userSi, String userGu,
-			String userDong, String userDetailArea,String userMailAgreement) {
+			String userEmail, String userPhone, String userPostcode,
+			String userStreet, String userDetailArea) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPwd = userPwd;
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
-		this.userSi = userSi;
-		this.userGu = userGu;
-		this.userDong = userDong;
+		this.userPostcode = userPostcode;
+		this.userStreet = userStreet;
 		this.userDetailArea = userDetailArea;
-		this.userMailAgreement = userMailAgreement;
-	}
+	}	
 
 	// 회원 정보 수정
-	public User(String userEmail, int userPhone, String userSi, String userGu,
-			String userDong, String userDetailArea) {
+	public User(String userEmail, String userPhone, String userPostcode,
+			String userStreet, String userDetailArea) {
+		super();
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
-		this.userSi = userSi;
-		this.userGu = userGu;
-		this.userDong = userDong;
+		this.userPostcode = userPostcode;
+		this.userStreet = userStreet;
 		this.userDetailArea = userDetailArea;
 	}
+
 
 	public String getUserId() {
 		return userId;
@@ -70,24 +68,28 @@ public class User {
 		return userEmail;
 	}
 
-	public int getUserPhone() {
+	public String getUserPhone() {
 		return userPhone;
-	}
-
-	public String getUserSi() {
-		return userSi;
-	}
-
-	public String getUserGu() {
-		return userGu;
-	}
-
-	public String getUserDong() {
-		return userDong;
 	}
 
 	public String getUserDetailArea() {
 		return userDetailArea;
+	}
+
+	public String getUserPostcode() {
+		return userPostcode;
+	}
+
+	public String getUserStreet() {
+		return userStreet;
+	}
+
+	public void setUserPostcode(String userPostcode) {
+		this.userPostcode = userPostcode;
+	}
+
+	public void setUserStreet(String userStreet) {
+		this.userStreet = userStreet;
 	}
 
 	public int getUserLevel() {
@@ -130,20 +132,8 @@ public class User {
 		this.userEmail = userEmail;
 	}
 
-	public void setUserPhone(int userPhone) {
+	public void setUserPhone(String userPhone) {
 		this.userPhone = userPhone;
-	}
-
-	public void setUserSi(String userSi) {
-		this.userSi = userSi;
-	}
-
-	public void setUserGu(String userGu) {
-		this.userGu = userGu;
-	}
-
-	public void setUserDong(String userDong) {
-		this.userDong = userDong;
 	}
 
 	public void setUserDetailArea(String userDetailArea) {

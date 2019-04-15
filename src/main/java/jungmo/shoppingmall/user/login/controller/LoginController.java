@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 
+
 @Controller
 public class LoginController {
 	@Autowired private LoginService loginService;
