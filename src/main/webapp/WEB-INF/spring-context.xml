@@ -43,21 +43,11 @@
 			</array>
 		</property>
 	</bean>
-	<mybatis:scan base-package = "jungmo/shoppingmall.**.dao.mapper"/>
+	<mybatis:scan base-package = "jungmo.shoppingmall.**.dao.mapper"/>
 	
 	<bean id = "transactionManager" class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name = "dataSource" ref = "dataSource"/>
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
-	<aop:aspectj-autoproxy />
-	
-	<bean id = "loginInteceptor" class = "jungmo.shoppingmall.interceptor.LoginInterceptor"></bean>
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<ref bean = "loginInteceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors>
 
 </beans>

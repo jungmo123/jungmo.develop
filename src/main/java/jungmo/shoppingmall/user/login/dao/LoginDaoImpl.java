@@ -10,10 +10,6 @@ import org.springframework.stereotype.*;
 public class LoginDaoImpl implements LoginDao{
 	@Autowired private LoginMapper loginMapper;
 	
-	public void addUser(User user){
-		loginMapper.addUser(user);
-	}
-	
 	public User loginTest(User user){
 		return loginMapper.loginTest(user);
 	}
