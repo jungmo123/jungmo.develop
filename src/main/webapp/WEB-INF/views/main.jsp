@@ -46,7 +46,7 @@
 							<span>&#124;</span>
 							<a href = "login"><span>로그인</span></a>
 							<span>&#124;</span>
-							<a href = "adminlogin"><span>관리자 로그인</span></a>
+							<a href = "admin/login"><span>관리자 로그인</span></a>
 							<span>&#124;</span>
 							<a href = "USER/HELP/08.html"><span>ID/비밀번호 찾기</span></a>
 						</div>

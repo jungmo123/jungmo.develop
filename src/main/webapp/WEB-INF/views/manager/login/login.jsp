@@ -148,7 +148,7 @@
 				});				
 		}else{
 			$.ajax({
-				url:"adminloginCheck",
+				url:"loginCheck",
 				method:"post",
 				data:{
 					userId:$("#userId").val(),
@@ -156,7 +156,7 @@
 				},
 				success:function(bl){
 					if(bl == true){
-						location.href="adminMain";
+						location.href="main";
 					}else{
 						Swal.fire({
 							  position: 'top',

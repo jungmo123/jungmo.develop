@@ -27,7 +27,7 @@
 
 	<div class = "container">
 		<div id = "logo">
-			<a href = "adminMain" ><span>LALA&nbsp;</span>MARKET</a>
+			<a href = "main" ><span>LALA&nbsp;</span>MARKET</a>
 			<div id = "Admin">
 				<h5>Administrator</h5>
 			</div>
@@ -111,7 +111,7 @@
 					<span>&#124;</span>
 					<a href = "../INTRABOARD/01.html">사내 게시판</a>
 					<span>&#124;</span>
-					<a href = "adminlogout">로그아웃</a>			
+					<a href = "logout">로그아웃</a>			
 			</span>		
 		</div>
 	</div>

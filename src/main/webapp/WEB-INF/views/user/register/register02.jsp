@@ -445,10 +445,12 @@ input[type="number"]::-webkit-inner-spin-button {
                 document.getElementById('userPostcode').value = data.zonecode;
                 document.getElementById("userStreet").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("userStreet-error").style.display="none";
                 document.getElementById("userDetailArea").focus();
             }
-        }).open();    
+        }).open();
+        if($("#userStreet-error").length > 0){
+        	$(this).addClass("display","none");
+        }
     }
     
 	$("#selectEmail").change(function(){

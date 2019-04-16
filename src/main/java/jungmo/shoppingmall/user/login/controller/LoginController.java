@@ -1,15 +1,13 @@
 package jungmo.shoppingmall.user.login.controller;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
-import jungmo.shoppingmall.user.login.domain.User;
-import jungmo.shoppingmall.user.login.service.LoginService;
+import jungmo.shoppingmall.user.login.domain.*;
+import jungmo.shoppingmall.user.login.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -40,16 +38,16 @@ public class LoginController {
 	@RequestMapping("/logout")
 	public String logout(HttpSession session){
 		session.removeAttribute("user");
-		return "main";
+		return "redirect:/";
 	}
 	
-	@RequestMapping("/adminlogin")
+	@RequestMapping("/admin/login")
 	public String adminlogin(HttpSession session){
 		session.removeAttribute("user");
 		return "manager/login/login";
 	}
 	
-	@RequestMapping(value= "/adminloginCheck",method=RequestMethod.POST)
+	@RequestMapping(value= "/admin/loginCheck",method=RequestMethod.POST)
 	@ResponseBody
 	public boolean adminloginSubmit(String userId,String userPwd,HttpSession session){
 		User user = new User(userId,userPwd);
@@ -60,14 +58,14 @@ public class LoginController {
 		return bl;
 	}
 	
-	@RequestMapping("/adminMain")
+	@RequestMapping("/admin/main")
 	public String adminHome(){
 		return "manager/main/adminMain";
 	}
 	
-	@RequestMapping("/adminlogout")
+	@RequestMapping("/admin/logout")
 	public String adminlogout(HttpSession session){
 		session.removeAttribute("admin");
-		return "main";
+		return "redirect:/";
 	}
 }

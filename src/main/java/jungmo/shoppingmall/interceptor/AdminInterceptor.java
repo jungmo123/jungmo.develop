@@ -1,4 +1,4 @@
-package jungmo.shoppingmall.admininterceptor;
+package jungmo.shoppingmall.interceptor;
 
 import javax.servlet.http.*;
 
@@ -12,11 +12,11 @@ public class AdminInterceptor extends HandlerInterceptorAdapter{
 			HttpSession session = request.getSession();
 			String admin = (String)session.getAttribute("admin");
 			
-			if(!request.getRequestURI().equals("/shoppingmall/adminlogin")){
+			if(!request.getRequestURI().equals("/shoppingmall/admin/login")){
 				if(admin != null){
 
 				}else{
-					response.sendRedirect("/shoppingmall/adminlogin");
+					response.sendRedirect("/shoppingmall/admin/login");
 					return false;					
 				}
 			}			

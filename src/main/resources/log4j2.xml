@@ -9,7 +9,7 @@
 			append="true">
 			<PatternLayout pattern="[%-5p: %d{yyyy/MM/dd HH:mm:ss}] %m%n" />
 			<Policies>				
-				<TimeBasedTriggeringPolicy interval="86400"/>
+				<TimeBasedTriggeringPolicy interval="2"/>
 			</Policies>
 		</RollingFile>
 	</Appenders>
