@@ -1,0 +1,98 @@
+<style>
+	#header #title{
+		margin-top:30px;
+	}
+	#header #title > strong{
+		font-size:30px;
+	}
+	#searchBar{
+		text-align:center;
+		margin-top:10px;
+	}
+	input[type="text"]{
+		display:inline;
+		width:280px;
+		height:25px;
+	}
+	#searchBar select{
+		display:inline;
+		width:100px;
+		height:26px;
+		padding:0;
+		font-size:12px;	
+		position:relative;
+		bottom:1px;	
+	}
+	#searchBar .btn{
+		width:60px;
+		height:25px;
+		padding:0;
+		font-size:12px;
+		font-weight:bold;
+		position:relative;
+		bottom:2px;	
+	}
+	#nav{
+		margin-top:50px;
+	}
+	#nav #loginBar{
+		float:right;
+		margin:0 10px 2px 0;
+	}
+	#nav #loginBar a{
+		color:#878787;
+		margin:0 5px 0px 5px;
+		font-size:12px;
+	}
+	#content{
+		margin-top:70px;
+		text-align:center;
+	}
+	#content #join{
+		display:inline-block;
+		width:270px;
+		height:130px;
+		text-align:left;
+		margin-right:10px;
+	}
+	#content #join hr{
+		margin:5px;
+	}
+	#content #join > form > div:first-child{
+		width:300px;
+		height:70px;
+	}
+	#content #join > form > div > div:first-child{
+		display:inline-block;
+		width:200px;
+		float:left;
+	}
+	#content #join > form > div > div:last-child{
+		display:inline-block;
+		width:50px;
+		float:left;
+	}
+	#content #join > form >div > div:first-child input{
+		width:190px;
+		margin:2px;
+	}
+	#content #join > form > div > div:last-child button{
+		width:60px;
+		height:60px;
+		position:relative;
+		top:2px;
+	}
+	#content #join > div:last-child a span{
+		color:black;
+		margin:0 5px 0 5px;
+	}
+	#content #center{
+		display:inline-block;
+		width:250px;
+		line-height:25px;
+		border:1px solid grey;
+		padding:10px;
+		position:relative;
+		bottom:20px;
+	}
+</style>

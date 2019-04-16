@@ -107,6 +107,9 @@
 	    -webkit-appearance: none;
 	    margin: 0;
 	}
+	#registerForm > div{
+		margin-bottom:20px;
+	}
 </style>
 </head>
 

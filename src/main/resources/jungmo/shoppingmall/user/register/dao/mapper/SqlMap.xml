@@ -4,7 +4,14 @@
 <mapper namespace="jungmo.shoppingmall.user.register.dao.mapper.RegisterMapper">
 	<insert id="addUser" parameterType="user">
 		insert into users
-		values(#{userId},#{userName},#{userPwd},#{userEmail},#{userPhone},#{userPostcode},#{userStreet},#{userDetailArea},1,sysdate,0,#{userMailAgreement},0,sysdate)
+		values(
+		#{userId},#{userName},#{userPwd},#{userEmail},#{userPhone},#{userPostcode},#{userStreet},#{userDetailArea},1,sysdate,0,#{userMailAgreement},0,sysdate
+		)
+	</insert>
+	
+	<insert id = "addClsc" parameterType="clsc">
+		insert into clause_categories
+		values(#{clsNum},#{userId},#{clscAgreement})
 	</insert>
 	
 	<select id = "getClauses" resultType = "cls">
@@ -18,4 +25,4 @@
 		from users
 		where user_id = #{userId}
 	</select>
-</mapper> 
+</mapper>

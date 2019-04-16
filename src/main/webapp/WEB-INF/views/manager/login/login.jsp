@@ -3,124 +3,173 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>JOIN</title>
+<title>Login</title>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
-	*{
+	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
+	* {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
-   .container{
-      width:1000px;
-   }
-   #nav{
-      display:inline-block;
-      widht:150px;
-      margin-top:30px;
-      margin-right:30px;
-      float:left;
-   }
-   #button{
-   text-align:center;
-   margin-bottom:30px;
-   }
-   
-   .circle{
-      width:80px;
-      height:80px;
-      border-radius:100%;
-      border:1px solid #CCCCCC;
-      text-align:center;
-   }
-   #circle1{
-   background-color:lightgrey;
-   }
-   .circle span{
-      position:relative;
-      top:20px;
-   }
-   .icon{
-      height:50px;
-      text-align:center;
-   }
-   .glyphicon-menu-down{
-      font-size:50px;
-      color:#F2F5F7;
-   }
-   .agree{
-      width:500px;
-      height:80px;
-      border:1px solid #878787;
-   }
-   
- #terms{
-       margin-top:30px;
-       margin-left:100px;
-       float:left;
- }
-
+	body .container:nth-child(1) span{
+		
+	}
+	h3,h4{
+		display:inline-block;
+		margin-right:10px;
+	}
+	hr{
+		margin:0px;
+		border:0;
+		height:3px;
+		background:grey;
+	}
+	#vl{
+		margin-top:0px;
+		margin-bottom:0px;
+		position:relative;
+		bottom:3px;
+	}
+	#loginC{
+		text-align:center;
+		margin-top:100px;
+	}
+	#loginC h4{
+		font-weight:bold;
+	}
+	#submit{
+		width:68px;
+		height:65px;
+		position:relative;
+		bottom:65px;
+		left:140px;
+		border-radius:10px;
+		border:1px solid grey;
+	}
+	.form-group div{
+		margin-top:5px;
+	}
+	
+	input{
+		width:200px;
+		height:30px;
+	}
+	p{
+		margin:0;
+		font-weight:bold;
+	}
+	#panel{
+		width:500px;
+		text-align:center;
+	}
+	#panel .panel-heading{
+		border:1px solid grey;
+	}
+	.panel-body{
+		line-height:25px;
+		text-align:left;
+		border:1px solid grey;
+	}
+	.container span{
+		font-size:32px;
+		margin-right:10px;
+	}
+	.container span:nth-child(2){
+		color:#FF6F43;
+	}
+	.container span:nth-child(1){
+		color:#5D646E;
+	}
+	.container a{
+		text-decoration:none;
+	}
 </style>
-<script>
-$( document ).ready( function() {
-    $( '.check-all' ).click( function() {
-      $( '.mycheck' ).prop( 'checked', this.checked );
-    } );
-  } );
-</script>
 </head>
-
 <body>
-<div class  = "container">
-      <div id = "nav">
-         <div class = "circle" id = "circle1">
-            <span>약관<br>동의</span>
-         </div>
-         <div class = "icon">
-            <span class= "glyphicon glyphicon-menu-down"></span>
-         </div>
-         <div class = "circle" id = "circle2">
-            <span>정보<br>입력</span>
-         </div>
-         <div class = "icon">
-            <span class= "glyphicon glyphicon-menu-down"></span>
-         </div>
-         <div class = "circle" id = "circle3">
-            <span>가입<br>완료</span>
-         </div>
-      </div>
- <div id="terms">
-   <h4>|라라마켓 서비스 약관 동의</h4>
-   <hr>
-   <form name='my_form'>
-   <p>라라마켓 서비스 이용 약관 동의</p>
-   <div class="agree" id="agree1">약관내용</div>
-   <input type="checkbox" class="mycheck"/>동의함(필수)
-   <br><br>
-   <p>개인정보 처리방침 동의</p>
-   <div class="agree" id="agree2"></div>
-   <input type="checkbox" class="mycheck"/>동의함(필수)
-   <br><br>
-   <p>개인정보처리 위탁 동의</p>
-   <div class="agree" id="agree3"></div>
-   <input type="checkbox" class="mycheck"/>동의함(필수)
-   <br><br>
-   <p>마케팅 정보 제공 동의</p>
-   <div class="agree" id="agree4"></div>
-   <input type="checkbox" class="mycheck"/>동의함(선택)
-   </form>
-   
-   <br>
-   <form><input type="checkbox" class="check-all"/>모두 동의</form>
-   <br><br><br>
-   <div id="button">
-   <button class="btn btn-default" onclick="location.href='02.html'"> 다음 </button>
-   <button class="btn btn-default"> 취소 </button>
-   </div>
-</div>
-</div>
+	<div class = "container">
+		<h3 id = "vl">&#124;</h3>
+		<a href = "../MAIN/01.html">
+			<span>LALA</span>
+			<span>MARKET</span>		
+		</a>
+		<h3>Admin Login</h3>
+		<hr>
+	</div>
+	
+	<div class = "container" id = "loginC">
+		<h4>&#124;</h4><h4>Admin Login</h4>
+		<div>
+			<form id = "loginForm" action = "adminloginCheck" method = "post">
+				<div class = "form-group">
+					<div>
+						<input type = "text"  name = "userId"  id = "userId" placeholder = "아이디를 입력하세요!" />
+					</div>
+					<div>
+						<input type = "password" name = "userPwd" id = "userPwd" placeholder = "비밀번호를 입력해 주세요!" />
+					</div>
+					<button type = "submit" id = submit><p>보안</p><p>로그인</p></button>
+				</div>
+			</form>
+		</div>
+	</div>
+		<div id = "panel" class = "container">
+			<div class = "panel panel-default">
+				<div class = "panel-heading"><p>관리자 계정 생성 안내</p></div>
+				<div class = "panel-body">
+					<p>- 이용자 화면에서 회원 가입한 후 아래의 정보를 연락해 주세요!</p>
+					<p>- 한아름 과장 / 000-0000-0000 / admin@lala.com</p>
+					<p>- 아이디와 비밀번호는 이용자 화면에서 찾을 수 있습니다.</p>
+				</div>
+			</div>
+		</div>
 
+<script type = "text/javascript">
+	$("#loginForm").submit(function(e){
+		e.preventDefault();
+		if($("#userId").val() == ""){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: '아이디를 입력하세요!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});			
+		}else if($("#userPwd").val() == ""){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: '비밀번호를 입력하세요!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});				
+		}else{
+			$.ajax({
+				url:"adminloginCheck",
+				method:"post",
+				data:{
+					userId:$("#userId").val(),
+					userPwd:$("#userPwd").val()
+				},
+				success:function(bl){
+					if(bl == true){
+						location.href="adminMain";
+					}else{
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '아이디,비밀번호가 일치하지않습니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});							
+					}
+				}
+			})
+		}
+	})
+</script>
 </body>
 </html>

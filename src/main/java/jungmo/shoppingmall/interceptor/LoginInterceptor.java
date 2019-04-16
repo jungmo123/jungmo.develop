@@ -9,6 +9,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response,
 			Object handler) throws Exception{
+			HttpSession session = request.getSession();
+			String user = (String)session.getAttribute("user");
+			
+			if(request.getRequestURI().equals("/shoppingmall/login")){
+				if(user != null){
+					response.sendRedirect("/shoppingmall/");
+					return false;
+				}				
+			}			
 			return true;
+			
 	}
 }

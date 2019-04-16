@@ -6,15 +6,22 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%
 	List<Clause> clauses = (List<Clause>)session.getAttribute("clauses");
-	Map<String,String> values = new HashMap<>();
+	Map<String,String> values;
 	
-	List<String> names = new ArrayList<>();
+	List<Map<String,String>> names = new ArrayList<>();
 	if(clauses != null){
 		for(int i = 0 ; i < clauses.size() ; i++){
 			String str =(String)request.getParameter(String.valueOf(clauses.get(i).getClsNum()));
-			names.add(i, values.put(String.valueOf(clauses.get(i).getClsNum()), str));
+			values =  new HashMap<>();
+			if(str != null){
+				str = "Y";
+			}else{
+				str = "N";
+			}
+			values.put(String.valueOf(clauses.get(i).getClsNum()), str);
+			names.add(i,values);
 		}
-		session.setAttribute("names", names);		
+		session.setAttribute("names", names);
 	}else{
 		response.sendRedirect("register01");
 	}
@@ -388,8 +395,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			</div>
 			<div id="buttonGroup">
 				<button class="btn btn-default" type = "submit">확인</button>
-				<button class="btn btn-default"
-					onclick="location.href='main'">취소</button>
+				<button id = "cancel" class="btn btn-default">취소</button>
 			</div>
 			</form>
 		</div>
@@ -439,6 +445,7 @@ input[type="number"]::-webkit-inner-spin-button {
                 document.getElementById('userPostcode').value = data.zonecode;
                 document.getElementById("userStreet").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("userStreet-error").style.display="none";
                 document.getElementById("userDetailArea").focus();
             }
         }).open();    
@@ -453,7 +460,7 @@ input[type="number"]::-webkit-inner-spin-button {
 		var emailAddress = $("#emailAddress").val("");
 		emailAddress.attr("readonly",false);
 	}		
-})
+	})
 
 	$.validator.addMethod(
 		"usernameck",
@@ -498,10 +505,10 @@ input[type="number"]::-webkit-inner-spin-button {
 						required : true,
 						maxlength : 4,
 					},
-					homeAddress : {
+					userStreet : {
 						required : true
 					},
-					detailAddress : {
+					userDetailArea : {
 						required : true
 					}
 				},
@@ -569,18 +576,18 @@ input[type="number"]::-webkit-inner-spin-button {
 							return "4자 이하로 입력";
 						}
 					},
-					homeAddress : {
+					userStreet : {
 						required : function(){
 							return "우편번호를 검색하세요!";
 						}
 					},
-					detailAddress : {
+					userDetailArea : {
 						required : function(){
 							return "상세 주소를 입력하세요 !";
 						}
 					}
 				},
-			})
+			})		
 	});
 	$("#userId").keyup(function(){
 		$("#overlabCK").prop("checked",false);
@@ -593,6 +600,18 @@ input[type="number"]::-webkit-inner-spin-button {
 	
 	$("#overlap").click(function(e){
 		e.preventDefault();
+		
+		if($("#userId").val() == ""){
+			Swal.fire({
+				  position: 'top',
+				  type: 'warning',
+				  title: '아이디를 입력한 후 눌러 주세요!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+			return;
+		}
+		
 		$.ajax({
 			url:"overlap",
 			method:"post",
@@ -625,6 +644,39 @@ input[type="number"]::-webkit-inner-spin-button {
 			}
 		})
 	})
+	
+	$("#registerForm").submit(function(e){
+		if($("#overlabCK").prop("checked")){
+			
+		}else{
+			e.preventDefault();
+			Swal.fire({
+				  position: 'top',
+				  type: 'warning',
+				  title: '중복 검사를 완료하세요!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});					
+		}
+	})
+	
+	$("#cancel").click(function(e){
+		e.preventDefault();
+		Swal.fire({
+			  title: '가입을 취소하시겠습니까?',
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '네',
+			  cancelButtonText: '아니요'
+			}).then((result) => {
+			  if (result.value) {
+				window.location.href = "/shoppingmall/";
+			  }
+			})
+	})
+
 	
 	
 </script>

@@ -1,0 +1,368 @@
+<style>
+	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
+	*{
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+	#header{
+		width:800px;
+		margin-top:50px;
+		text-align:center;
+		position:relative;
+		left:10px;
+	}
+	#header #banner{
+		height:100px;
+		border:1px solid black;
+	}
+	#header #title{
+		margin-top:30px;
+	}
+	#header #title > strong{
+		font-size:30px;
+	}
+	#searchBar{
+		text-align:center;
+		margin-top:10px;
+	}
+	input[type="text"]{
+		display:inline;
+		width:280px;
+		height:25px;
+	}
+	#searchBar select{
+		display:inline;
+		width:100px;
+		height:26px;
+		padding:0;
+		font-size:12px;	
+		position:relative;
+		bottom:1px;	
+	}
+	#searchBar .btn{
+		width:60px;
+		height:25px;
+		padding:0;
+		font-size:12px;
+		font-weight:bold;
+		position:relative;
+		bottom:2px;	
+	}
+	#nav{
+		margin-top:50px;
+	}
+	#nav #loginBar{
+		float:right;
+		margin:0 10px 2px 0;
+	}
+	#nav #loginBar a{
+		color:#878787;
+		margin:0 5px 0px 5px;
+		font-size:12px;
+	}
+	#content{
+		margin-top:10px;
+	}
+	#content #banner2{
+		margin:50px 0 50px 0;
+		height:250px;
+		border:1px solid black;
+		position:relative;
+	}
+	#content #banner2 div{
+		position:absolute;
+		bottom:2px;
+		right:4px;
+	}
+	#content #banner2 div span{
+		font-size:12px;
+	}
+	.nav-tabs{
+		margin-top:50px;
+	}
+	.nav-tabs li{
+		width:164px;
+		text-align:center;
+	}
+	.nav-tabs a{
+		color:#878787;
+	}
+	.tab-content{
+		margin-bottom:50px;
+		width:818px;
+		height:200px;
+		padding:10px;
+		border-left:1px solid #ddd;
+		border-right:1px solid #ddd;
+		border-bottom:1px solid #ddd;
+	}
+	.tab-content > div{
+		padding:0 20px 0 20px;
+	}
+	.tab-content > div > div{
+		display:inline-block;
+		width:160px;
+		text-align:center;
+		margin:0 10px 0 10px;
+		cursor:pointer;
+	}
+	.tab-content > div > div > div:first-child{
+		width:160px;
+		height:100px;
+		border:1px solid black;
+	}
+	#newProduct{
+		margin:10px;
+		height:350px;
+	}
+	#newProduct > div{
+		display:inline-block;
+		width:140px;
+		font-size:12px;
+		float:left;
+		margin-right:20px;
+		cursor:pointer;
+	}
+	#newProduct > div > div:first-child{
+		width:120px;
+		height:150px;
+		border:1px solid grey;
+		margin-bottom:10px;
+	}
+	#newProduct > div > div:last-child div:nth-child(3){
+		height:40px;
+	}
+	#bestProduct{
+		display:inline-block;
+		margin-top:10px;
+		width:800px;
+	}
+	#bestProduct strong{
+		float:left;
+	}
+	#bestProduct div{
+		margin-top:10px;
+		height:60px;
+		float:left;
+	}
+	#bestProduct > div > .activeDiv{
+		background-color:lightgrey;
+	}
+	#bestProduct > div > div{
+		display:inline-block;
+		border:1px solid grey;
+		float:left;
+	}
+	#bestProduct > div > div{
+		cursor:pointer;
+	}
+	#bestProduct > div > div > div{
+		position:relative;
+		display:inline-block;
+		width:79px;
+		float:left;
+	}
+	#bestProduct > div > div > div:nth-child(2){
+		text-align:center;
+	}
+	#bestProduct > div > div > div:nth-child(1) span{
+		position:relative;
+		left:5px;
+		top:25px;
+	}
+	#bestProduct > div > div > div:nth-child(2) > div{
+		margin-top:2px;
+		width:65px;
+		height:35px;
+		border:1px dotted grey;
+	}
+	#bestProduct > div > div > div:nth-child(2) > div span{
+		position:relative;
+		top:5px;
+	}
+	#productList{
+		width:800px;
+		text-align:center;
+	}
+	#productList div{
+		display:inline-block;
+		margin-top:10px;
+		width:744px;
+		text-align:left;
+	}
+	#productList > div div{
+		display:inline-block;
+		width:180px;
+		margin-right:6px;
+		font-size:12px;
+		float:left;
+		cursor:pointer;
+	}
+	#productList > div > div > div:first-child{
+		height:200px;
+		border:1px solid grey;
+		margin-bottom:10px;
+	}
+	#productList > div > div > div:last-child div:nth-child(3){
+		height:40px;
+	}
+	#footerBox{
+		margin-top:30px;
+		width:760px;
+		height:100px;
+		text-align:left;
+		position:relative;
+		left:30px;
+	}
+	#footerBox > div{
+		display:inline-block;
+		width:237px;
+		height:120px;
+		margin-right:10px;
+		border:1px solid grey;
+		padding:5px;
+		float:left;
+		cursor:pointer;
+	}
+	#footerBox > div:first-child > div:nth-child(2){
+		text-align:center;
+		font-size:25px;
+		margin:10px 0 10px 0;
+	}
+	#footerBox > div:first-child > div:nth-child(3){
+		text-align:center;
+	}
+	#footerBox > div:nth-child(2) > div:nth-child(2),
+	#footerBox > div:nth-child(3) > div:nth-child(2){
+		margin-top:10px;
+	}
+	#footerBox > div:nth-child(2) > div:nth-child(2) > div:first-child,
+	#footerBox > div:nth-child(3) > div:nth-child(2) > div:first-child{
+		display:inline-block;
+		width:80px;
+		height:70px;
+		border:1px solid grey;
+		float:left;
+	}
+	#footerBox > div:nth-child(2) > div:nth-child(2) > div:last-child,
+	#footerBox > div:nth-child(3) > div:nth-child(2) > div:last-child{
+		display:inline-block;
+		float:left;
+		position:relative;
+		top:15px;
+		left:5px;
+	}
+	#board{
+		margin:100px 0 50px 0;
+		height:160px;
+	}
+	#board #notice{
+		width:250px;
+		float:left;
+		margin-left:20px;
+	}
+	#board div a{
+		float:right;
+		color:black;
+	}
+	#board #notice div,
+	#board #community div,
+	#board #productReview div{
+		margin-top:10px;
+		line-height:23px;
+	}
+	#board div ul{
+		padding-left:20px;
+	}
+	#board div ul li{
+		float:left;
+	}
+	#board #community{
+		width:260px;
+		float:left;
+		margin-left:20px;
+	}
+	#board #productReview{
+		width:250px;
+		float:left;
+		margin-left:20px;	
+	}
+	#footer{
+		width:850px;
+		height:170px;
+		margin-top:50px;
+	}
+	#footerNav{
+		margin-bottom:30px;
+		height:40px;
+		line-height:35px;
+		text-align:center;
+		border-top:1px solid grey;
+		border-bottom:1px solid grey;
+	}
+	#footerNav a{
+		color:black;
+	}
+	#footerLogo{
+		display:inline-block;
+		width:300px;
+		height:170px;
+		float:left;
+	}
+	#footerLogo span{
+		position:relative;
+		top:55px;
+		font-size:35px;
+	}
+	#footerLogo small{
+		position:relative;
+		top:50px;
+	}
+	#footerContent{
+		display:inline-block;
+		width:550px;
+		height:170px;
+		text-align:left;
+		float:left;
+	}
+	#footerTop{
+		height:120px;
+	}
+	#footerTop > div{
+		display:inline-block;
+		height:90px;
+		float:left;		
+	}
+	#footerTop div:first-child{
+		width:200px;
+	}
+	#footerTop div:last-child{
+		width:300px;
+	}
+	#footerTop div p,
+	#footerBottom div p{
+		border-left:1px solid grey;
+	}
+	#footerTop div p strong,
+	#footerTop div p span,
+	#footerBottom div p strong,
+	#footerBottom div p span{
+		margin-left:5px;
+	}
+	#footerTop div button{
+		margin-left:5px;
+		background-color:white;
+	}
+	#footerDiv{
+		text-align:center;
+	}
+	#footerBottom div:nth-child(2){
+		margin-top:30px;
+		text-align:center;
+		color:lightgrey;
+	}
+	#footerBottom div:nth-child(1) > span{
+		border-left:1px solid grey;
+		padding-left:5px;
+		margin-right:5px;
+	}
+</style>

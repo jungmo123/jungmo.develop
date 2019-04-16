@@ -1,383 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Bootstrap</title>
 <meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value="/css/main.css" />">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src = "../JS/Navigation.js"></script>
+<script src = "<c:url value = "/js/Navigation.js" />"></script>
 <style>
-	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
-	*{
-		font-family: 'Noto Sans KR', sans-serif;
-	}
 	.container{
 		width:850px;
 	}
-	#header{
-		width:800px;
-		margin-top:50px;
-		text-align:center;
-		position:relative;
-		left:10px;
-	}
-	#header #banner{
-		height:100px;
-		border:1px solid black;
-	}
-	#header #title{
-		margin-top:30px;
-	}
-	#header #title > strong{
-		font-size:30px;
-	}
-	#searchBar{
-		text-align:center;
-		margin-top:10px;
-	}
-	input[type="text"]{
-		display:inline;
-		width:280px;
-		height:25px;
-	}
-	#searchBar select{
-		display:inline;
-		width:100px;
-		height:26px;
-		padding:0;
-		font-size:12px;	
-		position:relative;
-		bottom:1px;	
-	}
-	#searchBar .btn{
-		width:60px;
-		height:25px;
-		padding:0;
-		font-size:12px;
-		font-weight:bold;
-		position:relative;
-		bottom:2px;	
-	}
-	#nav{
-		margin-top:50px;
-	}
-	#nav #loginBar{
-		float:right;
-		margin:0 10px 2px 0;
-	}
-	#nav #loginBar a{
-		color:#878787;
-		margin:0 5px 0px 5px;
-		font-size:12px;
-	}
-	#content{
-		margin-top:10px;
-	}
-	#content #banner2{
-		margin:50px 0 50px 0;
-		height:250px;
-		border:1px solid black;
-		position:relative;
-	}
-	#content #banner2 div{
-		position:absolute;
-		bottom:2px;
-		right:4px;
-	}
-	#content #banner2 div span{
-		font-size:12px;
-	}
-	.nav-tabs{
-		margin-top:50px;
-	}
-	.nav-tabs li{
-		width:164px;
-		text-align:center;
-	}
-	.nav-tabs a{
-		color:#878787;
-	}
-	.tab-content{
-		margin-bottom:50px;
-		width:818px;
-		height:200px;
-		padding:10px;
-		border-left:1px solid #ddd;
-		border-right:1px solid #ddd;
-		border-bottom:1px solid #ddd;
-	}
-	.tab-content > div{
-		padding:0 20px 0 20px;
-	}
-	.tab-content > div > div{
-		display:inline-block;
-		width:160px;
-		text-align:center;
-		margin:0 10px 0 10px;
-		cursor:pointer;
-	}
-	.tab-content > div > div > div:first-child{
-		width:160px;
-		height:100px;
-		border:1px solid black;
-	}
-	#newProduct{
-		margin:10px;
-		height:350px;
-	}
-	#newProduct > div{
-		display:inline-block;
-		width:140px;
-		font-size:12px;
-		float:left;
-		margin-right:20px;
-		cursor:pointer;
-	}
-	#newProduct > div > div:first-child{
-		width:120px;
-		height:150px;
-		border:1px solid grey;
-		margin-bottom:10px;
-	}
-	#newProduct > div > div:last-child div:nth-child(3){
-		height:40px;
-	}
-	#bestProduct{
-		display:inline-block;
-		margin-top:10px;
-		width:800px;
-	}
-	#bestProduct strong{
-		float:left;
-	}
-	#bestProduct div{
-		margin-top:10px;
-		height:60px;
-		float:left;
-	}
-	#bestProduct > div > .activeDiv{
-		background-color:lightgrey;
-	}
-	#bestProduct > div > div{
-		display:inline-block;
-		border:1px solid grey;
-		float:left;
-	}
-	#bestProduct > div > div{
-		cursor:pointer;
-	}
-	#bestProduct > div > div > div{
-		position:relative;
-		display:inline-block;
-		width:79px;
-		float:left;
-	}
-	#bestProduct > div > div > div:nth-child(2){
-		text-align:center;
-	}
-	#bestProduct > div > div > div:nth-child(1) span{
-		position:relative;
-		left:5px;
-		top:25px;
-	}
-	#bestProduct > div > div > div:nth-child(2) > div{
-		margin-top:2px;
-		width:65px;
-		height:35px;
-		border:1px dotted grey;
-	}
-	#bestProduct > div > div > div:nth-child(2) > div span{
-		position:relative;
-		top:5px;
-	}
-	#productList{
-		width:800px;
-		text-align:center;
-	}
-	#productList div{
-		display:inline-block;
-		margin-top:10px;
-		width:744px;
-		text-align:left;
-	}
-	#productList > div div{
-		display:inline-block;
-		width:180px;
-		margin-right:6px;
-		font-size:12px;
-		float:left;
-		cursor:pointer;
-	}
-	#productList > div > div > div:first-child{
-		height:200px;
-		border:1px solid grey;
-		margin-bottom:10px;
-	}
-	#productList > div > div > div:last-child div:nth-child(3){
-		height:40px;
-	}
-	#footerBox{
-		margin-top:30px;
-		width:760px;
-		height:100px;
-		text-align:left;
-		position:relative;
-		left:30px;
-	}
-	#footerBox > div{
-		display:inline-block;
-		width:237px;
-		height:120px;
-		margin-right:10px;
-		border:1px solid grey;
-		padding:5px;
-		float:left;
-		cursor:pointer;
-	}
-	#footerBox > div:first-child > div:nth-child(2){
-		text-align:center;
-		font-size:25px;
-		margin:10px 0 10px 0;
-	}
-	#footerBox > div:first-child > div:nth-child(3){
-		text-align:center;
-	}
-	#footerBox > div:nth-child(2) > div:nth-child(2),
-	#footerBox > div:nth-child(3) > div:nth-child(2){
-		margin-top:10px;
-	}
-	#footerBox > div:nth-child(2) > div:nth-child(2) > div:first-child,
-	#footerBox > div:nth-child(3) > div:nth-child(2) > div:first-child{
-		display:inline-block;
-		width:80px;
-		height:70px;
-		border:1px solid grey;
-		float:left;
-	}
-	#footerBox > div:nth-child(2) > div:nth-child(2) > div:last-child,
-	#footerBox > div:nth-child(3) > div:nth-child(2) > div:last-child{
-		display:inline-block;
-		float:left;
-		position:relative;
-		top:15px;
-		left:5px;
-	}
-	#board{
-		margin:100px 0 50px 0;
-		height:160px;
-	}
-	#board #notice{
-		width:250px;
-		float:left;
-		margin-left:20px;
-	}
-	#board div a{
-		float:right;
-		color:black;
-	}
-	#board #notice div,
-	#board #community div,
-	#board #productReview div{
-		margin-top:10px;
-		line-height:23px;
-	}
-	#board div ul{
-		padding-left:20px;
-	}
-	#board div ul li{
-		float:left;
-	}
-	#board #community{
-		width:260px;
-		float:left;
-		margin-left:20px;
-	}
-	#board #productReview{
-		width:250px;
-		float:left;
-		margin-left:20px;	
-	}
-	#footer{
-		width:850px;
-		height:170px;
-		margin-top:50px;
-	}
-	#footerNav{
-		margin-bottom:30px;
-		height:40px;
-		line-height:35px;
-		text-align:center;
-		border-top:1px solid grey;
-		border-bottom:1px solid grey;
-	}
-	#footerNav a{
-		color:black;
-	}
-	#footerLogo{
-		display:inline-block;
-		width:300px;
-		height:170px;
-		float:left;
-	}
-	#footerLogo span{
-		position:relative;
-		top:55px;
-		font-size:35px;
-	}
-	#footerLogo small{
-		position:relative;
-		top:50px;
-	}
-	#footerContent{
-		display:inline-block;
-		width:550px;
-		height:170px;
-		text-align:left;
-		float:left;
-	}
-	#footerTop{
-		height:120px;
-	}
-	#footerTop > div{
-		display:inline-block;
-		height:90px;
-		float:left;		
-	}
-	#footerTop div:first-child{
-		width:200px;
-	}
-	#footerTop div:last-child{
-		width:300px;
-	}
-	#footerTop div p,
-	#footerBottom div p{
-		border-left:1px solid grey;
-	}
-	#footerTop div p strong,
-	#footerTop div p span,
-	#footerBottom div p strong,
-	#footerBottom div p span{
-		margin-left:5px;
-	}
-	#footerTop div button{
-		margin-left:5px;
-		background-color:white;
-	}
-	#footerDiv{
-		text-align:center;
-	}
-	#footerBottom div:nth-child(2){
-		margin-top:30px;
-		text-align:center;
-		color:lightgrey;
-	}
-	#footerBottom div:nth-child(1) > span{
-		border-left:1px solid grey;
-		padding-left:5px;
-		margin-right:5px;
+	body{
+		font-family: 'Noto Sans KR', sans-serif;
 	}
 </style>
 </head>
@@ -400,17 +40,32 @@
 					<button type = "button" class = "btn btn-default" onclick = "location.href = '../SEARCH/01.html'">검색</button>
 				</div>
 				<div id = "nav">
-					<div id = "loginBar">
-						<a href = "register01"><span>회원가입</span></a>
-						<span>&#124;</span>
-						<a href = "login"><span>로그인</span></a>
-						<span>&#124;</span>
-						<a href = "MANAGER/LOGING/01.html"><span>관리자 로그인</span></a>
-						<span>&#124;</span>
-						<a href = "USER/HELP/08.html"><span>ID/비밀번호 찾기</span></a>
-					</div>
+					<c:if test = "${user==null}">
+						<div id = "loginBar">
+							<a href = "register01"><span>회원가입</span></a>
+							<span>&#124;</span>
+							<a href = "login"><span>로그인</span></a>
+							<span>&#124;</span>
+							<a href = "adminlogin"><span>관리자 로그인</span></a>
+							<span>&#124;</span>
+							<a href = "USER/HELP/08.html"><span>ID/비밀번호 찾기</span></a>
+						</div>
+					</c:if>
+					<c:if test = "${user!=null}">
+						<div id = "loginBar">
+							<a href = "../MYPAGE/SHOPPING/04.html"><span>장바구니</span></a>
+							<span>&#124;</span>
+							<a href = "../MYPAGE/SHOPPING/01.html"><span>주문내역</span></a>
+							<span>&#124;</span>
+							<a href = "../MYPAGE/BOARD/01.html"><span>1:1 문의</span></a>
+							<span>&#124;</span>
+							<a href = "../MYPAGE/SHOPPING/01.html"><span>마이 페이지</span></a>
+							<span>&#124;</span>
+							<a href = "logout"><span>로그아웃</span></a>
+						</div>
+					</c:if>
 					<div class = "btn-group btn-group-justified">
-						<div class = "btn-group">
+						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">스타일 숍</button>
 							<ul class= "dropdown-menu">
 								<li><a href = "USER/GOODS/01.html">Outer</a></li>
@@ -420,26 +75,26 @@
 								<li><a href = "USER/GOODS/01.html">Dress</a></li>
 							</ul>
 						</div>				
-						<div class = "btn-group">
+						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">라라마켓</button>
 							<ul class= "dropdown-menu">
 								<li><a href = "USER/ABOUTUS/01.html">소개</a></li>
 								<li><a href = "USER/ABOUTUS/02.html">찾아오시는 길</a></li>
 							</ul>
 						</div>
-						<div class = "btn-group">
+						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">상품평</button>
 							<ul class= "dropdown-menu">
 								<li><a href = "USER/REVIEWS/01.html">상품평</a></li>
 							</ul>
 						</div>
-						<div class = "btn-group">
+						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">이벤트</button>
 							<ul class= "dropdown-menu">
 								<li><a href = "USER/EVENT/01.html">진행 중인 이벤트</a></li>
 							</ul>
 						</div>
-						<div class = "btn-group">
+						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">고객센터</button>
 							<ul class= "dropdown-menu">
 								<li><a href = "USER/HELP/01.html">공지사항</a></li>

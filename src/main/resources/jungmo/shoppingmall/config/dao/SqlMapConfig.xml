@@ -4,6 +4,7 @@
 <configuration>
 	<typeAliases>
 			<typeAlias alias = "user" type = "jungmo.shoppingmall.user.login.domain.User"/>
+			<typeAlias alias = "clsc" type = "jungmo.shoppingmall.user.register.domain.ClauseCategory"/>
 			<typeAlias alias = "cls" type = "jungmo.shoppingmall.user.register.domain.Clause"/>
 			<typeAlias alias = "ovl" type = "jungmo.shoppingmall.user.register.domain.Overlap"/>
 	</typeAliases>

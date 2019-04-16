@@ -25,7 +25,6 @@
 		<property name = "suffix" value = ".jsp"/>
 	</bean>
 	
-	<mvc:resources location="/WEB-INF/resources/img/" mapping="/img/**"/>
 	<mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**"/>
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>
 
@@ -50,4 +49,27 @@
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
+	<bean id = "loginInterceptor" class = "jungmo.shoppingmall.interceptor.LoginInterceptor"></bean>
+	<bean id = "AdminInterceptor" class = "jungmo.shoppingmall.admininterceptor.AdminInterceptor"></bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/resources/css/**"/>
+			<mvc:exclude-mapping path="/resources/js/**"/>
+			<ref bean = "loginInterceptor"/> 
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/login"/>
+			<mvc:exclude-mapping path="/register01"/>
+			<mvc:exclude-mapping path="/register02"/>
+			<mvc:exclude-mapping path="/register03"/>
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/css/**"/>
+			<mvc:exclude-mapping path="/js/**"/>
+			<ref bean = "AdminInterceptor"/> 
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 </beans>

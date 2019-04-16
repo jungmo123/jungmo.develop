@@ -1,13 +1,23 @@
 package jungmo.shoppingmall.user.register.controller;
-import javax.servlet.http.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import jungmo.shoppingmall.user.login.domain.*;
-import jungmo.shoppingmall.user.register.service.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.*;
+import jungmo.shoppingmall.user.login.domain.User;
+import jungmo.shoppingmall.user.register.domain.Clause;
+import jungmo.shoppingmall.user.register.domain.ClauseCategory;
+import jungmo.shoppingmall.user.register.service.RegisterService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class RegisterController {
@@ -38,7 +48,11 @@ public class RegisterController {
 	
 	@RequestMapping(value = "/register03",method=RequestMethod.POST)
 	public String registerComplete(HttpServletRequest request,HttpSession session){
-		String address = "";
+		List<Map<String,String>> list = (List<Map<String,String>>)session.getAttribute("names");
+		Set set;
+		Iterator iterator;		
+		int clsNum;
+		String clscAgreement;
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		String userName = request.getParameter("userName");
@@ -54,17 +68,23 @@ public class RegisterController {
 		String userDetailArea = request.getParameter("userDetailArea");
 		String mail = request.getParameter("userMailAgreement");
 		String userMailAgreement;
-		if(mail.equals("on")){
-			userMailAgreement = "동의";
+		if(mail != null){
+			userMailAgreement = "수신";
 		}else{
 			userMailAgreement = "거부";
 		}
-		System.out.println(userId + " " + userPwd + " " + userName + " " + userEmail + " " + userPhone + " " + userPostcode + 
-				" " + userStreet + " " + userDetailArea + " " +userMailAgreement);
 		
-			User user = new User(userId,userName,userPwd,userEmail,userPhone,userPostcode,userStreet,userDetailArea);
-			registerService.addUser(user);
+		User user = new User(userId,userName,userPwd,userEmail,userPhone,userPostcode,userStreet,userDetailArea,userMailAgreement);
+		registerService.addUser(user);
+		
+		for(int i = 0 ; i < list.size() ; i++){
+			set = list.get(i).keySet();
+			iterator = set.iterator();
+			String key = (String)iterator.next();
+			String value = list.get(i).get(key);
+			registerService.addClsc(new ClauseCategory(Integer.parseInt(key),userId,value));
+		}
 
-		return "register02";
+		return "redirect:/";
 	}
 }

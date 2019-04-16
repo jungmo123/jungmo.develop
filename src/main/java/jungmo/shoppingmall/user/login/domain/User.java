@@ -29,7 +29,7 @@ public class User {
 	// 회원 가입
 	public User(String userId, String userName, String userPwd,
 			String userEmail, String userPhone, String userPostcode,
-			String userStreet, String userDetailArea) {
+			String userStreet, String userDetailArea,String userMailAgreement) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userPwd = userPwd;
@@ -38,6 +38,7 @@ public class User {
 		this.userPostcode = userPostcode;
 		this.userStreet = userStreet;
 		this.userDetailArea = userDetailArea;
+		this.userMailAgreement = userMailAgreement;
 	}	
 
 	// 회원 정보 수정

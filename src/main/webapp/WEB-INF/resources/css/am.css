@@ -1,0 +1,359 @@
+<style>
+	#nav{
+		margin-top:10px;
+	}
+	.container:nth-child(3) hr{
+		position:relative;
+		bottom:10px;
+	}
+	body{
+		min-width:640px; 
+	}
+	h5{
+		display:inline-block;
+		margin-left:10px;
+		font-weight:bold;
+	}
+	hr{
+		display:block;
+		margin:0px;
+		border:0;
+		width:100%;
+		height:1px;
+		background:lightgrey;
+	}
+	#logo{
+		width:100%;
+		margin-top:20px;
+	}
+	#Admin{
+		position:relative;
+		bottom:10px;	
+		left:8px;
+		margin-bottom:10px;
+	}
+	#Admin h5{
+		color:#828282;
+		font-weight:100;
+		margin:0;
+	}
+	#logo a{
+		font-size:30px;
+		text-decoration:none;
+		color:#83858a;
+		font-weight:bold;
+	}
+	#logo span{
+		color:#FF6F43;
+	}
+	.container #topmenu{
+		width:350px;
+		margin-top:7px;
+		text-align:right;
+	}
+	#topmenu{
+		width:300px;
+		margin-top:7px;
+		margin-bottom:18px;
+		text-align:right;
+		float:right;
+		position:relative;
+		left:4px;
+	}
+	#topmenu a{
+		color:#878787;
+		font-size:11px;
+		margin-right:10px;
+		text-decoration:none;
+	}
+	#topmenu span{
+		color:#878787;
+		font-size:11px;
+		margin-right:10px;
+		text-decoration:none;		
+	}
+	#topmenu a:hover{
+		text-decoration:none;
+	}
+	.dropdown-menu {
+		position:absolute;
+		top:50px;
+	}
+	#topmenu a:nth-child(5){
+		color:#FF6F43;
+	}
+	.btn-group{
+		border:0;
+		text-align:center;
+	}
+	.btn-group button{
+		width:100px;
+		border:0px;
+		text-align:center;
+	}
+	.btn{
+		border-radius:1px;
+	}
+	span .btn{
+		border-radius:5px;
+		font-weight:bold;
+	}
+	#menuc{
+		margin-top:50px;
+		text-align:center;
+	}
+	#menu1,#menu2,#menu3{
+		display:inline-block;
+		border:1px solid #828282;
+		border-radius:10px;
+		margin:3px;
+		padding:5px;
+		text-align:left;
+	}
+	#vertical{
+		font-weight:bold;
+		font-size:15px;
+	}
+	.circle{
+		width:80px;
+		height:80px;
+		border-radius:100%;
+		border:1px solid #828282;
+		display:inline-block;
+		margin:1.5%;
+		padding:13px 0px 10px 0px;
+		font-size:15px;
+		font-weight:bold;
+		text-align:center;
+		background-color:white;
+	}
+	#circlegroup{
+		text-align:center;
+		margin-top:10px;
+		margin-bottom:10px;
+	}
+	#logout{
+		color:grey;
+		margin-bottom:4px;
+	}
+	.expire{
+		margin:1px;
+		display:inline-block;
+		border:1px solid #828282;
+		border-radius:10px;
+		width:150px;
+		font-size:13px;;
+	}
+	.expire > div:nth-child(1){
+		display:inline-block;
+		width:130px;
+		text-align:center;
+		position:relative;
+		left:10px;
+	}
+	.expire > div:nth-child(2){
+		display:inline-block;
+		width:1px;
+		position:relative;
+		top:10px;
+		right:10px;
+	}
+	.expire a{
+		font-size:20px;
+		color:#878787;
+	}
+	#menu1,#menu3{
+		width:400px;
+		height:400px;
+		padding:30px;
+	}
+	#menu2{
+		width:400px;
+		height:400px;
+		padding:30px;
+	}
+	#menu2 .panel{
+		display:inline-block;
+		width:100px;
+		height:100px;
+		font-size:15px;
+		text-align:center;
+	}
+	#menu3 .panel{
+		display:inline-block;
+		width:120px;
+		height:100px;
+		font-size:15px;
+		text-align:center;
+	}
+	#untreated{
+		text-align:center;
+	}
+	.panel .panel-heading{
+		padding-right:0px;
+		padding-left:0px;
+	}
+	#webc{
+		text-align:center;
+	}
+	.web1,.web2{
+		margin-top:30px;
+		display:inline-block;
+		border-top:1px solid #F2F5F7;
+		border-bottom:1px solid #F2F5F7;
+		padding:10px;
+		width:600px;
+	}
+	.web1 span,.web2 span{
+		float:left;
+	}
+	.webmenubar .view{
+		float:right;
+	}
+	.webmenubar{
+		width:99%;
+		height:30px;;
+	}
+	.web1{
+		margin-right:30px;
+		float:left;
+	}
+	.web2{
+		margin-left:30px;;
+		float:right;
+	}
+	#web1table,#web2table{
+		text-align:left;
+		font-size:15px;
+		line-height:30px;
+	}
+	#nav > .btn-group{
+		padding-bottom:20px;
+	}
+	.nav-underline {
+	  position: absolute;
+	  left: 10px;
+	  bottom: 10px;
+	  width: 10%;
+	  height: 2px;
+	  background:#FF6F43;
+	  transition: all .3s ease-in-out;
+	}
+	#nav div:nth-child(1).is-current ~ .nav-underline {
+	  left: 10px;
+	}
+	#nav  div:nth-child(2).is-current ~ .nav-underline {
+	  left: 109px;
+	}
+	#nav  div:nth-child(3).is-current ~ .nav-underline {
+	  left: 208px;
+	}
+	#nav  div:nth-child(4).is-current ~ .nav-underline {
+	  left: 306px;
+	}
+	#nav  div:nth-child(5).is-current ~ .nav-underline {
+	  left: 406px;
+	}
+	#nav  div:nth-child(6).is-current ~ .nav-underline {
+	  left: 506px;
+	}
+	#nav  div:nth-child(7).is-current ~ .nav-underline {
+	  left: 605px;
+	}
+	#nav  div:nth-child(8).is-current ~ .nav-underline {
+	  left: 705px;
+	}
+	#nav  div:nth-child(1):hover ~ .nav-underline {
+	  left: 10px;
+	}
+	#nav div:nth-child(2):hover ~ .nav-underline {
+	  left: 109px;
+	}
+	#nav div:nth-child(3):hover ~ .nav-underline {
+	  left: 208px;
+	}
+	#nav div:nth-child(4):hover ~ .nav-underline {
+	  left: 306px;
+	}
+	#nav div:nth-child(5):hover ~ .nav-underline {
+	  left: 406px;
+	}
+	#nav div:nth-child(6):hover ~ .nav-underline {
+	  left: 506px;
+	}
+	#nav div:nth-child(7):hover ~ .nav-underline {
+	  left: 605px;
+	}
+	#nav div:nth-child(8):hover ~ .nav-underline {
+	  left: 705px;
+	}
+	.fas{
+		font-size:30px;
+	}
+	.menuNav{
+		width:100%;
+		text-align:center;
+		margin-bottom:50px;
+	}
+	#webc div span:nth-child(2){
+		cursor:pointer;
+	}
+	#footer{
+		width:1180px;
+		height:170px;
+		margin-top:50px;
+		text-align:center;
+	}
+	#footerLogo{
+		display:inline-block;
+		width:300px;
+		height:170px;
+		float:left;
+		position:relative;
+		left:110px;
+	}
+	#footerLogo span{
+		position:relative;
+		top:55px;
+		font-size:35px;
+	}
+	#footerLogo span:first-child{
+		color:#FF6F43;
+	}
+	#footerLogo span:last-child{
+		color:#5D646E;
+	}
+	#footerContent{
+		display:inline-block;
+		width:600px;
+		height:170px;
+		text-align:left;
+	}
+	#footerTop{
+		height:90px;
+	}
+	#footerTop div{
+		display:inline-block;
+		width:300px;
+		height:90px;
+		float:left;
+	}
+	#footerTop div p,
+	#footerBottom div p{
+		border-left:1px solid grey;
+	}
+	#footerTop div p strong,
+	#footerTop div p span,
+	#footerBottom div p strong,
+	#footerBottom div p span{
+		margin-left:5px;
+	}
+	#footerDiv{
+		text-align:center;
+	}
+	#footerBottom div:nth-child(2){
+		margin-top:30px;
+		text-align:center;
+		color:lightgrey;
+	}
+</style>

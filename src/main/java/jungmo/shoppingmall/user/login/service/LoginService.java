@@ -3,7 +3,8 @@ package jungmo.shoppingmall.user.login.service;
 import jungmo.shoppingmall.user.login.domain.*;
 
 public interface LoginService {
-	User loginTest(User user);
+	boolean loginTest(User user);
+	boolean adminTest(User user);
 	int updateVisit(String userId);
 	int updateUser(User user);
 }
