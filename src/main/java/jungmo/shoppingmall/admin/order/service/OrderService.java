@@ -1,5 +1,9 @@
 package jungmo.shoppingmall.admin.order.service;
 
-public interface OrderService {
+import java.util.*;
 
+import jungmo.shoppingmall.admin.order.domain.*;
+
+public interface OrderService {
+	List<Purchase> getOrders();
 }

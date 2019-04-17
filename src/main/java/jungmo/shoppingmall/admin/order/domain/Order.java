@@ -1,47 +1,114 @@
 package jungmo.shoppingmall.admin.order.domain;
 
+import java.sql.*;
+
+import jungmo.shoppingmall.user.login.domain.*;
+
 public class Order {
-	private int orderNum;
-	private String orderCode;
-	private String deliveryState;
-	private String orderGoods;
-	private String orderer;
-	private String orderPrice;
+	private int ordNum;
+	private String ordType;
+	private Date ordDate;
+	private String shaPostCode;
+	private String shaStreet;
+	private String shaDetailArea;
+	private String recipientName;
+	private String recipientPhone;
+	private String deliveryRequest;
+	private int ordResultCode;
+	private String ordResultContent;
+	private int usingPoint;
+	private String paymentMethod;
+	private String memoContent;
+	private User user;
 	
-	public int getOrderNum() {
-		return orderNum;
+	public int getOrdNum() {
+		return ordNum;
 	}
-	public String getOrderCode() {
-		return orderCode;
+	public String getOrdType() {
+		return ordType;
 	}
-	public String getDeliveryState() {
-		return deliveryState;
+	public Date getOrdDate() {
+		return ordDate;
 	}
-	public String getOrderGoods() {
-		return orderGoods;
+	public String getShaPostCode() {
+		return shaPostCode;
 	}
-	public String getOrderer() {
-		return orderer;
+	public String getShaStreet() {
+		return shaStreet;
 	}
-	public String getOrderPrice() {
-		return orderPrice;
+	public String getShaDetailArea() {
+		return shaDetailArea;
 	}
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
+	public String getRecipientName() {
+		return recipientName;
 	}
-	public void setOrderCode(String orderCode) {
-		this.orderCode = orderCode;
+	public String getRecipientPhone() {
+		return recipientPhone;
 	}
-	public void setDeliveryState(String deliveryState) {
-		this.deliveryState = deliveryState;
+	public String getDeliveryRequest() {
+		return deliveryRequest;
 	}
-	public void setOrderGoods(String orderGoods) {
-		this.orderGoods = orderGoods;
+	public int getOrdResultCode() {
+		return ordResultCode;
 	}
-	public void setOrderer(String orderer) {
-		this.orderer = orderer;
+	public String getOrdResultContent() {
+		return ordResultContent;
 	}
-	public void setOrderPrice(String orderPrice) {
-		this.orderPrice = orderPrice;
+	public int getUsingPoint() {
+		return usingPoint;
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public String getMemoContent() {
+		return memoContent;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setOrdNum(int ordNum) {
+		this.ordNum = ordNum;
+	}
+	public void setOrdType(String ordType) {
+		this.ordType = ordType;
+	}
+	public void setOrdDate(Date ordDate) {
+		this.ordDate = ordDate;
+	}
+	public void setShaPostCode(String shaPostCode) {
+		this.shaPostCode = shaPostCode;
+	}
+	public void setShaStreet(String shaStreet) {
+		this.shaStreet = shaStreet;
+	}
+	public void setShaDetailArea(String shaDetailArea) {
+		this.shaDetailArea = shaDetailArea;
+	}
+	public void setRecipientName(String recipientName) {
+		this.recipientName = recipientName;
+	}
+	public void setRecipientPhone(String recipientPhone) {
+		this.recipientPhone = recipientPhone;
+	}
+	public void setDeliveryRequest(String deliveryRequest) {
+		this.deliveryRequest = deliveryRequest;
+	}
+	public void setOrdResultCode(int ordResultCode) {
+		this.ordResultCode = ordResultCode;
+	}
+	public void setOrdResultContent(String ordResultContent) {
+		this.ordResultContent = ordResultContent;
+	}
+	public void setUsingPoint(int usingPoint) {
+		this.usingPoint = usingPoint;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public void setMemoContent(String memoContent) {
+		this.memoContent = memoContent;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

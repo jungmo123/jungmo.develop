@@ -7,6 +7,8 @@
 			<typeAlias alias = "clsc" type = "jungmo.shoppingmall.user.join.domain.ClauseCategory"/>
 			<typeAlias alias = "cls" type = "jungmo.shoppingmall.user.join.domain.Clause"/>
 			<typeAlias alias = "ovl" type = "jungmo.shoppingmall.user.join.domain.Overlap"/>
-			<typeAlias alias = "order" type = "jungmo.shoppingmall.admin.order.domain.Order"/>
+			<typeAlias alias = "pur" type = "jungmo.shoppingmall.admin.order.domain.Purchase"/>
+			<typeAlias alias = "god" type = "jungmo.shoppingmall.admin.order.domain.Goods" />
+			<typeAlias alias = "order" type = "jungmo.shoppingmall.admin.order.domain.Order" />
 	</typeAliases>
 </configuration>

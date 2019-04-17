@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper">
-	<select id = "getOrders" resultMap = "orderMap">
-		select purchases.order_num,godds.god_name,
+	<select id = "getOrders"  resultMap = "orderMap">
+		select ord_num,god_amount
+		from purchases
 	</select>
+	
+	<select id = "getGoods" parameterType = "int" resultType = "god">
+		select god_num godNum,god_sellingprice godSellingPrice,god_name godName
+		from goods
+	</select>
+	
+	<resultMap id = "orderMap" type = "pur">
+		<id property = "ordNum" column = "ord_num" />
+		<result property = "godAmount" column = "god_amount" />
+		<collection property = "goods" column = "god_num" select = "getGoods" />
+	</resultMap>
 </mapper>

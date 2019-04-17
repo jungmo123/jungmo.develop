@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import = "jungmo.shoppingmall.admin.order.service.OrderServiceImpl" %>
+<%@ page import = "jungmo.shoppingmall.admin.order.service.OrderService" %>
+<%@ page import = "jungmo.shoppingmall.admin.order.domain.Purchase" %>
+<%@ page import = "java.util.*" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%
+	List<Purchase> pur = (List<Purchase>)request.getAttribute("purchase");
+
+	for(int i = 0 ; i < pur.size() ; i++){
+		System.out.print(pur.get(i));
+	}
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
