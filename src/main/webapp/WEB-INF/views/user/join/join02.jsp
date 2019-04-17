@@ -273,7 +273,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			</p>
 			<hr>
 			<input id = "overlabCK" type = "checkbox">
-			<form id = "registerForm" action = "register03" method = "post">
+			<form id = "registerForm" action = "join03" method = "post">
 				<table>
 					<tr>
 						<td><span>이름</span></td>

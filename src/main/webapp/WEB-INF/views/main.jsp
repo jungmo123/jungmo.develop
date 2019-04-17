@@ -42,7 +42,7 @@
 				<div id = "nav">
 					<c:if test = "${user==null}">
 						<div id = "loginBar">
-							<a href = "register01"><span>회원가입</span></a>
+							<a href = "join01"><span>회원가입</span></a>
 							<span>&#124;</span>
 							<a href = "login"><span>로그인</span></a>
 							<span>&#124;</span>

@@ -1,47 +1,48 @@
-package jungmo.shoppingmall.user.register.controller;
+package jungmo.shoppingmall.user.join.controller;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import jungmo.shoppingmall.user.login.domain.*;
-import jungmo.shoppingmall.user.register.domain.*;
-import jungmo.shoppingmall.user.register.service.*;
+import jungmo.shoppingmall.user.join.domain.ClauseCategory;
+import jungmo.shoppingmall.user.join.service.JoinService;
+import jungmo.shoppingmall.user.login.domain.User;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class RegisterController {
-	@Autowired private RegisterService registerService;
+public class JoinController {
+	@Autowired private JoinService joinService;
 	
-	@RequestMapping("/register01")
-	public String register01(Model model){
-		model.addAttribute("clauses",registerService.getClauses());
-		return "user/register/register01";
+	@RequestMapping("/join01")
+	public String join01(Model model){
+		model.addAttribute("clauses",joinService.getClauses());
+		return "user/join/join01";
 	}
 	
-	@RequestMapping("/register02")
-	public String register02(){
-		return "user/register/register02";
+	@RequestMapping("/join02")
+	public String join02(){
+		return "user/join/join02";
 	}
 	
 	@RequestMapping(value = "/overlap",method=RequestMethod.POST)
 	@ResponseBody
 	public Boolean overlap(String userId){
-		Boolean bl = registerService.overlapInjection(userId);
+		Boolean bl = joinService.overlapInjection(userId);
 		return bl;
 	}
 	
-	@RequestMapping("/address.do")
-	public String address(){
-		return "user/register/address";
-	}
-	
-	@RequestMapping(value = "/register03",method=RequestMethod.POST)
-	public String registerComplete(HttpServletRequest request,HttpSession session){
+	@RequestMapping(value = "/join03",method=RequestMethod.POST)
+	public String joinComplete(HttpServletRequest request,HttpSession session){
 		List<Map<String,String>> list = (List<Map<String,String>>)session.getAttribute("names");
 		Set set;
 		Iterator iterator;		
@@ -69,14 +70,14 @@ public class RegisterController {
 		}
 		
 		User user = new User(userId,userName,userPwd,userEmail,userPhone,userPostcode,userStreet,userDetailArea,userMailAgreement);
-		registerService.addUser(user);
+		joinService.addUser(user);
 		
 		for(int i = 0 ; i < list.size() ; i++){
 			set = list.get(i).keySet();
 			iterator = set.iterator();
 			String key = (String)iterator.next();
 			String value = list.get(i).get(key);
-			registerService.addClsc(new ClauseCategory(Integer.parseInt(key),userId,value));
+			joinService.addClsc(new ClauseCategory(Integer.parseInt(key),userId,value));
 		}
 
 		return "redirect:/";

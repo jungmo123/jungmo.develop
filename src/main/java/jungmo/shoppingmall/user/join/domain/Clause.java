@@ -1,4 +1,4 @@
-package jungmo.shoppingmall.user.register.domain;
+package jungmo.shoppingmall.user.join.domain;
 
 public class Clause {
 	private int clsNum;

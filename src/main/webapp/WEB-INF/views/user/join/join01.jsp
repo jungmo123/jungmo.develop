@@ -135,7 +135,7 @@
  <div id="terms">
    <h4>|라라마켓 서비스 약관 동의</h4>
    <hr>
-   		<form id = "registerForm" action = "register02" method = "post">
+   		<form id = "registerForm" action = "join02" method = "post">
 			<c:forEach var = "clause" items = "${clauses}" varStatus = "state">
 				<div>
 					<p>${clause.clsTitle}</p>
