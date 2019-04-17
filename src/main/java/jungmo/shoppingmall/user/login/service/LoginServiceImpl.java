@@ -6,7 +6,7 @@ import jungmo.shoppingmall.user.login.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("userService")
 public class LoginServiceImpl implements LoginService{
 	@Autowired private LoginDao loginDao;
 	

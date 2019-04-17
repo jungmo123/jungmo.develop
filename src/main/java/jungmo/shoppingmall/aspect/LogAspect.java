@@ -14,11 +14,11 @@ public class LogAspect {
 		logger = LogManager.getLogger(LogAspect.class);
 	}
 	
-	@Around("execution(* jungmo.shoppingmall.user.login.service.*(..))")
+	@Around("execution(* jungmo.shoppingmall.user.*.service.*.*(..))")
 	public Object advice(ProceedingJoinPoint jp)  throws Throwable{
-		logger.info(jp.toShortString() + "시작 " + jp.getSignature().getDeclaringTypeName());
+		logger.info(jp.toShortString() + "시작 ");
 		Object obj = jp.proceed();
-		logger.info(jp.toShortString() + "끝 " + jp.getSignature().getDeclaringTypeName());
+		logger.info(jp.toShortString() + "끝");
 		return obj;
 	}
 }

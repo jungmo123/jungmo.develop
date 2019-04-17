@@ -7,4 +7,10 @@
 		from users
 		where user_id = #{userId} and user_pwd = #{userPwd}
 	</select>
+	
+	<update id = "updateVisit" parameterType = "string">
+		update users
+		set user_visitcnt = user_visitcnt+1,user_latestdate = sysdate
+		where user_id = #{userId}
+	</update>
 </mapper> 

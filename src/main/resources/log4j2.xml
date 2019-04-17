@@ -5,11 +5,11 @@
 			<PatternLayout />
 		</Console>		
 		<RollingFile name="file" fileName="c:/DEV/jungmo.shoppingmall.log"
-			filePattern="c:/DEV/jungmo.%d{yyyy-MM-dd-HH-mm-ss}.log"
+			filePattern="c:/DEV/jungmo.shoppingmall.%d{yyyy-MM-dd-HH-mm-ss}.log"
 			append="true">
 			<PatternLayout pattern="[%-5p: %d{yyyy/MM/dd HH:mm:ss}] %m%n" />
 			<Policies>				
-				<TimeBasedTriggeringPolicy interval="2"/>
+				<TimeBasedTriggeringPolicy interval="86400"/>
 			</Policies>
 		</RollingFile>
 	</Appenders>
@@ -17,7 +17,8 @@
 	<!-- FATAL, ERROR, WARN, INFO, DEBUG, TRACE -->
 	<Loggers>		
 		<Root level="DEBUG">
-			<AppenderRef ref="console" />									
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />									
 		</Root>
 	</Loggers>
 </Configuration>
