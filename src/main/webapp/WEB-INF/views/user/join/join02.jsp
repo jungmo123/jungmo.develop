@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import= "java.util.*" %>
 <%@ page import = "java.util.Map" %>
-<%@ page import= "jungmo.shoppingmall.user.register.domain.Clause" %>
+<%@ page import= "jungmo.shoppingmall.user.join.domain.Clause" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%
 	List<Clause> clauses = (List<Clause>)session.getAttribute("clauses");
