@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper">
+	<select id = "getOrders" resultMap = "orderMap">
+		select purchases.order_num,godds.god_name,
+	</select>
+</mapper>
