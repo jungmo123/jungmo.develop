@@ -5,11 +5,11 @@ public class Page {
 	private int rowCnt;
 	
 	public Page(){
-		this(1,10);
+		this(1,5);
 	}
 	
 	public Page(int currentPage){
-		this(currentPage,10);
+		this(currentPage,5);
 	}
 	
 	public Page(int currentPage,int rowCnt){

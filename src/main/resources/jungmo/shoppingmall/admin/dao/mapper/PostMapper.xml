@@ -8,7 +8,7 @@
 		  	select rownum as rnum, x.* from(
 		  		select distinct ord_num postNum
 		  		from purchases
-		  		order by ord_num desc
+		  		order by ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 		  ]]>

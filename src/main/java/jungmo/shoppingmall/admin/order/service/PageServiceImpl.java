@@ -1,10 +1,10 @@
 package jungmo.shoppingmall.admin.order.service;
 
-import jungmo.shoppingmall.admin.order.dao.PageDao;
-import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.order.dao.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class PageServiceImpl implements PageService{
@@ -36,7 +36,7 @@ public class PageServiceImpl implements PageService{
 		
 		startPage = (endPage-pageNumCnt)+1;
 		
-		int lastEndPage = (int)(Math.ceil(totRowCnt)/(double)page.getRowCnt());
+		int lastEndPage = (int)(Math.ceil(totRowCnt/(double)page.getRowCnt()));
 		
 		if(endPage > lastEndPage) endPage = lastEndPage;
 		

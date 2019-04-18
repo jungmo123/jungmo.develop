@@ -1,9 +1,8 @@
 package jungmo.shoppingmall.admin.order.dao.mapper;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.domain.Purchase;
+import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface OrderMapper {
 	List<Purchase> getOrders();

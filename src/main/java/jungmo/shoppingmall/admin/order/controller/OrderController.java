@@ -1,20 +1,16 @@
 package jungmo.shoppingmall.admin.order.controller;
 
-import java.util.List;
+import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.domain.Purchase;
-import jungmo.shoppingmall.admin.order.service.OrderService;
-import jungmo.shoppingmall.admin.order.service.PageService;
-import jungmo.shoppingmall.admin.order.service.PageServiceImpl;
-import jungmo.shoppingmall.admin.order.service.PostService;
+import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class OrderController {
@@ -34,5 +30,17 @@ public class OrderController {
 		List<Purchase> purchases = orderService.getOrders();
 		model.addAttribute("purchases",purchases);
 		return "manager/order/orderList";
+	}
+	
+	@RequestMapping("/admin/orderList{idx}")
+	public String listIdx(@PathVariable String idx,HttpServletRequest request,Model model){
+			Page myPage = null;
+			myPage = new Page(Integer.parseInt(idx));
+			PageService ps = new PageServiceImpl(5,myPage,pageService.getTotRowCnt());
+			model.addAttribute("pageMaker",ps);
+			model.addAttribute("posts",postService.getPosts(myPage));
+			List<Purchase> purchases = orderService.getOrders();
+			model.addAttribute("purchases",purchases);
+			return "manager/order/orderList";
 	}
 }

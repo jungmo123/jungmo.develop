@@ -7,13 +7,12 @@
 <%@ page import = "jungmo.shoppingmall.admin.order.service.PageService" %>
 <%@ page import = "jungmo.shoppingmall.admin.order.domain.Page" %>
 <%@ page import = "java.util.*" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	PageService ps = (PageService)request.getAttribute("pageMaker");
-	System.out.println(ps.getEndPage());
-	System.out.println(ps.getStartPage());
+	System.out.print(ps.getEndPage()+ " " + ps.getPage().getRowCnt());
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -117,6 +116,25 @@
 	}
 	#resultbox tr:nth-child(1) th{
 		border-top:1px solid #878787;
+		width:45px;
+	}
+	#resultbox tr:nth-child(2) th{
+		width:144px;
+	}
+	#resultbox tr:nth-child(3) th{
+		width:109px;
+	}
+	#resultbox tr:nth-child(4) th{
+		width:121px;
+	}
+	#resultbox tr:nth-child(5) th{
+		width:176px;
+	}
+	#resultbox tr:nth-child(6) th{
+		width:82px;
+	}
+	#resultbox tr:nth-child(7) th{
+		width:102px;
 	}
 	#resultbox tr:last-child td{
 		border-bottom:1px solid #878787;
@@ -167,6 +185,17 @@
 	#pagination{
 		margin-top:30px;
 		text-align:center;
+	}
+	.pagination li a{
+		border:0px;
+	}
+	#pagination > div > .pagination .active a{
+		background-color:#F2F5F7;
+		color:black;
+		font-weight:bold;
+	}
+	.pagination .active a:active{
+		background-color:grey;
 	}
 	#pagination .currentPage{
 		color:#727272 !important;
@@ -232,26 +261,26 @@
 						<th>주문 상품</th>
 						<th>주문자<br>(아이디)</th>
 						<th>결제 금액</th>
-					</tr>
-						<c:set var = "loop_flag" value = "false" />
+					</tr> 
+						<c:set var = "total" value = "0" />
 						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
-							<c:if test = "${not loop_flag }">
 								<c:forEach  var = "purchase" items= "${purchases}" varStatus = "state">
-									<c:if test = "${post.postNum==purchase.ordNum}">
-									<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
-									<td>${purchase.ordNum}</td>
-									<td>${purchase.order.ordType}</td>
-									<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
-									<td>${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
-									<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
-									<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
-										<c:set var = "total" value = "${total + god.godSellingPrice}" />
-									</c:forEach>
-									<td><c:out value = "${total}원" /></td>
-										<c:set var = "loop_flag" value = "true" />								
-									</c:if>
+										<c:if test = "${post.postNum==purchase.ordNum}">
+										<tr>								
+										<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
+										<td>${purchase.ordNum}</td>
+										<td>${purchase.order.ordType}</td>
+										<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
+										<td>${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
+										<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
+										<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
+											<c:set var = "total" value = "${(total + god.godSellingPrice)*god.godAmount}" />
+										</c:forEach>
+										<td><c:out value = "${total}원" /></td>
+										<c:set var = "total" value = "0" />
+										</tr>						
+										</c:if>
 								</c:forEach>
-							</c:if>
 						</c:forEach>
 				</table>
 			</div>
@@ -267,18 +296,18 @@
  			<div id = "pagination">
 				<div>
 					<ul class = "pagination">
-						<c:if test = "#{pageMaker.prev}">
-							<li><a href = "list.jsp?currentPage=${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+						<c:if test = "${pageMaker.prev}">
+							<li><a href = "orderList${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
 						</c:if>
 						
 						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-								<a href = "list.jsp?currentPage=${idx}">${idx}</a>
+								<a href = "orderList${idx}">${idx}</a>
 							</li>
 						</c:forEach>
 
-						<c:if test = "#{pageMaker.prev}">
-							<li><a href = "list.jsp?currentPage=${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+						<c:if test = "${pageMaker.next}">
+							<li><a href = "orderList${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 						</c:if>
 					</ul>
 				</div>		
