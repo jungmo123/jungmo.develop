@@ -3,15 +3,13 @@
 <%@ page import = "jungmo.shoppingmall.admin.order.service.OrderServiceImpl" %>
 <%@ page import = "jungmo.shoppingmall.admin.order.service.OrderService" %>
 <%@ page import = "jungmo.shoppingmall.admin.order.domain.Purchase" %>
+<%@ page import = "jungmo.shoppingmall.admin.order.service.PageServiceImpl" %>
+<%@ page import = "jungmo.shoppingmall.admin.order.service.PageService" %>
+<%@ page import = "jungmo.shoppingmall.admin.order.domain.Page" %>
 <%@ page import = "java.util.*" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%
-	List<Purchase> pur = (List<Purchase>)request.getAttribute("purchase");
-
-	for(int i = 0 ; i < pur.size() ; i++){
-		System.out.print(pur.get(i));
-	}
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -152,6 +150,15 @@
 		bottom:12px;
 		right:10px;
 	}
+	#listOption{
+		margin-top:10px;
+	}
+	#listOption select{
+		display:inline-block;
+		width:120px;
+		position:relative;
+		top:3px;
+	}
 	#pagination{
 		margin-top:30px;
 		text-align:center;
@@ -216,44 +223,53 @@
 						<th>선택</th>
 						<th>주문번호</th>
 						<th>배송상태</th>
-						<th>상품 수량</th>
 						<th>주문 일시</th>
 						<th>주문 상품</th>
 						<th>주문자<br>(아이디)</th>
 						<th>결제 금액</th>
 					</tr>
-					<tr id = "example">
-						<td><input type= "checkbox" name = "check" /></td>
-						<td>(번호)</td>
-						<td>(유형)</td>
-						<td>{년-월-일<br>시:분:초}</td>
-						<td>{년+월+일+<br>주문순번}</td>
-						<td><a href= "02.html">{첫 번째 상풍몀} 외 {건수}건</a></td>
-						<td>{주문자명}<br>{아이디}</td>
-						<td>{결제 금액}원</td>
+					<c:forEach  var = "purchase" items= "${purchases}" varStatus = "state">
+					<tr>
+						<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
+						<td>${purchase.ordNum}</td>
+						<td>${purchase.order.ordType}</td>
+						<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
+						<td>${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
+						<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
+						<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
+							<c:set var = "total" value = "${total + god.godSellingPrice}" />
+						</c:forEach>
+						<td><c:out value = "${total}원" /></td>
 					</tr>
+					</c:forEach>
 				</table>
 			</div>
-			<div>
+			<div id = "listOption">
 				<span>선택한 항목</span>
-				<select>
+				<select class = "form-control">
 					<option>배송 준비중</option>
 					<option>배송 중</option>
 					<option>배송 완료</option>
-					<option>주문 모두 보기</option>
 				</select>
-				<button>목록으로 이동</button>
+				<button class = "btn btn-default">목록으로 이동</button>
 			</div>
-			<div id = "pagination">
+ 			<div id = "pagination">
 				<div>
-					<a href = "#"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-					<a href = "#"  class = "currentPage">1</a>
-					<a href = "#">2</a>
-					<a href = "#">3</a>
-					<a href = "#">4</a>
-					<a href = "#">5</a>
-					<a href = "#" ><span class = "glyphicon glyphicon-chevron-right"></span></a>
-					<div id = "currentBar"></div>
+					<ul class = "pagination">
+						<c:if test = "#{pageMaker.prev}">
+							<li><a href = "list.jsp?currentPage=${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+						</c:if>
+						
+						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+								<a href = "list.jsp?currentPage=${idx}">${idx}</a>
+							</li>
+						</c:forEach>
+
+						<c:if test = "#{pageMaker.prev}">
+							<li><a href = "list.jsp?currentPage=${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+						</c:if>
+					</ul>
 				</div>		
 			</div>
 		</div>

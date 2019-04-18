@@ -15,7 +15,14 @@ public class Goods {
 	private Date godRegDate;
 	private int godViewPoint;
 	private int godcNum;
+	private int godAmount;
 	
+	public int getGodAmount() {
+		return godAmount;
+	}
+	public void setGodAmount(int godAmount) {
+		this.godAmount = godAmount;
+	}
 	public int getGodNum() {
 		return godNum;
 	}

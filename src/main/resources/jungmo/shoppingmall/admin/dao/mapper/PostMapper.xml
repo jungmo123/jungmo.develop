@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.PageMapper">
+	<select id = "getPosts" parameterType = "page" resultType = "post">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select distinct ord_num postNum
+		  		from purchases
+		  		order by ord_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*{#{currentPage}-1}
+		  ]]>
+	</select>
+</mapper>

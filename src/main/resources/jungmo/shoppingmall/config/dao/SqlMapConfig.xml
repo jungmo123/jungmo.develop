@@ -10,5 +10,7 @@
 			<typeAlias alias = "pur" type = "jungmo.shoppingmall.admin.order.domain.Purchase"/>
 			<typeAlias alias = "god" type = "jungmo.shoppingmall.admin.order.domain.Goods" />
 			<typeAlias alias = "order" type = "jungmo.shoppingmall.admin.order.domain.Order" />
+			<typeAlias alias = "page" type = "jungmo.shoppingmall.admin.order.domain.Page" />
+			<typeAlias alias = "post" type = "jungmo.shoppingmall.admin.order.domain.Post" />
 	</typeAliases>
 </configuration>

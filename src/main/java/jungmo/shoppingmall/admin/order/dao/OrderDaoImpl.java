@@ -1,12 +1,12 @@
 package jungmo.shoppingmall.admin.order.dao;
 
-import java.util.*;
+import java.util.List;
 
-import jungmo.shoppingmall.admin.order.dao.mapper.*;
-import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper;
+import jungmo.shoppingmall.admin.order.domain.Purchase;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class OrderDaoImpl implements OrderDao{
