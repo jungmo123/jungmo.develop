@@ -10,6 +10,11 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	PageService ps = (PageService)request.getAttribute("pageMaker");
+	System.out.println(ps.getEndPage());
+	System.out.println(ps.getStartPage());
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -228,20 +233,26 @@
 						<th>주문자<br>(아이디)</th>
 						<th>결제 금액</th>
 					</tr>
-					<c:forEach  var = "purchase" items= "${purchases}" varStatus = "state">
-					<tr>
-						<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
-						<td>${purchase.ordNum}</td>
-						<td>${purchase.order.ordType}</td>
-						<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
-						<td>${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
-						<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
-						<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
-							<c:set var = "total" value = "${total + god.godSellingPrice}" />
+						<c:set var = "loop_flag" value = "false" />
+						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
+							<c:if test = "${not loop_flag }">
+								<c:forEach  var = "purchase" items= "${purchases}" varStatus = "state">
+									<c:if test = "${post.postNum==purchase.ordNum}">
+									<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
+									<td>${purchase.ordNum}</td>
+									<td>${purchase.order.ordType}</td>
+									<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
+									<td>${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
+									<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
+									<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
+										<c:set var = "total" value = "${total + god.godSellingPrice}" />
+									</c:forEach>
+									<td><c:out value = "${total}원" /></td>
+										<c:set var = "loop_flag" value = "true" />								
+									</c:if>
+								</c:forEach>
+							</c:if>
 						</c:forEach>
-						<td><c:out value = "${total}원" /></td>
-					</tr>
-					</c:forEach>
 				</table>
 			</div>
 			<div id = "listOption">

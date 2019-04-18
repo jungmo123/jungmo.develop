@@ -8,4 +8,5 @@ public interface PageService {
 	boolean isNext();
 	int getStartPage();
 	int getEndPage();
+	int getTotRowCnt();
 }

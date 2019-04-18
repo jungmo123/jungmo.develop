@@ -20,8 +20,8 @@ public class PageServiceImpl implements PageService{
 	
 	public PageServiceImpl(){}
 	
-	public PageServiceImpl(int pageNumCnt, Page page) {
-		System.out.println(getTotRowCnt());
+	public PageServiceImpl(int pageNumCnt, Page page,int totRowCnt) {
+		this.totRowCnt = totRowCnt;
 		this.pageNumCnt = pageNumCnt;
 		this.page = page;
 		init();
