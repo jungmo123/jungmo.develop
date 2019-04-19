@@ -6,7 +6,7 @@
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select distinct ord_num postNum
+		  		select ord_num postNum
 		  		from orders
 		   ]]>
 		   		<where>
@@ -21,6 +21,21 @@
 		   			</if>
 		   		</where>
 		   <![CDATA[
+		  		order by ord_num
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getDatePosts" parameterType = "page" resultType = "post">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select ord_num postNum
+		  		from orders
+				where ord_date > #{date1} and
+				ord_date < #{date2} and
+				ord_num like '%' || #{ordNum} || '%'
 		  		order by ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)

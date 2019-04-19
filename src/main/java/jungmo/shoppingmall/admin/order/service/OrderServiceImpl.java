@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import jungmo.shoppingmall.admin.order.dao.OrderDao;
+import jungmo.shoppingmall.admin.order.domain.Order;
 import jungmo.shoppingmall.admin.order.domain.Purchase;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	public int dvModify(HashMap<String,List<String>> map){
 		return orderDao.dvModify(map);
+	}
+	
+	public Order getOrder(String ordNum){
+		return orderDao.getOrder(ordNum);
 	}
 }

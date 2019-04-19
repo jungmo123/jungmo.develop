@@ -13,6 +13,13 @@
       order by purchases.ord_num
 	</select>
 	
+	<select id = "getOrder" resultMap = "getOrder">
+		select ord_num,ord_type,ord_date,sha_postcode,sha_street,sha_detailarea,recipient_name,
+		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content,users.user_id,user_name
+		from orders join users
+		on (orders.user_id = users.user_id)
+	</select>
+	
 	<update id = "dvModify" parameterType = "hashmap">
 		update orders
 		<foreach item="tp" collection = "type">
@@ -38,9 +45,20 @@
 	</resultMap>
 	 
 	<resultMap id = "getOrder" type = "order">
+		<result property = "ordNum" column = "ord_num" />
 		<result property = "ordDate" column = "ord_date" />
 		<result property = "ordType" column = "ord_type" />
-		<association property = "user" resultMap="getUser" />
+		<result property = "shaPostCode" column = "sha_postcode" />
+		<result property = "shaStreet" column = "sha_street" />
+		<result property = "shaDetailArea" column = "sha_detailArea" />
+		<result property = "recipientName" column = "recipient_name" />
+		<result property = "recipientPhone" column = "recipient_phone"/>
+		<result property = "ordResultCode" column = "ord_resultcode" />
+		<result property = "ordResultContent" column = "ord_resultcontent" />
+		<result property = "usingPoint" column = "usingpoint" />
+		<result property = "paymentMethod" column = "paymentmethod" />
+		<result property = "memoContent" column = "memo_content" />
+ 		<association property = "user" resultMap="getUser" />
 	</resultMap>
 	
 	<resultMap id = "getUser" type = "user">

@@ -1,9 +1,9 @@
 package jungmo.shoppingmall.admin.order.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +27,10 @@ public class OrderController {
 	@Autowired private OrderService orderService;
 	@Autowired private PageService pageService;
 	@Autowired private PostService postService;
+	private Date date1;
+	private Date date2;
+	private Date date3;
+	private String search;
 	
 	public void common(HttpServletRequest request,Model model,String idx,String Type){
 		Page myPage = null;
@@ -39,6 +43,18 @@ public class OrderController {
 		model.addAttribute("type",Type);		
 	}
 	
+	public void date(HttpServletRequest request,Model model,String idx){
+		String type = "search";
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx),5,date1,date2,search);
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getDateTotRowCnt(myPage));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",postService.getDatePosts(myPage));
+		List<Purchase> purchases = orderService.getOrders();
+		model.addAttribute("purchases",purchases);
+		model.addAttribute("type",type);		
+	}
+	 
 	@RequestMapping("/admin/orderList")
 	public String orderList(){
 		return "redirect:orderListAll1";
@@ -92,10 +108,39 @@ public class OrderController {
 	
 	@RequestMapping(value = "/admin/search",method=RequestMethod.POST)
 	public String search(HttpServletRequest request,Model model){
-		System.out.println(request.getParameter("date1"));
-		System.out.println(request.getParameter("date2"));
-		System.out.println(request.getParameter("type"));
-		System.out.println(request.getParameter("search"));
+		date1 = Date.valueOf(request.getParameter("date1"));
+		date2 = Date.valueOf(request.getParameter("date2"));
+		String type = "search";
+		int compare = date1.compareTo(date2);
+		if(compare > 0){
+			date3 = date1;
+			date1 = date2;
+			date2 = date3;
+		}
+		search = request.getParameter("search");
+		
+		Page myPage = null;
+		myPage = new Page(1,5,date1,date2,search);
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getDateTotRowCnt(myPage));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",postService.getDatePosts(myPage));
+		List<Purchase> purchases = orderService.getOrders();
+		model.addAttribute("purchases",purchases);
+		model.addAttribute("type",type);
+
 		return "manager/order/orderList";
+	}
+	 
+	@RequestMapping("/admin/orderListsearch{idx}")
+	public String searchList(@PathVariable String idx,HttpServletRequest request,Model model){
+		date(request,model,idx);
+		return "manager/order/orderList";
+	}
+	
+	@RequestMapping("/admin/orderDetail{idx}")
+	public String searchList(@PathVariable String idx,Model model){
+		System.out.println(orderService.getOrder(idx).getShaStreet());
+	
+		return "manager/order/orderDetail";
 	}
 }

@@ -9,4 +9,5 @@ public interface PageService {
 	int getStartPage();
 	int getEndPage();
 	int getTotRowCnt(String type);
+	int getDateTotRowCnt(Page page);
 }

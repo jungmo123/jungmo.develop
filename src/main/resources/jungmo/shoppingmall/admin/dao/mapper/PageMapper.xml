@@ -17,4 +17,15 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
+	<![CDATA[	
+	select count(distinct ord_num)
+		from orders
+		where ord_date > #{date1} and
+		ord_date < #{date2} and
+		ord_num like '%' || #{ordNum} || '%'
+		order by ord_num
+	]]>
+	</select>
 </mapper>

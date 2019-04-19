@@ -16,4 +16,8 @@ public class PostServiceImpl implements PostService{
 	public List<Post> getPosts(Page page){
 		return postDao.getPosts(page);
 	}
+	
+	public List<Post> getDatePosts(Page page){
+		return postDao.getDatePosts(page);
+	}
 }

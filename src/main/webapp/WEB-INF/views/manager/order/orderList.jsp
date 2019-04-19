@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "jungmo.shoppingmall.admin.order.service.OrderServiceImpl" %>
-<%@ page import = "jungmo.shoppingmall.admin.order.service.OrderService" %>
-<%@ page import = "jungmo.shoppingmall.admin.order.domain.Purchase" %>
-<%@ page import = "jungmo.shoppingmall.admin.order.service.PageServiceImpl" %>
-<%@ page import = "jungmo.shoppingmall.admin.order.service.PageService" %>
-<%@ page import = "jungmo.shoppingmall.admin.order.domain.Page" %>
 <%@ page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -144,6 +138,9 @@
 		text-align:center;
 		margin-left:10px;
 	}
+	.itemName{
+		cursor:pointer;
+	}
 	#Trheader{
 		background-color:#F2F5F7;
 	}
@@ -163,12 +160,6 @@
 	.Y{
 		margin:0px 10px 0px 10px;
 		color:#FF6F43;
-	}
-	#download{
-		float:right;
-		position:relative;
-		bottom:12px;
-		right:10px;
 	}
 	#listOption{
 		margin-top:10px;
@@ -246,7 +237,6 @@
 				<a href = "orderListThree1">배송 완료</a>
 				<span  class = "Y">&#124;</span>
 				<a href = "orderListAll1">주문 모두 보기</a>
-				<button class = "btn btn-default" id = "download">목록 다운로드</button>
 			</div>
 			<form id = "orderList" action = "dvModify" method="post">
 			<div id = "resultbox">
@@ -266,10 +256,10 @@
 										<c:if test = "${post.postNum==purchase.ordNum}">
 										<tr>								
 										<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
-										<td>${purchase.ordNum}</td>
+										<td class = "itemNum">${purchase.ordNum}</td>
 										<td>${purchase.order.ordType}</td>
 										<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
-										<td>${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
+										<td class = "itemName">${purchase.goods[0].godName} 외 ${fn:length(purchase.goods)-1}건</td>
 										<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
 										<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
 											<c:set var = "total" value = "${(total + god.godSellingPrice)*god.godAmount}" />
@@ -336,7 +326,6 @@
 		})
 		
 		$("#dateForm").submit(function(e){
-			e.preventDefault();
 			if($("#dateForm #input1 input").val()=="" || $("#dateForm #input2 input").val()==""){
 				Swal.fire({
 					  position: 'top',
@@ -345,8 +334,13 @@
 					  showConfirmButton: false,
 					  timer: 1500
 					});
-				return;
+				return false;
 			}
+		})
+		
+		$(".itemName").click(function(){
+			var name = $(this).siblings(".itemNum").text();
+			location.href="/shoppingmall/admin/orderDetail" + name;
 		})
 	})
 </script>

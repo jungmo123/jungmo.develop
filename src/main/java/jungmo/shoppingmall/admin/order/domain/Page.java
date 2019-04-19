@@ -1,9 +1,14 @@
 package jungmo.shoppingmall.admin.order.domain;
 
+import java.sql.Date;
+
 public class Page {
 	private int currentPage;
 	private int rowCnt;
 	private String type;
+	private Date date1;
+	private Date date2;
+	private String ordNum;
 	
 	public Page(){
 		this(1,5);
@@ -16,6 +21,38 @@ public class Page {
 	public Page(int currentPage,int rowCnt){
 		this.currentPage = currentPage;
 		this.rowCnt = rowCnt;
+	}
+	
+	public String getOrdNum() {
+		return ordNum;
+	}
+
+	public void setOrdNum(String ordNum) {
+		this.ordNum = ordNum;
+	}
+
+	public Page(int currentPage,int rowCnt,Date date1,Date date2,String ordNum){
+		this.currentPage = currentPage;
+		this.rowCnt = rowCnt;
+		this.date1 = date1;
+		this.date2 = date2;
+		this.ordNum = ordNum;
+	}
+
+	public Date getDate1() {
+		return date1;
+	}
+
+	public Date getDate2() {
+		return date2;
+	}
+
+	public void setDate1(Date date1) {
+		this.date1 = date1;
+	}
+
+	public void setDate2(Date date2) {
+		this.date2 = date2;
 	}
 
 	public Page(int currentPage, int rowCnt, String type) {

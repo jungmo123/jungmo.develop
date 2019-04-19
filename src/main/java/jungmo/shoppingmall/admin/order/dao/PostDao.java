@@ -7,4 +7,5 @@ import jungmo.shoppingmall.admin.order.domain.Post;
 
 public interface PostDao {
 	List<Post> getPosts(Page page);
+	List<Post> getDatePosts(Page page);
 }

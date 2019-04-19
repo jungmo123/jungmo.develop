@@ -7,4 +7,5 @@ import jungmo.shoppingmall.admin.order.domain.Post;
 
 public interface PostMapper {
 	List<Post> getPosts(Page page);
+	List<Post> getDatePosts(Page page);
 }
