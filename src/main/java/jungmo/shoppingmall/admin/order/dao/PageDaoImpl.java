@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class PageDaoImpl implements PageDao{
 	@Autowired PageMapper pageMapper;
 	
-	public int getTotRowCnt(){
-		return pageMapper.getTotRowCnt();
+	public int getTotRowCnt(String type){
+		return pageMapper.getTotRowCnt(type);
 	}
 }

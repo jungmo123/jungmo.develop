@@ -27,8 +27,8 @@ public class PageServiceImpl implements PageService{
 		init();
 	}	
 	
-	public int getTotRowCnt(){
-		return pageDao.getTotRowCnt();
+	public int getTotRowCnt(String type){
+		return pageDao.getTotRowCnt(type);
 	}
 	
 	private void init(){

@@ -10,10 +10,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-	PageService ps = (PageService)request.getAttribute("pageMaker");
-	System.out.print(ps.getEndPage()+ " " + ps.getPage().getRowCnt());
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -25,6 +21,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
 <style>
 	#content .container:nth-child(1){
 		margin-top:20px;
@@ -114,26 +111,26 @@
 		width:100%;
 		text-align:center;
 	}
-	#resultbox tr:nth-child(1) th{
+	#resultbox tr th:nth-child(1){
 		border-top:1px solid #878787;
 		width:45px;
 	}
-	#resultbox tr:nth-child(2) th{
+	#resultbox tr th:nth-child(2){
 		width:144px;
 	}
-	#resultbox tr:nth-child(3) th{
+	#resultbox tr th:nth-child(3){
 		width:109px;
 	}
-	#resultbox tr:nth-child(4) th{
+	#resultbox tr th:nth-child(4){
 		width:121px;
 	}
-	#resultbox tr:nth-child(5) th{
+	#resultbox tr th:nth-child(5){
 		width:176px;
 	}
-	#resultbox tr:nth-child(6) th{
+	#resultbox tr th:nth-child(6){
 		width:82px;
 	}
-	#resultbox tr:nth-child(7) th{
+	#resultbox tr th:nth-child(7){
 		width:102px;
 	}
 	#resultbox tr:last-child td{
@@ -219,20 +216,20 @@
 				<p id = "currentIdx">&#124; 주문관리 > 스타일 숍 주문</p>
 			</div>
 			<div id = "search">
-				<form id = "dateForm">
+				<form id = "dateForm" action = "search" method = "post">
 					<span>주문일</span>
 					<div id = "input-group">
 						<div id = "input1">
-							<input type="date" name="dateofbirth" class="dateInput">
+							<input type="date" name="date1" class="dateInput">
 						</div>
 						<span>~</span>
 						<div id = "input2">
-							<input type="date" name="dateofbirth" class="dateInput">	
+							<input type="date" name="date2" class="dateInput">	
 						</div>
 						<div id = "keyword">
 							<span>키워드 검색</span>
-							<select class = "form-control">
-								<option>주문번호</option>
+							<select name = "type" class = "form-control">
+								<option value = "ord_num">주문번호</option>
 							</select>
 							<input class = "form-control" id = "textarea" type = "text" name = "search" />
 							<button class ="btn btn-default glyphicon glyphicon-search"></button>	
@@ -242,15 +239,16 @@
 			</div>
 			<div id = "orderState">
 				<span>&#124; 주문상태</span>
-				<a href = "#">배송 준비 중</a>
+				<a href = "orderListOne1">배송 준비 중</a>
 				<span  class = "Y">&#124;</span>
-				<a href = "#">배송 중</a>
+				<a href = "orderListTwo1">배송 중</a>
 				<span  class = "Y">&#124;</span>
-				<a href = "#">배송 완료</a>
+				<a href = "orderListThree1">배송 완료</a>
 				<span  class = "Y">&#124;</span>
-				<a href = "#">주문 모두 보기</a>
+				<a href = "orderListAll1">주문 모두 보기</a>
 				<button class = "btn btn-default" id = "download">목록 다운로드</button>
 			</div>
+			<form id = "orderList" action = "dvModify" method="post">
 			<div id = "resultbox">
 				<table>
 					<tr id = "Trheader">
@@ -286,28 +284,29 @@
 			</div>
 			<div id = "listOption">
 				<span>선택한 항목</span>
-				<select class = "form-control">
-					<option>배송 준비중</option>
-					<option>배송 중</option>
-					<option>배송 완료</option>
+				<select name = "dvState" class = "form-control">
+					<option>배송준비중</option>
+					<option>배송중</option>
+					<option>배송완료</option>
 				</select>
 				<button class = "btn btn-default">목록으로 이동</button>
 			</div>
+			</form>
  			<div id = "pagination">
 				<div>
 					<ul class = "pagination">
 						<c:if test = "${pageMaker.prev}">
-							<li><a href = "orderList${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+							<li><a href = "orderList${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
 						</c:if>
 						
 						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-								<a href = "orderList${idx}">${idx}</a>
+								<a href = "orderList${type}${idx}">${idx}</a>
 							</li>
 						</c:forEach>
 
 						<c:if test = "${pageMaker.next}">
-							<li><a href = "orderList${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+							<li><a href = "orderList${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 						</c:if>
 					</ul>
 				</div>		
@@ -315,6 +314,42 @@
 		</div>
   	</div>
 </div>
+
+<script type = "text/javascript">
+	$(function(){
+		$("#orderList").submit(function(e){
+			var check = $("#orderList table tr td input:checkbox:checked");
+			var list = [];
+			var select = $("#listOption select option:selected").val();
+			console.log(select);
+			$(check).each(function(index,element){
+				list.push($(element).attr("name"));
+			})
+			var $input = $("<input></input>");
+			$input.attr({
+				"type":"text",
+				"name":"list"
+			});
+			$input.val(list);
+			$input.css("display","none");
+			$("#orderList").append($input);
+		})
+		
+		$("#dateForm").submit(function(e){
+			e.preventDefault();
+			if($("#dateForm #input1 input").val()=="" || $("#dateForm #input2 input").val()==""){
+				Swal.fire({
+					  position: 'top',
+					  type: 'warning',
+					  title: '날짜를 입력하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;
+			}
+		})
+	})
+</script>
 
 </body>
 </html>

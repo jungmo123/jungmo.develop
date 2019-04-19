@@ -1,5 +1,6 @@
 package jungmo.shoppingmall.admin.order.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper;
@@ -14,5 +15,9 @@ public class OrderDaoImpl implements OrderDao{
 	
 	public List<Purchase> getOrders(){
 		return orderMapper.getOrders();
+	}
+	
+	public int dvModify(HashMap<String,List<String>> map){
+		return orderMapper.dvModify(map);
 	}
 }

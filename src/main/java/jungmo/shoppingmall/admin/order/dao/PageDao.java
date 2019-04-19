@@ -1,5 +1,5 @@
 package jungmo.shoppingmall.admin.order.dao;
 
 public interface PageDao {
-	int getTotRowCnt();
+	int getTotRowCnt(String type);
 }

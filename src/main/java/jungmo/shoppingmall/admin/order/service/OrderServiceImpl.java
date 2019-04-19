@@ -1,5 +1,6 @@
 package jungmo.shoppingmall.admin.order.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import jungmo.shoppingmall.admin.order.dao.OrderDao;
@@ -14,5 +15,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	public List<Purchase> getOrders(){
 		return orderDao.getOrders();
+	}
+	
+	public int dvModify(HashMap<String,List<String>> map){
+		return orderDao.dvModify(map);
 	}
 }

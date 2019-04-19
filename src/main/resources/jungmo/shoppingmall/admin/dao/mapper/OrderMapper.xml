@@ -13,6 +13,17 @@
       order by purchases.ord_num
 	</select>
 	
+	<update id = "dvModify" parameterType = "hashmap">
+		update orders
+		<foreach item="tp" collection = "type">
+			set ord_type = #{tp}
+		</foreach>
+		where ord_num in 
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach>
+	</update>
+	
 	<resultMap id = "purMap" type = "pur">
 		<id property = "ordNum" column = "ord_num" />
 		<association property = "order" resultMap = "getOrder" />

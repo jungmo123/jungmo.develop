@@ -7,10 +7,23 @@
 		  select * from(
 		  	select rownum as rnum, x.* from(
 		  		select distinct ord_num postNum
-		  		from purchases
+		  		from orders
+		   ]]>
+		   		<where>
+		   			<if test = "type != null and type.equals('One')">
+		   				ord_type = '배송준비중'
+		   			</if>
+		   			<if test = "type != null and type.equals('Two')">
+		   				ord_type = '배송중'
+		   			</if>
+		   			<if test = "type != null and type.equals('Three')">
+		   				ord_type = '배송완료'
+		   			</if>
+		   		</where>
+		   <![CDATA[
 		  		order by ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
-		  ]]>
+			]]>
 	</select>
 </mapper>

@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.PageMapper">
-	<select id = "getTotRowCnt" resultType = "int">
+	<select id = "getTotRowCnt" parameterType="string" resultType = "int">
 		select count(distinct ord_num)
-		from purchases
+		from orders
+		<where>
+			<if test = "_parameter != null and _parameter.equals('One')">
+				ord_type = '배송준비중'
+			</if>
+			<if test = "_parameter != null and _parameter.equals('Two')">
+				ord_type = '배송중'
+			</if>
+			<if test = "_parameter != null and _parameter.equals('Three')">
+				ord_type = '배송완료'
+			</if>
+		</where>
 	</select>
 </mapper>
