@@ -1,14 +1,12 @@
 package jungmo.shoppingmall.admin.order.dao;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper;
-import jungmo.shoppingmall.admin.order.domain.Order;
-import jungmo.shoppingmall.admin.order.domain.Purchase;
+import jungmo.shoppingmall.admin.order.dao.mapper.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Repository
 public class OrderDaoImpl implements OrderDao{
@@ -24,5 +22,9 @@ public class OrderDaoImpl implements OrderDao{
 	
 	public Order getOrder(String ordNum){
 		return orderMapper.getOrder(ordNum);
+	}
+	
+	public Purchase getPurchase(String ordNum){
+		return orderMapper.getPurchase(ordNum);
 	}
 }

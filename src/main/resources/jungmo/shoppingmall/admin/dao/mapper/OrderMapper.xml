@@ -13,11 +13,25 @@
       order by purchases.ord_num
 	</select>
 	
-	<select id = "getOrder" resultMap = "getOrder">
+	<select id = "getOrder" parameterType="string" resultMap = "getOrder">
 		select ord_num,ord_type,ord_date,sha_postcode,sha_street,sha_detailarea,recipient_name,
 		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content,users.user_id,user_name
 		from orders join users
 		on (orders.user_id = users.user_id)
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getPurchase" parameterType="string" resultMap = "purMap">
+    	select purchases.ord_num,purchases.god_num,ord_type,ord_date,sha_postcode,sha_street,sha_detailarea,recipient_name,
+		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content,users.user_id,user_name,opt_name,opt_content
+		from purchases join orders
+		on (purchases.ord_num = orders.ord_num)
+		join users
+		on (orders.user_id = users.user_id)
+		join purchase_option
+		on (purchases.ord_num = purchase_option.ord_num)
+		and (purchases.god_num = purchase_option.god_num)
+    where purchases.ord_num = #{ord_num}
 	</select>
 	
 	<update id = "dvModify" parameterType = "hashmap">
@@ -42,7 +56,8 @@
 		<result property = "godName" column = "name" />
 		<result property = "godAmount" column = "amount" />
 		<result property = "godSellingPrice" column = "sellingprice" />
-	</resultMap>
+		<collection property = "goodsOption" columnPrefix = "opt_" resultMap = "godoMap" />
+	</resultMap> 
 	 
 	<resultMap id = "getOrder" type = "order">
 		<result property = "ordNum" column = "ord_num" />
@@ -65,4 +80,10 @@
 		<result property = "userId" column = "user_id" />
 		<result property = "userName" column = "user_name" />
 	</resultMap>
+	
+	<resultMap id = "godoMap" type = "godo">
+		<result property = "optName" column = "name" />
+		<result property = "optContent" column = "content" />
+	</resultMap>
+	
 </mapper>

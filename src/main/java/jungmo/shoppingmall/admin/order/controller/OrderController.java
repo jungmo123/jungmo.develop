@@ -1,26 +1,17 @@
 package jungmo.shoppingmall.admin.order.controller;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.domain.Purchase;
-import jungmo.shoppingmall.admin.order.service.OrderService;
-import jungmo.shoppingmall.admin.order.service.PageService;
-import jungmo.shoppingmall.admin.order.service.PageServiceImpl;
-import jungmo.shoppingmall.admin.order.service.PostService;
+import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class OrderController {
@@ -139,8 +130,7 @@ public class OrderController {
 	
 	@RequestMapping("/admin/orderDetail{idx}")
 	public String searchList(@PathVariable String idx,Model model){
-		System.out.println(orderService.getOrder(idx).getShaStreet());
-	
+		model.addAttribute("order",orderService.getOrder(idx));
 		return "manager/order/orderDetail";
 	}
 }

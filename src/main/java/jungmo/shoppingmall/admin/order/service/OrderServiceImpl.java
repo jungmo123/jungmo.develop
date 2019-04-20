@@ -1,14 +1,12 @@
 package jungmo.shoppingmall.admin.order.service;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.order.dao.OrderDao;
-import jungmo.shoppingmall.admin.order.domain.Order;
-import jungmo.shoppingmall.admin.order.domain.Purchase;
+import jungmo.shoppingmall.admin.order.dao.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -24,5 +22,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	public Order getOrder(String ordNum){
 		return orderDao.getOrder(ordNum);
+	}
+	
+	public Purchase getPurchase(String ordNum){
+		return orderDao.getPurchase(ordNum);
 	}
 }

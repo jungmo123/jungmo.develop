@@ -14,7 +14,7 @@ public class LogAspect {
 		logger = LogManager.getLogger(LogAspect.class);
 	}
 	
-	@Around("execution(* jungmo.shoppingmall.user.*.service.*.*(..))")
+	@Around("execution(* jungmo.shoppingmall.*.*.service.*.*(..))")
 	public Object advice(ProceedingJoinPoint jp)  throws Throwable{
 		logger.info(jp.toShortString() + "시작 ");
 		Object obj = jp.proceed();

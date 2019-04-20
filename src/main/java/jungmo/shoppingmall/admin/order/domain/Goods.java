@@ -1,6 +1,7 @@
 package jungmo.shoppingmall.admin.order.domain;
 
-import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 public class Goods {
 	private int godNum;
@@ -16,7 +17,14 @@ public class Goods {
 	private int godViewPoint;
 	private int godcNum;
 	private int godAmount;
+	private List<GoodsOption> goodsOption;
 	
+	public List<GoodsOption> getGoodsOption() {
+		return goodsOption;
+	}
+	public void setGoodsrOption(List<GoodsOption> goodsOption) {
+		this.goodsOption = goodsOption;
+	}
 	public int getGodAmount() {
 		return godAmount;
 	}
