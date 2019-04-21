@@ -20,11 +20,19 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.dvModify(map);
 	}
 	
-	public Order getOrder(String ordNum){
-		return orderDao.getOrder(ordNum);
+	public int addMlc(HashMap<String,List<String>> map){
+		return orderDao.addMlc(map);
 	}
 	
 	public Purchase getPurchase(String ordNum){
 		return orderDao.getPurchase(ordNum);
+	}
+	
+	public SavedMoney getSm(int pnpNum){
+		return orderDao.getSm(pnpNum);
+	}
+	
+	public Delivery getDv(int dvpNum){
+		return orderDao.getDv(dvpNum);
 	}
 }

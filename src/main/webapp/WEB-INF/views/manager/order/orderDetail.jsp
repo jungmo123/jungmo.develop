@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,9 +12,11 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="<c:url value="/css/AdminCss.css" />">
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <style>
 	button,input{
 		height:25px;
@@ -71,27 +76,30 @@
 	select{
 		width:80px;
 	}
-	#item{
+	.item{
 		width:300px;
 		line-height:28px;
 	}
-	#item div{
+	.item div{
 		display:inline-block;
 		margin:5px;
 	}
-	#item strong{
+	.item strong{
 		margin-right:5px;
 	}
 	.itemName{
 		float:left;
 		margin-right:5px;
 	}
-	#image{
+	.image{
 		width:80px;
 		height:100px;
-		border:1px solid black;
 		margin:10px;
 		display:inline-block;
+	}
+	.image img{
+		width:auto;
+		height:100px;
 	}
 	.left1{
 		position:relative;
@@ -104,11 +112,12 @@
 	#itemOption strong{
 		float:left;
 	}
-	#buyerInfo table{
+	.buyerInfo table{
 		width:700px;
 		height:50px;
+		margin-bottom:10px;
 	}
-	#buyerInfo2  tr  td:nth-child(1){
+	.buyerInfo2  tr  td:nth-child(1){
 		width:120px;
 	}
 	.buy1{
@@ -122,12 +131,8 @@
 	.phone input{
 		width:80px;
 	}
-	#buyerInfo table{
-		width:700px;
-		margin-bottom:10px;
-	}
-	#buyerInfo2  tr  td{
-		border-top:2px solid grey;
+	.buyerInfo2  tr  td{
+		border-top:1px solid grey;
 		border-bottom:1px solid grey;
 		height:50px;
 	}
@@ -141,19 +146,23 @@
 	.buy2{
 		padding:10px;
 	}
-	#address1{
+	#userPostcode{
 		width:150px;
 		margin-bottom:8px;
 		margin-right:10px;
 	}
-	#address1Btn{
+	#addressBtn{
 		border-radius:5px;
 		background-color:white;
+		height:25px;
+		padding:0;
+		position:relative;
+		bottom:2px;
 	}
-	#address2{
+	#userStreet{
 		width:300px;
 	}
-	#address3{
+	#userDetailArea{
 		width:180px;
 	}
 	.phone input{
@@ -163,6 +172,7 @@
 		width:500px;
 		height:50px;
 	}
+	
 	.right{
 		float:right;
 		position:relative;
@@ -206,6 +216,7 @@
 	#paymentWindow td:first-child{
 		text-align:right;
 		padding-right:10px;
+		width:110px;
 	}
 	#paymentWindow:first-child{
 		margin-right:20px;
@@ -236,6 +247,9 @@
 		margin-left:5px;
 		position:relative;
 		left:12px;
+	}
+	textarea{
+		resize:none;
 	}
 </style>
 </head>
@@ -273,107 +287,76 @@
 				<div id = "orderBox">
 					<div id = "firstLine">
 						<div>
-							<b>주문일 : </b><span> {년,월,일,시,분,초}</span>					
+							<b>주문일 : </b><span><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></span>					
 						</div>
 						<div>
-							<b>주문고객 : </b><span>이름 {ID}</span>
+							<b>주문고객 : </b><span>${purchase.order.user.userName} (${purchase.order.user.userId})</span>
 						</div>
 						<div>
-							<b>주문번호 : </b><span>{주문번호}</span>
+							<b>주문번호 : </b><span>${purchase.ordNum}</span>
 						</div>			
 					</div>
 				</div>
+				<c:set var = "totalprice" value = "0" />
 				<div id = "orderitem">
 				<strong>&#124; 주문 상품</strong>
 					<table class = "br">
 						<tr>
-							<th>번호</th>
-							<th></th>
+							<th>상품번호</th>
+							<th>상품사진</th>
 							<th>상품 정보</th>
 							<th>수량</th>
 							<th>합계 금액</th>
 							<th>적립금액</th>
-						</tr>				
+						</tr>
+						<c:forEach  var = "product" items= "${purchase.goods}" varStatus = "state">
 						<tr>
 							<td>
-								<span class = "number">2</span>
+								<span class = "number">${product.godNum}</span>
 							</td>
 							<td>
-								<div id = "image">목록이미지</div>
+								<div class = "image">
+									<img src = "<c:url value = "${product.godListImageUrl}" />">
+								</div>
 							</td>
-							<td id = "item">
+							<td class = "item">
 								<div>
 									<strong class = "itemName">상품명</strong>
-									<span>{상품명}</span>
+									<span>${product.godName}</span>
+									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
 									<br>
 									<strong class = "itemName">옵션명</strong>
 									<select>
-										<option>선택옵션</option>
+										<option>${option.optName}</option>
 									</select>
-									<br>
-									<strong class = "itemName">옵션명</strong>
-									<select class = "left1">
-										<option>선택옵션</option>
-									</select>						
+									</c:forEach>						
 								</div>
 								<div>
-									<span>{상품가격}원</span>
+									<span>${product.godSellingPrice}원</span>
+									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
 									<br>
-									<span>{옵션가격}원</span>
-									<br>
-									<span>{옵션가격}원</span>					
+									<span>${option.optPrice}원</span>
+									</c:forEach>					
 							</div>						
 						</td>
 						<td>
-							<strong>{수량}</strong>
+							<strong>${product.godAmount}</strong>
 							<span>개</span>					
 						</td>
 						<td>
-							<span>상품가격+<br>옵션가격}<br>*(수량)원</span>
+							<c:set var = "total" value = "0" />
+							<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
+								<c:set var = "total" value = "${(total + option.optPrice)}" />
+							</c:forEach>
+							<span><c:out value = "${(total + product.godSellingPrice)*product.godAmount}원" /></span>
+							<c:set var = "totalprice" value = "${(totalprice + (total + product.godSellingPrice)*product.godAmount)}" />
 						</td>
 						<td>
-							<strong>{적립금}</strong><span>원</span>
+							<fmt:parseNumber var = "price" value ="${((total + product.godSellingPrice)*product.godAmount)/savePoint.savePointPercent}" />
+							<strong>${price}원</strong>
 						</td>
 					</tr>
-						<tr>
-							<td>
-								<span class = "number">1</span>
-							</td>
-							<td>
-								<div id = "image">목록이미지</div>
-							</td>
-							<td id = "item">
-								<div id = "itemOption">
-									<strong id = "itemName">자수 실크 린넨 브라우스</strong>
-									<br>
-									<strong>색상: </strong>
-									<select>
-										<option>C형</option>
-									</select>
-									<br>
-									<strong>디자인: </strong>
-									<select class = "left2">
-										<option>블랙</option>
-									</select>						
-								</div>
-								<div>
-									<strong>20,000원</strong>
-									<br>
-									<strong>-</strong>
-									<br>
-									<strong>2,000원</strong>					
-							</div>						
-						</td>
-						<td>
-							<strong>1개</strong>		
-						</td>
-						<td>
-							<span>22,000원</span>
-						</td>
-						<td>
-							<strong>220원</strong>
-						</td>
-					</tr>
+					</c:forEach>
 				</table>
 			</div>
 			<div>
@@ -381,21 +364,21 @@
 				<strong>&#124; 배송 정보</strong>
 				<div class = "br"></div>
 				<strong>주문자 정보</strong>	
-				<form id = "buyerInfo" >
+				<form class = "buyerInfo" >
 					<table>
 						<tr>
 							<td>
-								<table id = "buyerInfo2">
+								<table class = "buyerInfo2">
 									<tr>
 										<td class = "buy1">이름</td>
-										<td class = "buy2"><input type = "text"  name = "name" placeholder = "&nbsp;{주문자명}" /></td>
+										<td class = "buy2"><input type = "text"  name = "name" value = "${purchase.order.user.userName}" readonly /></td>
 									</tr>
 									<tr>
 										<td class = "buy1">휴대폰 번호</td>
 										<td class = "buy2 phone">
-											<input type = "tel"  name = "phone1" />&#45;
-											<input type = "tel"  name = "phone2" />&#45;
-											<input type = "tel"  name = "phone3" />
+											<input type = "tel"  name = "phone1" value = "${fn:split(purchase.order.user.userPhone,'-')[0]}" readonly />&#45;
+											<input type = "tel"  name = "phone2" value = "${fn:split(purchase.order.user.userPhone,'-')[1]}" readonly />&#45;
+											<input type = "tel"  name = "phone3" value = "${fn:split(purchase.order.user.userPhone,'-')[2]}" readonly />
 										</td>
 									</tr>
 								</table>
@@ -406,50 +389,50 @@
 			</div>
 	<strong>&#124; 수령자 정보</strong>
 	<div class = "br"></div>
-	<form id = "buyerInfo" >
+	<form class = "buyerInfo" >
 		<table>
 			<tr>
 				<td>
-					<table id = "buyerInfo2">
+					<table class = "buyerInfo2">
 						<tr>
-							<td class = "buy1">이름(회사명)</td>
-							<td class = "buy2"><input type = "text"  name = "name" placeholder = "&nbsp;{받는 분 성함}" /></td>
+							<td class = "buy1">이름</td>
+							<td class = "buy2"><input type = "text"  name = "name" value = "${purchase.order.recipientName}"/></td>
 						</tr>
 						<tr>
 							<td class = "buy1">주소</td>
 							<td class = "buy2 address">
 								<div>
-									<input id = "address1" type = "text" name = "address1" placeholder = "{우편번호}"  /><button id = "address1Btn">우편번호 검색</button>
+									<input id = "userPostcode" type = "text" name = "userPostcode" value = "${purchase.order.shaPostCode}"  disabled/>
+									<a id = "addressBtn" class="btn btn-default" onclick="showPostcode()">우편번호 검색</a>
 								</div>
 								<div>
-									<input id = "address2" type = "text" name = "address2" placeholder = "{주소}" />
-									<input id = "address3" type = "text" name = "address3" placeholder = "{나머지 주소}"  />								
+									<input id = "userStreet" type = "text" name = "userStreet"  value = "${purchase.order.shaStreet}"  disabled />
+									<input id = "userDetailArea" type = "text" name = "userDetailArea"  value = "${purchase.order.shaDetailArea}"  />							
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td class = "buy1">휴대폰 번호</td>
 							<td class = "buy2 phone">
-								<input type = "tel"  name = "phone1" />&#45;
-								<input type = "tel"  name = "phone2" />&#45;
-								<input type = "tel"  name = "phone3" />
+								<input type = "tel"  name = "phone1" value = "${fn:split(purchase.order.recipientPhone,'-')[0]}"  />&#45;
+								<input type = "tel"  name = "phone2" value = "${fn:split(purchase.order.recipientPhone,'-')[1]}"  />&#45;
+								<input type = "tel"  name = "phone3" value = "${fn:split(purchase.order.recipientPhone,'-')[2]}"  />
 							</td>
 						</tr>
 						<tr>
 							<td class = "buy1">배송 요청사항</td>
 							<td class = "buy2">
 								<div>
-									<input id = "deilveryRequest" type = "text" name = "deilveryRequest" placeholder = "{배송 요청 사항 표기}">						
+									<input id = "deilveryRequest" type = "text" name = "deilveryRequest" value = "${purchase.order.deliveryRequest}" onkeyup="chkword(this,100)" />						
 								</div>
 								<div class = "right">
-									<span>0자 </span><b> /100자</b>	
+									<span id = "currentByte">0자 </span><b> /100자</b>	
 								</div>
 							</td>
 						</tr>
-					</table>
-				</td>
-			</tr>
+				</table>
 			<tr>
+				<c:set var = "dvPrice" value = "0" />
 				<td id = "price">	
 					<strong>&#124; 결제 정보</strong>
 					<div id = "paymentWindow">
@@ -461,7 +444,7 @@
 										<strong>상품가격</strong>
 									</td>
 									<td>
-										<strong>{상품가격 표기}원</strong>
+										<strong>${totalprice}원</strong>
 									</td>
 								</tr>
 								<tr>
@@ -469,7 +452,10 @@
 										<strong>포인트 사용</strong>
 									</td>
 									<td>
-										<strong>{사용 포인트 표기}원</strong>
+										<strong>
+											${purchase.order.usingPoint}원
+											<c:set var = "usingPoint" value = "${purchase.order.usingPoint}" />
+										</strong>
 									</td>
 								</tr>
 								<tr>
@@ -477,7 +463,15 @@
 										<strong>배송료</strong>
 									</td>
 									<td>
-										<strong>{배송료 표기}원</strong>
+										<strong>
+											<c:if test = "${totalprice >= delivery.freedeliveryMp}" >
+												0원
+											</c:if>
+											<c:if test = "${totalprice < delivery.freedeliveryMp}" >
+												${delivery.basicFee}원
+												<c:set var = "dvPrice" value = "${delivery.basicFee}" />
+											</c:if>
+										</strong>
 									</td>
 								</tr>
 								<tr>
@@ -485,7 +479,7 @@
 										<strong>총 결제 금액</strong>
 									</td>
 									<td>
-										<strong>{합계 금액 표기}원</strong>
+										<strong>${(totalprice+dvPrice)-usingPoint}원</strong>
 									</td>
 								</tr>
 								<tr>
@@ -493,7 +487,7 @@
 										<strong>결제 방법</strong>
 									</td>
 									<td>
-										<strong>{신용카드,계좌이체}</strong>
+										<strong>${purchase.order.paymentMethod}</strong>
 									</td>
 								</tr>
 							</table>
@@ -501,7 +495,7 @@
 						<div class = "divRight">
 							<strong>결제 로그</strong>
 							<div class = "br"></div>
-							<textarea name = "log" cols = "44" rows = "8">
+							<textarea name = "log" cols = "44" rows = "8" readonly>
 결제요청 결과
 
 결과 코드 : 0000(성공)
@@ -521,12 +515,11 @@
 						<div class = "divLeft">
 							<strong>관리 이력</strong>
 							<div class = "br"></div>
-							<textarea name = "log" cols = "44" rows = "6">
-- {배송 요청 사항 표기}
-- 2023.08.16 10:10:35 주문
-- 2023.08.16 10:10:35 결제완료로 수정
-- 2023.08.16 10:10:35 배송 준비 중으로 수정
-- 2023.08.18 10:10:35 배송 완료로 수정
+							<c:set var = "mlcList" value = " " />
+							<textarea name = "log" cols = "44" rows = "6" readonly>
+<c:forEach  var = "mlc" items= "${purchase.order.mlc}" varStatus = "state">
+<fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
+</c:forEach>				
 							</textarea>		
 						</div>
 						<div class = "divRight">
@@ -553,5 +546,108 @@
 		</div>
   	</div>
 
+<script type = "text/javascript">
+function showPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                // 조합된 참고항목을 해당 필드에 넣는다.
+                document.getElementById("userStreet").value = extraAddr;
+            
+            } else {
+                document.getElementById("userStreet").value = '';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById("userPostcode").value = data.zonecode;
+            document.getElementById("userStreet").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("userDetailArea").focus();
+        }
+    }).open();
+}
+
+    $(function(){
+	var select = $("#deliveryForm > div:nth-child(1) > select option");
+	$.each(select,function(index,item){
+			var type = "${purchase.order.ordType}";
+			if($(item).text() == type){
+				$(item).prop("selected",true);
+			}
+	})
+	$("#deilveryRequest").trigger("keyup");
+})
+
+function chkword(obj, maxByte) {
+	 
+    var strValue = obj.value;
+    var strLen = strValue.length;
+    var totalByte = 0;
+    var len = 0;
+    var oneChar = "";
+    var str2 = "";
+    if(strValue == ""){
+    	$("#currentByte").text("0");
+    }
+
+    for (var i = 0; i < strLen; i++) {
+        oneChar = strValue.charAt(i);
+        if (escape(oneChar).length > 4) {
+            totalByte += 2;
+        } else {
+            totalByte++;
+        }
+        $("#currentByte").text(totalByte);
+
+        // 입력한 문자 길이보다 넘치면 잘라내기 위해 저장
+        if (totalByte <= maxByte) {
+            len = i + 1;
+        }
+    }
+
+    // 넘어가는 글자는 자른다.
+    if (totalByte > maxByte) {
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: maxByte + '자를 초과할수는 없습니다.',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		$("#overlabCK").prop("checked",false);
+        str2 = strValue.substr(0, len);
+        obj.value = str2;
+        chkword(obj, 4000);
+    }
+}
+</script>
 </body>
 </html>

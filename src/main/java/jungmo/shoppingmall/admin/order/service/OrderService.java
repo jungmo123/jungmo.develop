@@ -7,6 +7,8 @@ import jungmo.shoppingmall.admin.order.domain.*;
 public interface OrderService {
 	List<Purchase> getOrders();
 	int dvModify(HashMap<String,List<String>> map);
-	Order getOrder(String ordNum);
+	int addMlc(HashMap<String,List<String>> map);
 	Purchase getPurchase(String ordNum);
+	SavedMoney getSm(int pnpNum);
+	Delivery getDv(int dvpNum);
 }

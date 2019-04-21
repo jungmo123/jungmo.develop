@@ -1,10 +1,9 @@
-<style>
 	#nav{
 		margin-top:10px;
 	}
 	.container:nth-child(3) hr{
 		position:relative;
-		bottom:10px;
+		bottom:30px;
 	}
 	body{
 		min-width:640px; 
@@ -287,6 +286,10 @@
 	#nav div:nth-child(8):hover ~ .nav-underline {
 	  left: 705px;
 	}
+	.dropdown-menu {
+	    position: absolute !important;
+	    top: 50px !important;
+	}
 	.fas{
 		font-size:30px;
 	}
@@ -356,4 +359,3 @@
 		text-align:center;
 		color:lightgrey;
 	}
-</style>

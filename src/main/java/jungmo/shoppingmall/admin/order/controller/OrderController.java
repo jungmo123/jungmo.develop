@@ -91,6 +91,7 @@ public class OrderController {
 		option.put("type", tp);
 		if(ls.size() != 0){
 			orderService.dvModify(option);
+			orderService.addMlc(option);
 		}
 
 		common(request,model,"1","All");
@@ -130,7 +131,10 @@ public class OrderController {
 	
 	@RequestMapping("/admin/orderDetail{idx}")
 	public String searchList(@PathVariable String idx,Model model){
-		model.addAttribute("order",orderService.getOrder(idx));
+		System.out.println(orderService.getPurchase(idx).getOrder().getUser().getUserPhone());
+		model.addAttribute("purchase",orderService.getPurchase(idx));
+		model.addAttribute("savePoint",orderService.getSm(1));
+		model.addAttribute("delivery",orderService.getDv(1));
 		return "manager/order/orderDetail";
 	}
 }

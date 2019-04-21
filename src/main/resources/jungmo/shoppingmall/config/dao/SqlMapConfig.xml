@@ -13,5 +13,8 @@
 			<typeAlias alias = "order" type = "jungmo.shoppingmall.admin.order.domain.Order" />
 			<typeAlias alias = "page" type = "jungmo.shoppingmall.admin.order.domain.Page" />
 			<typeAlias alias = "post" type = "jungmo.shoppingmall.admin.order.domain.Post" />
+			<typeAlias alias = "sm" type = "jungmo.shoppingmall.admin.order.domain.SavedMoney" />
+			<typeAlias alias = "dv" type = "jungmo.shoppingmall.admin.order.domain.Delivery" />
+			<typeAlias alias = "mlc" type = "jungmo.shoppingmall.admin.order.domain.ManageLogCategories" />
 	</typeAliases>
 </configuration>

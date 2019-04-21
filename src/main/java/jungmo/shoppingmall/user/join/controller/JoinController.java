@@ -1,23 +1,17 @@
 package jungmo.shoppingmall.user.join.controller;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
-import jungmo.shoppingmall.user.join.domain.ClauseCategory;
-import jungmo.shoppingmall.user.join.service.JoinService;
-import jungmo.shoppingmall.user.login.domain.User;
+import jungmo.shoppingmall.user.join.domain.*;
+import jungmo.shoppingmall.user.join.service.*;
+import jungmo.shoppingmall.user.login.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class JoinController {
@@ -57,7 +51,7 @@ public class JoinController {
 		String phone1 = request.getParameter("phone1");
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
-		String userPhone = phone1+phone2+phone3;
+		String userPhone = phone1+"-"+phone2+"-"+phone3;
 		String userPostcode = request.getParameter("userPostcode");
 		String userStreet = request.getParameter("userStreet");
 		String userDetailArea = request.getParameter("userDetailArea");

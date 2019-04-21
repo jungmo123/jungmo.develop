@@ -1,10 +1,10 @@
 package jungmo.shoppingmall.admin.order.domain;
 
-import java.sql.Date;
-import java.util.*;
+import java.sql.*;
 
 public class Goods {
 	private int godNum;
+	private int ordNum;
 	private int godNormalPrice;
 	private int godSellingPrice;
 	private String godMainImageUrl;
@@ -17,13 +17,12 @@ public class Goods {
 	private int godViewPoint;
 	private int godcNum;
 	private int godAmount;
-	private List<GoodsOption> goodsOption;
 	
-	public List<GoodsOption> getGoodsOption() {
-		return goodsOption;
+	public int getOrdNum() {
+		return ordNum;
 	}
-	public void setGoodsrOption(List<GoodsOption> goodsOption) {
-		this.goodsOption = goodsOption;
+	public void setOrdNum(int ordNum) {
+		this.ordNum = ordNum;
 	}
 	public int getGodAmount() {
 		return godAmount;

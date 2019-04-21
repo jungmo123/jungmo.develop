@@ -6,7 +6,16 @@ public class Purchase {
 	private String ordNum;
 	private Order order;
 	private List<Goods> goods;
-	
+	private List<GoodsOption> goodsOption;
+
+	public List<GoodsOption> getGoodsOption() {
+		return goodsOption;
+	}
+
+	public void setGoodsOption(List<GoodsOption> goodsOption) {
+		this.goodsOption = goodsOption;
+	}
+
 	public String getOrdNum() {
 		return ordNum;
 	}

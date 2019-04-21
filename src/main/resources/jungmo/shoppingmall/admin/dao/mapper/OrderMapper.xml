@@ -13,27 +13,71 @@
       order by purchases.ord_num
 	</select>
 	
-	<select id = "getOrder" parameterType="string" resultMap = "getOrder">
-		select ord_num,ord_type,ord_date,sha_postcode,sha_street,sha_detailarea,recipient_name,
-		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content,users.user_id,user_name
-		from orders join users
+	<select id = "getPurchase" parameterType="string" resultMap = "purchaseMap">
+    	select purchases.ord_num,purchases.god_num,god_amount,god_name,god_sellingprice,god_listimageurl,ord_type,ord_date,users.user_id,user_name,user_phone,sha_postcode,sha_street,sha_detailarea,recipient_name,
+		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content
+		from purchases join orders
+		on (purchases.ord_num = orders.ord_num)
+		join goods
+        on (purchases.god_num = goods.god_num)
+		join users
 		on (orders.user_id = users.user_id)
+   		where purchases.ord_num = #{ord_num}
+	</select> 
+	
+	<select id = "getGodo" parameterType = "java.util.Map" resultMap = "godoMap">
+		select ord_num,god_num,purchase_option.opt_name,purchase_option.opt_content,opt_price
+		from purchase_option
+		join item_option
+		on (purchase_option.opt_name = item_option.opt_name)
+		and (purchase_option.opt_content = item_option.opt_content)
+		where ord_num = #{ordNum} and god_num = #{godNum}
+		order by purchase_option.ord_num
+	</select>
+	
+	<select id = "getSm" parameterType = "int" resultType = "sm">
+		select pnp_num pnpNum,SAVEPOINTPERCENT savePointPercent
+		from point_policies
+		where pnp_num = #{pnpNum}
+	</select>
+	 
+	<select id = "getDv" parameterType = "int" resultType = "dv">
+		select dvp_num dvpNum,basic_fee basicFee,FREEDELIVERYMP freedeliveryMp
+		from delivery_policies
+		where dvp_num = #{dvpNum}
+	</select>
+	
+	<select id = "getMlc" parameterType = "string" resultType = "mlc">
+		select mlc_date mlcDate,ord_num ordNum,mlc_content mlcContent
+		from manage_log_categories
 		where ord_num = #{ordNum}
 	</select>
 	
-	<select id = "getPurchase" parameterType="string" resultMap = "purMap">
-    	select purchases.ord_num,purchases.god_num,ord_type,ord_date,sha_postcode,sha_street,sha_detailarea,recipient_name,
-		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content,users.user_id,user_name,opt_name,opt_content
-		from purchases join orders
-		on (purchases.ord_num = orders.ord_num)
-		join users
-		on (orders.user_id = users.user_id)
-		join purchase_option
-		on (purchases.ord_num = purchase_option.ord_num)
-		and (purchases.god_num = purchase_option.god_num)
-    where purchases.ord_num = #{ord_num}
-	</select>
-	
+	<update id = "addMlc" parameterType = "hashmap">
+      insert all
+      <foreach item = "tp" collection = "type">
+      	<if test = 'tp == "배송준비중"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'배송준비중으로 변경')     		
+      		</foreach>
+      	</if>
+      	<if test = 'tp == "배송중"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'배송중으로 변경')     		
+      		</foreach>
+      	</if>
+      	<if test = 'tp == "배송완료"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'배송완료로 변경')     		
+      		</foreach>
+      	</if>
+      </foreach>
+     select * from dual
+	</update> 
+	  
 	<update id = "dvModify" parameterType = "hashmap">
 		update orders
 		<foreach item="tp" collection = "type">
@@ -56,7 +100,7 @@
 		<result property = "godName" column = "name" />
 		<result property = "godAmount" column = "amount" />
 		<result property = "godSellingPrice" column = "sellingprice" />
-		<collection property = "goodsOption" columnPrefix = "opt_" resultMap = "godoMap" />
+		<result property = 'godListImageUrl' column = "listimageurl" />
 	</resultMap> 
 	 
 	<resultMap id = "getOrder" type = "order">
@@ -68,22 +112,35 @@
 		<result property = "shaDetailArea" column = "sha_detailArea" />
 		<result property = "recipientName" column = "recipient_name" />
 		<result property = "recipientPhone" column = "recipient_phone"/>
+		<result property = "deliveryRequest" column = "deliveryRequest" />
 		<result property = "ordResultCode" column = "ord_resultcode" />
 		<result property = "ordResultContent" column = "ord_resultcontent" />
 		<result property = "usingPoint" column = "usingpoint" />
 		<result property = "paymentMethod" column = "paymentmethod" />
 		<result property = "memoContent" column = "memo_content" />
  		<association property = "user" resultMap="getUser" />
+ 		<collection property = "mlc" column = "ord_num" select = "getMlc" />
 	</resultMap>
 	
 	<resultMap id = "getUser" type = "user">
 		<result property = "userId" column = "user_id" />
 		<result property = "userName" column = "user_name" />
+		<result property = "userPhone" column = "user_phone" />
 	</resultMap>
 	
+	<resultMap id = "purchaseMap" type = "pur">
+		<id property = "ordNum" column = "ord_num" />
+		<association property = "order" resultMap = "getOrder" />
+		<collection property = "goods" columnPrefix = "god_" resultMap="godMap" />
+		<collection property = "goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+	</resultMap>
+	 
 	<resultMap id = "godoMap" type = "godo">
-		<result property = "optName" column = "name" />
-		<result property = "optContent" column = "content" />
-	</resultMap>
-	
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "optName" column = "opt_name" />
+		<result property = "optContent" column = "opt_content" />
+		<result property = "optPrice" column = "opt_price" />
+	</resultMap> 
+	 
 </mapper>

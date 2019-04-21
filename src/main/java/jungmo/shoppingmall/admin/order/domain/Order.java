@@ -1,6 +1,7 @@
 package jungmo.shoppingmall.admin.order.domain;
 
-import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 import jungmo.shoppingmall.user.login.domain.*;
 
@@ -20,9 +21,16 @@ public class Order {
 	private String paymentMethod;
 	private String memoContent;
 	private User user;
+	private List<ManageLogCategories> mlc;
 	
 	public int getOrdNum() {
 		return ordNum;
+	}
+	public List<ManageLogCategories> getMlc() {
+		return mlc;
+	}
+	public void setMlc(List<ManageLogCategories> mlc) {
+		this.mlc = mlc;
 	}
 	public String getOrdType() {
 		return ordType;

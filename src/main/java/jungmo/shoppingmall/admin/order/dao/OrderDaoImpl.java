@@ -20,11 +20,18 @@ public class OrderDaoImpl implements OrderDao{
 		return orderMapper.dvModify(map);
 	}
 	
-	public Order getOrder(String ordNum){
-		return orderMapper.getOrder(ordNum);
+	public int addMlc(HashMap<String,List<String>> map){
+		return orderMapper.addMlc(map);
 	}
 	
 	public Purchase getPurchase(String ordNum){
 		return orderMapper.getPurchase(ordNum);
+	}
+	
+	public SavedMoney getSm(int pnpNum){
+		return orderMapper.getSm(pnpNum);
+	}
+	public Delivery getDv(int dvpNum){
+		return orderMapper.getDv(dvpNum);
 	}
 }
