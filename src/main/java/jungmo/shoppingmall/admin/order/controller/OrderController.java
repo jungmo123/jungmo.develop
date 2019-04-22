@@ -51,6 +51,11 @@ public class OrderController {
 		return "redirect:orderListAll1";
 	}
 	
+	@RequestMapping("/admin/orderCancel")
+	public String orderCancel(){
+		return "redirect:orderCancel1";
+	}
+	
 	@RequestMapping("/admin/orderListAll{idx}")
 	public String listIdx(@PathVariable String idx,HttpServletRequest request,Model model){
 			common(request,model,idx,"All");
@@ -136,5 +141,19 @@ public class OrderController {
 		model.addAttribute("savePoint",orderService.getSm(1));
 		model.addAttribute("delivery",orderService.getDv(1));
 		return "manager/order/orderDetail";
+	}
+	
+	@RequestMapping("/admin/orderCancel{idx}")
+	public String ordercancelAll(@PathVariable String idx,HttpServletRequest request,Model model){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx),"Four");
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getTotRowCnt("Four"));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",postService.getPosts(myPage));
+		List<OrderCancel> ordercancel = orderService.getOrderCancels();
+		model.addAttribute("ordercancel",ordercancel);
+		model.addAttribute("type","Four");		
+		System.out.println(orderService.getOrderCancels().get(0).getGoods().get(0).getGodName());
+		return "manager/order/orderCancel";
 	}
 }

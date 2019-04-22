@@ -16,5 +16,6 @@
 			<typeAlias alias = "sm" type = "jungmo.shoppingmall.admin.order.domain.SavedMoney" />
 			<typeAlias alias = "dv" type = "jungmo.shoppingmall.admin.order.domain.Delivery" />
 			<typeAlias alias = "mlc" type = "jungmo.shoppingmall.admin.order.domain.ManageLogCategories" />
+			<typeAlias alias = "oc" type = "jungmo.shoppingmall.admin.order.domain.OrderCancel" />
 	</typeAliases>
 </configuration>

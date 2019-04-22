@@ -15,6 +15,9 @@
 			<if test = "_parameter != null and _parameter.equals('Three')">
 				ord_type = '배송완료'
 			</if>
+			<if test = "_parameter != null and _parameter.equals('Four')">
+				ord_type = '주문취소'
+			</if>
 		</where>
 	</select>
 	

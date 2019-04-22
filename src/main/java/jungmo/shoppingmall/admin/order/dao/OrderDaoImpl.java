@@ -34,4 +34,8 @@ public class OrderDaoImpl implements OrderDao{
 	public Delivery getDv(int dvpNum){
 		return orderMapper.getDv(dvpNum);
 	}
+	
+	public List<OrderCancel> getOrderCancels(){
+		return orderMapper.getOrderCancels();
+	}
 }

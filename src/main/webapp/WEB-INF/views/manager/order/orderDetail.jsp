@@ -70,6 +70,10 @@
 		text-align:center;
 		margin-left:10px;
 	}
+	#deliveryForm #tekbeCompnayList{
+		width:140px;
+		display:inline-block;
+	}
 	.br{
 		margin-top:10px;
 	}
@@ -83,6 +87,10 @@
 	.item div{
 		display:inline-block;
 		margin:5px;
+		float:left;
+	}
+	.item > div:first-child{
+		width:180px;
 	}
 	.item strong{
 		margin-right:5px;
@@ -251,12 +259,63 @@
 	textarea{
 		resize:none;
 	}
+	/* modal시작 */
+		.modal-content{
+		width:500px;
+	}
+	#inquiry,#state{
+		margin-top:10px;
+	}
+	#inquiry > div,
+	#state > div{
+		padding:10px;
+	}
+	.modal-body table{
+		width:440px;
+	}
+	.modal-body table tr th,
+	.modal-body table tr td{
+		text-align:center;
+		height:22px;
+	}
+	.modal-body table thead tr{
+		background-color:#F2F5F7;
+	}
+	.modal-body table tr td,
+	.modal-body table tr th{
+		border:1px solid grey;
+	}
+	.modal-footer{
+		text-align:center;
+	}
+	.modal-footer button{
+		width:100px;
+		padding:0;
+	}
 </style>
 </head>
 <body>
 
 <div class="container">
-	<%@ include file = "../navigation/orderNav.jsp" %>
+		<div id="title">
+			<div id="logo">
+				<a href="../MAIN/01.html"><span>LALA&nbsp;</span>MARKET</a>
+				<div id="Admin">
+					<h5>Administrator</h5>
+				</div>
+			</div>
+			<div>
+				<span> <i class="far fa-edit"></i>
+				</span> <span>주문 관리</span>
+				<hr>
+			</div>
+			<div id="submenu">
+				<a href = "orderList"><span class = "activeMenu">스타일 숍 주문</span></a>
+				<a href = "orderCancel"><span>주문 취소</span></a>
+				<a href = "../ORDER/05.html"><span>교환</span></a>
+				<a href = "../ORDER/05.html"><span>환불</span></a>	
+			</div>
+		</div>
 		<div id="content">
 			<%@ include file = "../header/header.jsp" %>
 		<div id = "AllContent">
@@ -275,12 +334,10 @@
 					<button class = "form-control">교환 진행</button>			
 				</div>
 				<div>
-					<b>운송장번호</b>	
-					<select class = "form-control">
-						<option>택배회사</option>
-					</select>
-					<input class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력">
-					<button class = "form-control">배송 조회</button> 
+					<span id="tekbeCompnayName">택배회사명: </span>
+					<select id="tekbeCompnayList" class = "form-control" name="tekbeCompnayList"></select>
+					<input id = "dvNumber" class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력">
+					<button id = "search" class = "form-control">배송 조회</button> 
 					<button class = "form-control">주문 취소하기</button>		
 				</div>
 			</div>
@@ -325,10 +382,8 @@
 									<span>${product.godName}</span>
 									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
 									<br>
-									<strong class = "itemName">옵션명</strong>
-									<select>
-										<option>${option.optName}</option>
-									</select>
+									<strong class = "itemName">${option.optName}</strong>
+									<span>${option.optContent}</span>
 									</c:forEach>						
 								</div>
 								<div>
@@ -389,7 +444,7 @@
 			</div>
 	<strong>&#124; 수령자 정보</strong>
 	<div class = "br"></div>
-	<form class = "buyerInfo" >
+	<form id = "submitForm" class = "buyerInfo" >
 		<table>
 			<tr>
 				<td>
@@ -498,11 +553,11 @@
 							<textarea name = "log" cols = "44" rows = "8" readonly>
 결제요청 결과
 
-결과 코드 : 0000(성공)
+결과 코드 : ${purchase.order.ordResultCode}
 
-결과 내용 : 결제 성공
+결과 내용 : ${purchase.order.ordResultContent}
 
-결제 방법 신용 카드
+결제 방법 : ${purchase.order.paymentMethod}
 							</textarea>
 						</div>
 					</div>
@@ -516,18 +571,13 @@
 							<strong>관리 이력</strong>
 							<div class = "br"></div>
 							<c:set var = "mlcList" value = " " />
-							<textarea name = "log" cols = "44" rows = "6" readonly>
-<c:forEach  var = "mlc" items= "${purchase.order.mlc}" varStatus = "state">
-<fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
-</c:forEach>				
-							</textarea>		
+							<textarea name = "log" cols = "44" rows = "6" readonly><c:forEach  var = "mlc" items= "${purchase.order.mlc}" varStatus = "state"><fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
+</c:forEach></textarea>		
 						</div>
 						<div class = "divRight">
 							<strong>상담 메모</strong>
 							<div class = "br"></div>
-							<textarea name = "log" cols = "44" rows = "6">
-							
-							</textarea>		
+							<textarea name = "log" cols = "44" rows = "6"></textarea>		
 						</div>				
 					</div>			
 				</td>
@@ -546,6 +596,54 @@
 		</div>
   	</div>
 
+
+	<div class = "modal fade" id  ="mySmallModal">
+		<div class = "modal-dialog">
+			<div class ="modal-content">
+				<div class = "modal-body">
+					<div id = "inquiry">
+						<strong>&#124;&nbsp; 배송 조회</strong>
+						<button type = "button" class = "close" data-dismiss = "modal">X</button>
+						<div>
+							<table id = "firstTable">
+								<thead>
+									<tr>
+										<th>택배사</th>
+										<th>송장번호</th>
+										<th>보내는사람</th>
+									</tr>
+								</thead>
+								<tbody id = "dvInfo">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id = "state">
+						<strong>&#124;&nbsp; 배송 상황</strong>
+						<div>
+							<table id = "secondTable">
+								<thead>
+									<tr>
+										<th>날짜</th>
+										<th>송장위치</th>
+										<th>배송상태</th>
+										<th>연락처</th>
+									</tr>
+								</thead>
+								<tbody id = "dvData">
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class ="modal-footer">
+					<button type = "button" class = "btn btn-default" data-dismiss = "modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
 <script type = "text/javascript">
 function showPostcode() {
     new daum.Postcode({
@@ -648,6 +746,262 @@ function chkword(obj, maxByte) {
         chkword(obj, 4000);
     }
 }
+    
+    $(function(){
+    	var myKey = "CNNwgI5GMTrF5mVZFy5M2g"; // sweet tracker에서 발급받은 자신의 키 넣는다.
+    	
+    		// 택배사 목록 조회 company-api
+            $.ajax({
+                type:"GET",
+                dataType : "json",
+                url:"http://info.sweettracker.co.kr/api/v1/companylist?t_key="+myKey,
+                success:function(data){
+                		
+                		// 방법 1. JSON.parse 이용하기
+                		var parseData = JSON.parse(JSON.stringify(data));
+                 		console.log(parseData.Company); // 그중 Json Array에 접근하기 위해 Array명 Company 입력
+                		
+                		// 방법 2. Json으로 가져온 데이터에 Array로 바로 접근하기
+                		var CompanyArray = data.Company; // Json Array에 접근하기 위해 Array명 Company 입력
+                		console.log(CompanyArray); 
+                		
+                		var myData="";
+                		$.each(CompanyArray,function(key,value) {
+    	            			myData += ('<option value='+value.Code+'>'+ value.Name + '</option>');        				
+                		});
+                		$("#tekbeCompnayList").html(myData);
+                }
+            });
+
+    		// 배송정보와 배송추적 tracking-api
+            $("#search").click(function() {
+            	var t_code = $('#tekbeCompnayList option:selected').attr('value');
+            	var t_invoice = $('#dvNumber').val();
+            	var name = $("#tekbeCompnayList option:selected").text();
+                $.ajax({
+                    type:"GET",
+                    dataType : "json",
+                    url:"http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key="+myKey+"&t_code="+t_code+"&t_invoice="+t_invoice,
+                    success:function(data){
+                    	console.log(data);
+                    	var myInvoiceData = "";
+                    	if(data.status == false){
+                    		myInvoiceData += ('<p>'+data.msg+'<p>');
+                    	}else{
+    	            		myInvoiceData += ('<tr>');            	  				
+    	            		myInvoiceData += ('<td>'+name+'</td>');     				               				
+    	            		myInvoiceData += ('<td>'+data.invoiceNo+'</td>');     				        	 				
+    	            		myInvoiceData += ('<td>'+data.senderName+'</td>');     				
+    	            		myInvoiceData += ('</tr>');      		
+                    	}
+            			
+                    	
+                    	$("#dvInfo").html(myInvoiceData)
+                    	
+                    	var trackingDetails = data.trackingDetails;
+                    	
+                    	
+                		var myTracking="";
+                		
+                		$.each(trackingDetails,function(key,value) {
+    	            		myTracking += ('<tr>');            	
+                			myTracking += ('<td>'+value.timeString+'</td>');
+                			myTracking += ('<td>'+value.where+'</td>');
+                			myTracking += ('<td>'+value.kind+'</td>');
+                			myTracking += ('<td>'+value.telno+'</td>');     				
+    	            		myTracking += ('</tr>');        			            	
+                		});
+                		
+                		$("#dvData").html(myTracking);
+                    	
+                		$("#mySmallModal").modal();
+                    }
+                });
+            });		
+    });
+    
+    
+	$.validator.addMethod(
+			"usernameck",
+			function(value,element){
+				return this.optional(element)
+					|| /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(value);
+			}
+		);
+
+		$(function() {
+				$("#submitForm").validate({
+					rules : {
+						userName : {
+							required : true,
+							minlength : 2,
+							maxlength : 5,
+							usernameck : true
+						},
+						userId : {
+							required : true
+						},
+						userPwd : {
+							required : true,
+							minlength : 8
+						},
+						confirmpassword : {
+							required : true,
+							equalTo : "#password"
+						},
+						email1 : {
+							required : true
+						},
+						email2 : {
+							required : true
+						},
+						phone2 : {
+							required : true,
+							maxlength : 4,
+						},
+						phone3 : {
+							required : true,
+							maxlength : 4,
+						},
+						userStreet : {
+							required : true
+						},
+						userDetailArea : {
+							required : true
+						}
+					},
+					messages : {					
+						userName : {
+							required : function(){
+								return "이름을 입력하세요";
+							},
+							minlength : function(){
+								return "2글자 이상으로 입력하세요."
+							},
+							maxlength : function(){
+								return "5글자 이하로 입력하세요.";
+							},
+							usernameck : function(){
+								return "한글로 입력하세요";
+							}
+						},
+						userPwd : {
+							required : function(){
+								
+								return "암호를 입력하세요";
+							},
+							minlength : function(){
+								return "8글자 이상으로 입력하세요";
+							}
+						},
+						confirmpassword : {
+							required : function(){
+								return "암호를 입력하세요.";
+							},
+							equalTo : function(){
+								return "위 암호와 똑같이 입력하세요.";
+							}
+						},
+						userId : {
+							required : function(){
+								return "아이디를 입력하세요.";
+							}
+						},		
+						email1 : {
+							required : function(){
+								return "이메일 주소를 입력하세요.";
+							}
+						},
+						email2 : {
+							required : function(){
+								return "이메일 주소를 입력하세요.";
+							}
+						},
+						phone2 : {
+							required : function(){
+								return "번호를 입력하세요";
+							},
+							maxlength : function(){
+								return "4자 이하로 입력";
+							}
+						
+						},
+						phone3 : {
+							required : function(){
+								return "번호를 입력하세요";
+							},
+							maxlength : function(){
+								return "4자 이하로 입력";
+							}
+						},
+						userStreet : {
+							required : function(){
+								return "우편번호를 검색하세요!";
+							}
+						},
+						userDetailArea : {
+							required : function(){
+								return "상세 주소를 입력하세요 !";
+							}
+						}
+					},
+				})		
+		});
+		$("#userId").keyup(function(){
+			$("#overlabCK").prop("checked",false);
+			console.log($("#overlabCK").prop("checked"));
+		})
+		
+		$("#selectEmail").change(function(){
+			$("#emailAddress-error").css("display","none");
+		})
+		
+		$("#overlap").click(function(e){
+			e.preventDefault();
+			
+			if($("#userId").val() == ""){
+				Swal.fire({
+					  position: 'top',
+					  type: 'warning',
+					  title: '아이디를 입력한 후 눌러 주세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;
+			}
+			
+			$.ajax({
+				url:"overlap",
+				method:"post",
+				data: {
+					userId:$("#userId").val(),
+				},
+				success:function(bl){
+					if(bl == true){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '중복된 아이디입니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+						$("#overlabCK").prop("checked",false);
+					}else{
+						Swal.fire({
+							  position: 'top',
+							  type: 'success',
+							  title: '사용가능한 아이디입니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+						$("#overlabCK").prop("checked",true);
+					}
+				},
+				error:function(a,b,errMsg){
+					console.log("실패" + errMsg);
+				}
+			})
+		})
 </script>
 </body>
 </html>

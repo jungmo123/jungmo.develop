@@ -35,4 +35,8 @@ public class OrderServiceImpl implements OrderService{
 	public Delivery getDv(int dvpNum){
 		return orderDao.getDv(dvpNum);
 	}
+	
+	public List<OrderCancel> getOrderCancels(){
+		return orderDao.getOrderCancels();
+	}
 }

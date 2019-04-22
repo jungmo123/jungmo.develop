@@ -13,6 +13,14 @@
       order by purchases.ord_num
 	</select>
 	
+	<select id = "getOrderCancels" resultMap = "ocMap">
+		select order_cancels.ord_num,ord_date,ord_date,odc_date,odc_type,PAYMENTMETHOD,users.user_id
+		from order_cancels join orders
+		on (order_cancels.ord_num = orders.ord_num)
+		join users
+		on (orders.user_id = users.user_id)
+	</select>
+	 
 	<select id = "getPurchase" parameterType="string" resultMap = "purchaseMap">
     	select purchases.ord_num,purchases.god_num,god_amount,god_name,god_sellingprice,god_listimageurl,ord_type,ord_date,users.user_id,user_name,user_phone,sha_postcode,sha_street,sha_detailarea,recipient_name,
 		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content
@@ -51,6 +59,13 @@
 		select mlc_date mlcDate,ord_num ordNum,mlc_content mlcContent
 		from manage_log_categories
 		where ord_num = #{ordNum}
+	</select> 
+	
+	<select id = "getGoods" parameterType = "string" resultType = "god">
+		select purchases.god_num godNum,god_name godName,god_sellingprice godSellingPrice,god_amount godAmount
+		from purchases join goods
+		on (purchases.god_num = goods.god_num)
+		where purchases.ord_num = #{ordNum}
 	</select>
 	
 	<update id = "addMlc" parameterType = "hashmap">
@@ -141,6 +156,16 @@
 		<result property = "optName" column = "opt_name" />
 		<result property = "optContent" column = "opt_content" />
 		<result property = "optPrice" column = "opt_price" />
-	</resultMap> 
+	</resultMap>
+	 
+	<resultMap id = "ocMap" type = "oc">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "ordDate" column = "ord_date" />
+		<result property = "odcDate" column = "odc_date" />
+		<result property = "odcType" column = "odc_type" />
+		<result property = "paymentMethod" column = "paymentmethod" />
+		<association property="user" resultMap = "getUser" />
+		<collection property="goods" column="ord_num" select = "getGoods" />
+	</resultMap>
 	 
 </mapper>

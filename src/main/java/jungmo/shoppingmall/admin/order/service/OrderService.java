@@ -11,4 +11,5 @@ public interface OrderService {
 	Purchase getPurchase(String ordNum);
 	SavedMoney getSm(int pnpNum);
 	Delivery getDv(int dvpNum);
+	List<OrderCancel> getOrderCancels();
 }

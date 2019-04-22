@@ -13,4 +13,6 @@ public interface OrderMapper {
 	SavedMoney getSm(int pnpNum);
 	Delivery getDv(int dvpNum);
 	ManageLogCategories getMlc(String ordNum);
+	List<OrderCancel> getOrderCancels();
+	List<Goods> getGoods(String ordNum);
 }

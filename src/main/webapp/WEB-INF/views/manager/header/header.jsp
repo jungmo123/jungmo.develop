@@ -19,7 +19,7 @@
 								type="button" data-toggle="dropdown">주문 관리</button>
 							<ul class="dropdown-menu">
 								<li><a href="orderList">스타일 숍 주문</a></li>
-								<li><a href="../ORDER/04.html">주문 취소</a></li>
+								<li><a href="orderCancel">주문 취소</a></li>
 								<li><a href="../ORDER/05.html">교환/환불 신청서</a></li>
 							</ul>
 						</div>
