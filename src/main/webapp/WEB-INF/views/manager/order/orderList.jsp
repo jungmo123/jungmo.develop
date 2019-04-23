@@ -213,7 +213,7 @@
 			<div id="submenu">
 				<a href = "orderList"><span class = "activeMenu">스타일 숍 주문</span></a>
 				<a href = "orderCancel"><span>주문 취소</span></a>
-				<a href = "../ORDER/05.html"><span>교환</span></a>
+				<a href = "orderRefund"><span>교환</span></a>
 				<a href = "../ORDER/05.html"><span>환불</span></a>	
 			</div>
 		</div>
@@ -267,10 +267,10 @@
 						<th>주문 상품</th>
 						<th>주문자<br>(아이디)</th>
 						<th>결제 금액</th>
-					</tr> 
-						<c:set var = "total" value = "0" />
+					</tr>
 						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
 								<c:forEach  var = "purchase" items= "${purchases}" varStatus = "state">
+										<c:set var = "totalprice" value = "0" /> 
 										<c:if test = "${post.postNum==purchase.ordNum}">
 										<tr>								
 										<td><input type ="checkbox" name = "${purchase.ordNum}" /></td>
@@ -278,14 +278,24 @@
 										<td>${purchase.order.ordType}</td>
 										<td>${purchase.order.ordDate}<br><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "hh:mm:ss" /></td>
 										<td class = "itemName">${purchase.goods[0].godName}
-										<c:if test = "${(fn:length(purchase.goods)-1) != 0}">
-											외 ${fn:length(purchase.goods)-1}건
-										</c:if></td>
+											<c:if test = "${(fn:length(purchase.goods)-1) != 0}">
+												외 ${fn:length(purchase.goods)-1}건
+											</c:if>
+										</td>
+										<c:set var = "total" value = "0" />
 										<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
-										<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
-											<c:set var = "total" value = "${(total + (god.godSellingPrice*god.godAmount))}" />
+										<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
+											<c:set var = "total" value = "${(total + option.optPrice)}" />
 										</c:forEach>
-										<td><c:out value = "${total}원" /></td>
+										<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
+											<c:set var = "totalprice" value = "${((totalprice+(total+god.godSellingPrice)*god.godAmount))}" />
+										</c:forEach>
+										<c:set var = "usingPoint" value = "${purchase.order.usingPoint}" />
+										<c:set var = "dvPrice" value = "0" />
+										<c:if test = "${totalprice-usingPoint < delivery.freedeliveryMp}" >
+											<c:set var = "dvPrice" value = "${delivery.basicFee}" />
+										</c:if>										
+										<td><c:out value = "${(totalprice+dvPrice)-usingPoint}원" /></td>
 										<c:set var = "total" value = "0" />
 										</tr>						
 										</c:if>
@@ -299,6 +309,7 @@
 					<option>배송준비중</option>
 					<option>배송중</option>
 					<option>배송완료</option>
+					<option>주문취소</option>
 				</select>
 				<button class = "btn btn-default">목록으로 이동</button>
 			</div>

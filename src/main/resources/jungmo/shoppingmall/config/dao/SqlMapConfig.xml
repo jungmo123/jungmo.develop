@@ -17,5 +17,7 @@
 			<typeAlias alias = "dv" type = "jungmo.shoppingmall.admin.order.domain.Delivery" />
 			<typeAlias alias = "mlc" type = "jungmo.shoppingmall.admin.order.domain.ManageLogCategories" />
 			<typeAlias alias = "oc" type = "jungmo.shoppingmall.admin.order.domain.OrderCancel" />
+			<typeAlias alias = "ref" type = "jungmo.shoppingmall.admin.order.domain.Refund" />
+			<typeAlias alias = "refi" type = "jungmo.shoppingmall.admin.order.domain.RefundImage" />
 	</typeAliases>
 </configuration>

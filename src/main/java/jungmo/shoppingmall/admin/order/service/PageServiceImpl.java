@@ -1,8 +1,5 @@
 package jungmo.shoppingmall.admin.order.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import jungmo.shoppingmall.admin.order.dao.PageDao;
 import jungmo.shoppingmall.admin.order.domain.Page;
 
@@ -38,6 +35,22 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getDateTotRowCnt(page);
 	}
 	
+	public int getCancelTotRowCnt(String type){
+		return pageDao.getCancelTotRowCnt(type);
+	}
+	
+	public int getCancelDateTotRowCnt(Page page){
+		return pageDao.getCancelDateTotRowCnt(page);
+	}
+	
+	public int getRefundTotRowCnt(String type){
+		return pageDao.getRefundTotRowCnt(type);
+	}
+	
+	public int getRefundDateTotRowCnt(Page page){
+		return pageDao.getRefundDateTotRowCnt(page);
+	}
+	 
 	private void init(){
 		endPage = (int)(Math.ceil(page.getCurrentPage()/(double)pageNumCnt)*pageNumCnt);
 		

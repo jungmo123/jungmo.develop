@@ -35,7 +35,31 @@ public class OrderDaoImpl implements OrderDao{
 		return orderMapper.getDv(dvpNum);
 	}
 	
+	public int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo){
+		return orderMapper.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostcode, userStreet, userDetailArea, memo);
+	}
+	
 	public List<OrderCancel> getOrderCancels(){
 		return orderMapper.getOrderCancels();
+	}
+	
+	public int addOrdercancel(String ordNum){
+		return orderMapper.addOrdercancel(ordNum);
+	}
+	
+	public OrderCancel getOrderCancel(String ordNum){
+		return orderMapper.getOrderCancel(ordNum);
+	}
+	
+	public int deleteOrdercancel(String ordNum){
+		return orderMapper.deleteOrdercancel(ordNum);
+	}
+	
+	public int cancelModify(HashMap<String,List<String>> map){
+		return orderMapper.cancelModify(map);
+	}
+	
+	public List<Refund> getOrderRefund(){
+		return orderMapper.getOrderRefund();
 	}
 }

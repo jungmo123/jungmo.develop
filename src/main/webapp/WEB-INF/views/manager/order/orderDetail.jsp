@@ -17,6 +17,7 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script	src="//cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 <style>
 	button,input{
 		height:25px;
@@ -70,10 +71,6 @@
 		text-align:center;
 		margin-left:10px;
 	}
-	#deliveryForm #tekbeCompnayList{
-		width:140px;
-		display:inline-block;
-	}
 	.br{
 		margin-top:10px;
 	}
@@ -90,7 +87,14 @@
 		float:left;
 	}
 	.item > div:first-child{
-		width:180px;
+		width:150px;
+	}
+	.item > div:last-child{
+		width:100px;
+		text-align:left;
+	}
+	.item div > div{
+		text-align:left;
 	}
 	.item strong{
 		margin-right:5px;
@@ -127,6 +131,18 @@
 	}
 	.buyerInfo2  tr  td:nth-child(1){
 		width:120px;
+	}
+	#submitForm .buyerInfo2 tr:nth-child(3) td:nth-child(2) div{
+		display:inline-block;
+		float:left;
+	}
+	#submitForm .buyerInfo2 tr:nth-child(3) td:nth-child(2) div input{
+		width:150px;
+	}
+	#submitForm .buyerInfo2 tr:nth-child(3) td:nth-child(2) div:nth-child(1),
+	#submitForm .buyerInfo2 tr:nth-child(3) td:nth-child(2) div:nth-child(3),
+	#submitForm .buyerInfo2 tr:nth-child(3) td:nth-child(2) div:nth-child(5){
+		width:150px;
 	}
 	.buy1{
 		text-align:right;
@@ -260,7 +276,7 @@
 		resize:none;
 	}
 	/* modal시작 */
-		.modal-content{
+	.modal-content{
 		width:500px;
 	}
 	#inquiry,#state{
@@ -312,7 +328,7 @@
 			<div id="submenu">
 				<a href = "orderList"><span class = "activeMenu">스타일 숍 주문</span></a>
 				<a href = "orderCancel"><span>주문 취소</span></a>
-				<a href = "../ORDER/05.html"><span>교환</span></a>
+				<a href = "orderRefund"><span>교환</span></a>
 				<a href = "../ORDER/05.html"><span>환불</span></a>	
 			</div>
 		</div>
@@ -326,19 +342,19 @@
 			<div id = "deliveryForm">
 				<div>
 					<b>주문 처리 상태</b>
-					<select class = "form-control">
+					<select id = "odState" class = "form-control">
 						<option>배송준비중</option>
 						<option>배송중</option>
 						<option>배송완료</option>
+						<option>주문취소</option>
 					</select>
-					<button class = "form-control">교환 진행</button>			
 				</div>
 				<div>
 					<span id="tekbeCompnayName">택배회사명: </span>
 					<select id="tekbeCompnayList" class = "form-control" name="tekbeCompnayList"></select>
 					<input id = "dvNumber" class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력">
 					<button id = "search" class = "form-control">배송 조회</button> 
-					<button class = "form-control">주문 취소하기</button>		
+					<button id = "odcancel" class = "form-control">주문 취소하기</button>		
 				</div>
 			</div>
 				<div id = "orderBox">
@@ -367,6 +383,7 @@
 							<th>적립금액</th>
 						</tr>
 						<c:forEach  var = "product" items= "${purchase.goods}" varStatus = "state">
+						<c:set var = "total" value = "0" />
 						<tr>
 							<td>
 								<span class = "number">${product.godNum}</span>
@@ -390,6 +407,7 @@
 									<span>${product.godSellingPrice}원</span>
 									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
 									<br>
+									<c:set var = "total" value = "${(total + option.optPrice)}" />
 									<span>${option.optPrice}원</span>
 									</c:forEach>					
 							</div>						
@@ -399,15 +417,11 @@
 							<span>개</span>					
 						</td>
 						<td>
-							<c:set var = "total" value = "0" />
-							<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
-								<c:set var = "total" value = "${(total + option.optPrice)}" />
-							</c:forEach>
-							<span><c:out value = "${(total + product.godSellingPrice)*product.godAmount}원" /></span>
-							<c:set var = "totalprice" value = "${(totalprice + (total + product.godSellingPrice)*product.godAmount)}" />
-						</td>
+						<c:set var = "totalprice" value = "${((totalprice+(total+product.godSellingPrice)*product.godAmount))}" />
+							<span><c:out value = "${((total+product.godSellingPrice)*product.godAmount)}원" /></span>
+						</td> 
 						<td>
-							<fmt:parseNumber var = "price" value ="${((total + product.godSellingPrice)*product.godAmount)/savePoint.savePointPercent}" />
+							<fmt:parseNumber var = "price" value ="${(totalprice/savePoint.savePointPercent)}" />
 							<strong>${price}원</strong>
 						</td>
 					</tr>
@@ -444,14 +458,14 @@
 			</div>
 	<strong>&#124; 수령자 정보</strong>
 	<div class = "br"></div>
-	<form id = "submitForm" class = "buyerInfo" >
+	<form id = "submitForm" class = "buyerInfo" action = "orderModify" method="post">
 		<table>
 			<tr>
 				<td>
 					<table class = "buyerInfo2">
 						<tr>
 							<td class = "buy1">이름</td>
-							<td class = "buy2"><input type = "text"  name = "name" value = "${purchase.order.recipientName}"/></td>
+							<td class = "buy2"><input id = "userName" type = "text"  name = "userName" value = "${purchase.order.recipientName}"/></td>
 						</tr>
 						<tr>
 							<td class = "buy1">주소</td>
@@ -469,9 +483,21 @@
 						<tr>
 							<td class = "buy1">휴대폰 번호</td>
 							<td class = "buy2 phone">
-								<input type = "tel"  name = "phone1" value = "${fn:split(purchase.order.recipientPhone,'-')[0]}"  />&#45;
-								<input type = "tel"  name = "phone2" value = "${fn:split(purchase.order.recipientPhone,'-')[1]}"  />&#45;
-								<input type = "tel"  name = "phone3" value = "${fn:split(purchase.order.recipientPhone,'-')[2]}"  />
+							<div>
+								<input id = "phone1" type = "tel"  name = "phone1" value = "${fn:split(purchase.order.recipientPhone,'-')[0]}"  />
+							</div>
+							<div>
+								<span>-</span>
+							</div>
+							<div>
+								<input id = "phone2" type = "tel"  name = "phone2" value = "${fn:split(purchase.order.recipientPhone,'-')[1]}"  />
+							</div>
+							<div>
+								<span>-</span>
+							</div>
+							<div>
+								<input id = "phone3" type = "tel"  name = "phone3" value = "${fn:split(purchase.order.recipientPhone,'-')[2]}"  />
+							</div>
 							</td>
 						</tr>
 						<tr>
@@ -550,7 +576,7 @@
 						<div class = "divRight">
 							<strong>결제 로그</strong>
 							<div class = "br"></div>
-							<textarea name = "log" cols = "44" rows = "8" readonly>
+							<textarea cols = "44" rows = "8" readonly>
 결제요청 결과
 
 결과 코드 : ${purchase.order.ordResultCode}
@@ -570,14 +596,13 @@
 						<div class = "divLeft">
 							<strong>관리 이력</strong>
 							<div class = "br"></div>
-							<c:set var = "mlcList" value = " " />
-							<textarea name = "log" cols = "44" rows = "6" readonly><c:forEach  var = "mlc" items= "${purchase.order.mlc}" varStatus = "state"><fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
+							<textarea cols = "44" rows = "6" readonly><c:forEach  var = "mlc" items= "${purchase.order.mlc}" varStatus = "state"><fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
 </c:forEach></textarea>		
 						</div>
 						<div class = "divRight">
 							<strong>상담 메모</strong>
 							<div class = "br"></div>
-							<textarea name = "log" cols = "44" rows = "6"></textarea>		
+							<textarea id = "memo" name = "memo" cols = "44" rows = "6">${purchase.order.memoContent}</textarea>		
 						</div>				
 					</div>			
 				</td>
@@ -693,6 +718,79 @@ function showPostcode() {
     }).open();
 }
 
+$(function(){
+	var myKey = "CNNwgI5GMTrF5mVZFy5M2g"; // sweet tracker에서 발급받은 자신의 키 넣는다.
+	
+		// 택배사 목록 조회 company-api
+        $.ajax({
+            type:"GET",
+            dataType : "json",
+            url:"http://info.sweettracker.co.kr/api/v1/companylist?t_key="+myKey,
+            success:function(data){
+            		
+            		// 방법 1. JSON.parse 이용하기
+            		var parseData = JSON.parse(JSON.stringify(data));
+             		console.log(parseData.Company); // 그중 Json Array에 접근하기 위해 Array명 Company 입력
+            		
+            		// 방법 2. Json으로 가져온 데이터에 Array로 바로 접근하기
+            		var CompanyArray = data.Company; // Json Array에 접근하기 위해 Array명 Company 입력
+            		console.log(CompanyArray); 
+            		
+            		var myData="";
+            		$.each(CompanyArray,function(key,value) {
+	            			myData += ('<option value='+value.Code+'>'+ value.Name + '</option>');        				
+            		});
+            		$("#tekbeCompnayList").html(myData);
+            }
+        });
+
+		// 배송정보와 배송추적 tracking-api
+        $("#search").click(function() {
+        	var t_code = $('#tekbeCompnayList option:selected').attr('value');
+        	var t_invoice = $('#dvNumber').val();
+        	var name = $("#tekbeCompnayList option:selected").text();
+            $.ajax({
+                type:"GET",
+                dataType : "json",
+                url:"http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key="+myKey+"&t_code="+t_code+"&t_invoice="+t_invoice,
+                success:function(data){
+                	console.log(data);
+                	var myInvoiceData = "";
+                	if(data.status == false){
+                		myInvoiceData += ('<p>'+data.msg+'<p>');
+                	}else{
+	            		myInvoiceData += ('<tr>');            	  				
+	            		myInvoiceData += ('<td>'+name+'</td>');     				               				
+	            		myInvoiceData += ('<td>'+data.invoiceNo+'</td>');     				        	 				
+	            		myInvoiceData += ('<td>'+data.senderName+'</td>');     				
+	            		myInvoiceData += ('</tr>');      		
+                	}
+        			
+                	
+                	$("#dvInfo").html(myInvoiceData)
+                	
+                	var trackingDetails = data.trackingDetails;
+                	
+                	
+            		var myTracking="";
+            		
+            		$.each(trackingDetails,function(key,value) {
+	            		myTracking += ('<tr>');            	
+            			myTracking += ('<td>'+value.timeString+'</td>');
+            			myTracking += ('<td>'+value.where+'</td>');
+            			myTracking += ('<td>'+value.kind+'</td>');
+            			myTracking += ('<td>'+value.telno+'</td>');     				
+	            		myTracking += ('</tr>');        			            	
+            		});
+            		
+            		$("#dvData").html(myTracking);
+                	
+            		$("#mySmallModal").modal();
+                }
+            });
+        });		
+});
+
     $(function(){
 	var select = $("#deliveryForm > div:nth-child(1) > select option");
 	$.each(select,function(index,item){
@@ -702,7 +800,7 @@ function showPostcode() {
 			}
 	})
 	$("#deilveryRequest").trigger("keyup");
-})
+    })
 
 function chkword(obj, maxByte) {
 	 
@@ -747,80 +845,6 @@ function chkword(obj, maxByte) {
     }
 }
     
-    $(function(){
-    	var myKey = "CNNwgI5GMTrF5mVZFy5M2g"; // sweet tracker에서 발급받은 자신의 키 넣는다.
-    	
-    		// 택배사 목록 조회 company-api
-            $.ajax({
-                type:"GET",
-                dataType : "json",
-                url:"http://info.sweettracker.co.kr/api/v1/companylist?t_key="+myKey,
-                success:function(data){
-                		
-                		// 방법 1. JSON.parse 이용하기
-                		var parseData = JSON.parse(JSON.stringify(data));
-                 		console.log(parseData.Company); // 그중 Json Array에 접근하기 위해 Array명 Company 입력
-                		
-                		// 방법 2. Json으로 가져온 데이터에 Array로 바로 접근하기
-                		var CompanyArray = data.Company; // Json Array에 접근하기 위해 Array명 Company 입력
-                		console.log(CompanyArray); 
-                		
-                		var myData="";
-                		$.each(CompanyArray,function(key,value) {
-    	            			myData += ('<option value='+value.Code+'>'+ value.Name + '</option>');        				
-                		});
-                		$("#tekbeCompnayList").html(myData);
-                }
-            });
-
-    		// 배송정보와 배송추적 tracking-api
-            $("#search").click(function() {
-            	var t_code = $('#tekbeCompnayList option:selected').attr('value');
-            	var t_invoice = $('#dvNumber').val();
-            	var name = $("#tekbeCompnayList option:selected").text();
-                $.ajax({
-                    type:"GET",
-                    dataType : "json",
-                    url:"http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key="+myKey+"&t_code="+t_code+"&t_invoice="+t_invoice,
-                    success:function(data){
-                    	console.log(data);
-                    	var myInvoiceData = "";
-                    	if(data.status == false){
-                    		myInvoiceData += ('<p>'+data.msg+'<p>');
-                    	}else{
-    	            		myInvoiceData += ('<tr>');            	  				
-    	            		myInvoiceData += ('<td>'+name+'</td>');     				               				
-    	            		myInvoiceData += ('<td>'+data.invoiceNo+'</td>');     				        	 				
-    	            		myInvoiceData += ('<td>'+data.senderName+'</td>');     				
-    	            		myInvoiceData += ('</tr>');      		
-                    	}
-            			
-                    	
-                    	$("#dvInfo").html(myInvoiceData)
-                    	
-                    	var trackingDetails = data.trackingDetails;
-                    	
-                    	
-                		var myTracking="";
-                		
-                		$.each(trackingDetails,function(key,value) {
-    	            		myTracking += ('<tr>');            	
-                			myTracking += ('<td>'+value.timeString+'</td>');
-                			myTracking += ('<td>'+value.where+'</td>');
-                			myTracking += ('<td>'+value.kind+'</td>');
-                			myTracking += ('<td>'+value.telno+'</td>');     				
-    	            		myTracking += ('</tr>');        			            	
-                		});
-                		
-                		$("#dvData").html(myTracking);
-                    	
-                		$("#mySmallModal").modal();
-                    }
-                });
-            });		
-    });
-    
-    
 	$.validator.addMethod(
 			"usernameck",
 			function(value,element){
@@ -838,22 +862,9 @@ function chkword(obj, maxByte) {
 							maxlength : 5,
 							usernameck : true
 						},
-						userId : {
-							required : true
-						},
-						userPwd : {
+						phone1 : {
 							required : true,
-							minlength : 8
-						},
-						confirmpassword : {
-							required : true,
-							equalTo : "#password"
-						},
-						email1 : {
-							required : true
-						},
-						email2 : {
-							required : true
+							maxlength : 3,
 						},
 						phone2 : {
 							required : true,
@@ -863,12 +874,6 @@ function chkword(obj, maxByte) {
 							required : true,
 							maxlength : 4,
 						},
-						userStreet : {
-							required : true
-						},
-						userDetailArea : {
-							required : true
-						}
 					},
 					messages : {					
 						userName : {
@@ -885,37 +890,14 @@ function chkword(obj, maxByte) {
 								return "한글로 입력하세요";
 							}
 						},
-						userPwd : {
+						phone1 : {
 							required : function(){
-								
-								return "암호를 입력하세요";
+								return "번호를 입력하세요";
 							},
-							minlength : function(){
-								return "8글자 이상으로 입력하세요";
+							maxlength : function(){
+								return "3자 이하로 입력";
 							}
-						},
-						confirmpassword : {
-							required : function(){
-								return "암호를 입력하세요.";
-							},
-							equalTo : function(){
-								return "위 암호와 똑같이 입력하세요.";
-							}
-						},
-						userId : {
-							required : function(){
-								return "아이디를 입력하세요.";
-							}
-						},		
-						email1 : {
-							required : function(){
-								return "이메일 주소를 입력하세요.";
-							}
-						},
-						email2 : {
-							required : function(){
-								return "이메일 주소를 입력하세요.";
-							}
+						
 						},
 						phone2 : {
 							required : function(){
@@ -947,61 +929,63 @@ function chkword(obj, maxByte) {
 					},
 				})		
 		});
-		$("#userId").keyup(function(){
-			$("#overlabCK").prop("checked",false);
-			console.log($("#overlabCK").prop("checked"));
-		})
 		
-		$("#selectEmail").change(function(){
-			$("#emailAddress-error").css("display","none");
-		})
-		
-		$("#overlap").click(function(e){
-			e.preventDefault();
-			
-			if($("#userId").val() == ""){
+	var submit = function(title,Type){
+		$.ajax({
+			url:"modifyOrder",
+			method:"post",
+			data: {
+				ordType:Type,
+				ordNum:$("#firstLine div:nth-child(3) span").text(),
+				deliveryRequest:$("#deilveryRequest").val(),
+				userName:$("#userName").val(),
+				userPostCode:$("#userPostcode").val(),
+				userStreet:$("#userStreet").val(),
+				userDetailArea:$("#userDetailArea").val(),
+				phone1:$("#phone1").val(),
+				phone2:$("#phone2").val(),
+				phone3:$("#phone3").val(),
+				memo:$("#memo").val()
+			},
+			success:function(data){
+				if(data == true){
+					Swal.fire({
+						  position: 'top',
+						  type: 'success',
+						  title: title,
+						  showConfirmButton: false,
+						  timer: 1500
+						});					
+				}else{
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: "이미 취소된 주문입니다",
+						  showConfirmButton: false,
+						  timer: 1500
+						});							
+				}
+			},
+			error:function(a,b,errMsg){
 				Swal.fire({
 					  position: 'top',
-					  type: 'warning',
-					  title: '아이디를 입력한 후 눌러 주세요!',
+					  type: 'error',
+					  title: '저장을 실패하였습니다.',
 					  showConfirmButton: false,
 					  timer: 1500
 					});
-				return;
 			}
-			
-			$.ajax({
-				url:"overlap",
-				method:"post",
-				data: {
-					userId:$("#userId").val(),
-				},
-				success:function(bl){
-					if(bl == true){
-						Swal.fire({
-							  position: 'top',
-							  type: 'error',
-							  title: '중복된 아이디입니다!',
-							  showConfirmButton: false,
-							  timer: 1500
-							});
-						$("#overlabCK").prop("checked",false);
-					}else{
-						Swal.fire({
-							  position: 'top',
-							  type: 'success',
-							  title: '사용가능한 아이디입니다!',
-							  showConfirmButton: false,
-							  timer: 1500
-							});
-						$("#overlabCK").prop("checked",true);
-					}
-				},
-				error:function(a,b,errMsg){
-					console.log("실패" + errMsg);
-				}
-			})
 		})
+	}
+		
+		$("#submitForm").submit(function(e){
+			e.preventDefault();
+			submit('저장을 성공했습니다.',$("#odState option:selected").val())
+		})
+		
+	$("#odcancel").click(function(){
+		submit('취소를 성공했습니다.','주문취소');
+	})
 </script>
 </body>
 </html>

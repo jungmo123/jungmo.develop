@@ -3,22 +3,41 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper">
 	<select id = "getOrders" resultMap = "purMap">
-      select purchases.ord_num,purchases.god_num,ord_type,ord_date,god_amount,god_name,god_sellingprice,users.user_id,user_name
+      select purchases.ord_num,purchases.god_num,ord_type,ord_date,god_amount,god_name,USINGPOINT,god_sellingprice,users.user_id,user_name
       from purchases join goods
       on (purchases.god_num = goods.god_num)
       join orders
       on (purchases.ord_num = orders.ord_num)
       join users
       on (orders.user_id = users.user_id)
+      where ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
       order by purchases.ord_num
 	</select>
 	
 	<select id = "getOrderCancels" resultMap = "ocMap">
-		select order_cancels.ord_num,ord_date,ord_date,odc_date,odc_type,PAYMENTMETHOD,users.user_id
-		from order_cancels join orders
+		select order_cancels.ord_num,purchases.god_num,ord_date,ord_date,odc_date,USINGPOINT,odc_type,PAYMENTMETHOD,users.user_id
+		from order_cancels join purchases
+		on (order_cancels.ord_num = purchases.ord_num)
+		join orders
 		on (order_cancels.ord_num = orders.ord_num)
 		join users
 		on (orders.user_id = users.user_id)
+	</select>
+	 
+	<select id = "getOrderRefund" resultMap = "refMap">
+		select refunds.ord_num,purchases.god_num,ref_requestdate,ref_reason,ref_content,users.user_id,user_name,user_phone,ref_state
+		from refunds join purchases
+		on (refunds.ord_num = purchases.ord_num)
+		join orders
+		on (refunds.ord_num = orders.ord_num)
+		join users
+		on (orders.user_id = users.user_id)
+	</select>
+	
+	<select id = "getOrderCancel" parameterType = "string" resultType = "oc">
+		select ord_num ordNum
+		from order_cancels
+		where ord_num = #{ordNum}
 	</select>
 	 
 	<select id = "getPurchase" parameterType="string" resultMap = "purchaseMap">
@@ -89,6 +108,24 @@
 		    values (sysdate,#{ls},'배송완료로 변경')     		
       		</foreach>
       	</if>
+      	<if test = 'tp == "주문취소"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'주문취소로 변경')		
+      		</foreach>
+      	</if>
+      	<if test = 'tp == "교환"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'교환으로 변경')		
+      		</foreach>
+      	</if>
+      	<if test = 'tp == "환불"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'환불로 변경')		
+      		</foreach>
+      	</if>
       </foreach>
      select * from dual
 	</update> 
@@ -104,10 +141,45 @@
 		</foreach>
 	</update>
 	
+	<update id = "cancelModify" parameterType = "hashmap">
+		update order_cancels
+		<foreach item="tp" collection = "type">
+			set odc_type = #{tp}
+		</foreach>
+		where ord_num in 
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach>
+	</update>
+	 
+	<update id = "modifyOrder" parameterType = "map">
+		update orders
+		set sha_postcode = #{postCode},
+			sha_street = #{street},
+			sha_detailarea = #{detailArea},
+			DELIVERYREQUEST = #{deliveryRequest},
+			RECIPIENT_NAME = #{userName},
+			RECIPIENT_PHONE = #{phone},
+			MEMO_CONTENT = #{memo},
+			ord_type = #{ordType}
+		where ord_num = #{ordNum}
+	</update>
+	
+	<insert id = "addOrdercancel" parameterType = "string">
+		insert into order_cancels
+		values (#{ordNum},sysdate,'처리전')
+	</insert>
+	
+	<delete id = "deleteOrdercancel" parameterType = "string">
+		delete from order_cancels
+		where ord_num = #{ordNum}
+	</delete>
+	 
 	<resultMap id = "purMap" type = "pur">
 		<id property = "ordNum" column = "ord_num" />
 		<association property = "order" resultMap = "getOrder" />
 		<collection property = "goods" columnPrefix = "god_" resultMap="godMap" />
+		<collection property = "goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
 	</resultMap>
 	
 	<resultMap id = "godMap" type = "god">
@@ -157,15 +229,28 @@
 		<result property = "optContent" column = "opt_content" />
 		<result property = "optPrice" column = "opt_price" />
 	</resultMap>
-	 
+	  
 	<resultMap id = "ocMap" type = "oc">
 		<result property = "ordNum" column = "ord_num" />
 		<result property = "ordDate" column = "ord_date" />
 		<result property = "odcDate" column = "odc_date" />
 		<result property = "odcType" column = "odc_type" />
+		<result property = "usingPoint" column = "usingpoint" />
 		<result property = "paymentMethod" column = "paymentmethod" />
 		<association property="user" resultMap = "getUser" />
 		<collection property="goods" column="ord_num" select = "getGoods" />
+		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+	</resultMap>
+	 
+	<resultMap id = "refMap" type = "ref">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "refRequestDate" column = "ref_requestdate" />
+		<result property = "refReason" column = "ref_reason" />
+		<result property = "refContent" column = "ref_content" />
+		<result property = "refState" column = "ref_state" />
+		<association property="user" resultMap = "getUser" />
+		<collection property="goods" column="ord_num" select = "getGoods" />
+		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
 	</resultMap>
 	 
 </mapper>

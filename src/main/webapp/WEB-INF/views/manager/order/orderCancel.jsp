@@ -15,6 +15,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
 <style>
 	#content .container:nth-child(1){
 		margin-top:20px;
@@ -191,7 +192,7 @@
 			<div id="submenu">
 				<a href = "orderList"><span>스타일 숍 주문</span></a>
 				<a href = "orderCancel"><span class = "activeMenu">주문 취소</span></a>
-				<a href = "../ORDER/05.html"><span>교환</span></a>
+				<a href = "orderRefund"><span>교환</span></a>
 				<a href = "../ORDER/05.html"><span>환불</span></a>	
 			</div>
 		</div>
@@ -200,25 +201,25 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Order Managament</p>
-				<p id = "currentIdx">&#124; 주문관리 >교환/환불</p>
+				<p id = "currentIdx">&#124; 주문관리 > 주문 취소</p>
 			</div>
 			<div id = "search">
-				<form id = "dateForm">
-					<span>주문일</span>
+				<form id = "dateForm"  action = "Cancelsearch" method = "post">
+					<span>주문취소일</span>
 					<div id = "input-group">
 						<div id = "input1">
-							<input type="date" name="dateofbirth" class="dateInput">
+							<input type="date" name="date1" class="dateInput">
 						</div>
 						<span>~</span>
 						<div id = "input2">
-							<input type="date" name="dateofbirth" class="dateInput">		
+							<input type="date" name="date2" class="dateInput">		
 						</div>
 						<div id = "keyword">
 							<span>키워드 검색</span>
-							<select class = "form-control">
-								<option>신청자</option>
+							<select  name = "type" class = "form-control">
+								<option value = "ord_num">주문번호</option>
 							</select>
-							<input class = "form-control" id = "textarea" type = "text" name = "search" />
+							<input class = "form-control" id = "textarea" type = "text" name = "Cancelsearch" />
 							<button class ="btn btn-default glyphicon glyphicon-search"></button>	
 						</div>
 					</div>
@@ -226,11 +227,12 @@
 			</div>
 			<div id = "orderState">
 				<span>&#124; 처리상태</span>
-				<a href = "#">처리 전</a>
+				<a href = "orderCancelOne1">처리 전</a>
 				<span  class = "Y">&#124;</span>
-				<a href = "#">처리 완료</a>
-				<button class = "btn btn-default download">처리완료 목록으로 이동</button>
+				<a href = "orderCancelTwo1">처리 완료</a>
+				<button id = "cancelCheck" class = "btn btn-default download">처리완료 목록으로 이동</button>
 			</div>
+			<form id = "cancelForm" action = "cancelModify" method = "post">
 			<div id = "resultbox">
 				<table>
 					<tr id = "Trheader">
@@ -244,23 +246,36 @@
 						<th>결제 금액</th>
 						<th>처리 상태</th>
 					</tr>
-						<c:set var = "total" value = "0" />
 						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
 								<c:forEach  var = "oc" items= "${ordercancel}" varStatus = "state">
 										<c:if test = "${post.postNum==oc.ordNum}">
+										<c:set var = "totalprice" value = "0" />
 										<tr>								
 										<td><input type ="checkbox" name = "${oc.ordNum}" /></td>
 										<td >${oc.ordDate}<br><fmt:formatDate value = "${oc.ordDate}" pattern = "HH:mm:ss" /></td>
 										<td>${oc.odcDate}<br><fmt:formatDate value = "${oc.odcDate}" pattern = "HH:mm:ss" /></td>
 										<td class = "itemNum">${oc.ordNum}</td>
-										<td class = "itemName">${oc.goods[0].godName} 외 ${fn:length(oc.goods)-1}건</td>
+										<td class = "itemName">${oc.goods[0].godName}
+											<c:if test = "${(fn:length(oc.goods)-1) != 0}">
+												외 ${fn:length(oc.goods)-1}건
+											</c:if>
+										</td>
 										<td>${oc.user.userId}</td>
 										<td>${oc.paymentMethod}</td>
-										<c:forEach var = "god" items = "${oc.goods}" varStatus = "state">
-											<c:set var = "total" value = "${(total + (god.godSellingPrice*god.godAmount))}" />
-										</c:forEach>
-										<td><c:out value = "${total}원" /></td>
 										<c:set var = "total" value = "0" />
+										<c:forEach  var = "option" items= "${oc.goodsOption}" varStatus = "state">
+											<c:set var = "total" value = "${(total + option.optPrice)}" />
+										</c:forEach>
+										<c:forEach var = "god" items = "${oc.goods}" varStatus = "state">
+											<c:set var = "totalprice" value = "${((totalprice+(total+god.godSellingPrice)*god.godAmount))}" />
+										</c:forEach>
+										<c:set var = "usingPoint" value = "${oc.usingPoint}" />
+										<c:set var = "dvPrice" value = "0" />
+										<c:if test = "${totalprice-usingPoint < delivery.freedeliveryMp}" >
+											<c:set var = "dvPrice" value = "${delivery.basicFee}" />
+										</c:if>										
+										<td><c:out value = "${(totalprice+dvPrice)-usingPoint}원" /></td>
+										<c:set var = "total" value = "0" />						
 										<td>${oc.odcType}</td>
 										</tr>				
 										</c:if>
@@ -268,21 +283,22 @@
 						</c:forEach>					
 				</table>
 			</div>
+			</form>
  			<div id = "pagination">
 				<div>
 					<ul class = "pagination">
 						<c:if test = "${pageMaker.prev}">
-							<li><a href = "orderList${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+							<li><a href = "orderCancel${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
 						</c:if>
 						
 						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-								<a href = "orderList${type}${idx}">${idx}</a>
+								<a href = "orderCancel${type}${idx}">${idx}</a>
 							</li>
 						</c:forEach>
 
 						<c:if test = "${pageMaker.next}">
-							<li><a href = "orderList${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+							<li><a href = "orderCancel${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 						</c:if>
 					</ul>
 				</div>		
@@ -297,6 +313,39 @@
 		var name = $(this).siblings(".itemNum").text();
 		location.href="/shoppingmall/admin/orderDetail" + name;
 	})
+	
+	$("#cancelCheck").click(function(e){
+		$("#cancelForm").submit();
+	})
+	
+		$("#cancelForm").submit(function(e){
+			var check = $("#resultbox table tr td input:checkbox:checked");
+			var list = [];
+			$(check).each(function(index,element){
+				list.push($(element).attr("name"));
+			})
+			var $input = $("<input></input>");
+			$input.attr({
+				"name":"list"
+			});
+			$input.val(list);
+			$input.css("display","none");
+			$("#cancelForm").append($input);
+		})
+		
+		$("#dateForm").submit(function(e){
+			if($("#dateForm #input1 input").val()=="" || $("#dateForm #input2 input").val()==""){
+				Swal.fire({
+					  position: 'top',
+					  type: 'warning',
+					  title: '날짜를 입력하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return false;
+			}
+		})
+
 </script>
 </body>
 </html>

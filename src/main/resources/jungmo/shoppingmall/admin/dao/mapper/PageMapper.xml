@@ -6,6 +6,9 @@
 		select count(distinct ord_num)
 		from orders
 		<where>
+			<if test = "_parameter != null and _parameter.equals('All')">
+				ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
+			</if>
 			<if test = "_parameter != null and _parameter.equals('One')">
 				ord_type = '배송준비중'
 			</if>
@@ -21,12 +24,60 @@
 		</where>
 	</select>
 	
+	<select id = "getCancelTotRowCnt" parameterType="string" resultType = "int">
+		select count(distinct ord_num)
+		from order_cancels
+		<where>
+			<if test = "_parameter != null and _parameter.equals('One')">
+				odc_type = '처리전'
+			</if>
+			<if test = "_parameter != null and _parameter.equals('Two')">
+				odc_type = '처리완료'
+			</if>
+		</where>
+	</select>
+	 
+	<select id = "getRefundTotRowCnt" parameterType="string" resultType = "int">
+		select count(distinct ord_num)
+		from refunds
+		<where>
+			<if test = "_parameter != null and _parameter.equals('One')">
+				ref_state = '처리전'
+			</if>
+			<if test = "_parameter != null and _parameter.equals('Two')">
+				ref_state = '처리완료'
+			</if>
+		</where>
+	</select>
+	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	
 	select count(distinct ord_num)
 		from orders
 		where ord_date > #{date1} and
 		ord_date < #{date2} and
+		ord_num like '%' || #{ordNum} || '%'
+		order by ord_num
+	]]>
+	</select>
+	
+	<select id = "getCancelDateTotRowCnt" parameterType= "page" resultType = "int">
+	<![CDATA[	
+	select count(distinct ord_num)
+		from order_cancels
+		where odc_date > #{date1} and
+		odc_date < #{date2} and
+		ord_num like '%' || #{ordNum} || '%'
+		order by ord_num
+	]]>
+	</select>
+	
+	<select id = "getRefundDateTotRowCnt" parameterType= "page" resultType = "int">
+	<![CDATA[	
+	select count(distinct ord_num)
+		from refunds
+		where ref_requestdate > #{date1} and
+		ref_requestdate < #{date2} and
 		ord_num like '%' || #{ordNum} || '%'
 		order by ord_num
 	]]>

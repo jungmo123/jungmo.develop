@@ -20,4 +20,20 @@ public class PostServiceImpl implements PostService{
 	public List<Post> getDatePosts(Page page){
 		return postDao.getDatePosts(page);
 	}
+	
+	public List<Post> getCancelPosts(Page page){
+		return postDao.getCancelPosts(page);
+	}
+	
+	public List<Post> getCancelDatePosts(Page page){
+		return postDao.getCancelDatePosts(page);
+	}
+	
+	public List<Post> getRefundPosts(Page page){
+		return postDao.getRefundPosts(page);
+	}
+	
+	public List<Post> getRefundDatePosts(Page page){
+		return postDao.getRefundDatePosts(page);
+	}
 }
