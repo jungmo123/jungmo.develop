@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script	src="//cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 <style>
-	button,input{
+	#AllContent button,input{
 		height:25px;
 		line-height:3px;
 	}
@@ -328,8 +328,8 @@
 			<div id="submenu">
 				<a href = "orderList"><span class = "activeMenu">스타일 숍 주문</span></a>
 				<a href = "orderCancel"><span>주문 취소</span></a>
-				<a href = "orderRefund"><span>교환</span></a>
-				<a href = "../ORDER/05.html"><span>환불</span></a>	
+				<a href = "orderExchange"><span>교환</span></a>
+				<a href = "orderRefund"><span>환불</span></a>	
 			</div>
 		</div>
 		<div id="content">

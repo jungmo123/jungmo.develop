@@ -1,6 +1,6 @@
 package jungmo.shoppingmall.admin.order.service;
 
-import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface PageService {
 	Page getPage();
@@ -14,4 +14,6 @@ public interface PageService {
 	int getCancelDateTotRowCnt(Page page);
 	int getRefundTotRowCnt(String type);
 	int getRefundDateTotRowCnt(Page page);
+	int getExchangeTotRowCnt(String type);
+	int getExchangeDateTotRowCnt(Page page);
 }

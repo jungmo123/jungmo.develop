@@ -63,4 +63,16 @@ public class OrderServiceImpl implements OrderService{
 	public List<Refund> getOrderRefund(){
 		return orderDao.getOrderRefund();
 	}
+	
+	public int refundModify(HashMap<String,List<String>> map){
+		return orderDao.refundModify(map);
+	}
+	
+	public int exchangeModify(HashMap<String,List<String>> map){
+		return orderDao.exchangeModify(map);
+	}
+	
+	public List<Exchange> getOrderExchange(){
+		return orderDao.getOrderExchange();
+	}
 }

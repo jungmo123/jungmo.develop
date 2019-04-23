@@ -76,6 +76,28 @@
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
 	</select>
+	
+	<select id = "getExchangePosts" parameterType = "page" resultType = "post">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select ord_num postNum
+		  		from exchanges
+		   ]]>
+		   		<where>
+		   			<if test = "type != null and type.equals('One')">
+		   				exc_state = '처리전'
+		   			</if>
+		   			<if test = "type != null and type.equals('Two')">
+		   				exc_state = '처리완료'
+		   			</if>
+		   		</where>
+		   <![CDATA[
+		  		order by ord_num
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
 
 	<select id = "getDatePosts" parameterType = "page" resultType = "post">
 		  <![CDATA[
@@ -115,6 +137,21 @@
 		  		from refunds
 				where ref_requestdate > #{date1} and
 				ref_requestdate < #{date2} and
+				ord_num like '%' || #{ordNum} || '%'
+		  		order by ord_num
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getExchangeDatePosts" parameterType = "page" resultType = "post">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select ord_num postNum
+		  		from exchanges
+				where exc_requestdate > #{date1} and
+				exc_requestdate < #{date2} and
 				ord_num like '%' || #{ordNum} || '%'
 		  		order by ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}

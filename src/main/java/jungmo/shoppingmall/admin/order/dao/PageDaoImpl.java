@@ -1,10 +1,10 @@
 package jungmo.shoppingmall.admin.order.dao;
 
-import jungmo.shoppingmall.admin.order.dao.mapper.PageMapper;
-import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.order.dao.mapper.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Repository
 public class PageDaoImpl implements PageDao{
@@ -32,5 +32,13 @@ public class PageDaoImpl implements PageDao{
 	
 	public int getRefundDateTotRowCnt(Page page){
 		return pageMapper.getRefundDateTotRowCnt(page);
+	}
+	
+	public int getExchangeTotRowCnt(String type){
+		return pageMapper.getExchangeTotRowCnt(type);
+	}
+	
+	public int getExchangeDateTotRowCnt(Page page){
+		return pageMapper.getExchangeDateTotRowCnt(page);
 	}
 }

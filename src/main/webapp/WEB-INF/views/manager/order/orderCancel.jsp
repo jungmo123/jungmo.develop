@@ -192,8 +192,8 @@
 			<div id="submenu">
 				<a href = "orderList"><span>스타일 숍 주문</span></a>
 				<a href = "orderCancel"><span class = "activeMenu">주문 취소</span></a>
-				<a href = "orderRefund"><span>교환</span></a>
-				<a href = "../ORDER/05.html"><span>환불</span></a>	
+				<a href = "orderExchange"><span>교환</span></a>
+				<a href = "orderRefund"><span>환불</span></a>	
 			</div>
 		</div>
 		<div id="content">

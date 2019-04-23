@@ -22,14 +22,24 @@
 		on (order_cancels.ord_num = orders.ord_num)
 		join users
 		on (orders.user_id = users.user_id)
-	</select>
+	</select> 
 	 
 	<select id = "getOrderRefund" resultMap = "refMap">
-		select refunds.ord_num,purchases.god_num,ref_requestdate,ref_reason,ref_content,users.user_id,user_name,user_phone,ref_state
+		select refunds.ord_num,purchases.god_num,ref_requestdate,ref_reason,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
 		from refunds join purchases
 		on (refunds.ord_num = purchases.ord_num)
 		join orders
 		on (refunds.ord_num = orders.ord_num)
+		join users
+		on (orders.user_id = users.user_id)
+	</select>
+	
+	<select id = "getOrderExchange" resultMap = "excMap">
+		select exchanges.ord_num,purchases.god_num,exc_requestdate,exc_reason,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
+		from exchanges join purchases
+		on (exchanges.ord_num = purchases.ord_num)
+		join orders
+		on (exchanges.ord_num = orders.ord_num)
 		join users
 		on (orders.user_id = users.user_id)
 	</select>
@@ -86,6 +96,18 @@
 		on (purchases.god_num = goods.god_num)
 		where purchases.ord_num = #{ordNum}
 	</select>
+	 
+	<select id = "getRefundImage" parameterType = "string" resultType = "refi">
+		select ord_num ordNum,ref_imageurl refundImageUrl
+		from refund_images
+		where ord_num = #{ordNum}
+	</select>
+	   
+	<select id = "getExchangeImage" parameterType = "string" resultType = "exci">
+		select ord_num ordNum,exc_imageurl exchangeImageUrl
+		from exchange_images
+		where ord_num = #{ordNum}
+	</select>
 	
 	<update id = "addMlc" parameterType = "hashmap">
       insert all
@@ -126,6 +148,12 @@
 		    values (sysdate,#{ls},'환불로 변경')		
       		</foreach>
       	</if>
+      		<if test = 'tp == "처리완료"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'환불/교환 처리완료로 변경')		
+      		</foreach>
+      	</if>
       </foreach>
      select * from dual
 	</update> 
@@ -145,6 +173,28 @@
 		update order_cancels
 		<foreach item="tp" collection = "type">
 			set odc_type = #{tp}
+		</foreach>
+		where ord_num in 
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach>
+	</update> 
+	
+	<update id = "refundModify" parameterType = "hashmap">
+		update refunds
+		<foreach item="tp" collection = "type">
+			set ref_state = #{tp}
+		</foreach>
+		where ord_num in 
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach>
+	</update>
+	
+	<update id = "exchangeModify" parameterType = "hashmap">
+		update exchanges
+		<foreach item="tp" collection = "type">
+			set exc_state = #{tp}
 		</foreach>
 		where ord_num in 
 		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
@@ -248,9 +298,26 @@
 		<result property = "refReason" column = "ref_reason" />
 		<result property = "refContent" column = "ref_content" />
 		<result property = "refState" column = "ref_state" />
+		<result property = "refMemo" column = "ref_memo" />
+		<result property = "refCompleteDate" column = "ref_completedate" />
 		<association property="user" resultMap = "getUser" />
 		<collection property="goods" column="ord_num" select = "getGoods" />
 		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property = "images" column = "ord_num" select = "getRefundImage" />
+	</resultMap>
+	
+	<resultMap id = "excMap" type = "exc">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "excRequestDate" column = "exc_requestdate" />
+		<result property = "excReason" column = "exc_reason" />
+		<result property = "excContent" column = "exc_content" />
+		<result property = "excState" column = "exc_state" />
+		<result property = "excMemo" column = "exc_memo" />
+		<result property = "excCompleteDate" column = "exc_completedate" />
+		<association property="user" resultMap = "getUser" />
+		<collection property="goods" column="ord_num" select = "getGoods" />
+		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property = "images" column = "ord_num" select = "getExchangeImage" />
 	</resultMap>
 	 
 </mapper>

@@ -1,13 +1,12 @@
 package jungmo.shoppingmall.admin.order.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.order.dao.PostDao;
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.domain.Post;
+import jungmo.shoppingmall.admin.order.dao.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -35,5 +34,13 @@ public class PostServiceImpl implements PostService{
 	
 	public List<Post> getRefundDatePosts(Page page){
 		return postDao.getRefundDatePosts(page);
+	}
+	
+	public List<Post> getExchangePosts(Page page){
+		return postDao.getExchangePosts(page);
+	}
+	
+	public List<Post> getExchangeDatePosts(Page page){
+		return postDao.getExchangeDatePosts(page);
 	}
 }

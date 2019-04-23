@@ -1,10 +1,10 @@
 package jungmo.shoppingmall.admin.order.service;
 
-import jungmo.shoppingmall.admin.order.dao.PageDao;
-import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.order.dao.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class PageServiceImpl implements PageService{
@@ -49,6 +49,14 @@ public class PageServiceImpl implements PageService{
 	
 	public int getRefundDateTotRowCnt(Page page){
 		return pageDao.getRefundDateTotRowCnt(page);
+	}
+	
+	public int getExchangeTotRowCnt(String type){
+		return pageDao.getExchangeTotRowCnt(type);
+	}
+	
+	public int getExchangeDateTotRowCnt(Page page){
+		return pageDao.getExchangeDateTotRowCnt(page);
 	}
 	 
 	private void init(){

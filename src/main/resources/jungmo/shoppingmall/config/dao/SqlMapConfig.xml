@@ -19,5 +19,7 @@
 			<typeAlias alias = "oc" type = "jungmo.shoppingmall.admin.order.domain.OrderCancel" />
 			<typeAlias alias = "ref" type = "jungmo.shoppingmall.admin.order.domain.Refund" />
 			<typeAlias alias = "refi" type = "jungmo.shoppingmall.admin.order.domain.RefundImage" />
-	</typeAliases>
+			<typeAlias alias = "exc" type = "jungmo.shoppingmall.admin.order.domain.Exchange" />
+			<typeAlias alias = "exci" type = "jungmo.shoppingmall.admin.order.domain.ExchangeImage" />
+	</typeAliases> 
 </configuration>

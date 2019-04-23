@@ -1,13 +1,12 @@
 package jungmo.shoppingmall.admin.order.dao;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.order.dao.mapper.PostMapper;
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.domain.Post;
+import jungmo.shoppingmall.admin.order.dao.mapper.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Repository
 public class PostDaoImpl implements PostDao{
@@ -35,5 +34,13 @@ public class PostDaoImpl implements PostDao{
 	
 	public List<Post> getRefundDatePosts(Page page){
 		return postMapper.getRefundDatePosts(page);
+	}
+	
+	public List<Post> getExchangePosts(Page page){
+		return postMapper.getExchangePosts(page);
+	}
+	
+	public List<Post> getExchangeDatePosts(Page page){
+		return postMapper.getExchangeDatePosts(page);
 	}
 }

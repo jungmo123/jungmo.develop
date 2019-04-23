@@ -50,6 +50,19 @@
 		</where>
 	</select>
 	
+	<select id = "getExchangeTotRowCnt" parameterType="string" resultType = "int">
+		select count(distinct ord_num)
+		from exchanges
+		<where>
+			<if test = "_parameter != null and _parameter.equals('One')">
+				exc_state = '처리전'
+			</if>
+			<if test = "_parameter != null and _parameter.equals('Two')">
+				exc_state = '처리완료'
+			</if>
+		</where>
+	</select>
+	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	
 	select count(distinct ord_num)
@@ -78,6 +91,17 @@
 		from refunds
 		where ref_requestdate > #{date1} and
 		ref_requestdate < #{date2} and
+		ord_num like '%' || #{ordNum} || '%'
+		order by ord_num
+	]]>
+	</select>
+	 
+	<select id = "getExchangeDateTotRowCnt" parameterType= "page" resultType = "int">
+	<![CDATA[	
+	select count(distinct ord_num)
+		from exchanges
+		where exc_requestdate > #{date1} and
+		exc_requestdate < #{date2} and
 		ord_num like '%' || #{ordNum} || '%'
 		order by ord_num
 	]]>

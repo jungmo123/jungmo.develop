@@ -62,4 +62,16 @@ public class OrderDaoImpl implements OrderDao{
 	public List<Refund> getOrderRefund(){
 		return orderMapper.getOrderRefund();
 	}
+	
+	public List<Exchange> getOrderExchange(){
+		return orderMapper.getOrderExchange();
+	}
+	
+	public int refundModify(HashMap<String,List<String>> map){
+		return orderMapper.refundModify(map);
+	}
+	
+	public int exchangeModify(HashMap<String,List<String>> map){
+		return orderMapper.exchangeModify(map);
+	}
 }
