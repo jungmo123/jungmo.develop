@@ -1,12 +1,13 @@
 package jungmo.shoppingmall.admin.boardadmin.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.boardadmin.dao.GoodsCategoriesDao;
-import jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories;
+import jungmo.shoppingmall.admin.boardadmin.dao.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class GoodsCategoriesServiceImpl implements GoodsCategoriesService{
@@ -14,5 +15,13 @@ public class GoodsCategoriesServiceImpl implements GoodsCategoriesService{
 	
 	public List<GoodsCategories> getCategories(){
 		return godcDao.getCategories();
+	}
+	
+	public int newCategory(@Param("content") String content,@Param("godcNum") String godcNum){
+		return godcDao.newCategory(content, godcNum);
+	}
+	
+	public GoodsCategories getCategory(String godcNum){
+		return godcDao.getCategory(godcNum);
 	}
 }

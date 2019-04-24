@@ -3,8 +3,21 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.GoodsCategoriesMapper">
 	<select id = "getCategories" resultType = "godc">
-	 	select godc_num godcNum,godc_name godcName
+	 	select godc_num godcNum,godc_name godcName,godc_content godcContent
 	 	from goods_categories
 	 	where godc_viewstate = 'visible'
 	</select>
+	<select id = "getCategory" parameterType = "string" resultType = "godc">
+ 		select godc_num godcNum,godc_name godcName,godc_content godcContent
+	 	from goods_categories
+	 	where godc_num = #{godcNum}
+	</select>
+	
+	<update id = "newCategory" parameterType="map">
+		update goods_categories
+		set godc_content = #{content}
+		<if test = "!godcNum.equals('')">
+			where godc_num = #{godcNum}
+		</if>
+	</update>
 </mapper>

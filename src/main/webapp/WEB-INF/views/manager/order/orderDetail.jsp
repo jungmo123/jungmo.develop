@@ -735,11 +735,9 @@ $(function(){
             		
             		// 방법 1. JSON.parse 이용하기
             		var parseData = JSON.parse(JSON.stringify(data));
-             		console.log(parseData.Company); // 그중 Json Array에 접근하기 위해 Array명 Company 입력
             		
             		// 방법 2. Json으로 가져온 데이터에 Array로 바로 접근하기
             		var CompanyArray = data.Company; // Json Array에 접근하기 위해 Array명 Company 입력
-            		console.log(CompanyArray); 
             		
             		var myData="";
             		$.each(CompanyArray,function(key,value) {
@@ -759,7 +757,6 @@ $(function(){
                 dataType : "json",
                 url:"http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key="+myKey+"&t_code="+t_code+"&t_invoice="+t_invoice,
                 success:function(data){
-                	console.log(data);
                 	var myInvoiceData = "";
                 	if(data.status == false){
                 		myInvoiceData += ('<p>'+data.msg+'<p>');

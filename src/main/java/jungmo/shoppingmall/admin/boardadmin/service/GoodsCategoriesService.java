@@ -1,9 +1,13 @@
 package jungmo.shoppingmall.admin.boardadmin.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+
+import org.apache.ibatis.annotations.*;
 
 public interface GoodsCategoriesService {
 	List<GoodsCategories> getCategories();
+	int newCategory(@Param("content") String content,@Param("godcNum") String godcNum);
+	GoodsCategories getCategory(String godcNum);
 }

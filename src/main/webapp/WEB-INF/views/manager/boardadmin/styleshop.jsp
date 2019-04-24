@@ -26,7 +26,7 @@
 table tr td {
 	border: 1px solid grey;
 }
-#newInput {
+#newInput,#modifyInput {
 	padding: 10px 10px 30px 10px;
 	border: 0px;
 	resize: none;
@@ -86,7 +86,7 @@ textarea{
 			</div>
 			<div id="submenu">
 				<a href="styleshop" class="activeMenu"><span>스타일 숍 공지</span></a> 
-				<a href="02.html"><span>고객센터 공지</span></a> 
+				<a href="cic"><span>고객센터 공지</span></a> 
 				<a href="05.html"><span>커뮤니티</span></a>
 				<a href="08.html"><span>상품 문의</span></a> 
 				<a href="09.html"><span>1:1문의</span></a> 
@@ -103,55 +103,57 @@ textarea{
 					<p id="menuName">Board Managament</p>
 					<p id="currentIdx">&#124; 주문관리 > 스타일 숍 주문</p>
 				</div>
-				<form>
-					<select>
+					<select id = "selectCategory">
 						<option>카테고리 선택</option>
 						<c:forEach var = "option" items = "${categories}" varStatus = "state">
-							<option>${option.godcName}</option>
+							<option value = "${option.godcNum}">${option.godcName}</option>
 						</c:forEach>
 					</select> <br>
 					<div class="br">
 						<strong>신규 등록</strong>
 						<div class="br">
+							<form id = "newForm" action = "newCategory" method = "post">
 							<table>
 								<tr>
 									<td><textarea id="newInput" onkeyup="chkword(this,100)"
 											placeholder="내용을 입력하세요"></textarea></td>
 								</tr>
 								<tr>
-									<td class="bottomTd"><label for="newInputCheck">모든
-											카테고리에 동일하게 적용</label> <input id="newInputCheck" type="checkbox"
-										name="newInputCheck" />
+									<td class="bottomTd"><label for="newInputCheck">모든카테고리에 동일하게 적용</label>
+									<input id="newInputCheck" type="checkbox"name="newInputCheck" />
 										<div class="remit">
 											<span id = "currentByte">0자</span> <strong>/100자</strong>
-										</div></td>
+										</div>
+									</td>
 								</tr>
 							</table>
-							<button class="complete" type="button">완료</button>
+							<button class="complete" type="submit">완료</button>
+							</form>
 						</div>
 					</div>
 					<br>
 					<div class="br">
 						<strong>수정</strong>
 						<div class="br">
+							<form id = "modifyForm" action = "modifyCategory" method = "post">
 							<table>
 								<tr>
-									<td><textarea id="newInput" onkeyup="chkword(this,100)"
+									<td><textarea id="modifyInput" onkeyup="chkword(this,100)"
 											placeholder="내용을 입력하세요"></textarea></td>
 								</tr>
 								<tr>
-									<td class="bottomTd"><label for="newInputCheck">모든
-											카테고리에 동일하게 적용</label> <input id="newInputCheck" type="checkbox"
-										name="newInputCheck" />
+									<td class="bottomTd"><label for="modifyInputCheck">모든카테고리에 동일하게 적용</label>
+									<input id="modifyInputCheck" type="checkbox"name="modifyInputCheck" />
 										<div class="remit">
 											<span id = "currentByte">0자</span> <strong>/100자</strong>
-										</div></td>
+										</div>
+									</td>
 								</tr>
 							</table>
-							<button class="complete" type="button">완료</button>
+							<button class="complete" type="submit">완료</button>
+							</form>
 						</div>
 					</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -166,7 +168,6 @@ function chkword(obj, maxByte) {
     var oneChar = "";
     var str2 = "";
     var current =  $(obj).parents("tr").next().find("span");
-    console.log(current);
     if(strValue == ""){
     	$(current).text("0");
     }
@@ -200,6 +201,127 @@ function chkword(obj, maxByte) {
         chkword(obj, 4000);
     }
 }
+
+	$("#newForm").submit(function(e){
+		e.preventDefault();
+		$.ajaxSettings.traditional = true;
+		var select = $("#selectCategory option:selected").val();
+		var content = $("#newInput").val();
+		var checkbox = $("#newInputCheck").prop("checked");
+		var array = new Array();
+		if(checkbox == false){
+			if(select == "카테고리 선택"){
+				Swal.fire({
+					  position: 'top',
+					  type: 'warning',
+					  title: '카테고리를 선택하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});			
+			}else{
+				array.push(select);
+			}
+		}else{
+			var AllSelect = $("#selectCategory option");
+			$.each(AllSelect,function(index,item){
+				if($(item).val() != "카테고리 선택"){
+					array.push($(item).val());				
+				}
+			})
+		}
+ 		$.ajax({
+			url:"newCategory",
+			method:"post",
+			data: {
+				array:array,
+				content:content
+			},
+			success:function(data){
+				Swal.fire({
+					  position: 'top',
+					  type: 'success',
+					  title: "등록이 완료되었습니다!",
+					  showConfirmButton: false,
+					  timer: 1500
+					});						
+			},
+			error:function(a,b,errMsg){
+				console.log(errMsg);
+			}
+		})
+		
+	})
+	
+	$("#modifyForm").submit(function(e){
+		e.preventDefault();
+		$.ajaxSettings.traditional = true;
+		var select = $("#selectCategory option:selected").val();
+		var content = $("#modifyInput").val();
+		var checkbox = $("#modifyInputCheck").prop("checked");
+		var array = new Array();
+		if(checkbox == false){
+			if(select == "카테고리 선택"){
+				Swal.fire({
+					  position: 'top',
+					  type: 'warning',
+					  title: '카테고리를 선택하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});			
+			}else{
+				array.push(select);
+			}
+		}else{
+			var AllSelect = $("#selectCategory option");
+			$.each(AllSelect,function(index,item){
+				if($(item).val() != "카테고리 선택"){
+					array.push($(item).val());				
+				}
+			})
+		}
+ 		$.ajax({
+			url:"newCategory",
+			method:"post",
+			data: {
+				array:array,
+				content:content
+			},
+			success:function(data){
+				Swal.fire({
+					  position: 'top',
+					  type: 'success',
+					  title: "수정이 완료되었습니다!",
+					  showConfirmButton: false,
+					  timer: 1500
+					});				
+			},
+			error:function(a,b,errMsg){
+				console.log(errMsg);
+			}
+		})
+	})
+	
+	$("#selectCategory").change(function(){
+		if($(this).val() != '카테고리 선택'){
+			var num =$(this).val();
+			var content;
+	 		$.ajax({
+				url:"getCategoryContent",
+				method:"post",
+				data: {
+					num:num
+				},
+				success:function(data){
+					$("#modifyInput").val(data.godcContent)
+				},
+				error:function(a,b,errMsg){
+					console.log(errMsg);
+				}
+			})
+		}else{
+			$("#modifyInput").val('')
+		}
+	})
 </script>
 
 </body>
