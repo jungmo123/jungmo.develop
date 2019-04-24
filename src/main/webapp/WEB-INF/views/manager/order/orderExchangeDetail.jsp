@@ -16,6 +16,7 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script	src="//cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
 <style>
 	#stateInfo{
 		margin-top:10px;
@@ -112,7 +113,7 @@
 <div class="container">
 		<div id="title">
 			<div id="logo">
-				<a href="../MAIN/01.html"><span>LALA&nbsp;</span>MARKET</a>
+				<a href="main"><span>LALA&nbsp;</span>MARKET</a>
 				<div id="Admin">
 					<h5>Administrator</h5>
 				</div>
@@ -130,7 +131,7 @@
 			</div>
 		</div>
 		<div id="content">
-			<%@ include file = "../header/header.jsp" %>
+			<%@ include file = "../header/orderheader.jsp" %>
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Order Managament</p>
@@ -204,7 +205,7 @@
 								<strong>사유 선택</strong>
 							</td>
 							<td colspan = "3">
-								<span>${exchange.excReason}</span>
+								<span>${exchange.reaName}</span>
 							</td>
 						</tr>
 						<tr>
@@ -278,6 +279,39 @@
 		$input.css("display","none");
 		$("#exchangeForm").append($input);		
 	})
+	
+		$("#cancel").click(function(){
+			Swal.fire({
+				  title: '작성을 취소하시겠습니까?',
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: '네',
+				  cancelButtonText: '아니요'
+				}).then((result) => {
+				  if (result.value) {
+					window.location.href = "/shoppingmall/admin/orderExchange";
+				  }
+				})			
+		})
+		
+		$("#delete").click(function(){
+			Swal.fire({
+				  title: '신청서를 삭제하시겠습니까?',
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: '네',
+				  cancelButtonText: '아니요'
+				}).then((result) => {
+				  if (result.value) {
+					  $("#exchangeForm").attr("action","orderExchangeDelete");
+					  $("#exchangeForm").submit();
+				  }
+				})			
+		})
 </script>
 
 </body>

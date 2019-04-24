@@ -47,4 +47,8 @@ public interface OrderMapper {
 			@Param("content") String content,
 			@Param("state") String state,
 			@Param("memo") String memo);
+	int deleteRefund(String ordNum);
+	int deleteExchange(String ordNum);
+	int deleteRefundImage(String ordNum);
+	int deleteExchangeImage(String ordNum);
 }

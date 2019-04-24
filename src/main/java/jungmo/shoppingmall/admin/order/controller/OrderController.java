@@ -26,6 +26,25 @@ public class OrderController {
 	private String refund;
 	private String exchange;
 	
+	public void modify(String ordNum){
+		String list = ordNum;
+		String type = "배송준비중";
+		List<String> ls = new ArrayList<>();
+		List<String> tp = new ArrayList<>();
+		StringTokenizer st = new StringTokenizer(list,",");
+		HashMap<String,List<String>> option = new HashMap<>();
+		while(st.hasMoreElements()){
+			ls.add(st.nextToken());
+		}
+		tp.add(type);
+		option.put("list",ls);
+		option.put("type", tp);
+		if(ls.size() != 0){
+			orderService.dvModify(option);
+			orderService.addMlc(option);
+		}
+	}
+	
 	public void common(HttpServletRequest request,Model model,String idx,String Type){
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx),Type);
@@ -466,7 +485,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/admin/refundSave")
-	public String refundSave(HttpServletRequest request,Model mode){
+	public String refundSave(HttpServletRequest request){
 		String state = request.getParameter("select");
 		String ordNum = request.getParameter("ordNum");
 		String content = request.getParameter("content");
@@ -484,7 +503,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/admin/exchangeSave")
-	public String exchangeSave(HttpServletRequest request,Model mode){
+	public String exchangeSave(HttpServletRequest request){
 		String state = request.getParameter("select");
 		String ordNum = request.getParameter("ordNum");
 		String content = request.getParameter("content");
@@ -498,6 +517,24 @@ public class OrderController {
 		option.put("list",ls);
 		option.put("type", tp);
 		orderService.addMlc(option);		
+		return "redirect:orderExchangeOne1";
+	}
+	
+	@RequestMapping("/admin/orderRefundDelete")
+	public String refundDelete(HttpServletRequest request){
+		String ordNum = request.getParameter("ordNum");
+		orderService.deleteRefundImage(ordNum);
+		orderService.deleteRefund(ordNum);
+		modify(ordNum);
+		return "redirect:orderRefundOne1";
+	}
+	
+	@RequestMapping("/admin/orderExchangeDelete")
+	public String exchangeDelete(HttpServletRequest request){
+		String ordNum = request.getParameter("ordNum");
+		orderService.deleteExchangeImage(ordNum);
+		orderService.deleteExchange(ordNum);
+		modify(ordNum);
 		return "redirect:orderExchangeOne1";
 	}
 }

@@ -200,7 +200,7 @@
 	<div class="container">
 		<div id="title">
 			<div id="logo">
-				<a href="../MAIN/01.html"><span>LALA&nbsp;</span>MARKET</a>
+				<a href="main"><span>LALA&nbsp;</span>MARKET</a>
 				<div id="Admin">
 					<h5>Administrator</h5>
 				</div>
@@ -218,7 +218,7 @@
 			</div>
 		</div>
 		<div id="content">
-			<%@ include file = "../header/header.jsp" %>
+			<%@ include file = "../header/orderheader.jsp" %>
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Order Managament</p>

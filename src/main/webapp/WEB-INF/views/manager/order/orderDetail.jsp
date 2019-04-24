@@ -53,6 +53,11 @@
 		width:90px;
 		padding:2px;
 	}
+	#deliveryForm div:nth-child(2) button{
+		height:34px;
+		position:relative;
+		bottom:1px;
+	}
 	#deliveryForm div:nth-child(2){
 		float:right;
 	}
@@ -315,7 +320,7 @@
 <div class="container">
 		<div id="title">
 			<div id="logo">
-				<a href="../MAIN/01.html"><span>LALA&nbsp;</span>MARKET</a>
+				<a href="main"><span>LALA&nbsp;</span>MARKET</a>
 				<div id="Admin">
 					<h5>Administrator</h5>
 				</div>
@@ -333,7 +338,7 @@
 			</div>
 		</div>
 		<div id="content">
-			<%@ include file = "../header/header.jsp" %>
+			<%@ include file = "../header/orderheader.jsp" %>
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Order Managament</p>
@@ -611,7 +616,7 @@
 				<td>
 					<div id = "submitDiv">
 						<input type = "submit" value = "저장" />
-						<button>취소</button>
+						<button id = "cancel">취소</button>
 					</div>
 				</td>
 			</tr>
@@ -915,16 +920,6 @@ function chkword(obj, maxByte) {
 							maxlength : function(){
 								return "4자 이하로 입력";
 							}
-						},
-						userStreet : {
-							required : function(){
-								return "우편번호를 검색하세요!";
-							}
-						},
-						userDetailArea : {
-							required : function(){
-								return "상세 주소를 입력하세요 !";
-							}
 						}
 					},
 				})		
@@ -980,11 +975,40 @@ function chkword(obj, maxByte) {
 		
 		$("#submitForm").submit(function(e){
 			e.preventDefault();
-			submit('저장을 성공했습니다.',$("#odState option:selected").val())
+			var text = $(".buyerInfo2 label");
+			var trigger = 'Y';
+			if(text.length != 0){
+				$.each(text,function(index,item){
+					if($(item).text() != ''){
+						trigger = 'N';
+					}
+				})
+			}
+			if(trigger == 'Y'){
+				submit('저장을 성공했습니다.',$("#odState option:selected").val());
+			}
 		})
 		
 	$("#odcancel").click(function(){
 		submit('취소를 성공했습니다.','주문취소');
+	})
+	
+	
+	$("#cancel").click(function(e){
+		e.preventDefault();
+		Swal.fire({
+			  title: '수정을 취소하시겠습니까?',
+			  type: 'info',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '네',
+			  cancelButtonText: '아니요'
+			}).then((result) => {
+			  if (result.value) {
+				location.href="/shoppingmall/admin/orderListOne1";
+			  }
+			})
 	})
 </script>
 </body>

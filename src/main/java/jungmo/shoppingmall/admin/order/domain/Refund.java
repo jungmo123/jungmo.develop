@@ -9,6 +9,7 @@ public class Refund {
 	private String ordNum;
 	private Date refRequestDate;
 	private String refReason;
+	private String reaName;
 	private String refContent;
 	private String refState;
 	private String refCompleteDate;
@@ -18,6 +19,12 @@ public class Refund {
 	private User user;
 	private List<RefundImage> images;
 	
+	public String getReaName() {
+		return reaName;
+	}
+	public void setReaName(String reaName) {
+		this.reaName = reaName;
+	}
 	public String getOrdNum() {
 		return ordNum;
 	}

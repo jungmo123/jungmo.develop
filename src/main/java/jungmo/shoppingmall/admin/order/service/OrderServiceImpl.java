@@ -83,4 +83,20 @@ public class OrderServiceImpl implements OrderService{
 	public int exchangeDetailModify(String ordNum,String content,String state,String memo){
 		return orderDao.exchangeDetailModify(ordNum, content, state, memo);
 	}
+	
+	public int deleteRefund(String ordNum){
+		return orderDao.deleteRefund(ordNum);
+	}
+	
+	public int deleteExchange(String ordNum){
+		return orderDao.deleteExchange(ordNum);
+	}
+	
+	public int deleteRefundImage(String ordNum){
+		return orderDao.deleteRefundImage(ordNum);
+	}
+	
+	public int deleteExchangeImage(String ordNum){
+		return orderDao.deleteExchangeImage(ordNum);
+	}
 }

@@ -70,4 +70,14 @@ public class LoginController {
 		session.removeAttribute("admin");
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/aboutUs01")
+	public String aboutUs01(){
+		return "user/aboutUs/aboutUs01";
+	}
+	
+	@RequestMapping("/aboutUs02")
+	public String aboutUs02(){
+		return "user/aboutUs/aboutUs02";
+	}
 }

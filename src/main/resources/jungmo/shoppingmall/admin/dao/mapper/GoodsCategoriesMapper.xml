@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.GoodsCategoriesMapper">
+	<select id = "getCategories" resultType = "godc">
+	 	select godc_num godcNum,godc_name godcName
+	 	from goods_categories
+	 	where godc_viewstate = 'visible'
+	</select>
+</mapper>

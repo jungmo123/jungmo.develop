@@ -21,5 +21,6 @@
 			<typeAlias alias = "refi" type = "jungmo.shoppingmall.admin.order.domain.RefundImage" />
 			<typeAlias alias = "exc" type = "jungmo.shoppingmall.admin.order.domain.Exchange" />
 			<typeAlias alias = "exci" type = "jungmo.shoppingmall.admin.order.domain.ExchangeImage" />
+			<typeAlias alias = "godc" type = "jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories" />
 	</typeAliases> 
 </configuration>

@@ -82,4 +82,20 @@ public class OrderDaoImpl implements OrderDao{
 	public int exchangeDetailModify(String ordNum,String content,String state,String memo){
 		return orderMapper.exchangeDetailModify(ordNum, content, state, memo);
 	}
+	
+	public int deleteRefund(String ordNum){
+		return orderMapper.deleteRefund(ordNum);
+	}
+	
+	public int deleteExchange(String ordNum){
+		return orderMapper.deleteExchange(ordNum);
+	}
+	
+	public int deleteRefundImage(String ordNum){
+		return orderMapper.deleteRefundImage(ordNum);
+	}
+	
+	public int deleteExchangeImage(String ordNum){
+		return orderMapper.deleteExchangeImage(ordNum);
+	}
 }

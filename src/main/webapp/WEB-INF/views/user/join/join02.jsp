@@ -666,7 +666,7 @@ input[type="number"]::-webkit-inner-spin-button {
 		e.preventDefault();
 		Swal.fire({
 			  title: '가입을 취소하시겠습니까?',
-			  type: 'warning',
+			  type: 'info',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
 			  cancelButtonColor: '#d33',

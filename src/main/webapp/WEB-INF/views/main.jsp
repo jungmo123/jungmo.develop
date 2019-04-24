@@ -78,8 +78,8 @@
 						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">라라마켓</button>
 							<ul class= "dropdown-menu">
-								<li><a href = "USER/ABOUTUS/01.html">소개</a></li>
-								<li><a href = "USER/ABOUTUS/02.html">찾아오시는 길</a></li>
+								<li><a href = "aboutUs01">소개</a></li>
+								<li><a href = "aboutUs02">찾아오시는 길</a></li>
 							</ul>
 						</div>
 						<div class = "btn-group drop">
@@ -615,7 +615,7 @@
 	<div class = "container" id = "footerDiv">
 		<div id = "footer">
 			<div id = "footerNav">
-				<a href = "../ABOUTUS/01.html"><span>회사 소개</span></a>
+				<a href = "aboutUs01"><span>회사 소개</span></a>
 				<span>&nbsp;&#124;&nbsp;</span>
 				<a href = "#"><span>이용약관</span></a>
 				<span>&nbsp;&#124;&nbsp;</span>

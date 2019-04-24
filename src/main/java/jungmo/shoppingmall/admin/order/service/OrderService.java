@@ -23,4 +23,8 @@ public interface OrderService {
 	List<Exchange> getOrderExchange();
 	int refundDetailModify(String ordNum,String content,String state,String memo);
 	int exchangeDetailModify(String ordNum,String content,String state,String memo);
+	int deleteRefund(String ordNum);
+	int deleteExchange(String ordNum);
+	int deleteRefundImage(String ordNum);
+	int deleteExchangeImage(String ordNum);
 }

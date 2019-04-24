@@ -9,6 +9,7 @@ public class Exchange {
 	private String ordNum;
 	private Date excRequestDate;
 	private String excReason;
+	private String reaName;
 	private String excContent;
 	private String excState;
 	private String excCompleteDate;
@@ -17,6 +18,13 @@ public class Exchange {
 	private List<GoodsOption> goodsOption;
 	private User user;
 	private List<ExchangeImage> images;
+	
+	public String getReaName() {
+		return reaName;
+	}
+	public void setReaName(String reaName) {
+		this.reaName = reaName;
+	}
 	public String getOrdNum() {
 		return ordNum;
 	}

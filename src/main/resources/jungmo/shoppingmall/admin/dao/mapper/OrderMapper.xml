@@ -25,23 +25,27 @@
 	</select> 
 	 
 	<select id = "getOrderRefund" resultMap = "refMap">
-		select refunds.ord_num,purchases.god_num,ref_requestdate,ref_reason,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
+		select refunds.ord_num,purchases.god_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
 		from refunds join purchases
 		on (refunds.ord_num = purchases.ord_num)
 		join orders
 		on (refunds.ord_num = orders.ord_num)
 		join users
 		on (orders.user_id = users.user_id)
+		join reasons
+		on (refunds.ref_reason = reasons.rea_code)
 	</select>
 	
 	<select id = "getOrderExchange" resultMap = "excMap">
-		select exchanges.ord_num,purchases.god_num,exc_requestdate,exc_reason,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
+		select exchanges.ord_num,purchases.god_num,exc_requestdate,exc_reason,rea_name,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
 		from exchanges join purchases
 		on (exchanges.ord_num = purchases.ord_num)
 		join orders
 		on (exchanges.ord_num = orders.ord_num)
 		join users
 		on (orders.user_id = users.user_id)
+		join reasons
+		on (exchanges.exc_reason = reasons.rea_code)
 	</select>
 	
 	<select id = "getOrderCancel" parameterType = "string" resultType = "oc">
@@ -242,6 +246,26 @@
 		delete from order_cancels
 		where ord_num = #{ordNum}
 	</delete>
+	
+	<delete id = "deleteRefund" parameterType ="string">
+		delete from refunds
+		where ord_num = #{ordNum}
+	</delete>
+	
+	<delete id = "deleteExchange" parameterType ="string">
+		delete from exchanges
+		where ord_num = #{ordNum}
+	</delete>
+	 
+	<delete id = "deleteRefundImage" parameterType ="string">
+		delete from refund_images
+		where ord_num = #{ordNum}
+	</delete>
+	
+	<delete id = "deleteExchangeImage" parameterType ="string">
+		delete from exchange_images
+		where ord_num = #{ordNum}
+	</delete>
 	 
 	<resultMap id = "purMap" type = "pur">
 		<id property = "ordNum" column = "ord_num" />
@@ -314,6 +338,7 @@
 		<result property = "ordNum" column = "ord_num" />
 		<result property = "refRequestDate" column = "ref_requestdate" />
 		<result property = "refReason" column = "ref_reason" />
+		<result property = "reaName" column = "rea_name" />
 		<result property = "refContent" column = "ref_content" />
 		<result property = "refState" column = "ref_state" />
 		<result property = "refMemo" column = "ref_memo" />
@@ -323,11 +348,12 @@
 		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
 		<collection property = "images" column = "ord_num" select = "getRefundImage" />
 	</resultMap>
-	
+	 
 	<resultMap id = "excMap" type = "exc">
 		<result property = "ordNum" column = "ord_num" />
 		<result property = "excRequestDate" column = "exc_requestdate" />
 		<result property = "excReason" column = "exc_reason" />
+		<result property = "reaName" column = "rea_name" />
 		<result property = "excContent" column = "exc_content" />
 		<result property = "excState" column = "exc_state" />
 		<result property = "excMemo" column = "exc_memo" />
