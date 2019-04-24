@@ -75,4 +75,12 @@ public class OrderServiceImpl implements OrderService{
 	public List<Exchange> getOrderExchange(){
 		return orderDao.getOrderExchange();
 	}
+	
+	public int refundDetailModify(String ordNum,String content,String state,String memo){
+		return orderDao.refundDetailModify(ordNum, content, state, memo);
+	}
+	
+	public int exchangeDetailModify(String ordNum,String content,String state,String memo){
+		return orderDao.exchangeDetailModify(ordNum, content, state, memo);
+	}
 }

@@ -74,4 +74,12 @@ public class OrderDaoImpl implements OrderDao{
 	public int exchangeModify(HashMap<String,List<String>> map){
 		return orderMapper.exchangeModify(map);
 	}
+	
+	public int refundDetailModify(String ordNum,String content,String state,String memo){
+		return orderMapper.refundDetailModify(ordNum, content, state, memo);
+	}
+	
+	public int exchangeDetailModify(String ordNum,String content,String state,String memo){
+		return orderMapper.exchangeDetailModify(ordNum, content, state, memo);
+	}
 }

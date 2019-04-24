@@ -37,4 +37,14 @@ public interface OrderMapper {
 	List<Goods> getGoods(String ordNum);
 	List<Refund> getOrderRefund();
 	List<Exchange> getOrderExchange();
+	int refundDetailModify(
+			@Param("ordNum") String ordNum,
+			@Param("content") String content,
+			@Param("state") String state,
+			@Param("memo") String memo);
+	int exchangeDetailModify(
+			@Param("ordNum") String ordNum,
+			@Param("content") String content,
+			@Param("state") String state,
+			@Param("memo") String memo);
 }

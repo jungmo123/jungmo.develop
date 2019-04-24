@@ -467,11 +467,37 @@ public class OrderController {
 	
 	@RequestMapping("/admin/refundSave")
 	public String refundSave(HttpServletRequest request,Model mode){
+		String state = request.getParameter("select");
+		String ordNum = request.getParameter("ordNum");
+		String content = request.getParameter("content");
+		String memo = request.getParameter("memo");
+		orderService.refundDetailModify(ordNum, content, state, memo);
+		List<String> ls = new ArrayList<>();
+		List<String> tp = new ArrayList<>();
+		HashMap<String,List<String>> option = new HashMap<>();
+		ls.add(ordNum);
+		tp.add(state);
+		option.put("list",ls);
+		option.put("type", tp);
+		orderService.addMlc(option);
 		return "redirect:orderRefundOne1";
 	}
 	
 	@RequestMapping("/admin/exchangeSave")
 	public String exchangeSave(HttpServletRequest request,Model mode){
+		String state = request.getParameter("select");
+		String ordNum = request.getParameter("ordNum");
+		String content = request.getParameter("content");
+		String memo = request.getParameter("memo");
+		orderService.exchangeDetailModify(ordNum, content, state, memo);
+		List<String> ls = new ArrayList<>();
+		List<String> tp = new ArrayList<>();
+		HashMap<String,List<String>> option = new HashMap<>();
+		ls.add(ordNum);
+		tp.add(state);
+		option.put("list",ls);
+		option.put("type", tp);
+		orderService.addMlc(option);		
 		return "redirect:orderExchangeOne1";
 	}
 }

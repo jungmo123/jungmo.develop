@@ -266,6 +266,18 @@
 			}
 		})
 	})
+	
+	$("#exchangeForm").submit(function(){
+		var ordNum = "${exchange.ordNum}";
+		var $input = $("<input></input>");
+		$input.attr({
+			"type":"text",
+			"name":"ordNum"
+		});
+		$input.val(ordNum);
+		$input.css("display","none");
+		$("#exchangeForm").append($input);		
+	})
 </script>
 
 </body>

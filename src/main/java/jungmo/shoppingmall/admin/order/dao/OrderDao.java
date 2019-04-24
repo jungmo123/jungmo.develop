@@ -21,4 +21,6 @@ public interface OrderDao {
 	int cancelModify(HashMap<String,List<String>> map);
 	List<Refund> getOrderRefund();
 	List<Exchange> getOrderExchange();
+	int refundDetailModify(String ordNum,String content,String state,String memo);
+	int exchangeDetailModify(String ordNum,String content,String state,String memo);
 }

@@ -136,19 +136,13 @@
 		    values (sysdate,#{ls},'주문취소로 변경')		
       		</foreach>
       	</if>
-      	<if test = 'tp == "교환"'>
+      	<if test = 'tp == "처리전"'>
       		<foreach item = "ls" collection = "list">
       		into manage_log_categories
-		    values (sysdate,#{ls},'교환으로 변경')		
+		    values (sysdate,#{ls},'교환/환불 처리전으로 변경')		
       		</foreach>
       	</if>
-      	<if test = 'tp == "환불"'>
-      		<foreach item = "ls" collection = "list">
-      		into manage_log_categories
-		    values (sysdate,#{ls},'환불로 변경')		
-      		</foreach>
-      	</if>
-      		<if test = 'tp == "처리완료"'>
+      	<if test = 'tp == "처리완료"'>
       		<foreach item = "ls" collection = "list">
       		into manage_log_categories
 		    values (sysdate,#{ls},'환불/교환 처리완료로 변경')		
@@ -189,6 +183,30 @@
 		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
 			#{ls}
 		</foreach>
+	</update>
+	 
+	<update id = "refundDetailModify" parameterType = "map">
+		update refunds
+		<if test = 'state == "처리완료"'>
+			set ref_completedate = sysdate,ref_state = '처리완료',
+		</if>
+		<if test = 'state == "처리전"'>
+			set ref_completedate = null,ref_state = '처리전',
+		</if>
+		ref_memo = #{memo},ref_content = #{content}
+		where ord_num = #{ordNum}
+	</update>
+	 
+	<update id = "exchangeDetailModify" parameterType = "map">
+		update exchanges
+		<if test = 'state == "처리완료"'>
+			set exc_completedate = sysdate,exc_state = '처리완료',
+		</if>
+		<if test = 'state == "처리전"'>
+			set exc_completedate = null,exc_state = '처리전',
+		</if>
+		exc_memo = #{memo},exc_content = #{content}
+		where ord_num = #{ordNum}
 	</update>
 	
 	<update id = "exchangeModify" parameterType = "hashmap">

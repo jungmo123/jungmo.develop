@@ -134,7 +134,7 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Order Managament</p>
-				<p id = "currentIdx">&#124; 주문관리 > 교환 > 상세보기</p>
+				<p id = "currentIdx">&#124; 주문관리 > 환불 > 상세보기</p>
 			</div>
 		<form id = "refundForm" action = "refundSave" method = "post">
 			<div id = "apply">
@@ -265,7 +265,21 @@
 				$(item).prop("selected",true);
 			}
 		})
+		
+		$("#refundForm").submit(function(){
+			var ordNum ="${refund.ordNum}";
+			console.log(ordNum);
+			var $input =$("<input></input>");
+			$input.attr({
+				"type":"text",
+				"name":"ordNum"
+			});
+			$input.val(ordNum);
+			$input.css("display","none");
+			$("#refundForm").append($input);			
+		})	
 	})
+	
 </script>
 </body>
 </html>
