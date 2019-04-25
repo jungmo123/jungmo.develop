@@ -14,13 +14,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
-<!-- include libraries(jQuery, bootstrap) -->
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-<!-- include summernote css/js-->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+<script type="text/javascript" src= "<c:url value="/editor/js/HuskyEZCreator.js" />" charset="utf-8"></script> 
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
 <style>
 	#titleBar{
 		display:inline-block;
@@ -84,16 +79,17 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판 관리 > 공지 사항 > 글쓰기</p>
 			</div>
-		<form>
+		<form id = "writeForm" action = "write">
 			<div id = "titleBar">
 				<select>
 					<option>카테고리 선택</option>
 				</select>
 				<input type = "text" name = "title" placeholder = "제목을 입력해 주세요!" />
 			</div>
-				<textarea class ="summernote" placeholder  ="내용을 입력해 주세요!"></textarea>
+				<textarea id = "description" placeholder  ="내용을 입력해 주세요!"></textarea>
+			
 			<div id = "buttonGroup">
-				<button class = "btn btn-default" onclick="location.href='01.html'">작성 완료</button>
+				<button type = "submit" class = "btn btn-default">작성 완료</button>
 				<button class = "btn btn-default" onclick="location.href='01.html'">작성 취소</button>
 			</div>
 		</form>
@@ -101,16 +97,32 @@
 </div>
 </div>
 
-<script type = "text/javascript">
-$(document).ready(function() {
-    $('.summernote').summernote({
-            height: 300,                 // set editor height
-            minHeight: null,             // set minimum height of editor
-            maxHeight: null,             // set maximum height of editor
-            focus: true                  // set focus to editable area after initializing summernote
-    });
+<script type="text/javascript">
+var oEditors = [];
+$(function(){
+					nhn.husky.EZCreator.createInIFrame({
+						oAppRef: oEditors,
+						elPlaceHolder: "description",
+						//SmartEditor2Skin.html 파일이 존재하는 경로
+						sSkinURI: "/WEB-INF/resources/editor/SmartEditor2Skin.html",	
+						htParams : {
+							// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+							bUseToolbar : true,				
+							// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+							bUseVerticalResizer : true,		
+							// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+							bUseModeChanger : true,			
+							fOnBeforeUnload : function(){
+								
+							}
+						}, 
+						fOnAppLoad : function(){
+							//기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용
+							oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
+						},
+						fCreator: "createSEditor2"
+					});
 });
-
 </script>
 
 </body>

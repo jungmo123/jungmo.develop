@@ -1,20 +1,16 @@
 package jungmo.shoppingmall.admin.boardadmin.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
-import jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories;
-import jungmo.shoppingmall.admin.boardadmin.service.GoodsCategoriesService;
-import jungmo.shoppingmall.admin.boardadmin.service.PostsService;
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.service.PageService;
-import jungmo.shoppingmall.admin.order.service.PageServiceImpl;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.service.*;
+import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class BoardAdminController {
