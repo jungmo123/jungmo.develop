@@ -6,10 +6,10 @@ public class Posts {
 	private int borNum;
 	private int poscNum;
 	private int posNum;
-	private String posImporance;
+	private String posImportance;
 	private String posTitle;
 	private String posContent;
-	private Date pos_writingDate;
+	private Date posWritingDate;
 	private int posViewCnt;
 	private String userId;
 	
@@ -22,17 +22,11 @@ public class Posts {
 	public int getPosNum() {
 		return posNum;
 	}
-	public String getPosImporance() {
-		return posImporance;
-	}
 	public String getPosTitle() {
 		return posTitle;
 	}
 	public String getPosContent() {
 		return posContent;
-	}
-	public Date getPos_writingDate() {
-		return pos_writingDate;
 	}
 	public int getPosViewCnt() {
 		return posViewCnt;
@@ -49,17 +43,11 @@ public class Posts {
 	public void setPosNum(int posNum) {
 		this.posNum = posNum;
 	}
-	public void setPosImporance(String posImporance) {
-		this.posImporance = posImporance;
-	}
 	public void setPosTitle(String posTitle) {
 		this.posTitle = posTitle;
 	}
 	public void setPosContent(String posContent) {
 		this.posContent = posContent;
-	}
-	public void setPos_writingDate(Date pos_writingDate) {
-		this.pos_writingDate = pos_writingDate;
 	}
 	public void setPosViewCnt(int posViewCnt) {
 		this.posViewCnt = posViewCnt;
@@ -67,4 +55,16 @@ public class Posts {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	public Date getPosWritingDate() {
+		return posWritingDate;
+	}
+	public void setPosWritingDate(Date posWritingDate) {
+		this.posWritingDate = posWritingDate;
+	}
+	public String getPosImportance() {
+		return posImportance;
+	}
+	public void setPosImportance(String posImportance) {
+		this.posImportance = posImportance;
+	}	
 }

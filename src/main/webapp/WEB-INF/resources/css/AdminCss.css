@@ -174,11 +174,11 @@
 	#nav > .btn-group{
 		padding-bottom:20px;
 	}
-	.dropdown-menu {
+	#nav .dropdown-menu {
 	    position: absolute;
 	    top: 50px;
 	}
-	.btn-group button{
+	#nav .btn-group button{
 		width:100px;
 		border:0px;
 		text-align:center;

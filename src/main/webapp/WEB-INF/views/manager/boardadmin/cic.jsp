@@ -65,6 +65,17 @@
 		margin-top:30px;
 		text-align:center;
 	}
+	.pagination li a{
+		border:0px;
+	}
+	#pagination > div > .pagination .active a{
+		background-color:#F2F5F7;
+		color:black;
+		font-weight:bold;
+	}
+	.pagination .active a:active{
+		background-color:grey;
+	}
 	#pagination .currentPage{
 		color:#727272 !important;
 		font-weight:bold;
@@ -128,75 +139,43 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr onclick = "location.href='03.html'">
-							<td><span class = "badge">중요</span></td>
-							<td>폭설로 인한 배송 지연 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>10</td>
-							<td>{제목표기}</td>
-							<td>{작성일 표기</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>9</td>
-							<td>택배사 물량 폭주로 배송 불가 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>8</td>
-							<td>신용카드 무이자 할부 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>7</td>
-							<td>신상품 입고 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>6</td>
-							<td>오픈 숍 이용 시 주의사항 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>5</td>
-							<td>신용카드 무이자 할부 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>4</td>
-							<td>신상품 입고 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>3</td>
-							<td>오픈 숍 이용 시 주의사항 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>2</td>
-							<td>1월 신상품 입고 안내</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='03.html'">
-							<td>1</td>
-							<td>게시글 제목이 표기 됩니다.</td>
-							<td>2023-01-01</td>
-						</tr>
+						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
+						<tr id = "${post.posNum}">
+							<td>
+								<c:choose>
+								<c:when test = "${post.posImportance=='Y'}">
+									<span class = "badge">중요</span>
+								</c:when>
+								<c:otherwise>
+									<span>${post.posNum}</span>
+								</c:otherwise>
+								</c:choose>
+							</td>
+							<td>${post.posTitle}</td>
+							<td>${post.posWritingDate}</td>
+						</tr> 
+						</c:forEach>
 					</tbody>
 				</table>
-				<button id = "write" class = "btn btn-default" onclick = "location.href='04.html'">글쓰기</button>
+				<a href = "cicWrite" id = "write" class = "btn btn-default">글쓰기</a>
 			</div>
-			<div id = "pagination">
+ 			<div id = "pagination">
 				<div>
-					<a href = "#"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-					<a href = "#"  class = "currentPage">1</a>
-					<a href = "#">2</a>
-					<a href = "#">3</a>
-					<a href = "#">4</a>
-					<a href = "#">5</a>
-					<a href = "#" ><span class = "glyphicon glyphicon-chevron-right"></span></a>
-					<div id = "currentBar"></div>
+					<ul class = "pagination">
+						<c:if test = "${pageMaker.prev}">
+							<li><a href = "cic${type}I${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+						</c:if>
+						
+						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+								<a href = "cic${type}I${idx}">${idx}</a>
+							</li>
+						</c:forEach>
+
+						<c:if test = "${pageMaker.next}">
+							<li><a href = "cic${type}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+						</c:if>
+					</ul>
 				</div>		
 			</div>
 		</div>

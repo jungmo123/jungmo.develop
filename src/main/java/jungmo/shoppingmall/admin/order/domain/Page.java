@@ -9,9 +9,18 @@ public class Page {
 	private Date date1;
 	private Date date2;
 	private String ordNum;
+	private int borNum;
+	private int poscNum;
 	
 	public Page(){
 		this(1,5);
+	}
+	
+	public Page(int currentPage,int borNum,int poscNum){
+		this.currentPage = currentPage;
+		this.borNum = borNum;
+		this.poscNum = poscNum;
+		this.rowCnt = 5;
 	}
 	
 	public Page(int currentPage,String type){
@@ -83,5 +92,21 @@ public class Page {
 
 	public void setRowCnt(int rowCnt) {
 		this.rowCnt = rowCnt;
+	}
+
+	public int getBorNum() {
+		return borNum;
+	}
+
+	public int getPoscNum() {
+		return poscNum;
+	}
+
+	public void setBorNum(int borNum) {
+		this.borNum = borNum;
+	}
+
+	public void setPoscNum(int poscNum) {
+		this.poscNum = poscNum;
 	}
 }

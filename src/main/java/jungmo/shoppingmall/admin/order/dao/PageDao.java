@@ -1,5 +1,7 @@
 package jungmo.shoppingmall.admin.order.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface PageDao {
@@ -11,4 +13,5 @@ public interface PageDao {
 	int getRefundDateTotRowCnt(Page page);
 	int getExchangeTotRowCnt(String type);
 	int getExchangeDateTotRowCnt(Page page);
+	int getBoardTotRowCnt(@Param("borNum") int borNum,@Param("poscNum") int poscNum);
 }

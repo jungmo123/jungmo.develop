@@ -22,5 +22,7 @@
 			<typeAlias alias = "exc" type = "jungmo.shoppingmall.admin.order.domain.Exchange" />
 			<typeAlias alias = "exci" type = "jungmo.shoppingmall.admin.order.domain.ExchangeImage" />
 			<typeAlias alias = "godc" type = "jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories" />
+			<typeAlias alias = "pos" type = "jungmo.shoppingmall.admin.boardadmin.domain.Posts" />
+			<typeAlias alias = "bosc" type = "jungmo.shoppingmall.admin.boardadmin.domain.BoardCategories" />
 	</typeAliases> 
 </configuration>

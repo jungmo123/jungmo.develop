@@ -70,4 +70,8 @@
 	
 	<aop:aspectj-autoproxy />
 	
+	<bean id = "multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	<context:property-placeholder location = "classpath:jungmo/shoppingmall/config/upload.properties"/>
+	<mvc:resources location="/upload/" mapping="/upload/**"/>
+	
 </beans>

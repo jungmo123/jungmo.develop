@@ -3,6 +3,7 @@ package jungmo.shoppingmall.admin.order.service;
 import jungmo.shoppingmall.admin.order.dao.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -57,6 +58,10 @@ public class PageServiceImpl implements PageService{
 	
 	public int getExchangeDateTotRowCnt(Page page){
 		return pageDao.getExchangeDateTotRowCnt(page);
+	}
+	
+	public int getBoardTotRowCnt(@Param("borNum") int borNum,@Param("poscNum") int poscNum){
+		return pageDao.getBoardTotRowCnt(borNum, poscNum);
 	}
 	 
 	private void init(){

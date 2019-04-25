@@ -62,6 +62,15 @@
 			</if>
 		</where>
 	</select>
+ 
+	<select id = "getBoardTotRowCnt" parameterType="map" resultType = "int">
+		select count(pos_num)
+		from posts
+		where bor_num = #{borNum}
+		<if test = "poscNum != 0">
+			and posc_num = #{poscNum}
+		</if>
+	</select>
 	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	

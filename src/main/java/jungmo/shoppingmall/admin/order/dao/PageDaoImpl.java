@@ -3,6 +3,7 @@ package jungmo.shoppingmall.admin.order.dao;
 import jungmo.shoppingmall.admin.order.dao.mapper.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -40,5 +41,9 @@ public class PageDaoImpl implements PageDao{
 	
 	public int getExchangeDateTotRowCnt(Page page){
 		return pageMapper.getExchangeDateTotRowCnt(page);
+	}
+	
+	public int getBoardTotRowCnt(@Param("borNum") int borNum,@Param("poscNum") int poscNum){
+		return pageMapper.getBoardTotRowCnt(borNum, poscNum);
 	}
 }

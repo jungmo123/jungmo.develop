@@ -1,6 +1,8 @@
 package jungmo.shoppingmall.admin.order.dao.mapper;
 
-import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.domain.Page;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface PageMapper {
 	int getTotRowCnt(String type);
@@ -11,4 +13,5 @@ public interface PageMapper {
 	int getRefundDateTotRowCnt(Page page);
 	int getExchangeTotRowCnt(String type);
 	int getExchangeDateTotRowCnt(Page page);
+	int getBoardTotRowCnt(@Param("borNum") int borNum,@Param("poscNum") int poscNum);
 }
