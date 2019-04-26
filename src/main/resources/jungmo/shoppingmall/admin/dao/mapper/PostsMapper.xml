@@ -20,6 +20,11 @@
 		]]>
 	</select>
 	
+	<insert id = "addNotice" parameterType = "pos">
+		insert into posts
+		values (posts_num_seq.nextval,#{posImportance},#{posTitle},#{posContent},sysdate,0,#{userId},#{borNum},#{poscNum})
+	</insert>
+	
 	<resultMap id = "posMap" type = "pos">
 		<id property = "posNum" column = "pos_num" />
 		<result property = "posImportance" column = "pos_importance" />

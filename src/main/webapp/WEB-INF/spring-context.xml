@@ -28,9 +28,7 @@
 	<mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**"/>
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>
 	<mvc:resources location="/WEB-INF/resources/img/" mapping="/IMAGE/**"/>
-	<mvc:resources location = "WEB-INF/resources/ckeditor/" mapping="/ckeditor/**" />
-	<mvc:resources location = "WEB-INF/editor/" mapping="/editor/**" />
-	<mvc:resources location = "WEB-INF/editor/" mapping="/editor/**" />
+	<mvc:resources location="editor/" mapping="/editor/**" />
 
 	<bean id = "dataSource" class = "org.springframework.jndi.JndiObjectFactoryBean">
 		<property name ="jndiName" value = "java:comp/env/jdbc/jungmo"/>
@@ -72,9 +70,5 @@
 	</mvc:interceptors>
 	
 	<aop:aspectj-autoproxy />
-	
-	<bean id = "multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	<context:property-placeholder location = "classpath:jungmo/shoppingmall/config/upload.properties"/>
-	<mvc:resources location="/upload/" mapping="/upload/**"/>
 	
 </beans>

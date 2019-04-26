@@ -1,20 +1,31 @@
 package jungmo.shoppingmall.admin.boardadmin.controller;
 
-import javax.servlet.http.*;
+import java.util.List;
 
-import jungmo.shoppingmall.admin.boardadmin.domain.*;
-import jungmo.shoppingmall.admin.boardadmin.service.*;
-import jungmo.shoppingmall.admin.order.domain.*;
-import jungmo.shoppingmall.admin.order.service.*;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.BoardCategories;
+import jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories;
+import jungmo.shoppingmall.admin.boardadmin.domain.Posts;
+import jungmo.shoppingmall.admin.boardadmin.service.BoardCategoriesService;
+import jungmo.shoppingmall.admin.boardadmin.service.GoodsCategoriesService;
+import jungmo.shoppingmall.admin.boardadmin.service.PostsService;
+import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.order.service.PageService;
+import jungmo.shoppingmall.admin.order.service.PageServiceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BoardAdminController {
 	@Autowired private GoodsCategoriesService godcService;
+	@Autowired private BoardCategoriesService boscService;
 	@Autowired private PostsService posService;
 	@Autowired private PageService pageService;
 	
@@ -65,7 +76,27 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping("/admin/cicWrite")
-	public String cicWrite(){
+	public String cicWrite(Model model){
+		List<BoardCategories> board =  boscService.getBC(1);
+		model.addAttribute("categories",board);
+		return "manager/boardadmin/cicWrite";
+	}
+	
+	@RequestMapping(value = "/admin/write",method=RequestMethod.POST)
+	public String cicWrite(HttpServletRequest request,Model model){
+		String importance = request.getParameter("importance");
+		String categorySelect = request.getParameter("categorySelect");
+		String content = request.getParameter("writeContent");
+		String title = request.getParameter("title");
+		String userId = (String)request.getSession().getAttribute("admin");
+		if(importance != null){
+			importance = "Y";
+		}else{
+			importance = "N";
+		}
+		System.out.println(importance + " " + categorySelect + " " + content + " " + title + userId);
+		Posts pos = new Posts(1,Integer.parseInt(categorySelect),importance,title,content,userId);
+		posService.addNotice(pos);
 		return "manager/boardadmin/cicWrite";
 	}
 }

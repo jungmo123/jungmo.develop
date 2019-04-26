@@ -86,18 +86,6 @@
 				</ul>
 			</div>
 			<div class = "btn-group drop">
-				<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">통계</button>
-				<ul class= "dropdown-menu">
-					<li><a href = "../STATISTICS/01.html">방문자수/페이지뷰</a></li>
-					<li><a href = "../STATISTICS/02.html">회원수</a></li>
-					<li><a href = "../STATISTICS/03.html">상품 조회수</a></li>
-					<li><a href = "../STATISTICS/04.html">카테고리 조회수</a></li>
-					<li><a href = "../STATISTICS/05.html">상품 판매 순위</a></li>
-					<li><a href = "../STATISTICS/06.html">포인트</a></li>
-					<li><a href = "../STATISTICS/07.html">탈퇴 사유</a></li>
-				</ul>
-			</div>
-			<div class = "btn-group drop">
 				<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">기본 정책 관리</button>
 				<ul class= "dropdown-menu">
 					<li><a href = "../POLICY/01.html">약관</a></li>

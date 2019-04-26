@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.BoardCategoriesMapper">
+	<select id = "getBC" parameterType = "int" resultType = "bosc">
+		select posc_num poscNum,posc_name poscName
+		from board_categories
+		where bor_num = #{borNum}
+	</select>
+</mapper>

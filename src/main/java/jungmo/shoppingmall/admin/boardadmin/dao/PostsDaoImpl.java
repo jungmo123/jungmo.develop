@@ -16,4 +16,8 @@ public class PostsDaoImpl implements PostsDao{
 	public List<Posts> getPosts(Page page){
 		return posMapper.getPosts(page);
 	}
+	
+	public void addNotice(Posts pos){
+		posMapper.addNotice(pos);
+	}
 }

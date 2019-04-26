@@ -14,7 +14,7 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
-<script type="text/javascript" src= "<c:url value="/editor/js/HuskyEZCreator.js" />" charset="utf-8"></script> 
+<script type="text/javascript" src= "../editor/js/HuskyEZCreator.js" charset="utf-8"></script> 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
 <style>
 	#titleBar{
@@ -22,8 +22,8 @@
 		width:780px;
 		padding:10px;
 	}
-	#titleBar input{
-		width:648px;
+	#titleBar input[type='text']{
+		width:605px;
 		height:24px;
 	}
 	#textBox{
@@ -79,17 +79,23 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판 관리 > 공지 사항 > 글쓰기</p>
 			</div>
-		<form id = "writeForm" action = "write">
+		<form id = "writeForm" action = "write" method = "post">
 			<div id = "titleBar">
-				<select>
+				<label for = "importance">중요</label>
+				<input id = "importance" type= "checkbox" name = "importance">
+				<select id = "categorySelect" name = "categorySelect">
 					<option>카테고리 선택</option>
+					<c:forEach var = "category" items = "${categories}" varStatus = "state">
+						<option value = "${category.poscNum}">${category.poscName}</option>
+					</c:forEach>
 				</select>
-				<input type = "text" name = "title" placeholder = "제목을 입력해 주세요!" />
+				<input id = "writeTitle" type = "text" name = "title" placeholder = "제목을 입력해 주세요!" />
 			</div>
-				<textarea id = "description" placeholder  ="내용을 입력해 주세요!"></textarea>
-			
+			<div>
+				<textarea id = "writeContent" name = "writeContent" style="width:765px; height:475px; display:none;"></textarea>	
+			</div>
 			<div id = "buttonGroup">
-				<button type = "submit" class = "btn btn-default">작성 완료</button>
+				<button id = "submitButton" class = "btn btn-default">작성 완료</button>
 				<button class = "btn btn-default" onclick="location.href='01.html'">작성 취소</button>
 			</div>
 		</form>
@@ -102,9 +108,9 @@ var oEditors = [];
 $(function(){
 					nhn.husky.EZCreator.createInIFrame({
 						oAppRef: oEditors,
-						elPlaceHolder: "description",
+						elPlaceHolder: "writeContent",
 						//SmartEditor2Skin.html 파일이 존재하는 경로
-						sSkinURI: "/WEB-INF/resources/editor/SmartEditor2Skin.html",	
+						sSkinURI: "../editor/SmartEditor2Skin.html",	
 						htParams : {
 							// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
 							bUseToolbar : true,				
@@ -115,13 +121,33 @@ $(function(){
 							fOnBeforeUnload : function(){
 								
 							}
-						}, 
-						fOnAppLoad : function(){
-							//기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용
-							oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
 						},
 						fCreator: "createSEditor2"
 					});
+					
+					$("#submitButton").click(function(e){
+						e.preventDefault();
+						oEditors.getById["writeContent"].exec("UPDATE_CONTENTS_FIELD",[]);
+						if($("#categorySelect option:selected").val() == '카테고리 선택'){
+							Swal.fire({
+								  position: 'top',
+								  type: 'error',
+								  title: "카테고리를 선택해주세요!",
+								  showConfirmButton: false,
+								  timer: 1500
+								});			
+						}else if($("#writeTitle").val() == ''){
+							Swal.fire({
+								  position: 'top',
+								  type: 'error',
+								  title: "제목을 입력하세요!",
+								  showConfirmButton: false,
+								  timer: 1500
+								});										
+						}else{
+							$("#writeForm").submit();
+						}
+					})
 });
 </script>
 

@@ -7,4 +7,5 @@ import jungmo.shoppingmall.admin.order.domain.Page;
 
 public interface PostsService {
 	List<Posts> getPosts(Page page);
+	void addNotice(Posts pos);
 }

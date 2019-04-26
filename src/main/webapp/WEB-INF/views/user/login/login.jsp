@@ -46,9 +46,9 @@
 				</div>
 				<div id = "nav">
 					<div id = "loginBar">
-						<a href = "../JOIN/01.html"><span>회원가입</span></a>
+						<a href = "join01"><span>회원가입</span></a>
 						<span>&#124;</span>
-						<a href = "#"><span>로그인</span></a>
+						<a href = "login"><span>로그인</span></a>
 						<span>&#124;</span>
 						<a href = "../HELP/08.html"><span>ID/비밀번호 
 						찾기</span></a>
@@ -79,7 +79,7 @@
 					</div>
 				</form>
 				<div>
-					<a href = "register01"><span>회원 가입</span></a>
+					<a href = "join01"><span>회원 가입</span></a>
 					<span>&#124;</span>
 					<a href = "../HELP/08.html"><span>ID/비밀번호 찾기</span></a>				
 				</div>

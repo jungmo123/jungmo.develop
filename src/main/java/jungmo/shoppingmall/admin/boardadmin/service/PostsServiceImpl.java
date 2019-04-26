@@ -16,4 +16,8 @@ public class PostsServiceImpl implements PostsService{
 	public List<Posts> getPosts(Page page){
 		return posDao.getPosts(page);
 	}
+	
+	public void addNotice(Posts pos){
+		posDao.addNotice(pos);
+	}
 }

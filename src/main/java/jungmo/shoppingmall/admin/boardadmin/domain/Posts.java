@@ -13,6 +13,19 @@ public class Posts {
 	private int posViewCnt;
 	private String userId;
 	
+	public Posts(){}
+	
+	public Posts(int borNum, int poscNum, String posImportance,
+			String posTitle, String posContent,String userId) {
+		this.borNum = borNum;
+		this.poscNum = poscNum;
+		this.posImportance = posImportance;
+		this.posTitle = posTitle;
+		this.posContent = posContent;
+		this.posViewCnt = 0;
+		this.userId = userId;
+	}
+
 	public int getBorNum() {
 		return borNum;
 	}
