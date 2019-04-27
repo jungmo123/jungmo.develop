@@ -13,11 +13,29 @@
 			<if test = "poscNum!=0">
 				and posts.posc_num = #{poscNum}
 			</if>
-			order by pos_importance,pos_num
+			order by pos_importance DESC,pos_num DESC
 		<![CDATA[
 		)x where rownum <= #{rowCnt}*#{currentPage}
 			)where rnum > #{rowCnt}*(#{currentPage}-1)
 		]]>
+	</select>
+	
+	<select id = "getPost" parameterType = "map" resultMap = "posContentMap">
+    select * from(
+    	select pos_num,posts.posc_num,posts.bor_num,pos_title,pos_content,pos_writingdate,pos_viewcnt,user_id,posc_name,
+   		lead(pos_num,1,0) over (order by pos_num) next,lag(pos_num,1,0) over (order by pos_num) pre,
+    lead(posts.posc_num,1,0) over (order by pos_num) nextc,lag(posts.posc_num,1,0) over (order by pos_num) prec
+		from posts
+		join board_categories
+		on (posts.posc_num = board_categories.posc_num and posts.bor_num = board_categories.bor_num)
+    	where posts.bor_num = #{borNum}
+    	<if test = "category != 0">
+    		 and posts.posc_num = #{poscNum}
+    	 </if>
+    )where pos_num = #{posNum} and bor_num = #{borNum}
+    	<if test = "category != 0">
+    		and posc_num = #{poscNum}
+    	</if>
 	</select>
 	
 	<insert id = "addNotice" parameterType = "pos">
@@ -35,5 +53,22 @@
 		<result property = "userId" column = "user_id" />
 		<result property = "borNum" column = "bor_num" />
 		<result property = "poscNum" column = "posc_num" />
+	</resultMap>
+	 
+	<resultMap id = "posContentMap" type = "pos">
+		<id property = "posNum" column = "pos_num" />
+		<result property = "posImportance" column = "pos_importance" />
+		<result property = "posTitle" column = "pos_title" />
+		<result property = "posContent" column = "pos_content" />
+		<result property = "posWritingDate" column = "pos_writingdate" />
+		<result property = "posViewCnt" column = "pos_viewcnt" />
+		<result property = "userId" column = "user_id" />
+		<result property = "borNum" column = "bor_num" />
+		<result property = "poscNum" column = "posc_num" />
+		<result property = "poscName" column = "posc_name" />
+		<result property = "nextNum" column = "next" />
+		<result property = "preNum" column = "pre" /> 
+		<result property = "prec" column = "prec" />
+		<result property = "nextc" column = "nextc" />
 	</resultMap>
 </mapper>

@@ -88,7 +88,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" id = "${type}">
 		<div id="title">
 			<div id="logo">
 				<a href="main"><span>LALA&nbsp;</span>MARKET</a>
@@ -140,7 +140,7 @@
 					</thead>
 					<tbody>
 						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
-						<tr id = "${post.posNum}">
+						<tr id = "${post.posNum}" class = "${post.poscNum}">
 							<td>
 								<c:choose>
 								<c:when test = "${post.posImportance=='Y'}">
@@ -181,6 +181,21 @@
 		</div>
 	</div>
 </div>
+
+<script type = "text/javascript">
+	$("table tr").click(function(){
+		console.log("클릭");
+		var result = new Array();
+		var posNum = $(this).attr("id");
+		var poscNum = $(this).attr("class");
+		var category = $("body .container:first-child").attr("id");
+		result.push(category);
+		result.push(poscNum);
+		result.push(posNum);
+		result = result.join('I');
+		location.href="/shoppingmall/admin/cicRead" + result;
+	})
+</script>
 
 </body>
 </html>

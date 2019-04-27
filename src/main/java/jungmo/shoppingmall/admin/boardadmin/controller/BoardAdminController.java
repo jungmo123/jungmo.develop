@@ -1,26 +1,18 @@
 package jungmo.shoppingmall.admin.boardadmin.controller;
 
-import java.util.List;
+import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
-import jungmo.shoppingmall.admin.boardadmin.domain.BoardCategories;
-import jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories;
-import jungmo.shoppingmall.admin.boardadmin.domain.Posts;
-import jungmo.shoppingmall.admin.boardadmin.service.BoardCategoriesService;
-import jungmo.shoppingmall.admin.boardadmin.service.GoodsCategoriesService;
-import jungmo.shoppingmall.admin.boardadmin.service.PostsService;
-import jungmo.shoppingmall.admin.order.domain.Page;
-import jungmo.shoppingmall.admin.order.service.PageService;
-import jungmo.shoppingmall.admin.order.service.PageServiceImpl;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.service.*;
+import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class BoardAdminController {
@@ -29,14 +21,13 @@ public class BoardAdminController {
 	@Autowired private PostsService posService;
 	@Autowired private PageService pageService;
 	
-	public void common(HttpServletRequest request,Model model,String idx,String type,int borNum,int poscNum){
+	public void common(HttpServletRequest request,Model model,String idx,int borNum,int poscNum){
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx),borNum,poscNum);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getBoardTotRowCnt(borNum, poscNum));
-		System.out.println(ps.getStartPage() + " " + ps.getEndPage());
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("posts",posService.getPosts(myPage));
-		model.addAttribute("type",type);
+		model.addAttribute("type",poscNum);
 	}
 	
 	@RequestMapping("/admin/styleshop")
@@ -70,8 +61,8 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping("admin/cic{category}I{idx}")
-	public String cic(@PathVariable String category,@PathVariable String idx,HttpServletRequest request,Model model){
-		common(request,model,idx,category,1,Integer.parseInt(category));
+	public String cic(@PathVariable int category,@PathVariable String idx,HttpServletRequest request,Model model){
+		common(request,model,idx,1,category);
 		return "manager/boardadmin/cic";
 	}
 	
@@ -98,5 +89,16 @@ public class BoardAdminController {
 		Posts pos = new Posts(1,Integer.parseInt(categorySelect),importance,title,content,userId);
 		posService.addNotice(pos);
 		return "manager/boardadmin/cicWrite";
+	}
+	
+	@RequestMapping("/admin/cicRead{result}")
+	public String cicRead(@PathVariable String result,Model model){
+		String [] str = result.split("I");
+		int category = Integer.parseInt(str[0]);
+		int poscNum = Integer.parseInt(str[1]);
+		int posNum = Integer.parseInt(str[2]);
+		model.addAttribute("post",posService.getPost(posNum,1,poscNum,category));
+		model.addAttribute("category",category);
+		return "manager/boardadmin/cicRead";
 	}
 }

@@ -5,6 +5,11 @@ import java.sql.*;
 public class Posts {
 	private int borNum;
 	private int poscNum;
+	private int nextNum;
+	private int preNum;
+	private int prec;
+	private int nextc;
+	private String poscName;
 	private int posNum;
 	private String posImportance;
 	private String posTitle;
@@ -79,5 +84,47 @@ public class Posts {
 	}
 	public void setPosImportance(String posImportance) {
 		this.posImportance = posImportance;
-	}	
+	}
+
+	public String getPoscName() {
+		return poscName;
+	}
+
+	public void setPoscName(String poscName) {
+		this.poscName = poscName;
+	}
+
+	public int getNextNum() {
+		return nextNum;
+	}
+
+	public int getPreNum() {
+		return preNum;
+	}
+
+	public void setNextNum(int nextNum) {
+		this.nextNum = nextNum;
+	}
+
+	public void setPreNum(int preNum) {
+		this.preNum = preNum;
+	}
+
+	public int getPrec() {
+		return prec;
+	}
+
+	public int getNextc() {
+		return nextc;
+	}
+
+	public void setPrec(int prec) {
+		this.prec = prec;
+	}
+
+	public void setNextc(int nextc) {
+		this.nextc = nextc;
+	}
+	
+
 }

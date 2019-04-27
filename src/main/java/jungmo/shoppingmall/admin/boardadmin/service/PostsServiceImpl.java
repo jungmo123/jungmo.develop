@@ -1,13 +1,14 @@
 package jungmo.shoppingmall.admin.boardadmin.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.boardadmin.dao.PostsDao;
-import jungmo.shoppingmall.admin.boardadmin.domain.Posts;
-import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.boardadmin.dao.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class PostsServiceImpl implements PostsService{
@@ -19,5 +20,9 @@ public class PostsServiceImpl implements PostsService{
 	
 	public void addNotice(Posts pos){
 		posDao.addNotice(pos);
+	}
+	
+	public Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category){
+		return posDao.getPost(posNum,borNum,poscNum,category);
 	}
 }

@@ -1,13 +1,14 @@
 package jungmo.shoppingmall.admin.boardadmin.dao;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.boardadmin.dao.mapper.PostsMapper;
-import jungmo.shoppingmall.admin.boardadmin.domain.Posts;
-import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.boardadmin.dao.mapper.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Repository
 public class PostsDaoImpl implements PostsDao{
@@ -19,5 +20,9 @@ public class PostsDaoImpl implements PostsDao{
 	
 	public void addNotice(Posts pos){
 		posMapper.addNotice(pos);
+	}
+	
+	public Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category){
+		return posMapper.getPost(posNum,borNum,poscNum,category);
 	}
 }
