@@ -32,10 +32,43 @@
     	<if test = "category != 0">
     		 and posts.posc_num = #{poscNum}
     	 </if>
+     	 <if test = "searchType == 0">
+     	 	<if test = "searchContent !=  ''">
+				 and (pos_title like '%' || #{searchContent} || '%' or pos_content like '%' || #{searchContent} || '%')    	 	
+     	 	</if>
+    	 </if>
     )where pos_num = #{posNum} and bor_num = #{borNum}
     	<if test = "category != 0">
     		and posc_num = #{poscNum}
     	</if>
+     	 <if test = "searchType == 0">
+     	 	<if test = "searchContent !=  ''">
+				 and (pos_title like '%' || #{searchContent} || '%' or pos_content like '%' || #{searchContent} || '%')    	 	
+     	 	</if>
+    	 </if>
+	</select>
+	
+	<select id = "getSearchPost" parameterType = "page" resultMap = "posContentMap">
+		<![CDATA[
+	    select * from(
+		select rownum as rnum, x.* from(		
+			select pos_num,pos_importance,pos_title,pos_content,pos_writingdate,pos_viewcnt,user_id,bor_num,posc_num
+			from posts
+			where posts.bor_num = #{borNum}
+		 ]]>
+			<if test = "poscNum!=0">
+				and posts.posc_num = #{poscNum}
+			</if>
+     	 <if test = "searchType == 0">
+     	 	<if test = "searchContent !=  ''">
+				 and (pos_title like '%' || #{searchContent} || '%' or pos_content like '%' || #{searchContent} || '%')    	 	
+     	 	</if>
+    	 </if>
+			order by pos_importance DESC,pos_num DESC
+		<![CDATA[
+		)x where rownum <= #{rowCnt}*#{currentPage}
+			)where rnum > #{rowCnt}*(#{currentPage}-1)
+		]]>
 	</select>
 	
 	<insert id = "addNotice" parameterType = "pos">

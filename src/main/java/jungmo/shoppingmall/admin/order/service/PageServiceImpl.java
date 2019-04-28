@@ -3,7 +3,7 @@ package jungmo.shoppingmall.admin.order.service;
 import jungmo.shoppingmall.admin.order.dao.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -62,6 +62,11 @@ public class PageServiceImpl implements PageService{
 	
 	public int getBoardTotRowCnt(@Param("borNum") int borNum,@Param("poscNum") int poscNum){
 		return pageDao.getBoardTotRowCnt(borNum, poscNum);
+	}
+	
+	public int getBoardSearchTotRowCnt(@Param("borNum") int borNum,
+			@Param("poscNum") int poscNum,@Param("searchType") int searchType,@Param("searchContent") String searchContent){
+		return pageDao.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent);
 	}
 	 
 	private void init(){

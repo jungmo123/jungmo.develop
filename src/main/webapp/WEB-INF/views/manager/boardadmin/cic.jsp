@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,8 +40,7 @@
 		margin-bottom:10px;
 	}
 	table tr th,
-	table tr td:nth-child(1),
-	table tr td:nth-child(3){
+	table tr td:nth-child(1){
 		text-align:center;
 	}
 	#table tr:nth-child(1) th {
@@ -56,6 +56,14 @@
 	}
 	tbody tr:last-child{
 		border-bottom:1px solid #878787;
+	}
+	table tr td:nth-child(3){
+		text-align:right;;
+		padding-right:20px;
+	}
+	table tr th:nth-child(3){
+		text-align:right;;
+		padding-right:60px;
 	}
 	#write{
 		float:right;
@@ -120,13 +128,19 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판 관리 > 공지사항</p>
 			</div>
-			<form>
+			<form id = "searchForm" action = "cicSearch1" method = "post">
 			<div id = "searchBar">
-				<select class = "form-control">
-					<option>제목 + 내용</option>
+				<select id = "cicCategory" class = "form-control" name = "searchCategory">
+					<option value = "0">카테고리 선택</option>
+					<c:forEach var = "cicCategory" items = "${categories}" varStatus = "state">
+						<option value = "${cicCategory.poscNum}">${cicCategory.poscName}</option>
+					</c:forEach> 
 				</select>
-				<input type = "text" class = "form-control" name = "title" />
-				<button type = "button" class = "btn btn-default">검색</button>
+				<select id = "cicSearch" class = "form-control" name = "searchType">
+					<option value = "1">제목 + 내용</option>
+				</select>
+				<input id = "searchContent" type = "text" name = "searchContent" class = "form-control" name = "title" />
+				<button type = "submit" class = "btn btn-default">검색</button>
 			</div>
 			</form>
 			<div>
@@ -152,7 +166,7 @@
 								</c:choose>
 							</td>
 							<td>${post.posTitle}</td>
-							<td>${post.posWritingDate}</td>
+							<td><fmt:formatDate value = "${post.posWritingDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></td>
 						</tr> 
 						</c:forEach>
 					</tbody>
@@ -162,18 +176,36 @@
  			<div id = "pagination">
 				<div>
 					<ul class = "pagination">
-						<c:if test = "${pageMaker.prev}">
-							<li><a href = "cic${type}I${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+						<c:if test = "${type != 'Search'}">
+							<c:if test = "${pageMaker.prev}">
+								<li><a href = "cic${type}I${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+							</c:if>
+							
+							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+									<a href = "cic${type}I${idx}">${idx}</a>
+								</li>
+							</c:forEach>
+	
+							<c:if test = "${pageMaker.next}">
+								<li><a href = "cic${type}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+							</c:if>
 						</c:if>
 						
-						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
-							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-								<a href = "cic${type}I${idx}">${idx}</a>
-							</li>
-						</c:forEach>
-
-						<c:if test = "${pageMaker.next}">
-							<li><a href = "cic${type}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+						<c:if test = "${type == 'Search'}">
+							<c:if test = "${pageMaker.prev}">
+								<li><a href = "cic${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+							</c:if>
+							
+							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+									<a href = "cic${type}${idx}">${idx}</a>
+								</li>
+							</c:forEach>
+	
+							<c:if test = "${pageMaker.next}">
+								<li><a href = "cic${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+							</c:if>
 						</c:if>
 					</ul>
 				</div>		
@@ -189,6 +221,9 @@
 		var posNum = $(this).attr("id");
 		var poscNum = $(this).attr("class");
 		var category = $("body .container:first-child").attr("id");
+		if(category == "Search"){
+			category = "SearchI";
+		}
 		result.push(category);
 		result.push(poscNum);
 		result.push(posNum);

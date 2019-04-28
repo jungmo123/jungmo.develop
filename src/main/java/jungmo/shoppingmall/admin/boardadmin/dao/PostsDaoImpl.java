@@ -22,7 +22,11 @@ public class PostsDaoImpl implements PostsDao{
 		posMapper.addNotice(pos);
 	}
 	
-	public Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category){
-		return posMapper.getPost(posNum,borNum,poscNum,category);
+	public Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category,@Param("searchType") int searchType,@Param("searchContent") String searchContent){
+		return posMapper.getPost(posNum,borNum,poscNum,category,searchType,searchContent);
+	}
+	
+	public List<Posts> getSearchPost(Page page){
+		return posMapper.getSearchPost(page);
 	}
 }

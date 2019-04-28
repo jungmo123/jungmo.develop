@@ -10,5 +10,6 @@ import org.apache.ibatis.annotations.*;
 public interface PostsMapper {
 	List<Posts> getPosts(Page page);
 	void addNotice(Posts pos);
-	Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category);
+	Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category,@Param("searchType") int searchType,@Param("content") String content);
+	List<Posts> getSearchPost(Page page);
 }

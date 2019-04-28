@@ -108,8 +108,10 @@
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
 			<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
 			<button class = "btn btn-default right"onclick="location.href='04.html'">글쓰기</button>
-			<button class = "btn btn-default right">수정</button>
-			<button class = "btn btn-default right">삭제</button>
+			<c:if test = "${post.userId== admin}">
+				<button class = "btn btn-default right">수정</button>
+				<button class = "btn btn-default right">삭제</button>
+			</c:if>
 		</div>
 	</div>
 </div>

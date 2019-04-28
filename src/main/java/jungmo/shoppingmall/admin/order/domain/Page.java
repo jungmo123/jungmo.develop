@@ -1,6 +1,6 @@
 package jungmo.shoppingmall.admin.order.domain;
 
-import java.sql.Date;
+import java.sql.*;
 
 public class Page {
 	private int currentPage;
@@ -11,6 +11,8 @@ public class Page {
 	private String ordNum;
 	private int borNum;
 	private int poscNum;
+	private int searchType;
+	private String searchContent;
 	
 	public Page(){
 		this(1,5);
@@ -20,7 +22,24 @@ public class Page {
 		this.currentPage = currentPage;
 		this.borNum = borNum;
 		this.poscNum = poscNum;
-		this.rowCnt = 5;
+		this.rowCnt = 10;
+	}
+	
+	public Page(int currentPage,int rowCnt,Date date1,Date date2,String ordNum){
+		this.currentPage = currentPage;
+		this.rowCnt = rowCnt;
+		this.date1 = date1;
+		this.date2 = date2;
+		this.ordNum = ordNum;
+	}
+	
+	public Page(int currentPage,int borNum,int poscNum,int searchType,String searchContent){
+		this.currentPage = currentPage;
+		this.borNum = borNum;
+		this.poscNum = poscNum;
+		this.rowCnt = 10;
+		this.searchType = searchType;
+		this.searchContent = searchContent;
 	}
 	
 	public Page(int currentPage,String type){
@@ -37,14 +56,6 @@ public class Page {
 	}
 
 	public void setOrdNum(String ordNum) {
-		this.ordNum = ordNum;
-	}
-
-	public Page(int currentPage,int rowCnt,Date date1,Date date2,String ordNum){
-		this.currentPage = currentPage;
-		this.rowCnt = rowCnt;
-		this.date1 = date1;
-		this.date2 = date2;
 		this.ordNum = ordNum;
 	}
 
@@ -109,4 +120,22 @@ public class Page {
 	public void setPoscNum(int poscNum) {
 		this.poscNum = poscNum;
 	}
+
+	public int getSearchType() {
+		return searchType;
+	}
+
+	public String getSearchContent() {
+		return searchContent;
+	}
+
+	public void setSearchType(int searchType) {
+		this.searchType = searchType;
+	}
+
+	public void setSearchContent(String searchContent) {
+		this.searchContent = searchContent;
+	}
+	
+	
 }
