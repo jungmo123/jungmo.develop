@@ -15,6 +15,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
+<script type="text/javascript" src= "../editor/js/HuskyEZCreator.js" charset="utf-8"></script> 
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
 <style>
 	#searchBar{
 		text-align:center;
@@ -39,8 +41,13 @@
 		margin-top:10px;
 		margin-bottom:10px;
 	}
-	table tr th,
-	table tr td:nth-child(1){
+	table tr th:nth-child(1),
+	table tr td:nth-child(1),
+	table tr th:nth-child(2),
+	table tr th:nth-child(3),
+	table tr td:nth-child(3),
+	table tr th:nth-child(4),
+	table tr td:nth-child(4){
 		text-align:center;
 	}
 	#table tr:nth-child(1) th {
@@ -56,14 +63,6 @@
 	}
 	tbody tr:last-child{
 		border-bottom:1px solid #878787;
-	}
-	table tr td:nth-child(3){
-		text-align:right;;
-		padding-right:20px;
-	}
-	table tr th:nth-child(3){
-		text-align:right;;
-		padding-right:60px;
 	}
 	#write{
 		float:right;
@@ -111,8 +110,8 @@
 			</div>
 			<div id="submenu">
 				<a href="styleshop"><span>스타일 숍 공지</span></a> 
-				<a href="cic" class="activeMenu"><span>고객센터 공지</span></a> 
-				<a href=community><span>커뮤니티</span></a>
+				<a href="cic"><span>고객센터 공지</span></a> 
+				<a href="community" class="activeMenu"><span>커뮤니티</span></a>
 				<a href="08.html"><span>상품 문의</span></a> 
 				<a href="09.html"><span>1:1문의</span></a> 
 				<a href="11.html"><span>상품평</span></a> 
@@ -126,21 +125,21 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Board Managament</p>
-				<p id = "currentIdx">&#124; 게시판 관리 > 공지사항</p>
+				<p id = "currentIdx">&#124; 게시판 관리 > 커뮤니티 목록</p>
 			</div>
-			<form id = "searchForm" action = "cicSearch1" method = "post">
+			<form>
 			<div id = "searchBar">
-				<select id = "cicCategory" class = "form-control" name = "searchCategory">
+				<select id = "cmCategory" class = "form-control" name = "searchCategory">
 					<option value = "0">카테고리 선택</option>
-					<c:forEach var = "cicCategory" items = "${categories}" varStatus = "state">
-						<option value = "${cicCategory.poscNum}">${cicCategory.poscName}</option>
+					<c:forEach var = "cmCategory" items = "${categories}" varStatus = "state">
+						<option value = "${cmCategory.poscNum}">${cmCategory.poscName}</option>
 					</c:forEach> 
 				</select>
-				<select id = "cicSearch" class = "form-control" name = "searchType">
+				<select id = "cmSearch" class = "form-control" name = "searchType">
 					<option value = "1">제목 + 내용</option>
 				</select>
-				<input id = "searchContent" type = "text" name = "searchContent" class = "form-control" name = "title" />
-				<button type = "submit" class = "btn btn-default">검색</button>
+				<input type = "text" class = "form-control" name = "title" />
+				<button type = "button" class = "btn btn-default">검색</button>
 			</div>
 			</form>
 			<div>
@@ -149,7 +148,9 @@
 						<tr>
 							<th>번호</th>
 							<th>제목</th>
+							<th>작성자</th>
 							<th>작성일</th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -166,52 +167,54 @@
 								</c:choose>
 							</td>
 							<td>${post.posTitle}</td>
+							<td>${post.userId}</td>
 							<td><fmt:formatDate value = "${post.posWritingDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></td>
+							<td>${post.posViewCnt}</td>
 						</tr> 
 						</c:forEach>
 					</tbody>
 				</table>
-				<a href = "cicWrite" id = "write" class = "btn btn-default">글쓰기</a>
+				<button id = "write" class = "btn btn-default" onclick = "location.href = '/shoppingmall/admin/communityWrite'">글쓰기</button>
 			</div>
  			<div id = "pagination">
 				<div>
 					<ul class = "pagination">
 						<c:if test = "${type != 'Search'}">
 							<c:if test = "${pageMaker.prev}">
-								<li><a href = "cic${type}I${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+								<li><a href = "community${type}I${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
 							</c:if>
 							
 							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "cic${type}I${idx}">${idx}</a>
+									<a href = "community${type}I${idx}">${idx}</a>
 								</li>
 							</c:forEach>
 	
 							<c:if test = "${pageMaker.next}">
-								<li><a href = "cic${type}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+								<li><a href = "community${type}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 							</c:if>
 						</c:if>
 						
 						<c:if test = "${type == 'Search'}">
 							<c:if test = "${pageMaker.prev}">
-								<li><a href = "cic${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+								<li><a href = "community${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
 							</c:if>
 							
 							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "cic${type}${idx}">${idx}</a>
+									<a href = "community${type}${idx}">${idx}</a>
 								</li>
 							</c:forEach>
 	
 							<c:if test = "${pageMaker.next}">
-								<li><a href = "cic${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+								<li><a href = "community${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 							</c:if>
 						</c:if>
 					</ul>
 				</div>		
 			</div>
-		</div>
 	</div>
+</div>
 </div>
 
 <script type = "text/javascript">
@@ -230,7 +233,7 @@
 		result.push(poscNum);
 		result.push(posNum);
 		result = result.join('I');
-		location.href="/shoppingmall/admin/cicRead" + result;
+		location.href="/shoppingmall/admin/Cread" + result;
 	})
 </script>
 

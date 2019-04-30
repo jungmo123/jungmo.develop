@@ -30,7 +30,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="styleshop">스타일 숍 공지</a></li>
 								<li><a href="cic">고객센터 공지</a></li>
-								<li><a href="../BOARDADMIN/05.html">커뮤니티</a></li>
+								<li><a href="community">커뮤니티</a></li>
 								<li><a href="../BOARDADMIN/08.html">상품 문의</a></li>
 								<li><a href="../BOARDADMIN/10.html">1:1 문의</a></li>
 								<li><a href="../BOARDADMIN/13.html">상품평</a></li>

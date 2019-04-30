@@ -29,4 +29,20 @@ public class PostsDaoImpl implements PostsDao{
 	public List<Posts> getSearchPost(Page page){
 		return posMapper.getSearchPost(page);
 	}
+	
+	public void deletePosts(int posNum){
+		posMapper.deletePosts(posNum);
+	}
+	
+	public void updatePosts(@Param("posNum") int posNum,@Param("posImportance") String posImportance,@Param("posTitle") String posTitle,@Param("posContent") String posContent){
+		posMapper.updatePosts(posNum, posImportance, posTitle, posContent);
+	}
+	
+	public Posts getPos(int posNum){
+		return posMapper.getPos(posNum);
+	}
+	
+	public void plusViewCnt(int posNum){
+		posMapper.plusViewCnt(posNum);
+	}
 }

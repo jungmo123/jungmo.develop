@@ -29,4 +29,20 @@ public class PostsServiceImpl implements PostsService{
 	public List<Posts> getSearchPost(Page page){
 		return posDao.getSearchPost(page);
 	}
+	
+	public void deletePosts(int posNum){
+		posDao.deletePosts(posNum);
+	}
+	
+	public void updatePosts(@Param("posNum") int posNum,@Param("posImportance") String posImportance,@Param("posTitle") String posTitle,@Param("posContent") String posContent){
+		posDao.updatePosts(posNum, posImportance, posTitle, posContent);
+	}
+	
+	public Posts getPos(int posNum){
+		return posDao.getPos(posNum);
+	}
+	
+	public void plusViewCnt(int posNum){
+		posDao.plusViewCnt(posNum);
+	}
 }

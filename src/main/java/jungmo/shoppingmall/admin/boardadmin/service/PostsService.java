@@ -12,4 +12,8 @@ public interface PostsService {
 	void addNotice(Posts pos);
 	Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("category") int category,@Param("searchType") int searchType,@Param("searchContent") String searchContent);
 	List<Posts> getSearchPost(Page page);
+	void deletePosts(int posNum);
+	void updatePosts(@Param("posNum") int posNum,@Param("posImportance") String posImportance,@Param("posTitle") String posTitle,@Param("posContent") String posContent);
+	Posts getPos(int posNum);
+	void plusViewCnt(int posNum);
 }

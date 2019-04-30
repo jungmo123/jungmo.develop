@@ -12,4 +12,8 @@ public interface PostsDao {
 	void addNotice(Posts pos);
 	Posts getPost(@Param("posNum") int posNum,@Param("borNum") int borNum,@Param("poscNum") int poscNum,@Param("searchContent") int category,@Param("searchType") int searchType,@Param("content") String searchContent);
 	List<Posts> getSearchPost(Page page);
+	Posts getPos(int posNum);
+	void deletePosts(int posNum);
+	void updatePosts(@Param("posNum") int posNum,@Param("posImportance") String posImportance,@Param("posTitle") String posTitle,@Param("posContent") String posContent);
+	void plusViewCnt(int posNum);
 }

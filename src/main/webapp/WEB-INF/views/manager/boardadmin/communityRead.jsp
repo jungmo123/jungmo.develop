@@ -2,6 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import = "jungmo.shoppingmall.admin.boardadmin.service.PostsService" %>
+<%@ page import = "jungmo.shoppingmall.admin.boardadmin.service.PostsServiceImpl" %>
+<c:set var = "userId" value = "${post.userId}" />
+<c:set var = "posNum" value = "${post.posNum}" />
+<%
+	String userId = (String)pageContext.getAttribute("userId");
+	String writer = (String)session.getAttribute("admin");
+	String str = (String)pageContext.getAttribute("posNum");
+	int posNum = Integer.valueOf(str);
+	if(!userId.equals(writer)){
+		PostsService ps = new PostsServiceImpl();
+		System.out.println(posNum);
+	}
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -75,8 +89,8 @@
 			</div>
 			<div id="submenu">
 				<a href="styleshop"><span>스타일 숍 공지</span></a> 
-				<a href="cic" class="activeMenu"><span>고객센터 공지</span></a> 
-				<a href="community"><span>커뮤니티</span></a>
+				<a href="cic"><span>고객센터 공지</span></a> 
+				<a href="community" class="activeMenu"><span>커뮤니티</span></a>
 				<a href="08.html"><span>상품 문의</span></a> 
 				<a href="09.html"><span>1:1문의</span></a> 
 				<a href="11.html"><span>상품평</span></a> 
@@ -90,7 +104,7 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Board Managament</p>
-				<p id = "currentIdx">&#124; 공지사항 > 공지사항 목록 > 상세 보기</p>
+				<p id = "currentIdx">&#124; 커뮤니티 > 커뮤니티 목록 > 상세 보기</p>
 			</div>
 		<div id = "titleDiv">
 			<hr>

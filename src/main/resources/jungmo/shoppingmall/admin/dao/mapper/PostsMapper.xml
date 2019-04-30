@@ -47,6 +47,12 @@
      	 	</if>
     	 </if>
 	</select>
+	 
+	<select id = "getPos" parameterType = "int" resultMap = "posMap">
+		select pos_importance,pos_title,pos_content,posc_num
+		from posts
+		where pos_num = #{posNum}
+	</select>
 	
 	<select id = "getSearchPost" parameterType = "page" resultMap = "posContentMap">
 		<![CDATA[
@@ -75,6 +81,23 @@
 		insert into posts
 		values (posts_num_seq.nextval,#{posImportance},#{posTitle},#{posContent},sysdate,0,#{userId},#{borNum},#{poscNum})
 	</insert>
+	
+	<delete id = "deletePosts" parameterType = "int">
+		delete from posts
+		where pos_num = #{posNum}
+	</delete>
+	 
+	<update id = "updatePosts" parameterType = "map">
+		update posts
+		set pos_importance = #{posImportance},pos_title = #{posTitle},pos_content=#{posContent},pos_writingdate=sysdate
+		where pos_num = #{posNum}
+	</update>
+	
+	<update id = "plusViewCnt" parameterType = "int">
+		update posts
+		set pos_viewcnt = pos_viewcnt+1
+		where pos_num = #{posNum}
+	</update>
 	
 	<resultMap id = "posMap" type = "pos">
 		<id property = "posNum" column = "pos_num" />

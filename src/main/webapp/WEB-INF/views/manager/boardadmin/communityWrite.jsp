@@ -62,8 +62,8 @@
 			</div>
 			<div id="submenu">
 				<a href="styleshop"><span>스타일 숍 공지</span></a> 
-				<a href="cic" class="activeMenu"><span>고객센터 공지</span></a> 
-				<a href="community"><span>커뮤니티</span></a>
+				<a href="cic"><span>고객센터 공지</span></a> 
+				<a href="community" class="activeMenu"><span>커뮤니티</span></a>
 				<a href="08.html"><span>상품 문의</span></a> 
 				<a href="09.html"><span>1:1문의</span></a> 
 				<a href="11.html"><span>상품평</span></a> 
@@ -77,9 +77,9 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Board Managament</p>
-				<p id = "currentIdx">&#124; 게시판 관리 > 공지 사항 > 글쓰기</p>
+				<p id = "currentIdx">&#124; 게시판 관리 > 커뮤니티 > 글쓰기</p>
 			</div>
-		<form id = "writeForm" action = "write" method = "post">
+		<form id = "writeForm" action = "Cwrite" method = "post">
 			<c:if test = "${idx!=null}">
 				<input type = "text" name = "posNum" value = "${idx}"  style = "display:none" />
 			</c:if>
