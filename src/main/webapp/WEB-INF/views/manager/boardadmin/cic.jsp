@@ -139,7 +139,7 @@
 				<select id = "cicSearch" class = "form-control" name = "searchType">
 					<option value = "1">제목 + 내용</option>
 				</select>
-				<input id = "searchContent" type = "text" name = "searchContent" class = "form-control" name = "title" />
+				<input id = "searchContent" type = "text" name = "searchContent" class = "form-control" />
 				<button type = "submit" class = "btn btn-default">검색</button>
 			</div>
 			</form>

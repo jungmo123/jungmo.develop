@@ -65,7 +65,7 @@
 			<if test = "poscNum!=0">
 				and posts.posc_num = #{poscNum}
 			</if>
-     	 <if test = "searchType == 0">
+     	 <if test = "searchType == 1">
      	 	<if test = "searchContent !=  ''">
 				 and (pos_title like '%' || #{searchContent} || '%' or pos_content like '%' || #{searchContent} || '%')    	 	
      	 	</if>

@@ -24,5 +24,6 @@
 			<typeAlias alias = "godc" type = "jungmo.shoppingmall.admin.boardadmin.domain.GoodsCategories" />
 			<typeAlias alias = "pos" type = "jungmo.shoppingmall.admin.boardadmin.domain.Posts" />
 			<typeAlias alias = "bosc" type = "jungmo.shoppingmall.admin.boardadmin.domain.BoardCategories" />
+			<typeAlias alias = "cmt" type = "jungmo.shoppingmall.admin.boardadmin.domain.Comment" />
 	</typeAliases> 
 </configuration>

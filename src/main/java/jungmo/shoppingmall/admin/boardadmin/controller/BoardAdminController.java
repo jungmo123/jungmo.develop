@@ -20,6 +20,7 @@ public class BoardAdminController {
 	@Autowired private BoardCategoriesService boscService;
 	@Autowired private PostsService posService;
 	@Autowired private PageService pageService;
+	@Autowired private CommentService commentService;
 	private int category;
 	private int searchType;
 	private String searchContent;
@@ -36,14 +37,15 @@ public class BoardAdminController {
 		model.addAttribute("categories",boscService.getBC(board));
 	}
 	
-	public void search(HttpServletRequest request,Model model,int board,String idx,int borNum,int poscNum,int searchType,String searchContent){
+	public void search(HttpServletRequest request,Model model,String idx,int borNum,int poscNum,int searchType,String searchContent){
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx),borNum,poscNum,searchType,searchContent);
 		PageService ps = new PageServiceImpl(10,myPage,pageService.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent));
+		System.out.println(pageService.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent));
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("posts",posService.getSearchPost(myPage));
 		model.addAttribute("type","Search");
-		model.addAttribute("categories",boscService.getBC(board));
+		model.addAttribute("categories",boscService.getBC(borNum));
 	}
 	 
 	public void write(HttpServletRequest request,int borNum){
@@ -67,8 +69,9 @@ public class BoardAdminController {
 		}
 	}
 	
-	public void read(Model model,String result,int borNum){
+	public void read(Model model,String result,int borNum,HttpServletRequest request){
 		String [] str = result.split("I");
+		String userId = (String)request.getSession().getAttribute("admin");
 		int category = Integer.parseInt(str[0]);
 		int poscNum = Integer.parseInt(str[1]);
 		int posNum = Integer.parseInt(str[2]);
@@ -78,8 +81,13 @@ public class BoardAdminController {
 		}else{
 			searchType = category;
 		}
-		model.addAttribute("post",posService.getPost(posNum,borNum,poscNum,category,searchType,searchContent));
-		model.addAttribute("category",category);		
+		Posts post = posService.getPost(posNum,borNum,poscNum,category,searchType,searchContent);
+		if(!post.getUserId().equals(userId)){
+			posService.plusViewCnt(posNum);
+		}
+		model.addAttribute("post",post);
+		model.addAttribute("category",category);
+		model.addAttribute("comments",commentService.getComments(posNum));
 	}
 	
 	@RequestMapping("/admin/styleshop")
@@ -132,8 +140,8 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping("/admin/cicRead{result}")
-	public String cicRead(@PathVariable String result,Model model){
-		read(model,result,1);
+	public String cicRead(@PathVariable String result,Model model,HttpServletRequest request){
+		read(model,result,1,request);
 		return "manager/boardadmin/cicRead";
 	}
 	
@@ -145,7 +153,7 @@ public class BoardAdminController {
 			searchType = Integer.parseInt(request.getParameter("searchType"));
 			searchContent = request.getParameter("searchContent");			
 		}
-		search(request,model,1,idx,1,category,searchType,searchContent);
+		search(request,model,idx,1,category,searchType,searchContent);
 		return	"manager/boardadmin/cic";
 	}
 	
@@ -191,8 +199,35 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping("/admin/Cread{result}")
-	public String CRead(@PathVariable String result,Model model){
-		read(model,result,2);
+	public String CRead(@PathVariable String result,Model model,HttpServletRequest request){
+		read(model,result,2,request);
 		return "manager/boardadmin/communityRead";
+	}
+	
+	@RequestMapping("/admin/getComment")
+	@ResponseBody
+	public List<Comment> getComment(String posNum){
+		List<Comment> comments = commentService.getComments(Integer.parseInt(posNum));
+		return comments;
+	}
+	
+	@RequestMapping("/admin/communitySearch{idx}")
+	public String Csearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		System.out.println(request.getParameter("searchCategory") + " " + request.getParameter("searchType") + " " + request.getParameter("searchContent"));
+		if(request.getParameter("searchCategory") != null){
+			category = Integer.parseInt(request.getParameter("searchCategory"));
+			searchType = Integer.parseInt(request.getParameter("searchType"));
+			searchContent = request.getParameter("searchContent");			
+		}
+		search(request,model,idx,2,category,searchType,searchContent);
+		return	"manager/boardadmin/community";
+	}
+	
+	@RequestMapping("/admin/comemntModify")
+	@ResponseBody
+	public boolean cmtModify(String cmtNum,String cmtContent){
+		commentService.updateComment(Integer.parseInt(cmtNum), cmtContent);
+		boolean data = true;
+		return data;
 	}
 }

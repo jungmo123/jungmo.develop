@@ -64,6 +64,20 @@
 	tbody tr:last-child{
 		border-bottom:1px solid #878787;
 	}
+	table tr td:nth-child(1){
+		width:80px;
+	}
+	table tr td:nth-child(3){
+		width:100px;
+	}
+	table tr td:nth-child(4){
+		width:170px;
+	}
+	table tr td:nth-child(5),
+	table tr th:nth-child(5){
+		text-align:center;
+		width:80px;
+	}
 	#write{
 		float:right;
 		width:80px;
@@ -127,9 +141,9 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판 관리 > 커뮤니티 목록</p>
 			</div>
-			<form>
+			<form action = "communitySearch1" method = "post">
 			<div id = "searchBar">
-				<select id = "cmCategory" class = "form-control" name = "searchCategory">
+				<select id = "searchCategory" class = "form-control" name = "searchCategory">
 					<option value = "0">카테고리 선택</option>
 					<c:forEach var = "cmCategory" items = "${categories}" varStatus = "state">
 						<option value = "${cmCategory.poscNum}">${cmCategory.poscName}</option>
@@ -138,8 +152,8 @@
 				<select id = "cmSearch" class = "form-control" name = "searchType">
 					<option value = "1">제목 + 내용</option>
 				</select>
-				<input type = "text" class = "form-control" name = "title" />
-				<button type = "button" class = "btn btn-default">검색</button>
+				<input type = "text" class = "form-control" name = "searchContent" />
+				<button type = "submit" class = "btn btn-default">검색</button>
 			</div>
 			</form>
 			<div>

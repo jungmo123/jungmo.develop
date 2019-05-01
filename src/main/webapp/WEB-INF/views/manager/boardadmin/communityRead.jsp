@@ -2,20 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import = "jungmo.shoppingmall.admin.boardadmin.service.PostsService" %>
-<%@ page import = "jungmo.shoppingmall.admin.boardadmin.service.PostsServiceImpl" %>
-<c:set var = "userId" value = "${post.userId}" />
-<c:set var = "posNum" value = "${post.posNum}" />
-<%
-	String userId = (String)pageContext.getAttribute("userId");
-	String writer = (String)session.getAttribute("admin");
-	String str = (String)pageContext.getAttribute("posNum");
-	int posNum = Integer.valueOf(str);
-	if(!userId.equals(writer)){
-		PostsService ps = new PostsServiceImpl();
-		System.out.println(posNum);
-	}
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -70,6 +56,59 @@
 		margin:10px;
 		border-color:grey;
 	}
+	#commentDiv  button{
+		width:42px;
+		height:22px;
+		padding:0;
+		font-size:12px;
+		font-weight:bold;
+	}
+	#commentDiv hr{
+		margin:10px;	
+	}
+	#commentDiv strong{
+		margin-right:20px;
+	}
+	#commentDiv textarea{
+		resize: none;
+		padding:5px;
+		border-radius:5px;
+		height:76px;
+	}
+	#commentDiv form div button{
+		width:130px;
+		height:70px;
+		float:right;
+		margin-right:10px;
+	}
+	.commentInfo{
+		margin:10px;
+	}
+	.commentInfo span{
+		position:relative;
+		bottom:4px;
+		margin-left:5px;
+	}
+	.commentInfo button{
+		float:right;
+		margin-right:5px;
+	}
+	.fa-comment-dots{
+		font-size:25px;
+	}
+	.commentContent{
+		margin:10px 0px 50px 10px;
+		line-height:25px;
+	}
+	.date{
+		font-size:12px;
+		color:#878787;
+		font-weight:bold;
+	}
+	.commentContent form div button{
+		position:relative;
+		top:3px;
+	}
 </style>
 </head>
 <body>
@@ -99,7 +138,7 @@
 				<a href="16.html"><span>게시판카테고리 관리</span></a>
 			</div>
 		</div>
-		<div id="content">
+		<div id="content" class = "${post.posNum}">
 			<%@ include file = "../header/boardadminheader.jsp" %>
 		<div id = "AllContent">
 			<div id = "menuBar">
@@ -120,6 +159,40 @@
 			${post.posContent}
 		</div>
 		<hr>
+		<div id = "commentDiv">
+			<hr>
+			<strong>작성된 댓글 (1개)</strong>
+			<button class = "btn btn-default">작성</button>
+			<button class = "btn btn-default">취소</button>
+			<hr>
+			<form>
+				<div>
+					<textarea cols = "85" rows ="3" placeholder = "- 최대 000자까지 작성할 수 있습니다(띄어쓰기 포함).
+※욕설, 영업에 방해되는 글은 관리자에 의해 삭제됩니다."></textarea>
+					<button class = "btn btn-default">등록</button>
+				</div>
+			</form>
+			<div id = "commentDiv">
+				<c:forEach var = "comment" items = "${comments}" varStatus = "state">
+				<div id = "${comment.cmtNum}" class = "cmtNum">
+					<hr>
+					<div class = "commentInfo">
+						<i class="far fa-comment-dots"></i>
+						<span>${comment.userId}</span>
+						<span>&#124;</span>
+						<span class = "date"><fmt:formatDate value = "${comment.cmtWritingDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></span>
+						<button class = "btn btn-default modify">수정</button>
+						<button class = "btn btn-default delete">삭제</button>
+						<input type = "text" name = "cmtNum" value = "${comment.cmtNum}" style = "display:none" />
+					</div>
+					<div class = "commentContent" >
+						${comment.cmtContent}
+					</div>
+				</div>
+				</c:forEach>
+			</div>
+			<hr>
+		</div>
 		<div id = "footerDiv">
 			<a href = "cic" class = "btn btn-default left">목록 보기</a>
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
@@ -135,6 +208,116 @@
 </div>
 
 <script type = "text/javascript">
+	$(function(){
+		Date.prototype.format = function (f) {
+
+		    if (!this.valueOf()) return " ";
+
+
+
+		    var weekKorName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+
+		    var weekKorShortName = ["일", "월", "화", "수", "목", "금", "토"];
+
+		    var weekEngName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+		    var weekEngShortName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+		    var d = this;
+
+
+
+		    return f.replace(/(yyyy|yy|MM|dd|KS|KL|ES|EL|HH|hh|mm|ss|a\/p)/gi, function ($1) {
+
+		        switch ($1) {
+
+		            case "yyyy": return d.getFullYear(); // 년 (4자리)
+
+		            case "yy": return (d.getFullYear() % 1000).zf(2); // 년 (2자리)
+
+		            case "MM": return (d.getMonth() + 1).zf(2); // 월 (2자리)
+
+		            case "dd": return d.getDate().zf(2); // 일 (2자리)
+
+		            case "KS": return weekKorShortName[d.getDay()]; // 요일 (짧은 한글)
+
+		            case "KL": return weekKorName[d.getDay()]; // 요일 (긴 한글)
+
+		            case "ES": return weekEngShortName[d.getDay()]; // 요일 (짧은 영어)
+
+		            case "EL": return weekEngName[d.getDay()]; // 요일 (긴 영어)
+
+		            case "HH": return d.getHours().zf(2); // 시간 (24시간 기준, 2자리)
+
+		            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2); // 시간 (12시간 기준, 2자리)
+
+		            case "mm": return d.getMinutes().zf(2); // 분 (2자리)
+
+		            case "ss": return d.getSeconds().zf(2); // 초 (2자리)
+
+		            case "a/p": return d.getHours() < 12 ? "오전" : "오후"; // 오전/오후 구분
+
+		            default: return $1;
+
+		        }
+
+		    });
+
+		};
+
+
+
+		String.prototype.string = function (len) { var s = '', i = 0; while (i++ < len) { s += this; } return s; };
+
+		String.prototype.zf = function (len) { return "0".string(len - this.length) + this; };
+
+		Number.prototype.zf = function (len) { return this.toString().zf(len); };		
+
+		var posNum = "${post.posNum}"
+		$.ajax({
+			url:"getComment",
+			method:"post",
+			data: {
+				posNum:posNum,
+			},
+			success:function(comments){
+				$.each(comments,function(index,item){
+					console.log(item);
+					var div = document.createElement("div")
+					div.setAttribute("id",item.cmtNum);
+					div.setAttribute("class","cmtNum");
+					var hr = document.createElement("hr");
+					div.append(hr);
+					var commentInfo = document.createElement("div");
+					div.append(commentInfo);
+					commentInfo.setAttribute("class","commentInfo");
+					var icon = document.createElement("i");
+					icon.setAttribute("class","far fa-comment-dots");
+					commentInfo.append(icon);
+					var id = document.createElement("span");
+					id.innerHTML=item.userId;
+					commentInfo.append(id);
+					var span = document.createElement("span");
+					span.innerHTML='&#124';
+					commentInfo.append(span);
+					var date = document.createElement("span");
+					date.innerHTML=item.cmtWritingDate;
+					commentInfo.append(date);
+					console.log(div);
+				})
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '저장을 실패하였습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+			}
+		})		
+	})
+
 	var idx = ${post.posNum};
 	$("#pre").click(function(){
 		if("${post.preNum}"==0){
@@ -181,6 +364,64 @@
 		})
 		$("#modify").click(function(){
 			location.href = "/shoppingmall/admin/cicModify"+idx;
+		})
+		$(".modify").click(function(){
+			var textdiv = $(this).closest("div").next();
+			var text = $.trim($(this).closest("div").next().text());
+			$(this).closest("div").next().text("");
+			var form = $("<form></form>");
+			var div = $("<div></div>");
+			var textarea = $("<textarea></textarea>");
+			var button = $("<button>수정</button>");
+			form.attr({
+				class:"modifyForm"
+			})
+			textarea.attr({
+				cols:"85",
+				rows:"3",
+			})
+			button.attr({
+				class:"btn btn-default modifyButton",
+				type:"button"
+			})
+			console.log(text);
+			textarea.val(text);
+			$(div).append(button);
+			$(div).append(textarea);
+			$(form).append(div);
+			$(textdiv).append(form);
+		})
+		
+		$(document).on("click",".modifyButton",function(event){
+			var cmtNum = $(this).parents(".commentContent").closest(".cmtNum").attr("id");
+			var cmtContent = $(this).siblings("textarea").val();
+			console.log(cmtContent);
+			
+			var space = cmtContent.replace(/ /gi,"&nbsp;");
+			var lines = space.replace(/\n/gi,"<br>");
+			
+			$.ajax({
+				url:"comemntModify",
+				method:"post",
+				data: {
+					cmtNum:cmtNum,
+					cmtContent:lines
+				},
+				success:function(data){
+					alert("성공");
+					$("#commentDiv").text("");
+					var div = document.createElement("div");
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '저장을 실패하였습니다.',
+						  showConfirmButton: false,
+						  timer: 1500
+						});
+				}
+			})
 		})
 </script>
 
