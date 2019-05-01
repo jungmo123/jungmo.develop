@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.CommentMapper">
+	<select id = "getComments" parameterType="int"  resultMap = "cmtMap">
+		select cmt_num,cmt_writingdate,cmt_content,user_id,pos_num
+		from comments
+		where pos_num = #{posNum}
+	</select>
+	
+	<update id = "updateComment" parameterType = "map">
+		update comments
+		set cmt_content = #{cmtContent}
+		where cmt_num = #{cmtNum}
+	</update>
+	
+	<resultMap id = "cmtMap" type = "cmt">
+		<id property = "cmtNum" column = "cmt_num" />
+		<result property = "cmtWritingDate" column = "cmt_writingdate" />
+		<result property = "cmtContent" column = "cmt_content" />
+		<result property = "userId" column = "user_id" />
+		<result property = "posNum" column = "pos_num" />
+	</resultMap>
+</mapper>
