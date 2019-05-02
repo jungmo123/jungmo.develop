@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,6 +29,9 @@
 	}
 	#Ddate{
 		float:right;
+	}
+	#content{
+		margin-bottom:50px;
 	}
 	#contentDiv{
 		line-height:25px;
@@ -96,7 +100,7 @@
 	.fa-comment-dots{
 		font-size:25px;
 	}
-	.commentContent{
+	.commentContent,.commentModify{
 		margin:10px 0px 50px 10px;
 		line-height:25px;
 	}
@@ -105,9 +109,13 @@
 		color:#878787;
 		font-weight:bold;
 	}
-	.commentContent form div button{
+	.commentContent form div button,
+	.commentModify form div button{
 		position:relative;
 		top:3px;
+	}
+	.none{
+		display:none;
 	}
 </style>
 </head>
@@ -130,7 +138,7 @@
 				<a href="styleshop"><span>스타일 숍 공지</span></a> 
 				<a href="cic"><span>고객센터 공지</span></a> 
 				<a href="community" class="activeMenu"><span>커뮤니티</span></a>
-				<a href="08.html"><span>상품 문의</span></a> 
+				<a href="goodsQuestion"><span>상품 문의</span></a> 
 				<a href="09.html"><span>1:1문의</span></a> 
 				<a href="11.html"><span>상품평</span></a> 
 				<a href="12.html"><span>자주하는 질문</span></a>
@@ -158,21 +166,20 @@
 		<div id = "contentDiv">
 			${post.posContent}
 		</div>
-		<hr>
 		<div id = "commentDiv">
 			<hr>
-			<strong>작성된 댓글 (1개)</strong>
-			<button class = "btn btn-default">작성</button>
-			<button class = "btn btn-default">취소</button>
-			<hr>
-			<form>
+			<strong>작성된 댓글 (${fn:length(comments)}개)</strong>
+			<button id = "writeComment"  class = "btn btn-default">작성</button>
+			<button id = "writeCancel" class = "btn btn-default">취소</button>
+			<hr id = "HR">
+			<form id = "writeArea">
 				<div>
 					<textarea cols = "85" rows ="3" placeholder = "- 최대 000자까지 작성할 수 있습니다(띄어쓰기 포함).
 ※욕설, 영업에 방해되는 글은 관리자에 의해 삭제됩니다."></textarea>
-					<button class = "btn btn-default">등록</button>
+					<button id = "registration" class = "btn btn-default" type = "button">등록</button>
 				</div>
 			</form>
-			<div id = "commentDiv">
+			<div id = "cmt">
 				<c:forEach var = "comment" items = "${comments}" varStatus = "state">
 				<div id = "${comment.cmtNum}" class = "cmtNum">
 					<hr>
@@ -198,124 +205,129 @@
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
 			<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
 			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/cicWrite'">글쓰기</button>
-			<c:if test = "${post.userId== admin}">
-				<button id = "modify" class = "btn btn-default right">수정</button>
-				<button id = "delete" class = "btn btn-default right">삭제</button>
-			</c:if>
+			<button id = "modify" class = "btn btn-default right">수정</button>
+			<button id = "delete" class = "btn btn-default right">삭제</button>
 		</div>
 	</div>
 </div>
 </div>
 
 <script type = "text/javascript">
-	$(function(){
-		Date.prototype.format = function (f) {
-
-		    if (!this.valueOf()) return " ";
-
-
-
-		    var weekKorName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-
-		    var weekKorShortName = ["일", "월", "화", "수", "목", "금", "토"];
-
-		    var weekEngName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-		    var weekEngShortName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-		    var d = this;
-
-
-
-		    return f.replace(/(yyyy|yy|MM|dd|KS|KL|ES|EL|HH|hh|mm|ss|a\/p)/gi, function ($1) {
-
-		        switch ($1) {
-
-		            case "yyyy": return d.getFullYear(); // 년 (4자리)
-
-		            case "yy": return (d.getFullYear() % 1000).zf(2); // 년 (2자리)
-
-		            case "MM": return (d.getMonth() + 1).zf(2); // 월 (2자리)
-
-		            case "dd": return d.getDate().zf(2); // 일 (2자리)
-
-		            case "KS": return weekKorShortName[d.getDay()]; // 요일 (짧은 한글)
-
-		            case "KL": return weekKorName[d.getDay()]; // 요일 (긴 한글)
-
-		            case "ES": return weekEngShortName[d.getDay()]; // 요일 (짧은 영어)
-
-		            case "EL": return weekEngName[d.getDay()]; // 요일 (긴 영어)
-
-		            case "HH": return d.getHours().zf(2); // 시간 (24시간 기준, 2자리)
-
-		            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2); // 시간 (12시간 기준, 2자리)
-
-		            case "mm": return d.getMinutes().zf(2); // 분 (2자리)
-
-		            case "ss": return d.getSeconds().zf(2); // 초 (2자리)
-
-		            case "a/p": return d.getHours() < 12 ? "오전" : "오후"; // 오전/오후 구분
-
-		            default: return $1;
-
-		        }
-
-		    });
-
-		};
-
-
-
-		String.prototype.string = function (len) { var s = '', i = 0; while (i++ < len) { s += this; } return s; };
-
-		String.prototype.zf = function (len) { return "0".string(len - this.length) + this; };
-
-		Number.prototype.zf = function (len) { return this.toString().zf(len); };		
-
+	var getComment = function(){
 		var posNum = "${post.posNum}"
-		$.ajax({
-			url:"getComment",
-			method:"post",
-			data: {
-				posNum:posNum,
-			},
-			success:function(comments){
-				$.each(comments,function(index,item){
-					console.log(item);
-					var div = document.createElement("div")
-					div.setAttribute("id",item.cmtNum);
-					div.setAttribute("class","cmtNum");
-					var hr = document.createElement("hr");
-					div.append(hr);
-					var commentInfo = document.createElement("div");
-					div.append(commentInfo);
-					commentInfo.setAttribute("class","commentInfo");
-					var icon = document.createElement("i");
-					icon.setAttribute("class","far fa-comment-dots");
-					commentInfo.append(icon);
-					var id = document.createElement("span");
-					id.innerHTML=item.userId;
-					commentInfo.append(id);
-					var span = document.createElement("span");
-					span.innerHTML='&#124';
-					commentInfo.append(span);
-					var date = document.createElement("span");
-					date.innerHTML=item.cmtWritingDate;
-					commentInfo.append(date);
-					console.log(div);
-				})
-			},
-			error:function(a,b,errMsg){
-				Swal.fire({
-					  position: 'top',
-					  type: 'error',
-					  title: '저장을 실패하였습니다.',
-					  showConfirmButton: false,
-					  timer: 1500
-					});
-			}
-		})		
+			$.ajax({
+				url:"getComment",
+				method:"post",
+				data: {
+					posNum:posNum,
+				},
+				success:function(comments){
+					$("#cmt").text("");
+					$.each(comments,function(index,item){
+						var div = document.createElement("div")
+						div.setAttribute("id",item.cmtNum);
+						div.setAttribute("class","cmtNum");
+						var hr = document.createElement("hr");
+						div.append(hr);
+						
+						// commentInfo
+						var commentInfo = document.createElement("div");
+						div.append(commentInfo);
+						commentInfo.setAttribute("class","commentInfo");
+						var icon = document.createElement("i");
+						icon.setAttribute("class","far fa-comment-dots");
+						commentInfo.append(icon);
+						var id = document.createElement("span");
+						id.innerHTML=item.userId;
+						commentInfo.append(id);
+						var span = document.createElement("span");
+						span.innerHTML='&#124';
+						commentInfo.append(span);
+						var date = document.createElement("span");
+						date.innerHTML=new Date(item.cmtWritingDate).yyyymmddhhmmss();
+						date.setAttribute("class","date");
+						commentInfo.append(date);
+						var modify = document.createElement("button");
+						modify.innerHTML="수정";
+						modify.setAttribute("class","btn btn-default modify");
+						commentInfo.append(modify);
+						var del = document.createElement("button");
+						del.innerHTML="삭제";
+						del.setAttribute("class","btn btn-default delete");
+						commentInfo.append(del);
+						var cmtNum = document.createElement("input");
+						cmtNum.setAttribute("type","text");
+						cmtNum.setAttribute("name","cmtNum");
+						cmtNum.setAttribute("value",item.cmtNum);
+						cmtNum.setAttribute("style","display:none");
+						commentInfo.append(cmtNum);
+						
+						//commentContent
+						var commentContent = document.createElement("div");
+						commentContent.setAttribute("class","commentContent");
+						commentContent.innerHTML=item.cmtContent;
+						div.append(commentContent);
+						
+						//commentModify
+						var commentModify = document.createElement("div");
+						commentModify.setAttribute("class","commentModify none");
+						var modifyForm = document.createElement("form");
+						modifyForm.setAttribute("class","modifyForm");
+						var formdiv = document.createElement("div");
+						var modifyButton = document.createElement("button");
+						modifyButton.innerHTML="완료";
+						modifyButton.setAttribute("class","btn btn-default modifyButton");
+						modifyButton.setAttribute("type","button");
+						formdiv.append(modifyButton);
+						var modifyArea = document.createElement("textarea");
+						modifyArea.setAttribute("cols","85");
+						modifyArea.setAttribute("rows","3");
+						formdiv.append(modifyArea);
+						modifyForm.append(formdiv);
+						commentModify.append(modifyForm);
+						div.append(commentModify);
+						$("#cmt").append(div);
+					})
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '저장을 실패하였습니다.',
+						  showConfirmButton: false,
+						  timer: 1500
+						});
+				}
+			})			
+	};
+	
+	$(function(){
+		Date.prototype.yyyymmdd = function() {
+			  var mm = this.getMonth() + 1;
+			  var dd = this.getDate();
+
+			  return [this.getFullYear(),
+			          (mm>9 ? '' : '0') + mm,
+			          (dd>9 ? '' : '0') + dd
+			         ].join('-');
+			};
+			
+			Date.prototype.hhmmss = function() {
+				  var hh = this.getHours();
+				  var mm = this.getMinutes();
+				  var ss = this.getSeconds();
+
+				  return [(hh>9 ? '' : '0') + hh,
+				          (mm>9 ? '' : '0') + mm,
+				          (ss>9 ? '' : '0') + ss,
+				         ].join(':');
+				};
+
+				Date.prototype.yyyymmddhhmmss = function() {
+					  return this.yyyymmdd() + " "+ this.hhmmss();
+					};
+					
+				getComment();
 	})
 
 	var idx = ${post.posNum};
@@ -365,40 +377,26 @@
 		$("#modify").click(function(){
 			location.href = "/shoppingmall/admin/cicModify"+idx;
 		})
-		$(".modify").click(function(){
-			var textdiv = $(this).closest("div").next();
-			var text = $.trim($(this).closest("div").next().text());
-			$(this).closest("div").next().text("");
-			var form = $("<form></form>");
-			var div = $("<div></div>");
-			var textarea = $("<textarea></textarea>");
-			var button = $("<button>수정</button>");
-			form.attr({
-				class:"modifyForm"
-			})
-			textarea.attr({
-				cols:"85",
-				rows:"3",
-			})
-			button.attr({
-				class:"btn btn-default modifyButton",
-				type:"button"
-			})
-			console.log(text);
-			textarea.val(text);
-			$(div).append(button);
-			$(div).append(textarea);
-			$(form).append(div);
-			$(textdiv).append(form);
+		$(document).on("click",".modify",function(event){
+			var cmtNum = $(this).parents(".cmtNum").attr("id");
+			var cmtContent = $(this).parents(".cmtNum").children(".commentContent").html();
+			console.log(cmtNum)
+			$(".commentModify").addClass("none");
+			$(".commentContent").removeClass("none");
+			$(this).parents(".cmtNum").children(".commentContent").addClass("none");
+			$(this).parents(".cmtNum").children(".commentModify").removeClass("none");
+			var cmtModify = $(this).parents(".cmtNum").find(".commentModify form div textarea");
+			var space = cmtContent.replace(/&nbsp;/gi," ");
+			var result = space.split('<br>').join("\r\n");
+			cmtModify.val(result);
 		})
 		
 		$(document).on("click",".modifyButton",function(event){
-			var cmtNum = $(this).parents(".commentContent").closest(".cmtNum").attr("id");
-			var cmtContent = $(this).siblings("textarea").val();
-			console.log(cmtContent);
+			var cmtNum = $(this).parents(".cmtNum").attr("id");
+			var cmtContent = $(this).parents(".cmtNum").find(".commentModify form div textarea").val();
 			
 			var space = cmtContent.replace(/ /gi,"&nbsp;");
-			var lines = space.replace(/\n/gi,"<br>");
+			var lines = space.replace(/(?:\r\n|\r|\n)/g, '<br>');
 			
 			$.ajax({
 				url:"comemntModify",
@@ -408,20 +406,91 @@
 					cmtContent:lines
 				},
 				success:function(data){
-					alert("성공");
-					$("#commentDiv").text("");
-					var div = document.createElement("div");
+						getComment();
 				},
 				error:function(a,b,errMsg){
 					Swal.fire({
 						  position: 'top',
 						  type: 'error',
-						  title: '저장을 실패하였습니다.',
+						  title: '수정을 실패하였습니다.',
 						  showConfirmButton: false,
 						  timer: 1500
-						});
-				}
-			})
+							});
+						}
+				})		
+		})
+		
+		$(document).on("click",".delete",function(event){
+			var cmtNum = $(this).parents(".cmtNum").attr("id");
+			Swal.fire({
+				  title: '댓글을 삭제하시겠습니까?',
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: '네',
+				  cancelButtonText: '아니요'
+				}).then((result) => {
+				  if (result.value) {
+						$.ajax({
+							url:"comemntDelete",
+							method:"post",
+							data: {
+								cmtNum:cmtNum,
+							},
+							success:function(data){
+								getComment();
+							},
+							error:function(a,b,errMsg){
+								Swal.fire({
+									  position: 'top',
+									  type: 'error',
+									  title: '삭제를 실패하였습니다.',
+									  showConfirmButton: false,
+									  timer: 1500
+									});
+							}
+						})
+				  }
+				})						
+		})
+		
+		$("#writeComment").click(function(){
+			$("#writeArea").removeClass("none");
+			$("#HR").removeClass("none");
+		})
+		
+		$("#writeCancel").click(function(){
+			$("#writeArea").addClass("none");
+			$("#HR").addClass("none");
+		})
+		
+		$("#registration").click(function(){
+			var content = $(this).siblings("textarea").val();
+			var posNum = $("#content").attr("class");
+			var space = content.replace(/ /gi,"&nbsp;");
+			var lines = space.replace(/(?:\r\n|\r|\n)/g, '<br>');
+			$.ajax({
+				url:"comemntAdd",
+				method:"post",
+				data: {
+					posNum:posNum,
+					content:lines
+				},
+				success:function(data){
+						getComment();
+						$("#writeArea div textarea").val("");
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '수정을 실패하였습니다.',
+						  showConfirmButton: false,
+						  timer: 1500
+							});
+						}
+				})	
 		})
 </script>
 

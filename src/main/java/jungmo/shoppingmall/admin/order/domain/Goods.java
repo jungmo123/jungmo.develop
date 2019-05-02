@@ -2,6 +2,8 @@ package jungmo.shoppingmall.admin.order.domain;
 
 import java.sql.*;
 
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+
 public class Goods {
 	private int godNum;
 	private int ordNum;
@@ -17,6 +19,7 @@ public class Goods {
 	private int godViewPoint;
 	private int godcNum;
 	private int godAmount;
+	private GoodsCategories godc;
 	
 	public int getOrdNum() {
 		return ordNum;
@@ -101,5 +104,11 @@ public class Goods {
 	}
 	public void setGodcNum(int godcNum) {
 		this.godcNum = godcNum;
+	}
+	public GoodsCategories getGodc() {
+		return godc;
+	}
+	public void setGodc(GoodsCategories godc) {
+		this.godc = godc;
 	}
 }

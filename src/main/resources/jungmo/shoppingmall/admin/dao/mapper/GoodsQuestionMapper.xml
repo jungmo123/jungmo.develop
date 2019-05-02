@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.GoodsQuestionMapper">
+	<select id = "getGodq" resultMap = "goodsQAMap">
+		select godq_num,godq_content,godq_writingdate,user_id,god_num
+		from goods_questions
+	</select>
+	
+	<select id = "getGoods" parameterType = "int" resultMap = "godMap">
+		select god_num,god_listimageurl,god_name,godc_num
+		from goods
+		where god_num = #{godNum}
+	</select>
+	
+	<select id = "getGoda" parameterType = "int" resultType = "goda">
+		select godq_num godqNum,goda_content godaContent,goda_writingdate godaWritingDate,user_id userId
+		from goods_anser
+		where godq_num = #{godqNum}
+	</select>
+	
+	<select id = "getGodc" parameterType = "int" resultType = "godc">
+		select godc_num godcNum,godc_name godcName
+		from goods_categories
+		where godc_num = #{godcNum}
+	</select>
+	
+	<resultMap id = "goodsQAMap" type = "godq">
+	 	<id property = "godqNum" column = "godq_num" />
+	 	<result property = "godqContent" column = "godq_content" />
+	 	<result property = "godqWritingDate" column = "godq_writingdate" />
+	 	<result property = "userId" column = "user_id" />
+	 	<association property="goods" column="god_num" select = "getGoods" />
+	 	<association property="goda" column="godq_num" select = "getGoda" />
+	</resultMap>
+	
+	<resultMap id = "godMap" type = "god">
+		<id property = "godNum" column = "god_num" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "godName" column = "god_name" />
+		<association property="godc" column="godc_num" select = "getGodc" />
+	</resultMap>
+</mapper>

@@ -8,11 +8,21 @@
 		where pos_num = #{posNum}
 	</select>
 	
+	<insert id = "addComment" parameterType = "map">
+		insert into comments
+		values(cmt_num_seq.nextval,sysdate,#{content},#{userId},#{posNum})
+	</insert>
+	
 	<update id = "updateComment" parameterType = "map">
 		update comments
 		set cmt_content = #{cmtContent}
 		where cmt_num = #{cmtNum}
 	</update>
+	
+	<delete id = "deleteComment" parameterType = "int">
+		delete from comments
+		where cmt_num = #{cmtNum}
+	</delete>
 	
 	<resultMap id = "cmtMap" type = "cmt">
 		<id property = "cmtNum" column = "cmt_num" />

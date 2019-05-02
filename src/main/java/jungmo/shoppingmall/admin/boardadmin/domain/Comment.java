@@ -8,7 +8,7 @@ public class Comment {
 	private Date cmtWritingDate;
 	private String cmtContent;
 	private String userId;
-	
+
 	public Comment(){}
 	
 	public Comment(int cmtNum, int posNum, String cmtContent, String userId) {

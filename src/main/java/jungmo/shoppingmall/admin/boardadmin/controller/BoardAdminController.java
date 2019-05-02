@@ -21,6 +21,7 @@ public class BoardAdminController {
 	@Autowired private PostsService posService;
 	@Autowired private PageService pageService;
 	@Autowired private CommentService commentService;
+	@Autowired private GoodsQuestionService godqService;
 	private int category;
 	private int searchType;
 	private String searchContent;
@@ -223,11 +224,34 @@ public class BoardAdminController {
 		return	"manager/boardadmin/community";
 	}
 	
+	@RequestMapping("/admin/comemntAdd")
+	@ResponseBody
+	public boolean comemntAdd(String posNum,String content,HttpServletRequest request){
+		String userId = (String)request.getSession().getAttribute("admin");
+		commentService.addComment(Integer.parseInt(posNum),content,userId);
+		boolean data = true;
+		return data;
+	}
+	
 	@RequestMapping("/admin/comemntModify")
 	@ResponseBody
 	public boolean cmtModify(String cmtNum,String cmtContent){
 		commentService.updateComment(Integer.parseInt(cmtNum), cmtContent);
 		boolean data = true;
 		return data;
+	}
+
+	@RequestMapping("/admin/comemntDelete")
+	@ResponseBody
+	public boolean comemntDelete(String cmtNum){
+		commentService.deleteComment(Integer.parseInt(cmtNum));
+		boolean data = true;
+		return data;
+	}
+	
+	@RequestMapping("/admin/goodsQuestion")
+	public String goodsQuestion(String cmtNum){
+		godqService.getGodq();
+		return "manager/boardadmin/goodsQuestion";
 	}
 }

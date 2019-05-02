@@ -20,4 +20,12 @@ public class CommentServiceImpl implements CommentService{
 	public void updateComment(@Param("cmtNum") int cmtNum,@Param("cmtContent") String cmtContent){
 		commentDao.updateComment(cmtNum, cmtContent);
 	}
+	
+	public void deleteComment(int cmtNum){
+		commentDao.deleteComment(cmtNum);
+	}
+	
+	public void addComment(@Param("posNum") int posNum,@Param("content") String content,@Param("userId") String userId){
+		commentDao.addComment(posNum, content, userId);
+	}
 }

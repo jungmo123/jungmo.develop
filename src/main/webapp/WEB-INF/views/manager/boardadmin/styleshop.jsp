@@ -88,7 +88,7 @@ textarea{
 				<a href="styleshop" class="activeMenu"><span>스타일 숍 공지</span></a> 
 				<a href="cic"><span>고객센터 공지</span></a> 
 				<a href="community"><span>커뮤니티</span></a>
-				<a href="08.html"><span>상품 문의</span></a> 
+				<a href="goodsQuestion"><span>상품 문의</span></a> 
 				<a href="09.html"><span>1:1문의</span></a> 
 				<a href="11.html"><span>상품평</span></a> 
 				<a href="12.html"><span>자주하는 질문</span></a>

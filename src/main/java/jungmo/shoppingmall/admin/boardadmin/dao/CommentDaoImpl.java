@@ -20,4 +20,12 @@ public class CommentDaoImpl implements CommentDao{
 	public void updateComment(@Param("cmtNum") int cmtNum,@Param("cmtContent") String cmtContent){
 		commentMapper.updateComment(cmtNum, cmtContent);
 	}
+	
+	public void deleteComment(int cmtNum){
+		commentMapper.deleteComment(cmtNum);
+	}
+	
+	public void addComment(@Param("posNum") int posNum,@Param("content") String content,@Param("userId") String userId){
+		commentMapper.addComment(posNum, content, userId);
+	}
 }
