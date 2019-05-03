@@ -363,6 +363,10 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 		text-align:center;
 		float:left;
 	}
+	img{
+		width:80px;
+		height:130px;
+	}
 </style>
 </head>
 <body>
@@ -533,7 +537,9 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 					</table>
 					<div id = "div">
 						<p>2</p>
-						<div></div>
+						<div>
+							<img src = "../IMAGE/03L.jpg" />
+						</div>
 						<div>
 							<p><span>카테고리 > 상품명</span><button class="form-control">제품보기</button></p>
 							<p><span>질문내용</span><span>작성자</span><span>날짜</span></p>
