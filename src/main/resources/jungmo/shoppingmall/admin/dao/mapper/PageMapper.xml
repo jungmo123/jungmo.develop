@@ -86,6 +86,11 @@
     	 </if> 
 	</select>
 	
+	<select id = "getGodqTotRowCnt"  resultType = "int">
+		select count(godq_num)
+		from goods_questions
+	</select>
+	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	
 	select count(distinct ord_num)

@@ -11,7 +11,6 @@ public class GoodsQuestion {
 	private String userId;
 	private Goods goods;
 	private GoodsAnser goda;
-	private GoodsCategories godc;
 	
 	public int getGodqNum() {
 		return godqNum;
@@ -48,11 +47,5 @@ public class GoodsQuestion {
 	}
 	public void setGoods(Goods goods) {
 		this.goods = goods;
-	}
-	public GoodsCategories getGodc() {
-		return godc;
-	}
-	public void setGodc(GoodsCategories godc) {
-		this.godc = godc;
 	}
 }

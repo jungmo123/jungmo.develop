@@ -13,9 +13,16 @@ public class Page {
 	private int poscNum;
 	private int searchType;
 	private String searchContent;
+	private int godqNum;
+	private String godqSearch;
+	private String godqType;
 	
 	public Page(){
 		this(1,5);
+	}
+	
+	public Page(int currentPage){
+		this(currentPage,5);
 	}
 	
 	public Page(int currentPage,int borNum,int poscNum){
@@ -136,6 +143,29 @@ public class Page {
 	public void setSearchContent(String searchContent) {
 		this.searchContent = searchContent;
 	}
-	
-	
+
+	public int getGodqNum() {
+		return godqNum;
+	}
+
+	public void setGodqNum(int godqNum) {
+		this.godqNum = godqNum;
+	}
+
+	public String getGodqSearch() {
+		return godqSearch;
+	}
+
+	public String getGodqType() {
+		return godqType;
+	}
+
+	public void setGodqSearch(String godqSearch) {
+		this.godqSearch = godqSearch;
+	}
+
+	public void setGodqType(String godqType) {
+		this.godqType = godqType;
+	}
+
 }

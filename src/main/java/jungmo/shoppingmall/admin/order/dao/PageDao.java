@@ -16,4 +16,5 @@ public interface PageDao {
 	int getBoardTotRowCnt(@Param("borNum") int borNum,@Param("poscNum") int poscNum);
 	int getBoardSearchTotRowCnt(@Param("borNum") int borNum,
 			@Param("poscNum") int poscNum,@Param("searchType") int searchType,@Param("searchContent") String searchContent);
+	int getGodqTotRowCnt();
 }

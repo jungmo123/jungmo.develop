@@ -2,9 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.GoodsQuestionMapper">
-	<select id = "getGodq" resultMap = "goodsQAMap">
-		select godq_num,godq_content,godq_writingdate,user_id,god_num
-		from goods_questions
+	<select id = "getGodq" parameterType = "page" resultMap = "goodsQAMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select godq_num,godq_content,godq_writingdate,user_id,god_num
+		  		from goods_questions
+		  		order by godq_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
 	</select>
 	
 	<select id = "getGoods" parameterType = "int" resultMap = "godMap">

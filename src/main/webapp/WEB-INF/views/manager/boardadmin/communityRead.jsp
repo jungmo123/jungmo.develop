@@ -201,7 +201,7 @@
 			<hr>
 		</div>
 		<div id = "footerDiv">
-			<a href = "cic" class = "btn btn-default left">목록 보기</a>
+			<a href = "community0I1" class = "btn btn-default left">목록 보기</a>
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
 			<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
 			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/cicWrite'">글쓰기</button>

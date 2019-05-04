@@ -68,7 +68,11 @@ public class PageServiceImpl implements PageService{
 			@Param("poscNum") int poscNum,@Param("searchType") int searchType,@Param("searchContent") String searchContent){
 		return pageDao.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent);
 	}
-	 
+	
+	public int getGodqTotRowCnt(){
+		return pageDao.getGodqTotRowCnt();
+	}
+	
 	private void init(){
 		endPage = (int)(Math.ceil(page.getCurrentPage()/(double)pageNumCnt)*pageNumCnt);
 		

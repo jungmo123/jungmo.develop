@@ -51,4 +51,8 @@ public class PageDaoImpl implements PageDao{
 			@Param("poscNum") int poscNum,@Param("searchType") int searchType,@Param("searchContent") String searchContent){
 		return pageMapper.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent);
 	}
+	
+	public int getGodqTotRowCnt(){
+		return pageMapper.getGodqTotRowCnt();
+	}
 }

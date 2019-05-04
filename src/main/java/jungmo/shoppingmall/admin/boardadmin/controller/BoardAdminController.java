@@ -37,6 +37,17 @@ public class BoardAdminController {
 		model.addAttribute("type",String.valueOf(poscNum));
 		model.addAttribute("categories",boscService.getBC(board));
 	}
+
+	public void godq(HttpServletRequest request,Model model,String idx,String godqSearch,String godqType,String Type){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		myPage.setGodqSearch(godqSearch);
+		myPage.setGodqType(godqType);
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodqTotRowCnt());
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("godq",godqService.getGodq(myPage));
+		model.addAttribute("type",String.valueOf(Type));
+	}	
 	
 	public void search(HttpServletRequest request,Model model,String idx,int borNum,int poscNum,int searchType,String searchContent){
 		Page myPage = null;
@@ -250,8 +261,8 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping("/admin/goodsQuestion")
-	public String goodsQuestion(String cmtNum){
-		godqService.getGodq();
+	public String goodsQuestion(Model model,HttpServletRequest request){
+		godq(request,model,"1","가","나","All");
 		return "manager/boardadmin/goodsQuestion";
 	}
 }

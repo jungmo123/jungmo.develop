@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -287,30 +289,30 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 	#pim hr{
 		margin:5px;
 	}
-	#div{
+	.view{
 		width:780px;
 		height:140px;
 	}
-	#div > p{
+	.view > div:nth-child(1) > p{
 		display:inline-block;
 		width:38px;
 		height:140px;
 		line-height:150px;
 		text-align:center;
 		float:left;
+		margin-bottom:0px;
 	}
-	#div div:nth-child(2){
+	.view > div:nth-child(1) div:nth-child(2){
 		display:inline-block;
-		width:80px;
+		width:90px;
 		height:130px;
-		margin:10px;
+		margin:0px 10px 0px 0px;
 		float:left;
 	}
-	#div div:nth-child(3) p:nth-child(1) span{
-		margin-right:30px;
+	.view > div:nth-child(1) div:nth-child(3) p:nth-child(1) span{
 		font-weight:bold;
 	}
-	#div div:nth-child(3) p:nth-child(1) button{
+	.view > div:nth-child(1) div:nth-child(3) p:nth-child(1) button{
 		display: inline-block;
 		width: 70px;
 		padding: 0;
@@ -319,43 +321,48 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 		font-weight: bold;
 		margin-left: 10px;	
 	}
-	#div div:nth-child(3) p:nth-child(2) span:not(:nth-child(3)){
-		height:40px;
+	.view > div:nth-child(1) div:nth-child(3) p:nth-child(2) span:not(:nth-child(3)){
+		h+eight:40px;
 		line-height:40px;
 	}
-	div div:nth-child(3) p:nth-child(2) span,
-	div div:nth-child(3) p:nth-child(4) span{
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(2) span,
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(4) span{
 		display:inline-block;
 	}
-	div div:nth-child(3) p:nth-child(2) span:nth-child(1),
-	div div:nth-child(3) p:nth-child(4) span:nth-child(1){
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(2) span:nth-child(1),
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(4) span:nth-child(1){
 		width:300px;
 		
 	}
-	div div:nth-child(3) p:nth-child(2) span:nth-child(2),
-	div div:nth-child(3) p:nth-child(4) span:nth-child(2){
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(2) span:nth-child(2),
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(4) span:nth-child(2){
 		width:100px;
 		text-align:center;
 	}
-	div div:nth-child(3) p:nth-child(2) span:nth-child(3),
-	div div:nth-child(3) p:nth-child(4) span:nth-child(3){
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(2) span:nth-child(3),
+	div > div:nth-child(1) div:nth-child(3) p:nth-child(4) span:nth-child(3){
 		width:75px;
 		text-align:center;
 	}
-	#div div:nth-child(3){
+	.view > div:nth-child(1) div:nth-child(3){
 		display:inline-block;
 		width:490px;
 		height:140px;
 		float:left;
 	}
-	#div div:nth-child(3) p:nth-child(1){
+	.view > div:nth-child(1) div:nth-child(3) p:nth-child(1){
 		height:20px;
 	}
-	#div div:nth-child(3) p:nth-child(4){
-		height:40px;
-		line-height:40px;
+	.view > div:nth-child(1) div:nth-child(3) p:nth-child(2) span:nth-child(3),
+	.view div:nth-child(3) p:nth-child(4) span:nth-child(3){
+		float:right;
 	}
-	#div div:nth-child(4){
+	.view > div:nth-child(1) div:nth-child(3) p:nth-child(4){
+		height:40px;
+		line-height:20px;
+		margin-top:10px;
+	}
+	.view > div:nth-child(1) div:nth-child(4){
 		display:inline-block;
 		width:150px;
 		height:140px;
@@ -364,8 +371,59 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 		float:left;
 	}
 	img{
-		width:80px;
-		height:130px;
+		width:90px;
+		height:140px;
+	}
+	.top{
+		margin-top:10px;
+		height:100px;
+		border-top:1px dotted grey;
+		background-color:#F2F5F7;
+	}
+	.bottom{
+		background-color:#F2F5F7;
+	}
+	.top  > span:first-child,
+	.bottom > span:first-child{
+		display:inline-block;
+		width:100px;
+		height:100px;
+		line-height:100px;
+		font-size:30px;
+		color:#FF6F43;
+		float:left;
+		text-align:center;
+	}
+	.top > div{
+		width:680px;
+		display:inline-block;
+		float:left;
+		border-bottom: 1px dotted grey;
+	}
+	.top  > div span,
+	.bottom > div span{
+		display:inline-block;
+		width:486px;
+		height:100px;
+		line-height:30px;
+	}
+	.top  > div > button,
+	.bottom > div > button{
+		float:right;
+	    margin: 2px;
+	    position: relative;
+	    top: 55px;
+	    right: 5px;
+	}
+	.open,
+	.clo{
+		background-color: white;
+	    border: 0;
+	    height:20px;
+	    line-height:15px;
+	}
+	.none{
+		display:none;
 	}
 </style>
 </head>
@@ -414,145 +472,80 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 						<button class="form-control" type="submit">검색</button>
 					</div>
 				</form>
-				<div id="orderitem">
-					<table class="br">
-						<tr>
-							<td><span class="number">2</span></td>
-							<td>
-								<div class="image">목록이미지</div>
-							</td>
-							<td>
-								<div>
-									<strong class="questContent">{카테고리명} > {상품명 표기}</strong>
-									<button class="form-control questContent" onclick = "location.href = '../../USER/GOODS/02.html'">제품보기</button>
-								</div>
-								<div>
-									<div>
-										<span class="questContent">Q. {질문 내용}</span>
-									</div>
-									<div>
-										<span>{작성자ID}</span>
-									</div>
-									<div>
-										<span>2023-01-05<br>11:20:16
-										</span>
-									</div>
-								</div>
+					<c:forEach var = "godq" items = "${godq}">
+					<div class = "godq">
+						<div class = "view">
+							<div>
+							<p>${godq.godqNum}</p>
+							<div>
+								<img src = "..${godq.goods.godListImageUrl}"/>
+							</div>
+							<div>
+								<p><span>${godq.goods.godc.godcName} > ${godq.goods.godName}</span><button class="form-control">제품보기</button></p>
+								<p><span>Q.
+									<c:if test = "${fn:length(godq.godqContent) > 15}" >
+										<c:out value = "${fn:substring(godq.godqContent,0,15)}..." />
+									</c:if>
+									<c:if test = "${fn:length(godq.godqContent) < 15}" >
+										<c:out value = "${godq.godqContent}" />
+									</c:if>
+								</span><span>${godq.userId}</span><span><fmt:formatDate value="${godq.godqWritingDate}" pattern="yyyy.MM.dd"/>
+								<br><fmt:formatDate value="${godq.godqWritingDate}" pattern="kk:mm:ss"/></span></p>
 								<hr>
-								<div>
+								<p><span>A.
+									<c:if test = "${fn:length(godq.goda.godaContent) < 15}" >
+										<c:out value = "${godq.goda.godaContent}" />
+									</c:if>
+									<c:if test = "${fn:length(godq.goda.godaContent) > 15}" >
+										<c:out value = "${fn:substring(godq.goda.godaContent,0,15)}..." />
+									</c:if>
+									<c:if test = "${fn:length(godq.goda.godaContent) == 0}" >
+										<c:out value = "등록된 답변이 없습니다." />
+									</c:if></span><span>${godq.goda.userId}</span>
+								<span><fmt:formatDate value="${godq.goda.godaWritingDate}" pattern="yyyy.MM.dd"/>
+								<br><fmt:formatDate value="${godq.goda.godaWritingDate}" pattern="kk:mm:ss"/></span></p>
+							</div>
+							<div>
+								<button class = "open">
+									<span>보기</span>
+									<span class="glyphicon glyphicon-triangle-bottom"></span>
+								</button></div>
+							</div>
+						</div>
+						<div class = "none qa">
+							<div class="top">
+								<span>Q.</span>
 									<div>
-										<span class="questContent">A. {답변 내용}</span>
+										<span>${godq.godqContent}</span>
+										<button class="btn btn-default" data-toggle = "modal" data-target = "#pim">수정</button>
+										<button class="btn btn-default">삭제</button>
 									</div>
-									<div>
-										<span>admin</span>
-									</div>
-									<div>
-										<span>2023-01-05<br>11:20:16
-										</span>
-									</div>
-								</div>
-							</td>
-							<td>
-								<button>
-									<span>보기&nbsp;<span
-										class="glyphicon glyphicon-triangle-bottom">
-									</span></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td><span class="number">1</span></td>
-							<td>
-								<div class="image">목록이미지</div>
-							</td>
-							<td>
-								<div>
-									<strong class="questContent">TOP > 티셔츠</strong>
-									<button class="form-control questContent" onclick = "location.href = '../../USER/GOODS/02.html'">제품보기</button>
-								</div>
-								<div>
-									<div>
-										<span class="questContent">Q. 이 옷을 어떻게 세탁을 하면 되나요?...</span>
-									</div>
-									<div>
-										<span>{작성자ID}</span>
-									</div>
-									<div>
-										<span>2023-01-05<br>11:20:16
-										</span>
-									</div>
-								</div>
-								<hr>
-								<div>
-									<div>
-										<span class="questContent">A. 등록된 답변이 없습니다.</span>
-									</div>
-									<div>
-										<span>admin</span>
-									</div>
-									<div>
-										<span>2023-01-05<br>11:20:16
-										</span>
-									</div>
-								</div>
-							</td>
-							<td>
-								<button>
-									<span>보기&nbsp;<span
-										class="glyphicon glyphicon-triangle-bottom">
-									</span></span>
-								</button>
-							</td>
-						</tr>
-						<tr class="commentBox none">
-							<td colspan="2">
-								<div>
-									<span>Q.</span>
-								</div>
-								<div>
-									<span>A.</span>
-								</div>
-							</td>
-							<td colspan="2">
-								<div class="top">
-									<div class="spanDiv">
-										<span> 이 옷은 어떻게 세탁을 하면 되나요?<br> 사진으로 보기에는 손빨래를 해야
-											할 것 같은데요.<br> 세탁기를 이용해도 되나요?
-										</span>
-									</div>
-
-									<button class="btn btn-default" data-toggle = "modal" data-target = "#pim">수정</button>
-									<button class="btn btn-default">삭제</button>
 								</div>
 								<div class="bottom">
-									<div class="spanDiv">
-										<span> 등록된 답변이 없습니다. </span>
-									</div>
+									<span>A.</span>
+									<div>
+										<span>
+											<c:if test = "${fn:length(godq.goda.godaContent) != 0}" >
+												<c:out value = "${godq.goda.godaContent}" />
+											</c:if>
+											<c:if test = "${fn:length(godq.goda.godaContent) == 0}" >
+												<c:out value = "등록된 답변이 없습니다." />
+											</c:if>
+										</span>
 									<button class="btn btn-default">수정</button>
 									<button class="btn btn-default">삭제</button>
-									<button class="btn btn-default" data-toggle = "modal" data-target = "#pim">답변하기</button>
+									<c:if test = "${godq.goda == ''  || godq.goda eq null}">
+										<button class="btn btn-default" data-toggle = "modal" data-target = "#pim">답변하기</button>
+									</c:if>
+									</div>
 								</div>
-							</td>
-						</tr>
-					</table>
-					<div id = "div">
-						<p>2</p>
-						<div>
-							<img src = "../IMAGE/03L.jpg" />
+							</div>
 						</div>
-						<div>
-							<p><span>카테고리 > 상품명</span><button class="form-control">제품보기</button></p>
-							<p><span>질문내용</span><span>작성자</span><span>날짜</span></p>
-							<hr>
-							<p><span>답변내용</span><span>작성자</span><span>날짜</span></p>
-						</div>
-						<div><span>보기</span></div>
+						<hr>
+						</c:forEach>
 					</div>
-				</div>
-				<hr>
 			</div>
 		</div>
-	</div>
 	
 	<div class = "modal fade" id  ="pim">
 		<div class = "modal-dialog modal-md">
@@ -572,6 +565,26 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 			</div>
 		</div>
 	</div>
+	
+	<script type = "text/javascript">
+	$(document).on("click",".open",function(event){
+			$(this).removeClass('open');
+			$(this).addClass("clo");
+			$(this).children("span:nth-child(1)").text("닫기");
+			$(this).find(".glyphicon").removeClass("glyphicon-triangle-bottom");
+			$(this).find(".glyphicon").addClass("glyphicon-triangle-top");
+			$(this).parents(".godq").find(".qa").removeClass("none");
+		})
+		
+		$(document).on("click",".clo",function(event){
+			$(this).removeClass('clo');
+			$(this).addClass("open");
+			$(this).children("span:nth-child(1)").text("보기");
+			$(this).find(".glyphicon").removeClass("glyphicon-triangle-top");
+			$(this).find(".glyphicon").addClass("glyphicon-triangle-bottom");
+			$(this).parents(".godq").find(".qa").addClass("none");
+		})
+	</script>
 
 </body>
 </html>
