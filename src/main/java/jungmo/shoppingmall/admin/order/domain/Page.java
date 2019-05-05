@@ -14,7 +14,7 @@ public class Page {
 	private int searchType;
 	private String searchContent;
 	private int godqNum;
-	private String godqSearch;
+	private String godqContent;
 	private String godqType;
 	
 	public Page(){
@@ -152,20 +152,19 @@ public class Page {
 		this.godqNum = godqNum;
 	}
 
-	public String getGodqSearch() {
-		return godqSearch;
-	}
-
 	public String getGodqType() {
 		return godqType;
-	}
-
-	public void setGodqSearch(String godqSearch) {
-		this.godqSearch = godqSearch;
 	}
 
 	public void setGodqType(String godqType) {
 		this.godqType = godqType;
 	}
 
+	public String getGodqContent() {
+		return godqContent;
+	}
+
+	public void setGodqContent(String godqContent) {
+		this.godqContent = godqContent;
+	}
 }

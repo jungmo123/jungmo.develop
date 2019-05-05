@@ -73,6 +73,10 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getGodqTotRowCnt();
 	}
 	
+	public int getGodqSearchTotRowCnt(@Param("godqType") String godqType,@Param("godqContent") String godqContent){
+		return pageDao.getGodqSearchTotRowCnt(godqType, godqContent);
+	}
+	
 	private void init(){
 		endPage = (int)(Math.ceil(page.getCurrentPage()/(double)pageNumCnt)*pageNumCnt);
 		

@@ -55,4 +55,8 @@ public class PageDaoImpl implements PageDao{
 	public int getGodqTotRowCnt(){
 		return pageMapper.getGodqTotRowCnt();
 	}
+	
+	public int getGodqSearchTotRowCnt(@Param("godqType") String godqType,@Param("godqContent") String godqContent){
+		return pageMapper.getGodqSearchTotRowCnt(godqType, godqContent);
+	}
 }

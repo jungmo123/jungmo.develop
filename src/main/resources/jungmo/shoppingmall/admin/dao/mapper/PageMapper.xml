@@ -89,6 +89,19 @@
 	<select id = "getGodqTotRowCnt"  resultType = "int">
 		select count(godq_num)
 		from goods_questions
+	</select> 
+	
+	<select id = "getGodqSearchTotRowCnt"  parameterType="map" resultType = "int">
+		<if test = "godqType != 'on'">
+			select count(godq_num)
+			from goods_questions
+			where godq_content like '%' || #{godqContent} || '%'
+		</if>
+		<if test = "godqType == 'on'">
+		select count(goods_questions.godq_num)
+		from goods_questions
+     	where not exists(select * from goods_anser where goods_questions.godq_num = goods_anser.godq_num) and godq_content like '%' || #{godqContent} || '%'	
+		</if>
 	</select>
 	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">

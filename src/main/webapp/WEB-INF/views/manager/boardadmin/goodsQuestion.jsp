@@ -19,6 +19,9 @@
 <script type="text/javascript" src= "../editor/js/HuskyEZCreator.js" charset="utf-8"></script> 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
 <style>
+.container{
+	height:1300px;
+}
 #orderitem {
 	margin-bottom: 10px;
 }
@@ -425,6 +428,29 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 	.none{
 		display:none;
 	}
+	#pagination{
+		margin-top:30px;
+		text-align:center;
+	}
+	.pagination li a{
+		border:0px;
+	}
+	#pagination > div > .pagination .active a{
+		background-color:#F2F5F7;
+		color:black;
+		font-weight:bold;
+	}
+	.pagination .active a:active{
+		background-color:grey;
+	}
+	#pagination .currentPage{
+		color:#727272 !important;
+		font-weight:bold;
+	}
+	#pagination a{
+		color:#878787;
+		margin-right:10px;
+	}
 </style>
 </head>
 <body>
@@ -462,13 +488,13 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 					<p id="currentIdx">&#124; 게시판 관리 > 상품 문의 목록</p>
 				</div>
 				<hr>
-				<form id="delivery">
+				<form id="delivery" action = "goodsQuestionSearch1" method = "post">
 					<div>
-						<label for="noCommentSearch">답변 없는 문의만 보기</label> <input
-							type="checkbox" id="noCommentSearch" />
+						<label for="noCommentSearch">답변 없는 문의만 보기</label>
+						<input type="checkbox" id="noCommentSearch" name = "godqType" />
 					</div>
 					<div>
-						<input class="form-control" type="text" name="orderSearch" />
+						<input class="form-control" type="text" name="godqSearch" />
 						<button class="form-control" type="submit">검색</button>
 					</div>
 				</form>
@@ -484,23 +510,23 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 								<p><span>${godq.goods.godc.godcName} > ${godq.goods.godName}</span><button class="form-control">제품보기</button></p>
 								<p><span>Q.
 									<c:if test = "${fn:length(godq.godqContent) > 15}" >
-										<c:out value = "${fn:substring(godq.godqContent,0,15)}..." />
+										${fn:substring(godq.godqContent,0,15)}...
 									</c:if>
 									<c:if test = "${fn:length(godq.godqContent) < 15}" >
-										<c:out value = "${godq.godqContent}" />
+										<c:out value='${godq.godqContent.replaceAll("\\\<.*?\\\>"," ")}' />
 									</c:if>
 								</span><span>${godq.userId}</span><span><fmt:formatDate value="${godq.godqWritingDate}" pattern="yyyy.MM.dd"/>
 								<br><fmt:formatDate value="${godq.godqWritingDate}" pattern="kk:mm:ss"/></span></p>
 								<hr>
 								<p><span>A.
 									<c:if test = "${fn:length(godq.goda.godaContent) < 15}" >
-										<c:out value = "${godq.goda.godaContent}" />
+										<c:out value='${godq.goda.godaContent.replaceAll("\\\<.*?\\\>"," ")}' />
 									</c:if>
 									<c:if test = "${fn:length(godq.goda.godaContent) > 15}" >
-										<c:out value = "${fn:substring(godq.goda.godaContent,0,15)}..." />
+										${fn:substring(godq.goda.godaContent,0,15)}...
 									</c:if>
 									<c:if test = "${fn:length(godq.goda.godaContent) == 0}" >
-										<c:out value = "등록된 답변이 없습니다." />
+										등록된 답변이 없습니다.
 									</c:if></span><span>${godq.goda.userId}</span>
 								<span><fmt:formatDate value="${godq.goda.godaWritingDate}" pattern="yyyy.MM.dd"/>
 								<br><fmt:formatDate value="${godq.goda.godaWritingDate}" pattern="kk:mm:ss"/></span></p>
@@ -517,8 +543,8 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 								<span>Q.</span>
 									<div>
 										<span>${godq.godqContent}</span>
-										<button class="btn btn-default" data-toggle = "modal" data-target = "#pim">수정</button>
-										<button class="btn btn-default">삭제</button>
+										<button class="btn btn-default QuestionModify" data-toggle = "modal" data-target = "#pim">수정</button>
+										<button class="btn btn-default QuestionDelete">삭제</button>
 									</div>
 								</div>
 								<div class="bottom">
@@ -526,16 +552,18 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 									<div>
 										<span>
 											<c:if test = "${fn:length(godq.goda.godaContent) != 0}" >
-												<c:out value = "${godq.goda.godaContent}" />
+												${godq.goda.godaContent}
 											</c:if>
 											<c:if test = "${fn:length(godq.goda.godaContent) == 0}" >
 												<c:out value = "등록된 답변이 없습니다." />
 											</c:if>
 										</span>
-									<button class="btn btn-default">수정</button>
-									<button class="btn btn-default">삭제</button>
+									<c:if test = "${fn:length(godq.goda.godaContent) > 0}" >
+									<button class="btn btn-default AnserModify" data-toggle = "modal" data-target = "#pim">수정</button>
+									<button class="btn btn-default AnserDelete">삭제</button>
+									</c:if>
 									<c:if test = "${godq.goda == ''  || godq.goda eq null}">
-										<button class="btn btn-default" data-toggle = "modal" data-target = "#pim">답변하기</button>
+										<button class="btn btn-default writeAnser" data-toggle = "modal" data-target = "#pim">답변하기</button>
 									</c:if>
 									</div>
 								</div>
@@ -543,6 +571,43 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 						</div>
 						<hr>
 						</c:forEach>
+			 			<div id = "pagination">
+							<div>
+								<ul class = "pagination">
+									<c:if test = "${type != 'Search'}">
+										<c:if test = "${pageMaker.prev}">
+											<li><a href = "goodsQuestion${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+										</c:if>
+										
+										<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+											<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+												<a href = "goodsQuestion${type}${idx}">${idx}</a>
+											</li>
+										</c:forEach>
+				
+										<c:if test = "${pageMaker.next}">
+											<li><a href = "goodsQuestion${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+										</c:if>
+									</c:if>
+									
+									<c:if test = "${type == 'Search'}">
+										<c:if test = "${pageMaker.prev}">
+											<li><a href = "goodsQuestion${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+										</c:if>
+										
+										<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+											<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+												<a href = "goodsQuestion${type}${idx}">${idx}</a>
+											</li>
+										</c:forEach>
+				
+										<c:if test = "${pageMaker.next}">
+											<li><a href = "community${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+										</c:if>
+									</c:if>
+								</ul>
+							</div>		
+						</div>
 					</div>
 			</div>
 		</div>
@@ -552,21 +617,57 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 			<div class ="modal-content">
 				<div class = "modal-header">
 					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-					<h4 class = "modal-title">&#124;&nbsp;상품 문의 답변/수정하기</h4>
+					<h4 class = "modal-title">&#124;&nbsp;상품 문의 : 수정하기</h4>
 					<hr>
 				</div>
+				<form id = "modalForm">
 				<div class = "modal-body">
-					<textarea class = "form-control" cols = "20" rows = "6" name = "modifyComment"></textarea>
+					<textarea id = "godqContent" class = "form-control" cols = "20" rows = "6" name = "godqContent"></textarea>
+					<input id = "godqNum" type = "text"  name = "godqNum" style = "display:none"/>
+					<input id = "godqType" type = "text" name = "godqType" value = "${type}"  style = "display:none"/>
+					<input id = "idx" type = "text" name = "idx" value = "${pageMaker.page.currentPage}" style = "display:none"/ />
 				</div>
 				<div class ="modal-footer">
-					<button type = "button" class = "btn btn-default" data-dismiss = "modal">작성완료</button>
+					<button type = "button" class = "btn btn-default complete" data-dismiss = "modal">작성완료</button>
 					<button type = "button" class = "btn btn-default" data-dismiss = "modal">작성취소</button>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>
 	
 	<script type = "text/javascript">
+	var modifyForm = function(godqNum,action){
+		 var form = $("<form></form>");
+		 form.attr({
+			 action:action,
+			 method:"post"
+		 })
+		 var num = $("<input></input>");
+		 num.attr({
+			 type:"text",
+			 name:"godqNum"
+		 })
+		 num.val(godqNum);
+		 var type = $("<input></input>");
+		 type.attr({
+			 type:"text",
+			 name:"godqType"
+		 })
+		 type.val("${type}");
+		 var idx = $("<input></input>");
+		 idx.attr({
+			 type:"text",
+			 name:"idx"
+		 })
+		 idx.val("${pageMaker.page.currentPage}");
+		 form.append(num);
+		 form.append(type);
+		 form.append(idx);
+		 $("body").append(form);
+		 form.submit();
+	}
+	
 	$(document).on("click",".open",function(event){
 			$(this).removeClass('open');
 			$(this).addClass("clo");
@@ -583,6 +684,74 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 			$(this).find(".glyphicon").removeClass("glyphicon-triangle-top");
 			$(this).find(".glyphicon").addClass("glyphicon-triangle-bottom");
 			$(this).parents(".godq").find(".qa").addClass("none");
+		})
+		
+		$(".AnserModify").click(function(){
+			var godqNum = $(this).parents(".godq").find(".view > div > p").text();
+			$("#modalForm").attr({
+				action:"anserModify",
+				method:"post"
+			})
+			$("#godqNum").val(godqNum);
+		})
+		
+		$(".QuestionModify").click(function(){
+			var godqNum = $(this).parents(".godq").find(".view > div > p").text();
+			$("#modalForm").attr({
+				action:"questionModify",
+				method:"post"
+			})
+			$("#godqNum").val(godqNum);
+		})
+		
+		$(".complete").click(function(){
+				var Content = $("#godqContent").val();
+				var lines = Content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+				$("#godqContent").val(lines);
+				$("#modalForm").submit();
+		})
+		
+		$(".AnserDelete").click(function(){
+			var godqNum = $(this).parents(".godq").find(".view > div > p").text();
+			Swal.fire({
+				  title: '삭제하시겠습니까?',
+				  type: 'info',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: '네',
+				  cancelButtonText: '아니요'
+				}).then((result) => {
+				  if (result.value) {
+						modifyForm(godqNum,"AnserDelete");
+				  }
+				})			
+		})
+		
+		$(".QuestionDelete").click(function(){
+			var godqNum = $(this).parents(".godq").find(".view > div > p").text();
+			Swal.fire({
+				  title: '삭제하시겠습니까?',
+				  type: 'info',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: '네',
+				  cancelButtonText: '아니요'
+				}).then((result) => {
+				  if (result.value) {
+						modifyForm(godqNum,"QuestionDelete");
+				  }
+				})			
+		})
+		
+		$(".writeAnser").click(function(){
+			var godqNum = $(this).parents(".godq").find(".view > div > p").text();
+			$("#modalForm").attr({
+				action:"writeAnser",
+				method:"post"
+			})
+			$("#godqNum").val(godqNum);	
 		})
 	</script>
 

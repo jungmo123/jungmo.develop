@@ -25,6 +25,8 @@ public class BoardAdminController {
 	private int category;
 	private int searchType;
 	private String searchContent;
+	private String godqType;
+	private String godqSearch;
 	
 	//공지사항
 	
@@ -37,16 +39,44 @@ public class BoardAdminController {
 		model.addAttribute("type",String.valueOf(poscNum));
 		model.addAttribute("categories",boscService.getBC(board));
 	}
-
-	public void godq(HttpServletRequest request,Model model,String idx,String godqSearch,String godqType,String Type){
+	
+	public void QAmodify(HttpServletRequest request){
+		String Num = request.getParameter("godqNum");
+		String Content = "";
+		String Type = "";
+		String idx = request.getParameter("idx");
+		if(request.getParameter("godqContent") != ""){
+			Content = request.getParameter("godqContent");
+		}
+		if(request.getParameter("godqType") != ""){
+			Type = request.getParameter("godqType");
+		}
+		godqService.updateGoda(Integer.parseInt(Num),Content);		
+	}
+	
+	public void godq(HttpServletRequest request,Model model,String idx){
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx));
-		myPage.setGodqSearch(godqSearch);
-		myPage.setGodqType(godqType);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodqTotRowCnt());
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("godq",godqService.getGodq(myPage));
-		model.addAttribute("type",String.valueOf(Type));
+	}
+
+	public void godqSearch(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		myPage.setGodqContent(godqSearch);
+		myPage.setGodqType(godqType);
+		System.out.println(godqType + " " + godqSearch);
+		List<GoodsQuestion> gq = godqService.getGodqSearch(myPage);
+		for(int i = 0 ; i < gq.size() ;i++){
+			System.out.println(gq.get(i).getGodqNum());
+		}
+		System.out.println(pageService.getGodqSearchTotRowCnt(godqType,godqSearch));
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodqSearchTotRowCnt(godqType,godqSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("godq",godqService.getGodqSearch(myPage));
+		model.addAttribute("type","Search");
 	}	
 	
 	public void search(HttpServletRequest request,Model model,String idx,int borNum,int poscNum,int searchType,String searchContent){
@@ -260,9 +290,108 @@ public class BoardAdminController {
 		return data;
 	}
 	
+	//상품Q&A
+	
 	@RequestMapping("/admin/goodsQuestion")
-	public String goodsQuestion(Model model,HttpServletRequest request){
-		godq(request,model,"1","가","나","All");
+	public String godq(){
+		return "redirect:goodsQuestion1";
+	}
+	
+	@RequestMapping("/admin/goodsQuestion{idx}")
+	public String goodsQuestion(@PathVariable String idx,Model model,HttpServletRequest request){
+		godq(request,model,idx);
 		return "manager/boardadmin/goodsQuestion";
+	}
+	
+	@RequestMapping(value="/admin/goodsQuestionSearch{idx}",method=RequestMethod.POST)
+	public String goodsQuestionPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		if(request.getParameter("godqSearch") != null){
+			godqSearch = request.getParameter("godqSearch");		
+		}
+		if(request.getParameter("godqType") != ""){
+			godqType = request.getParameter("godqType");
+		}
+		godqSearch(request,model,idx);
+		return "manager/boardadmin/goodsQuestion";
+	}
+	
+	@RequestMapping(value="/admin/goodsQuestionSearch{idx}",method=RequestMethod.GET)
+	public String goodsQuestionGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		godqSearch(request,model,idx);
+		return "manager/boardadmin/goodsQuestion";
+	}
+	
+	@RequestMapping("/admin/anserModify")
+	public String anserModify(HttpServletRequest request){
+		String Num = request.getParameter("godqNum");
+		String Content = "";
+		String Type = "";
+		String idx = request.getParameter("idx");
+		if(request.getParameter("godqContent") != ""){
+			Content = request.getParameter("godqContent");
+		}
+		if(request.getParameter("godqType") != ""){
+			Type = request.getParameter("godqType");
+		}
+		godqService.updateGoda(Integer.parseInt(Num),Content);
+		return "redirect:goodsQuestion" + Type + idx;
+	}
+	
+	@RequestMapping("/admin/questionModify")
+	public String questionModify(HttpServletRequest request){
+		String Num = request.getParameter("godqNum");
+		String Content = "";
+		String Type = "";
+		String idx = request.getParameter("idx");
+		if(request.getParameter("godqContent") != ""){
+			Content = request.getParameter("godqContent");
+		}
+		if(request.getParameter("godqType") != ""){
+			Type = request.getParameter("godqType");
+		}
+		godqService.updateGodq(Integer.parseInt(Num),Content);
+		return "redirect:goodsQuestion" + Type + idx;
+	}
+	
+	@RequestMapping("/admin/AnserDelete")
+	public String AnserDelete(HttpServletRequest request){
+		String godqNum = request.getParameter("godqNum");
+		String godqType = request.getParameter("godqType");
+		String idx = request.getParameter("idx");
+		godqService.deleteGoda(Integer.parseInt(godqNum));
+		return "redirect:goodsQuestion" + godqType + idx;
+	}
+	
+	@RequestMapping("/admin/QuestionDelete")
+	public String QuestionDelete(HttpServletRequest request){
+		String godqNum = request.getParameter("godqNum");
+		String godqType = request.getParameter("godqType");
+		String idx = request.getParameter("idx");
+		godqService.deleteGodq(Integer.parseInt(godqNum));
+		return "redirect:goodsQuestion" + godqType + idx;
+	}
+	
+	@RequestMapping("/admin/writeAnser")
+	public String writeAnser(HttpServletRequest request){
+		String Num = request.getParameter("godqNum");
+		String Content = "";
+		String Type = "";
+		String idx = request.getParameter("idx");
+		String userId = (String)request.getSession().getAttribute("admin");
+		if(request.getParameter("godqContent") != ""){
+			Content = request.getParameter("godqContent");
+		}
+		if(request.getParameter("godqType") != ""){
+			Type = request.getParameter("godqType");
+		}
+		godqService.addGoda(Integer.parseInt(Num), Content, userId);
+		return "redirect:goodsQuestion" + Type + idx;		
+	}
+	
+	// 1대1 문의
+	
+	@RequestMapping("/admin/oneTwoOne")
+	public String oneTwoOne(){
+		return "manager/boardadmin/oneTwoOne";
 	}
 }

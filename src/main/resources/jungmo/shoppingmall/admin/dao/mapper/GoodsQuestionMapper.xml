@@ -13,6 +13,55 @@
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
 	</select>
+	 
+	<select id = "getGodqSearch" parameterType = "page" resultMap = "goodsQAMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  	]]>
+      		<if test = "godqType != 'on'">
+			select  godq_num,godq_content,godq_writingdate,user_id,god_num
+			from goods_questions
+			where godq_content like '%' || #{godqContent} || '%'
+			</if>
+			<if test = "godqType == 'on'">
+			select goods_questions.godq_num,godq_content,godq_writingdate,goods_questions.user_id,god_num
+			from goods_questions
+     		where not exists(select * from goods_anser where goods_questions.godq_num = goods_anser.godq_num) and godq_content like '%' || #{godqContent} || '%'
+			</if>
+		  	order by godq_num desc
+		  	<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<update id = "updateGoda" parameterType = "map">
+		update goods_anser
+		set goda_content = #{godaContent}
+		where godq_num = #{godqNum}
+	</update>
+	 
+	<update id = "updateGodq" parameterType = "map">
+		update goods_questions
+		set godq_content = #{godqContent}
+		where godq_num = #{godqNum}
+	</update>
+	
+	<delete id = "deleteGoda" parameterType ="int">
+		delete from goods_anser
+		where godq_num = #{godqNum}
+	</delete>
+	
+	<delete id = "deleteGodq" parameterType ="int">
+		delete from goods_questions
+		where godq_num = #{godqNum}
+	</delete>
+	
+	<insert id = "addGoda" parameterType = "map">
+		insert into goods_anser
+		values (#{godqNum},#{godaContent},sysdate,#{userId})
+	</insert>
 	
 	<select id = "getGoods" parameterType = "int" resultMap = "godMap">
 		select god_num,god_listimageurl,god_name,godc_num
