@@ -103,6 +103,25 @@
      	where not exists(select * from goods_anser where goods_questions.godq_num = goods_anser.godq_num) and godq_content like '%' || #{godqContent} || '%'	
 		</if>
 	</select>
+	 
+	<select id = "getOtoqTotRowCnt"  resultType = "int">
+		select count(otoq_num)
+		from oto_questions
+	</select> 
+ 
+	<select id = "getOtoqSearchTotRowCnt"  parameterType="map" resultType = "int">
+		<if test = "otoqType != 'on'">
+			select count(otoq_num)
+		  	from oto_questions
+			where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
+		</if>
+		<if test = "otoqType == 'on'">
+			select count(otoq_num)
+			from oto_questions
+      		where not exists(select * from oto_anser where oto_questions.otoq_num = oto_anser.otoq_num)
+       		and ((otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%'))
+		</if>
+	</select>
 	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	

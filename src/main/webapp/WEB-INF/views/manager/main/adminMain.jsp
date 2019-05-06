@@ -53,7 +53,7 @@
 					<li><a href = "cic">고객센터 공지</a></li>
 					<li><a href = "community">커뮤니티</a></li>
 					<li><a href = "goodsQuestion">상품 문의</a></li>
-					<li><a href = "../BOARDADMIN/10.html">1:1 문의</a></li>
+					<li><a href = "oneTwoOne">1:1 문의</a></li>
 					<li><a href = "../BOARDADMIN/13.html">상품평</a></li>
 					<li><a href = "../BOARDADMIN/14.html">커자주 하는 질문</a></li>
 					<li><a href = "../BOARDADMIN/16.html">이벤트</a></li>

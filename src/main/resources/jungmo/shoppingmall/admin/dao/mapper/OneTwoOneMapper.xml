@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.OneTwoOneMapper">
+	<select id = "getOtoq" parameterType = "page" resultMap = "OtoqMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select otoq_num,oto_questions.otoc_num,otoc_name,otoq_title,otoq_content,user_id,otoq_writingdate
+		  		from oto_questions
+		  		join oto_categories
+		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
+		  		order by otoq_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getOtoqSearch" parameterType = "page" resultMap = "OtoqMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  	]]>
+      		<if test = "otoqType != 'on'">
+		  		select otoq_num,oto_questions.otoc_num,otoc_name,otoq_title,otoq_content,user_id,otoq_writingdate
+		  		from oto_questions
+		  		join oto_categories
+		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
+				where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
+			</if>
+			<if test = "otoqType == 'on'">
+		  		select otoq_num,oto_questions.otoc_num,otoc_name,otoq_title,otoq_content,user_id,otoq_writingdate
+		  		from oto_questions
+		  		join oto_categories
+		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
+         	 	where not exists(select * from oto_anser where oto_questions.otoq_num = oto_anser.otoq_num)
+        		and ((otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%'))
+			</if>
+		  	order by oto_questions.otoq_num desc
+		  	<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getOto" parameterType = "int" resultMap = "OtoqMap">
+		  		select otoq_num,oto_questions.otoc_num,otoc_name,otoq_title,otoq_content,user_id,otoq_writingdate
+		  		from oto_questions
+		  		join oto_categories
+		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
+		  		where oto_questions.otoq_num = #{otoqNum}
+	</select>
+	 
+	<select id = "getOtoa" parameterType = "int" resultType = "otoa">
+		select otoq_num otoqNum,otoa_content otoaContent,user_id userId,otoa_writingdate otoaWritingDate
+		from oto_anser
+		where otoq_num = #{otoqNum}
+	</select>
+	
+	<resultMap id = "OtoqMap" type = "otoq">
+	 	<id property = "otoqNum" column = "otoq_num" />
+	 	<result property = "otocNum" column = "otoc_num" />
+	 	<result property = "otocName" column = "otoc_name" />
+	 	<result property = "otoqTitle" column = "otoq_title" />
+	 	<result property = "otoqContent" column = "otoq_content" />
+	 	<result property = "otoqWritingDate" column = "otoq_writingdate" />
+	 	<result property = "userId" column = "user_id" />
+	 	<association property="otoa" column="otoq_num" select = "getOtoa" />
+	</resultMap>
+</mapper>

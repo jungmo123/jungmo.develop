@@ -18,4 +18,6 @@ public interface PageMapper {
 			@Param("poscNum") int poscNum,@Param("searchType") int searchType,@Param("searchContent") String searchContent);
 	int getGodqTotRowCnt();
 	int getGodqSearchTotRowCnt(@Param("godqType") String godqType,@Param("godqContent") String godqContent);
+	int getOtoqTotRowCnt();
+	int getOtoqSearchTotRowCnt(@Param("otoqType") String otoqType,@Param("otoqContent") String otoqContent);
 }

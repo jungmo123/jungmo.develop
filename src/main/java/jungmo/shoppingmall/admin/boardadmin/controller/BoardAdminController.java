@@ -22,11 +22,14 @@ public class BoardAdminController {
 	@Autowired private PageService pageService;
 	@Autowired private CommentService commentService;
 	@Autowired private GoodsQuestionService godqService;
+	@Autowired private OtoQuestionService otoService;
 	private int category;
 	private int searchType;
 	private String searchContent;
 	private String godqType;
 	private String godqSearch;
+	private String otoqType;
+	private String otoqSearch;
 	
 	//공지사항
 	
@@ -67,12 +70,6 @@ public class BoardAdminController {
 		myPage = new Page(Integer.parseInt(idx));
 		myPage.setGodqContent(godqSearch);
 		myPage.setGodqType(godqType);
-		System.out.println(godqType + " " + godqSearch);
-		List<GoodsQuestion> gq = godqService.getGodqSearch(myPage);
-		for(int i = 0 ; i < gq.size() ;i++){
-			System.out.println(gq.get(i).getGodqNum());
-		}
-		System.out.println(pageService.getGodqSearchTotRowCnt(godqType,godqSearch));
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodqSearchTotRowCnt(godqType,godqSearch));
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("godq",godqService.getGodqSearch(myPage));
@@ -390,8 +387,56 @@ public class BoardAdminController {
 	
 	// 1대1 문의
 	
+	public void otoq(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx),true);
+		PageService ps = new PageServiceImpl(10,myPage,pageService.getOtoqTotRowCnt());
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",otoService.getOtoq(myPage));
+	}
+	
+	public void otoqSearch(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx),true);
+		myPage.setOtoqContent(otoqSearch);
+		myPage.setOtoqType(otoqType);
+		PageService ps = new PageServiceImpl(10,myPage,pageService.getOtoqSearchTotRowCnt(otoqType,otoqSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",otoService.getOtoqSearch(myPage));
+		model.addAttribute("type","Search");
+	}	
+	
 	@RequestMapping("/admin/oneTwoOne")
-	public String oneTwoOne(){
+	public String otoQuestion(){
+		return "redirect:oneTwoOne1";
+	}
+	@RequestMapping("/admin/oneTwoOne{idx}")
+	public String oneTwoOne(@PathVariable String idx,Model model,HttpServletRequest request){
+		otoq(request,model,idx);
+		return "manager/boardadmin/oneTwoOne";
+	}
+	
+	@RequestMapping("/admin/oneTwoOneRead{idx}")
+	public String otoRead(@PathVariable String idx,Model model,HttpServletRequest request){
+		model.addAttribute("oto",otoService.getOto(Integer.parseInt(idx)));
+		return "manager/boardadmin/oneTwoOneRead";
+	}
+	
+	@RequestMapping(value="/admin/oneTwoOneSearch{idx}",method=RequestMethod.POST)
+	public String otoPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		if(request.getParameter("otoqSearch") != null){
+			otoqSearch = request.getParameter("otoqSearch");		
+		}
+		if(request.getParameter("otoqType") != ""){
+			otoqType = request.getParameter("otoqType");
+		}
+		otoqSearch(request,model,idx);
+		return "manager/boardadmin/oneTwoOne";
+	}
+	
+	@RequestMapping(value="/admin/oneTwoOneSearch{idx}",method=RequestMethod.GET)
+	public String otoGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		otoqSearch(request,model,idx);
 		return "manager/boardadmin/oneTwoOne";
 	}
 }

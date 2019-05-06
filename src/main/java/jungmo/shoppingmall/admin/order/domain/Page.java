@@ -16,6 +16,8 @@ public class Page {
 	private int godqNum;
 	private String godqContent;
 	private String godqType;
+	private String otoqContent;
+	private String otoqType;
 	
 	public Page(){
 		this(1,5);
@@ -23,6 +25,10 @@ public class Page {
 	
 	public Page(int currentPage){
 		this(currentPage,5);
+	}
+	
+	public Page(int currentPage,boolean bl){
+		this(currentPage,10);
 	}
 	
 	public Page(int currentPage,int borNum,int poscNum){
@@ -166,5 +172,21 @@ public class Page {
 
 	public void setGodqContent(String godqContent) {
 		this.godqContent = godqContent;
+	}
+
+	public String getOtoqContent() {
+		return otoqContent;
+	}
+
+	public String getOtoqType() {
+		return otoqType;
+	}
+
+	public void setOtoqContent(String otoqContent) {
+		this.otoqContent = otoqContent;
+	}
+
+	public void setOtoqType(String otoqType) {
+		this.otoqType = otoqType;
 	}
 }

@@ -27,5 +27,7 @@
 			<typeAlias alias = "cmt" type = "jungmo.shoppingmall.admin.boardadmin.domain.Comment" />
 			<typeAlias alias = "godq" type = "jungmo.shoppingmall.admin.boardadmin.domain.GoodsQuestion" />
 			<typeAlias alias = "goda" type = "jungmo.shoppingmall.admin.boardadmin.domain.GoodsAnser" />
+			<typeAlias alias = "otoq" type = "jungmo.shoppingmall.admin.boardadmin.domain.OtoQuestion" />
+			<typeAlias alias = "otoa" type = "jungmo.shoppingmall.admin.boardadmin.domain.OtoAnser" />
 	</typeAliases>
 </configuration>

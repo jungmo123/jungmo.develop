@@ -69,6 +69,24 @@
 	tbody tr:last-child{
 		border-bottom:1px solid #878787;
 	}
+	table tr td:nth-child(1){
+		width:49px;
+	}
+	table tr td:nth-child(2){
+		width:48px;
+	}
+	table tr td:nth-child(3){
+		width:429px;
+	}
+	table tr td:nth-child(4){
+		width:71px;
+	}
+	table tr td:nth-child(5){
+		width:79px;
+	}
+	table tr td:nth-child(6){
+		width:103px;
+	}
 	#write{
 		float:right;
 		width:80px;
@@ -76,6 +94,17 @@
 	#pagination{
 		margin-top:30px;
 		text-align:center;
+	}
+	.pagination li a{
+		border:0px;
+	}
+	#pagination > div > .pagination .active a{
+		background-color:#F2F5F7;
+		color:black;
+		font-weight:bold;
+	}
+	.pagination .active a:active{
+		background-color:grey;
 	}
 	#pagination .currentPage{
 		color:#727272 !important;
@@ -121,16 +150,16 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판 관리 > 1:1 문의 목록</p>
 			</div>
-			<form>
+			<form action = "oneTwoOneSearch1" method = "post">
 			<div id = "searchBar">
 				<div>
 					<label for = "noCommentSearch">답변 없는 문의만 보기</label>
-					<input type = "checkbox" id = "noCommentSearch" />			
+					<input type = "checkbox" id = "noCommentSearch"  name = "otoqType"/>			
 					<select class = "form-control">
 						<option>제목 + 내용</option>
 					</select>
-					<input type = "text" class = "form-control" name = "title" />
-					<button type = "button" class = "btn btn-default">검색</button>
+					<input type = "text" class = "form-control" name = "otoqSearch" />
+					<button type = "submit" class = "btn btn-default">검색</button>
 				</div>
 			</div>
 			</form>
@@ -147,104 +176,56 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr onclick = "location.href='10.html'">
-							<td>10</td>
-							<td>판매</td>
-							<td>판매자님께 문의 드립니다.</td>
-							<td>like10</td>
-							<td>미답변</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>9</td>
-							<td>결제</td>
-							<td>모바일에서 결제는 주문이 되었다고 했는데요.</td>
-							<td>like9</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>8</td>
-							<td>입금</td>
-							<td>오픈 숍에서 구매는 입금은 어떻게 하면 되나요</td>
-							<td>like8</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>7</td>
-							<td>입금</td>
-							<td>상품평을 등록 하려고 하는데,주문내용을 확인할 수 ...</td>
-							<td>like7</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>6</td>
-							<td>판매</td>
-							<td>주문 취소 했는데 결제한 카드는 언제 취소되나요?</td>
-							<td>like6</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>5</td>
-							<td>결제</td>
-							<td>구매 했는데 적립금이 적립이 안되었어요!</td>
-							<td>like5</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>4</td>
-							<td>기타</td>
-							<td>포인트는 어떻게 사용하나요?</td>
-							<td>like4</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>3</td>
-							<td>배송</td>
-							<td>제주도인데 배송이 되나요?</td>
-							<td>like3</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>2</td>
-							<td>환불</td>
-							<td>옷이 사진과 많이 다른데 환불이 가능한가요?</td>
-							<td>like2</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-						<tr onclick = "location.href='10.html'">
-							<td>1</td>
-							<td>판매</td>
-							<td>관리자님께 문의 드립니다.</td>
-							<td>like1</td>
-							<td>답변완료</td>
-							<td>2023-01-01</td>
-						</tr>
-					</tbody>
-				</table>
+						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
+						<tr id = "${post.otoqNum}" class = "${post.otocNum}">
+							<td>${post.otoqNum}</td>
+							<td>${post.otocName}</td>
+							<td>${post.otoqTitle}</td>
+							<td>${post.userId}</td>
+							<td>
+								<c:if test = "${post.otoa == null}">
+									미답변
+								</c:if>
+								<c:if test = "${post.otoa != null}">
+									답변완료
+								</c:if>
+							</td>
+							<td>${post.otoqWritingDate}</td>
+						</tr> 
+						</c:forEach>						
+						</tbody>
+						</table>
+						</div>
+			 			<div id = "pagination">
+							<div>
+								<ul class = "pagination">
+										<c:if test = "${pageMaker.prev}">
+											<li><a href = "oneTwoOne${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+										</c:if>
+										
+										<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+											<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+												<a href = "oneTwoOne${type}${idx}">${idx}</a>
+											</li>
+										</c:forEach>
+				
+										<c:if test = "${pageMaker.next}">
+											<li><a href = "oneTwoOne${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+										</c:if>
+								</ul>
+							</div>		
+						</div>
 			</div>
-			<div id = "pagination">
-				<div>
-					<a href = "#"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-					<a href = "#"  class = "currentPage">1</a>
-					<a href = "#">2</a>
-					<a href = "#">3</a>
-					<a href = "#">4</a>
-					<a href = "#">5</a>
-					<a href = "#" ><span class = "glyphicon glyphicon-chevron-right"></span></a>
-					<div id = "currentBar"></div>
-				</div>		
-			</div>
+		</div>
 	</div>
-</div>
-</div>
+
+	<script type = "text/javascript">
+	$("table tr").click(function(){
+		var otoqNum = $(this).attr("id");
+
+		location.href="/shoppingmall/admin/oneTwoOneRead" + otoqNum;
+	})	
+	</script>
 
 </body>
 </html>
