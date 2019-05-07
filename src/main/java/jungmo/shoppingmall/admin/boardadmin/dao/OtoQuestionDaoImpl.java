@@ -6,6 +6,7 @@ import jungmo.shoppingmall.admin.boardadmin.dao.mapper.*;
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -24,5 +25,17 @@ public class OtoQuestionDaoImpl implements OtoQuestionDao{
 	
 	public OtoQuestion getOto(int otoqNum){
 		return otoMapper.getOto(otoqNum);
+	}
+	
+	public int addOtoa(@Param("otoqNum") int otoqNum,@Param("otoaContent") String otoaContent,@Param("userId") String userId){
+		return otoMapper.addOtoa(otoqNum, otoaContent, userId);
+	}
+	
+	public int updateOtoq(@Param("otoqNum") int otoqNum,@Param("otoqContent") String otoqContent){
+		return otoMapper.updateOtoq(otoqNum, otoqContent);
+	}
+	
+	public int updateOtoa(@Param("otoqNum") int otoqNum,@Param("otoaContent") String otoaContent){
+		return otoMapper.updateOtoa(otoqNum, otoaContent);
 	}
 }

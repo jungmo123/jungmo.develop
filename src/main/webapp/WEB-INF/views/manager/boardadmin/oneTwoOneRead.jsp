@@ -16,7 +16,7 @@
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
-<script type="text/javascript" src= "../editor/js/HuskyEZCreator.js" charset="utf-8"></script> 
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
 <style>
 	.Dtitle{
 		font-weight:bold;
@@ -64,7 +64,7 @@
 		margin-right:5px;
 		float:right;
 	}
-	.buttonBox button:last-child{
+	#addAnser{
 		display:inline-block;
 		position:relative;
 		top:75px;
@@ -101,11 +101,10 @@
 		margin:5px;
 	}
 	.modal-content{
-		width:696px;
+		width:600px;
 	}
 	.modal-body div:first-child{
 		width:100%;
-		height:314px;
 		border-top:1px solid lightgrey;
 		border-left:1px solid lightgrey;
 		border-right:1px solid lightgrey;
@@ -135,8 +134,8 @@
 				<a href="community"><span>커뮤니티</span></a>
 				<a href="goodsQuestion"><span>상품 문의</span></a> 
 				<a href="oneTwoOne" class="activeMenu"><span>1:1문의</span></a> 
-				<a href="11.html"><span>상품평</span></a> 
-				<a href="12.html"><span>자주하는 질문</span></a>
+				<a href="goodsReview"><span>상품평</span></a> 
+				<a href="faq"><span>자주하는 질문</span></a>
 				<a href="13.html"><span>이벤트</span></a>
 				<a href="16.html"><span>게시판카테고리 관리</span></a>
 			</div>
@@ -161,7 +160,7 @@
 		<div id = "requestContent">
 				${oto.otoqContent}
 			<div class = "buttonBox">
-				<button id = "md" class = "form-control" data-toggle = "modal" data-target = "#otom">수정</button>
+				<button id = "questionModify" class = "form-control" data-toggle = "modal" data-target = "#otom">수정</button>
 				<button class = "form-control">삭제</button>
 			</div>
 		</div>
@@ -195,14 +194,18 @@
 			${oto.otoa.otoaContent}
 		</c:if>
 			<div class = "buttonBox">
-				<button class = "form-control">수정</button>
-				<button class = "form-control">삭제</button>
-				<button class = "form-control" data-toggle = "modal" data-target = "#otom">답변하기</button>
+				<c:if test = "${oto.otoa != null}">
+					<button id = "anserModify" class = "form-control" data-toggle = "modal" data-target = "#otom">수정</button>
+					<button class = "form-control">삭제</button>
+				</c:if>
+				<c:if test = "${oto.otoa == null}">
+					<button id = "addAnser" class = "form-control" data-toggle = "modal" data-target = "#otom">답변하기</button>
+				</c:if>
 			</div>
 		</div>
 		<div id = "footerDiv">
 			<hr>
-			<button class = "btn btn-default left" onclick = "location.href = '10.html'">목록 보기</button>
+			<button class = "btn btn-default left" onclick = "location.href = '/shoppingmall/admin/OtoIndex'">목록 보기</button>
 		</div>
 	</div>
 </div>
@@ -216,44 +219,44 @@
 					<h4 class = "modal-title">&#124;&nbsp;상품 문의 답변/수정하기</h4>
 					<hr>
 				</div>
+				<form id = "modifyForm" method = "post">
 				<div class = "modal-body">
-					<div>
-						<textarea id = "WriteContent" name = "WriteContent" style="width:660px; height:275px;"></textarea>
-					</div>
+					<input id = "otoqNum" type = "text" name = "otoqNum" value = "${oto.otoqNum}" style = "display:none"/>
+					<textarea id = "WriteContent" name = "WriteContent" style="width:660px; height:275px;"></textarea>
 				</div>
 				<div class ="modal-footer">
-					<button type = "button" class = "btn btn-default" data-dismiss = "modal">작성완료</button>
+					<button type = "submit" class = "btn btn-default">작성완료</button>
 					<button type = "button" class = "btn btn-default" data-dismiss = "modal">작성취소</button>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>
 
-<script type = "text/javascript">
-var oEditors = [];
-$(function(){
-	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: oEditors,
-		elPlaceHolder: "WriteContent",
-		//SmartEditor2Skin.html 파일이 존재하는 경로
-		sSkinURI: "../editor/SmartEditor2Skin.html",	
-		htParams : {
-			// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-			bUseToolbar : true,				
-			// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-			bUseVerticalResizer : false,		
-			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-			bUseModeChanger : true,			
-			fOnBeforeUnload : function(){
-				
-			},
-			fOnAppLoad:function(){
-				$("iframe").css("width","100%").css("height","399px");
-			}
-		},
-		fCreator: "createSEditor2"
-	})
-})
+<script type="text/javascript">
+    CKEDITOR.replace('WriteContent',{
+            toolbar: 'Full',
+            uiColor: '#F2F5F7',
+        }
+    );
+    
+    $("#questionModify").click(function(){
+    	$("#modifyForm").attr({
+    		action:"Qmodify"
+    	})
+    })
+    
+    $("#anserModify").click(function(){
+    	$("#modifyForm").attr({
+    		action:"Amodify"
+    	})    	
+    })
+    
+    $("#addAnser").click(function(){
+    	$("#modifyForm").attr({
+    		action:"addAnser"
+    	})    	
+    })
 </script>
 
 </body>

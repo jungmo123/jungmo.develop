@@ -29,6 +29,7 @@
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>
 	<mvc:resources location="/WEB-INF/resources/img/" mapping="/IMAGE/**"/>
 	<mvc:resources location="editor/" mapping="/editor/**" />
+	<mvc:resources location="ckeditor/" mapping="/ckeditor/**" />
 
 	<bean id = "dataSource" class = "org.springframework.jndi.JndiObjectFactoryBean">
 		<property name ="jndiName" value = "java:comp/env/jdbc/jungmo"/>

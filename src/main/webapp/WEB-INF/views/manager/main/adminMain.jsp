@@ -54,8 +54,8 @@
 					<li><a href = "community">커뮤니티</a></li>
 					<li><a href = "goodsQuestion">상품 문의</a></li>
 					<li><a href = "oneTwoOne">1:1 문의</a></li>
-					<li><a href = "../BOARDADMIN/13.html">상품평</a></li>
-					<li><a href = "../BOARDADMIN/14.html">커자주 하는 질문</a></li>
+					<li><a href = "goodsReview">상품평</a></li>
+					<li><a href = "faq">자주 하는 질문</a></li>
 					<li><a href = "../BOARDADMIN/16.html">이벤트</a></li>
 					<li><a href = "../BOARDADMIN/19.html">게시판 카테고리 관리</a></li>
 				</ul>

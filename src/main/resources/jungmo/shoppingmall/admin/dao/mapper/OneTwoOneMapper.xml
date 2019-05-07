@@ -57,6 +57,23 @@
 		where otoq_num = #{otoqNum}
 	</select>
 	
+	<insert id = "addOtoa" parameterType = "map">
+		insert into oto_anser
+		values (#{otoqNum},#{otoaContent},#{userId},sysdate)
+	</insert>
+	 
+	<update id = "updateOtoq" parameterType = "map">
+		update oto_questions
+		set otoq_content = #{otoqContent}
+		where otoq_num = #{otoqNum}
+	</update>
+	
+	<update id = "updateOtoa" parameterType = "map">
+		update oto_anser
+		set otoa_content = #{otoaContent}
+		where otoq_num = #{otoqNum}
+	</update>
+	
 	<resultMap id = "OtoqMap" type = "otoq">
 	 	<id property = "otoqNum" column = "otoq_num" />
 	 	<result property = "otocNum" column = "otoc_num" />

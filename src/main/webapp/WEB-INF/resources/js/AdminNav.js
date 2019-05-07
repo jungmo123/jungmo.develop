@@ -87,7 +87,7 @@ $(function() {
 			$searchList.addClass("searchList");
 			$div.append($("<input type = 'checkbox'></input>"));
 			$div.append($("<input type = 'text' class = 'form-control' placeholder = '검색어 입력'></input>"));
-			$div.append($("<input type = 'text' class = 'form-control' placeholder = 'URL 입력'></input>"));
+			$div.append($("<input type = 'text' class = 'form-control' placeholder = '설명 입력'></input>"));
 			$searchList.append($div);
 			
 			$("#searchOption").append($searchList);			

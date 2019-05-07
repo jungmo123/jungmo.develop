@@ -15,9 +15,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> 
-<script type="text/javascript" src= "../editor/js/HuskyEZCreator.js" charset="utf-8"></script> 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <style>
 	#searchBar{
 		text-align:center;
@@ -137,8 +135,8 @@
 				<a href="community"><span>커뮤니티</span></a>
 				<a href="goodsQuestion"><span>상품 문의</span></a> 
 				<a href="oneTwoOne" class="activeMenu"><span>1:1문의</span></a> 
-				<a href="11.html"><span>상품평</span></a> 
-				<a href="12.html"><span>자주하는 질문</span></a>
+				<a href="goodsReview"><span>상품평</span></a> 
+				<a href="faq"><span>자주하는 질문</span></a>
 				<a href="13.html"><span>이벤트</span></a>
 				<a href="16.html"><span>게시판카테고리 관리</span></a>
 			</div>

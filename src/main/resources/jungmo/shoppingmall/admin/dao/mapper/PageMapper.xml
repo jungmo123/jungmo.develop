@@ -122,6 +122,26 @@
        		and ((otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%'))
 		</if>
 	</select>
+	 
+	<select id = "getGodrTotRowCnt" resultType = "int">
+		select count(godr_num)
+		from goods_reviews
+	</select>
+ 
+	<select id = "getGodrSearchTotRowCnt"  parameterType="map" resultType = "int">
+		<if test = "godcNum == 0">
+			select count(godr_num)
+		  	from goods_reviews
+			where (godr_content like '%' || #{godrContent} || '%')
+		</if>
+		<if test = "godcNum != 0">
+			select count(godr_num)
+		  	from goods_reviews
+		  	join goods
+		  	on (goods_reviews.god_num = goods.god_num)
+			where (godr_content like '%' || #{godrContent} || '%') and (goods.godc_num = #{godcNum})
+		</if>
+	</select>
 	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	

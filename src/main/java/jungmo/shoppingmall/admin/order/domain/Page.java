@@ -18,10 +18,19 @@ public class Page {
 	private String godqType;
 	private String otoqContent;
 	private String otoqType;
+	private int godcNum;
+	private String godrContent;
 	
 	public Page(){
 		this(1,5);
 	}
+	
+	public Page(int currentPage,int rowCnt,int godcNum,String godrContent){
+		this.currentPage = currentPage;
+		this.godcNum = godcNum;
+		this.godrContent = godrContent;
+		this.rowCnt = rowCnt;
+	}	
 	
 	public Page(int currentPage){
 		this(currentPage,5);
@@ -189,4 +198,22 @@ public class Page {
 	public void setOtoqType(String otoqType) {
 		this.otoqType = otoqType;
 	}
+
+	public int getGodcNum() {
+		return godcNum;
+	}
+
+	public String getGodrContent() {
+		return godrContent;
+	}
+
+	public void setGodcNum(int godcNum) {
+		this.godcNum = godcNum;
+	}
+
+	public void setGodrContent(String godrContent) {
+		this.godrContent = godrContent;
+	}
+	
+
 }

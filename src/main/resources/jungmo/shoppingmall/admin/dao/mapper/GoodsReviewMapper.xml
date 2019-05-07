@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.GoodsReviewMapper">
+	<select id = "getGodr" parameterType = "page" resultMap = "godrMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+				select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+				from goods_reviews
+				join goods
+				on (goods_reviews.god_num = goods.god_num)
+				join goods_categories
+				on (goods.godc_num = goods_categories.godc_num)
+		  		order by godr_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getGodrSearch" parameterType = "page" resultMap = "godrMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  	]]>
+		<if test = "godcNum == 0">
+			select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+		  	from goods_reviews
+			join goods
+			on (goods_reviews.god_num = goods.god_num)
+			join goods_categories
+			on (goods.godc_num = goods_categories.godc_num)
+			where (godr_content like '%' || #{godrContent} || '%')
+		</if>
+		<if test = "godcNum != 0">
+			select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+		  	from goods_reviews
+			join goods
+			on (goods_reviews.god_num = goods.god_num)
+			join goods_categories
+			on (goods.godc_num = goods_categories.godc_num)
+			where (godr_content like '%' || #{godrContent} || '%') and (goods.godc_num = #{godcNum})
+		</if>
+		  	order by godr_num desc
+		  	<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<update id = "updateGodr" parameterType = "map">
+		update goods_reviews
+		set godr_content = #{godrContent}
+		where godr_num = #{godrNum}
+	</update>
+	
+	<delete id = "deleteGodr" parameterType ="int">
+		delete from goods_reviews
+		where godr_num = #{godrNum}
+	</delete>
+	
+	<resultMap id = "godrMap" type = "godr">
+		<id property = "godrNum" column = "godr_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "userId" column = "user_id" />
+		<result property = "godrWritingDate" column = "godr_writingdate" />
+		<result property = "satisLevel" column = "satislevel" />
+		<result property = "godrContent" column = "godr_content" />
+	</resultMap>
+</mapper>

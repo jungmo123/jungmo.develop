@@ -473,9 +473,9 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 				<a href="cic"><span>고객센터 공지</span></a> 
 				<a href="community"><span>커뮤니티</span></a>
 				<a href="goodsQuestion" class="activeMenu"><span>상품 문의</span></a> 
-				<a href="09.html"><span>1:1문의</span></a> 
-				<a href="11.html"><span>상품평</span></a> 
-				<a href="12.html"><span>자주하는 질문</span></a>
+				<a href="oneTwoOne"><span>1:1문의</span></a> 
+				<a href="goodsReview"><span>상품평</span></a> 
+				<a href="faq"><span>자주하는 질문</span></a>
 				<a href="13.html"><span>이벤트</span></a>
 				<a href="16.html"><span>게시판카테고리 관리</span></a>
 			</div>
@@ -625,7 +625,7 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 					<textarea id = "godqContent" class = "form-control" cols = "20" rows = "6" name = "godqContent"></textarea>
 					<input id = "godqNum" type = "text"  name = "godqNum" style = "display:none"/>
 					<input id = "godqType" type = "text" name = "godqType" value = "${type}"  style = "display:none"/>
-					<input id = "idx" type = "text" name = "idx" value = "${pageMaker.page.currentPage}" style = "display:none"/ />
+					<input id = "idx" type = "text" name = "idx" value = "${pageMaker.page.currentPage}" style = "display:none" />
 				</div>
 				<div class ="modal-footer">
 					<button type = "button" class = "btn btn-default complete" data-dismiss = "modal">작성완료</button>

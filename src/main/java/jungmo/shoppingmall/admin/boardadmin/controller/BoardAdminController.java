@@ -23,6 +23,7 @@ public class BoardAdminController {
 	@Autowired private CommentService commentService;
 	@Autowired private GoodsQuestionService godqService;
 	@Autowired private OtoQuestionService otoService;
+	@Autowired private GoodsReviewService godrService;
 	private int category;
 	private int searchType;
 	private String searchContent;
@@ -30,6 +31,9 @@ public class BoardAdminController {
 	private String godqSearch;
 	private String otoqType;
 	private String otoqSearch;
+	private String otoIdx;
+	private int godcNum;
+	private String godrSearch;
 	
 	//공지사항
 	
@@ -388,6 +392,7 @@ public class BoardAdminController {
 	// 1대1 문의
 	
 	public void otoq(HttpServletRequest request,Model model,String idx){
+		otoIdx= idx;
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx),true);
 		PageService ps = new PageServiceImpl(10,myPage,pageService.getOtoqTotRowCnt());
@@ -396,6 +401,7 @@ public class BoardAdminController {
 	}
 	
 	public void otoqSearch(HttpServletRequest request,Model model,String idx){
+		otoIdx= idx;
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx),true);
 		myPage.setOtoqContent(otoqSearch);
@@ -439,4 +445,126 @@ public class BoardAdminController {
 		otoqSearch(request,model,idx);
 		return "manager/boardadmin/oneTwoOne";
 	}
+	
+	@RequestMapping(value="/admin/Qmodify",method=RequestMethod.POST)
+	public String qmodify(Model model,HttpServletRequest request){
+		String otoqNum = request.getParameter("otoqNum");
+		String otoqContent = request.getParameter("WriteContent");
+		otoService.updateOtoq(Integer.parseInt(otoqNum), otoqContent);
+		return "redirect:oneTwoOneRead" + otoqNum;
+	}
+	
+	@RequestMapping(value="/admin/Amodify",method=RequestMethod.POST)
+	public String amodify(Model model,HttpServletRequest request){
+		String otoqNum = request.getParameter("otoqNum");
+		String otoaContent = request.getParameter("WriteContent");
+		otoService.updateOtoq(Integer.parseInt(otoqNum), otoaContent);
+		return "redirect:oneTwoOneRead" + otoqNum;
+	}
+	
+	@RequestMapping(value="/admin/addAnser",method=RequestMethod.POST)
+	public String addAnser(Model model,HttpServletRequest request){
+		String otoqNum = request.getParameter("otoqNum");
+		String otoaContent = request.getParameter("WriteContent");
+		String userId = (String)request.getSession().getAttribute("admin");
+		otoService.addOtoa(Integer.parseInt(otoqNum), otoaContent,userId);
+		return "redirect:oneTwoOneRead" + otoqNum;
+	}
+	@RequestMapping("/admin/OtoIndex")
+	public String otoIndex(){
+		String type;
+		if(otoqType != null){
+			type = "Search";
+		}else{
+			type = "";
+		}
+		return "redirect:oneTwoOne" + type + otoIdx;
+	}
+	
+	//GoodsReview
+	
+	public void godr(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodrTotRowCnt());
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",godrService.getGodr(myPage));
+		model.addAttribute("category",godcService.getCategories());
+	}
+	
+	public void godrSearch(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx),5,godcNum,godrSearch);
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodrSearchTotRowCnt(godcNum,godrSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",godrService.getGodrSearch(myPage));
+		model.addAttribute("type","Search");
+		model.addAttribute("category",godcService.getCategories());
+	}
+	
+	@RequestMapping("/admin/goodsReview")
+	public String godr(){
+		return "redirect:goodsReview1";
+	}
+	
+	@RequestMapping("/admin/goodsReview{idx}")
+	public String goodsReview(@PathVariable String idx,Model model,HttpServletRequest request){
+		godr(request,model,idx);
+		return "manager/boardadmin/GoodsReview";
+	}
+
+	@RequestMapping(value="/admin/goodsReviewSearch{idx}",method=RequestMethod.POST)
+	public String goodsReviewPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		if(request.getParameter("godrSearch") != null){
+			godrSearch = request.getParameter("godrSearch");		
+		}
+		if(request.getParameter("godcNum") != ""){
+			godcNum= Integer.valueOf(request.getParameter("godcNum"));
+		}
+		godrSearch(request,model,idx);
+		return "manager/boardadmin/GoodsReview";
+	}
+	
+	@RequestMapping(value="/admin/goodsReviewSearch{idx}",method=RequestMethod.GET)
+	public String goodsReviewGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		godrSearch(request,model,idx);
+		return "manager/boardadmin/GoodsReview";
+	}
+	
+	@RequestMapping(value="/admin/godrModify",method=RequestMethod.POST)
+	public String godrModify(Model model,HttpServletRequest request){
+		String Num = request.getParameter("godrNum");
+		String Content = "";
+		String Type = "";
+		String idx = request.getParameter("idx");
+		if(request.getParameter("godrContent") != ""){
+			Content = request.getParameter("WriteContent");
+		}
+		if(request.getParameter("godrType") != ""){
+			Type = request.getParameter("godrType");
+		}
+		godrService.updateGodr(Integer.parseInt(Num),Content);
+		return "redirect:goodsReview" + Type + idx;
+	}
+	
+	@RequestMapping("/admin/godrDelete")
+	public String godrDelete(Model model,HttpServletRequest request){
+		String Num = request.getParameter("godrNum");
+		String Type = "";
+		String idx = request.getParameter("idx");
+		if(request.getParameter("godrType") != ""){
+			Type = request.getParameter("godrType");
+		}
+		System.out.println(Num);
+		godrService.deleteGodr(Integer.parseInt(Num));
+		return "redirect:goodsReview" + Type + idx;		
+	}
+	
+	// FAQ
+	
+	@RequestMapping("/admin/faq")
+	public String faq(){
+		return "manager/boardadmin/FAQ";
+	}
+	
 }

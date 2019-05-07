@@ -20,4 +20,6 @@ public interface PageDao {
 	int getGodqSearchTotRowCnt(@Param("godqType") String godqType,@Param("godqContent") String godqContent);
 	int getOtoqTotRowCnt();
 	int getOtoqSearchTotRowCnt(@Param("otoqType") String otoqType,@Param("otoqContent") String otoqContent);
+	int getGodrTotRowCnt();
+	int getGodrSearchTotRowCnt(@Param("godcNum") int godcNum,@Param("godrContent") String godrContent);
 }
