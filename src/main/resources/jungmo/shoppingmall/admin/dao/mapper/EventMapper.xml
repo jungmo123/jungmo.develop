@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.EventMapper">
+	<select id = "getEvent" parameterType = "page" resultMap = "eventMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+				select event_num,event_title,event_summary,event_content,event_sdate,event_edate,event_listimageurl,event_viewcnt
+				from events
+		  		order by event_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getEventSearch" parameterType = "page" resultMap = "eventMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+				select event_num,event_title,event_summary,event_content,event_sdate,event_edate,event_listimageurl,event_viewcnt
+			  	from events
+				where (event_content like '%' || #{eventContent} || '%') or (event_title like '%' || #{eventContent} || '%')
+			  	order by event_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<delete id = "deleteEvent" parameterType = "map">
+		delete from events
+		where event_num in
+		<foreach collection = "list" item = "num" open = "(" close = ")" separator=",">
+			#{num.value}
+		</foreach>
+	</delete>
+	
+	<select id = "getEventRead" parameterType ="int" resultMap = "eventMap">
+	    select * from(
+	  		select event_num,event_title,event_summary,event_content,event_sdate,event_edate,event_listimageurl,event_viewcnt,
+	    	lead(event_num,1,0) over (order by event_num) next,lag(event_num,1,0) over (order by event_num) pre
+	     	from events)
+		where event_num = #{eventNum}
+	</select>
+	
+	<resultMap id = "eventMap" type = "event">
+		<id property = "eventNum" column = "event_num" />
+		<result property = "eventTitle" column = "event_title" />
+		<result property = "eventSummary" column = "event_summary" />
+		<result property = "eventContent" column = "event_content" />
+		<result property = "eventSDate" column = "event_sdate" />
+		<result property = "eventEDate" column = "event_edate" />
+		<result property = "eventListImageUrl" column = "event_listimageurl" />
+		<result property = "eventViewCnt" column = "event_viewcnt" />
+		<result property = "nextNum" column = "next" />
+		<result property = "preNum" column = "pre" />
+	</resultMap>
+</mapper>

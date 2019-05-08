@@ -93,6 +93,14 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getGodrSearchTotRowCnt(godcNum, godrContent);
 	}
 	
+	public int getEventTotRowCnt(){
+		return pageDao.getEventTotRowCnt();
+	}
+	
+	public int getEventSearchTotRowCnt(String eventContent){
+		return pageDao.getEventSearchTotRowCnt(eventContent);
+	}
+	
 	private void init(){
 		endPage = (int)(Math.ceil(page.getCurrentPage()/(double)pageNumCnt)*pageNumCnt);
 		

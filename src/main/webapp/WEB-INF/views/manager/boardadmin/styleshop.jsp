@@ -91,8 +91,7 @@ textarea{
 				<a href="goodsQuestion"><span>상품 문의</span></a> 
 				<a href="oneTwoOne"><span>1:1문의</span></a> 
 				<a href="goodsReview"><span>상품평</span></a> 
-				<a href="faq"><span>자주하는 질문</span></a>
-				<a href="13.html"><span>이벤트</span></a>
+				<a href="event"><span>이벤트</span></a>
 				<a href="16.html"><span>게시판카테고리 관리</span></a>
 			</div>
 		</div>

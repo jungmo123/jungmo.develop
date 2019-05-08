@@ -27,4 +27,6 @@ public interface PageService {
 	int getOtoqSearchTotRowCnt(@Param("otoqType") String otoqType,@Param("otoqContent") String otoqContent);
 	int getGodrTotRowCnt();
 	int getGodrSearchTotRowCnt(@Param("godcNum") int godcNum,@Param("godrContent") String godrContent);
+	int getEventTotRowCnt();
+	int getEventSearchTotRowCnt(String eventContent);
 }

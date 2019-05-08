@@ -24,6 +24,7 @@ public class BoardAdminController {
 	@Autowired private GoodsQuestionService godqService;
 	@Autowired private OtoQuestionService otoService;
 	@Autowired private GoodsReviewService godrService;
+	@Autowired private EventService eventService;
 	private int category;
 	private int searchType;
 	private String searchContent;
@@ -34,6 +35,9 @@ public class BoardAdminController {
 	private String otoIdx;
 	private int godcNum;
 	private String godrSearch;
+	private String eventType;
+	private String eventSearch;
+	private String eventIdx;
 	
 	//공지사항
 	
@@ -560,11 +564,87 @@ public class BoardAdminController {
 		return "redirect:goodsReview" + Type + idx;		
 	}
 	
-	// FAQ
+	// Event
 	
-	@RequestMapping("/admin/faq")
-	public String faq(){
-		return "manager/boardadmin/FAQ";
+	public void event(HttpServletRequest request,Model model,String idx){
+		eventType = "";
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getEventTotRowCnt());
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",eventService.getEvent(myPage));
+		eventIdx = idx;
+		System.out.println(eventType);
+	}
+
+	public void eventSearch(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		myPage.setEventContent(eventSearch);
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getEventSearchTotRowCnt(eventSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",eventService.getEventSearch(myPage));
+		model.addAttribute("type","Search");
+		eventIdx = idx;
+		System.out.println(eventType);
+	}	
+	
+	@RequestMapping(value="/admin/eventSearch{idx}",method=RequestMethod.GET)
+	public String eventGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		eventSearch(request,model,idx);
+		return "manager/boardadmin/event";
 	}
 	
+	@RequestMapping(value="/admin/eventSearch{idx}",method=RequestMethod.POST)
+	public String eventPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		if(request.getParameter("eventSearch") != null){
+			eventSearch = request.getParameter("eventSearch");		
+		}
+		if(request.getParameter("eventType") != ""){
+			eventType = request.getParameter("eventType");
+		}
+		eventSearch(request,model,idx);
+		return "manager/boardadmin/event";
+	}
+	
+	@RequestMapping("/admin/event")
+	public String ev(){
+		return "redirect:event1";
+	}
+	
+	@RequestMapping("/admin/event{idx}")
+	public String event(@PathVariable String idx,Model model,HttpServletRequest request){
+		event(request,model,idx);
+		return "manager/boardadmin/event";
+	}
+	
+	@RequestMapping("/admin/eventRead{idx}")
+	public String eventRead(@PathVariable String idx,Model model,HttpServletRequest request){
+		model.addAttribute("event",eventService.getEventRead(Integer.valueOf(idx)));
+		System.out.println(eventService.getEventRead(Integer.valueOf(idx)).getNextNum());
+		return "manager/boardadmin/eventRead";
+	}
+	
+	@RequestMapping("/admin/EIDX")
+	public String eventIdx(){
+		String type;
+		if(eventType != ""){
+			type = "Search";
+		}else{
+			type = "";
+		}
+		return "redirect:event" + type + eventIdx;
+	}
+	
+	@RequestMapping(value="/admin/eventDelete",method=RequestMethod.POST)
+	public String eventDelete(HttpServletRequest request){
+		String str = request.getParameter("list");
+		List<Integer> list = new ArrayList<>();
+		StringTokenizer st = new StringTokenizer(str,",");
+		while(st.hasMoreTokens()){
+			list.add(Integer.valueOf(st.nextToken()));
+		}
+		eventService.deleteEvent(list);
+		return "redirect:EIDX";
+	}
 }

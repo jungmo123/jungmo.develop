@@ -142,6 +142,17 @@
 			where (godr_content like '%' || #{godrContent} || '%') and (goods.godc_num = #{godcNum})
 		</if>
 	</select>
+	 
+	<select id = "getEventTotRowCnt" resultType = "int">
+		select count(event_num)
+		from events
+	</select>
+	
+	<select id = "getEventSearchTotRowCnt"  parameterType="string" resultType = "int">
+		select count(event_num)
+		from events
+		where (event_content like '%' || #{eventContent} || '%') or (event_title like '%' || #{eventContent} || '%')
+	</select>
 	
 	<select id = "getDateTotRowCnt" parameterType= "page" resultType = "int">
 	<![CDATA[	

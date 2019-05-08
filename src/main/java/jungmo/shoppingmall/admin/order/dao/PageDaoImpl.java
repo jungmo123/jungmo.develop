@@ -75,4 +75,12 @@ public class PageDaoImpl implements PageDao{
 	public int getGodrSearchTotRowCnt(@Param("godcNum") int godcNum,@Param("godrContent") String godrContent){
 		return pageMapper.getGodrSearchTotRowCnt(godcNum, godrContent);
 	}
+	
+	public int getEventTotRowCnt(){
+		return pageMapper.getEventTotRowCnt();
+	}
+	
+	public int getEventSearchTotRowCnt(String eventContent){
+		return pageMapper.getEventSearchTotRowCnt(eventContent);
+	}
 }

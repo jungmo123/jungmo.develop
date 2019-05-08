@@ -20,6 +20,7 @@ public class Page {
 	private String otoqType;
 	private int godcNum;
 	private String godrContent;
+	private String eventContent;
 	
 	public Page(){
 		this(1,5);
@@ -214,6 +215,12 @@ public class Page {
 	public void setGodrContent(String godrContent) {
 		this.godrContent = godrContent;
 	}
-	
 
+	public String getEventContent() {
+		return eventContent;
+	}
+
+	public void setEventContent(String eventContent) {
+		this.eventContent = eventContent;
+	}
 }
