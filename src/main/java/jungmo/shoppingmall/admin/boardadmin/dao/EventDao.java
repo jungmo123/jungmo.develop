@@ -10,4 +10,5 @@ public interface EventDao {
 	List<Event> getEventSearch(Page page);
 	Event getEventRead(int eventNum);
 	int deleteEvent(List<Integer> list);
+	int delEvent(int eventNum);
 }

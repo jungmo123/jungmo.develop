@@ -647,4 +647,20 @@ public class BoardAdminController {
 		eventService.deleteEvent(list);
 		return "redirect:EIDX";
 	}
+	
+	@RequestMapping(value="/admin/eventDel{idx}",method=RequestMethod.POST)
+	public String eventDel(@PathVariable String idx,HttpServletRequest request){
+		eventService.delEvent(Integer.valueOf(idx));
+		return "redirect:EIDX";
+	}
+	
+	@RequestMapping(value="/admin/eventRegister",method=RequestMethod.GET)
+	public String eventGR(Model model,HttpServletRequest request){
+		return "manager/boardadmin/eventRegister";
+	}
+	
+	@RequestMapping(value="/admin/eventRegister",method=RequestMethod.POST)
+	public String eventPR(Model model,HttpServletRequest request){
+		return "manager/boardadmin/eventRegister";
+	}
 }

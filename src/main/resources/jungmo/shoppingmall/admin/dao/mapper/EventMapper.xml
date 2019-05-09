@@ -35,6 +35,11 @@
 		</foreach>
 	</delete>
 	
+	<delete id = "delEvent" parameterType = "int">
+		delete from events
+		where  event_num = #{eventNum}
+	</delete>
+	
 	<select id = "getEventRead" parameterType ="int" resultMap = "eventMap">
 	    select * from(
 	  		select event_num,event_title,event_summary,event_content,event_sdate,event_edate,event_listimageurl,event_viewcnt,

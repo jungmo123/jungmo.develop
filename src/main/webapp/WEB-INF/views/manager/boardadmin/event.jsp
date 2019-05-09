@@ -186,7 +186,7 @@
 					<hr>
 					<div id = "buttonBox">
 						<button id = "delete" class = "form-control">선택 삭제</button>
-						<button class = "form-control" onclick = "location.href='15.html'">이벤트 등록</button>
+						<button class = "form-control" onclick = "location.href='/shoppingmall/admin/eventRegister'">이벤트 등록</button>
 					</div>
 			 			<div id = "pagination">
 							<div>

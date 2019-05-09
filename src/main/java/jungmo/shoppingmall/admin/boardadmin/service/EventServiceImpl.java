@@ -28,4 +28,8 @@ public class EventServiceImpl implements EventService{
 	public int deleteEvent(List<Integer> list){
 		return eventDao.deleteEvent(list);
 	}
+	
+	public int delEvent(int eventNum){
+		return eventDao.delEvent(eventNum);
+	}
 }

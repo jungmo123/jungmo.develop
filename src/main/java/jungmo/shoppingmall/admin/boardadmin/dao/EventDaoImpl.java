@@ -27,4 +27,8 @@ public class EventDaoImpl implements EventDao{
 	public int deleteEvent(List<Integer> list){
 		return eventMapper.deleteEvent(list);
 	}
+	
+	public int delEvent(int eventNum){
+		return eventMapper.delEvent(eventNum);
+	}
 }
