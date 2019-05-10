@@ -16,6 +16,11 @@
 <script src = "<c:url value = "/js/AdminNav.js" />"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
+<link href="../fileinput/css/fileinput.css" rel="stylesheet">
+<script src="../fileinput/js/fileinput.min.js"></script>
+<script src="../fileinput/js/locales/es.js"></script>
+
+
 <style>
 	#event{
 		background-color:#F2F5F7;
@@ -101,9 +106,8 @@
 	}
 	#imgBox{
 		display:inline-block;
-		width:150px;
+		width:184px;
 		height:100px;
-		padding:5px;
 		border:1px solid #878787;
 		border-radius:10px;
 		text-align:center;
@@ -112,19 +116,8 @@
 	#imgBox span{
 		font-size:12px;
 	}
-	#eventImg input{
-		display:inline-block;
-		width:300px;
-	}
-	#eventImg button{
-		display:inline-block;
-		width:90px;
-	}
-	#eventImg div:nth-child(2){
-		display:inline-block;
-		position:relative;
-		top:30px;
-		left:60px;
+	#eventImg{
+		margin-top:10px;
 	}
 	a{
 		color:#878787;
@@ -236,7 +229,7 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판관리 > 이벤트 등록/수정하기</p>
 			</div>
-			<form>
+			<form id = "submit" method = "post" enctype = "multipart/form-data">
 				<div id = "event">
 					<div id = "eventForm">
 						<div>
@@ -247,11 +240,11 @@
 							<span>이벤트 기간</span>
 							<div id = "input-group">
 								<div id = "input1">
-									<input type="date" name="dateofbirth" class="dateInput">
+									<input type="date" name="sdate" class="dateInput">
 								</div>
 								<span>~</span>
 								<div id = "input2">
-									<input type="date" name="dateofbirth" class="dateInput">		
+									<input type="date" name="edate" class="dateInput">		
 								</div>
 								<div id = "viewDiv">
 									<span>조회수 :</span>
@@ -262,16 +255,11 @@
 					</div>
 				</div>
 				<div id = "eventBody">
+					<strong>목록 이미지 등록</strong>
 					<div id = "eventImg">
-						<div id = "imgBox">
-							<span>등록된 이미지가 없습니다.</span>						
+						<div class="form-group">
+						<input id="file" type="file" class="file" name = "file" data-preview-file-type="any">
 						</div>
-						<div>
-							<span>목록 이미지 : </span>
-							<input type = "text" name = "imgURL" class = "form-control"/>
-							<button class = "form-control">찾아보기</button>						
-						</div>
-
 					</div>
 						<div id = "write">
 							<div id = "writeC">
@@ -298,6 +286,41 @@ CKEDITOR.replace('WriteContent',{
 }
 );
 CKEDITOR.config.removePlugins = 'resize';
+
+$("#file").fileinput({
+	showUpload: false,
+	showUploadedThumbs: true
+	});
+	
+$("#submit").submit(function(e){
+	if(fileCheck() == true){
+		console.log("성공");
+	}else{
+		e.preventDefault();
+	}
+})
+
+function fileCheck(){
+	obj = document.getElementById("file");
+	if(obj.value == ''){
+		alert("이미지를 등록해주세요.")
+		return false;
+	}
+	pathpoint = obj.value.lastIndexOf('.');
+	filepoint = obj.value.substring(pathpoint+1,obj.length);
+	filetype = filepoint.toLowerCase();
+	if(filetype=='jpg' || filetype == 'gif' || filetype == 'png' || filetype == 'jpeg' || filetype == 'bmp'){
+		
+	}else{
+		alert("이미지 파일만 선택할 수 있습니다.");
+		return false;
+	}
+	if(filetype == 'bmp'){
+		upload=confirm('BMP 파일은 웹상에서 사용하기엔 적절한 이미지 포맷이 아닙니다.\n 그래도 계속 사용하시겠습니까?');
+		if(!upload) return false;
+	}
+	return true;
+}
 </script>
 
 </body>

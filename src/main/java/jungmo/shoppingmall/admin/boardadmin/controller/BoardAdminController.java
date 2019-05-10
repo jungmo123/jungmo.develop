@@ -1,5 +1,7 @@
 package jungmo.shoppingmall.admin.boardadmin.controller;
 
+import java.io.*;
+import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
 
 @Controller
 public class BoardAdminController {
@@ -660,7 +663,22 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping(value="/admin/eventRegister",method=RequestMethod.POST)
-	public String eventPR(Model model,HttpServletRequest request){
+	public String eventPR(Model model,HttpServletRequest request,MultipartFile file){
+		String dir = request.getServletContext().getRealPath("/upload");
+		String id = (String)request.getSession().getAttribute("admin");
+		Calendar calendar = Calendar.getInstance();
+        java.util.Date date = calendar.getTime();
+        String today = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
+		String fileName = file.getOriginalFilename();
+		save(dir + "/" + id+today+fileName,file);
 		return "manager/boardadmin/eventRegister";
+	}
+	
+	private void save(String fileFullName,MultipartFile uploadFile){
+		try{
+			uploadFile.transferTo(new File(fileFullName));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 }
