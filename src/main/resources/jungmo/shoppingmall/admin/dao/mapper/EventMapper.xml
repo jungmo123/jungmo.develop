@@ -50,7 +50,7 @@
 	
 	<insert id = "addEvent" parameterType = "event">
 		insert into events
-		values (#{eventNum},#{eventTitle},#{eventSummary},#{eventContent},#{eventSDate),#{eventEDate},#{eventListImageUrl},#{eventViewCnt})
+		values (event_seq.nextval,#{eventTitle},#{eventSummary},#{eventContent},to_date(#{sd},'YYYY-MM-DD'),to_date(#{ed},'YYYY-MM-DD'),#{eventListImageUrl},#{eventViewCnt})
 	</insert>
 	
 	<resultMap id = "eventMap" type = "event">

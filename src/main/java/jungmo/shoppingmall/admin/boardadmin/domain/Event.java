@@ -13,20 +13,21 @@ public class Event {
 	private int eventViewCnt;
 	private int nextNum;
 	private int preNum;
+	private String sd;
+	private String ed;
 	
 	public Event(){}
 
-	public Event(int eventNum, String eventTitle, String eventSummary,
-			String eventContent, Date eventSDate, Date eventEDate,
-			String eventListImageUrl, int eventViewCnt) {
-		this.eventNum = eventNum;
+	public Event(String eventTitle, String eventSummary,
+			String eventContent, String eventListImageUrl, int eventViewCnt,
+			String sd, String ed) {
 		this.eventTitle = eventTitle;
 		this.eventSummary = eventSummary;
 		this.eventContent = eventContent;
-		this.eventSDate = eventSDate;
-		this.eventEDate = eventEDate;
 		this.eventListImageUrl = eventListImageUrl;
 		this.eventViewCnt = eventViewCnt;
+		this.sd = sd;
+		this.ed = ed;
 	}
 
 	public int getEventNum() {
@@ -90,4 +91,19 @@ public class Event {
 		this.preNum = preNum;
 	}
 
+	public String getSd() {
+		return sd;
+	}
+
+	public String getEd() {
+		return ed;
+	}
+
+	public void setSd(String sd) {
+		this.sd = sd;
+	}
+
+	public void setEd(String ed) {
+		this.ed = ed;
+	}
 }

@@ -101,7 +101,7 @@
 					</div>
 					<div id = "rightBox">
 						<button class = "form-control" onclick = "location.href='15.html'">이벤트 등록</button>
-						<button class = "form-control">수정</button>
+						<button id = "eventModify" class = "form-control">수정</button>
 						<button class = "form-control">삭제</button>
 					</div>
 				</div>
@@ -109,6 +109,10 @@
 		</div>
 	</div>
 </div>
+
+<form id = "modifyForm" action = "eventRegister" method = "post" style="display:none">
+	<input type = "number" name = "eventNum" value = "${event.eventNum}" />
+</form>
 
 <script type = "text/javascript">
 	$("#pre").click(function(){
@@ -137,6 +141,10 @@
 		}else{
 			location.href="/shoppingmall/admin/eventRead${event.nextNum}";
 		}
+	})
+	
+	$("#eventModify").click(function(){
+		$("#modifyForm").submit();
 	})
 </script>
 

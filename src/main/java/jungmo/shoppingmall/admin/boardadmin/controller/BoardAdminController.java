@@ -663,15 +663,46 @@ public class BoardAdminController {
 	}
 	
 	@RequestMapping(value="/admin/eventRegister",method=RequestMethod.POST)
-	public String eventPR(Model model,HttpServletRequest request,MultipartFile file){
+	public String eventPR(Model model,HttpServletRequest request){
+		model.addAttribute("event",eventService.getEventRead(Integer.valueOf(request.getParameter("eventNum"))));
+		return "manager/boardadmin/eventRegister";
+	}
+	
+	@RequestMapping(value="/admin/addEvent",method=RequestMethod.POST)
+	public String addEvent(Model model,HttpServletRequest request,MultipartFile file) throws ParseException{
 		String dir = request.getServletContext().getRealPath("/upload");
 		String id = (String)request.getSession().getAttribute("admin");
+		SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd");
+		String sdate = request.getParameter("sdate");
+		String edate = request.getParameter("edate");
+		String date3;
+		Date date1 = dt.parse(sdate);
+		Date date2 = dt.parse(edate);
+		int compare = date1.compareTo(date2);
+		if(compare > 0){
+			date3 = sdate;
+			sdate = edate;
+			edate = date3;
+		}
+		String title = request.getParameter("title");
+		String summary = request.getParameter("summary");
+		String content = request.getParameter("content");
+		String view = request.getParameter("viewcount");
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
         String today = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
 		String fileName = file.getOriginalFilename();
+		String fullname = "/upload" + "/" + id+today+fileName;
 		save(dir + "/" + id+today+fileName,file);
-		return "manager/boardadmin/eventRegister";
+		String [] value = summary.split("\n");
+		if(value.length != 1 && value.length != 0){
+			summary = "";
+			summary += value[0]+"<br>";
+			summary += value[1];
+		}
+		System.out.println(summary);
+		eventService.addEvent(new Event(title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
+		return "redirect:event1";
 	}
 	
 	private void save(String fileFullName,MultipartFile uploadFile){

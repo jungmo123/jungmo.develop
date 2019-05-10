@@ -84,6 +84,8 @@
 		height:70px;
 		float:right;
 		margin-right:10px;
+		position:relative;
+		top:4px;
 	}
 	.commentInfo{
 		margin:10px;
@@ -173,7 +175,7 @@
 			<hr id = "HR">
 			<form id = "writeArea">
 				<div>
-					<textarea cols = "85" rows ="3" placeholder = "- 최대 000자까지 작성할 수 있습니다(띄어쓰기 포함).
+					<textarea cols = "84" rows ="3" placeholder = "- 최대 000자까지 작성할 수 있습니다(띄어쓰기 포함).
 ※욕설, 영업에 방해되는 글은 관리자에 의해 삭제됩니다."></textarea>
 					<button id = "registration" class = "btn btn-default" type = "button">등록</button>
 				</div>

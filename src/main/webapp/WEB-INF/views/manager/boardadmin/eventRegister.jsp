@@ -229,26 +229,28 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 게시판관리 > 이벤트 등록/수정하기</p>
 			</div>
-			<form id = "submit" method = "post" enctype = "multipart/form-data">
+			<c:if test = "${event!=null}">
+			<form id = "submit" action = "modifyEvent" method = "post" enctype = "multipart/form-data">
+				<input type = "text" name = "eventNum" style="display:none" />
 				<div id = "event">
 					<div id = "eventForm">
 						<div>
-							<input type = "text" name = "title" class = "form-control" placeholder = "제목을 입력하세요!"/>
-							<textarea class = "form-control" placeholder = "이벤트 요약 내용을 입력하세요!"></textarea>
+							<input id = "eventTitle" type = "text" name = "title" class = "form-control" placeholder = "제목을 입력하세요!" onkeyup="chkword(this,40)" value = "${event.eventTitle}"/>
+							<textarea id = "eventSummary" class = "form-control" name = "summary" placeholder = "이벤트 요약 내용을 입력하세요!(50자 이내 , 줄바꿈 1회 가능)" onkeyup="chkword(this,100)">${event.eventSummary}</textarea>
 						</div>
 						<div>
 							<span>이벤트 기간</span>
 							<div id = "input-group">
 								<div id = "input1">
-									<input type="date" name="sdate" class="dateInput">
+									<input type="date" name="sdate" class="dateInput" value = "${event.eventSDate}">
 								</div>
 								<span>~</span>
 								<div id = "input2">
-									<input type="date" name="edate" class="dateInput">		
+									<input type="date" name="edate" class="dateInput" value = "${event.eventEDate}">		
 								</div>
 								<div id = "viewDiv">
 									<span>조회수 :</span>
-									<input class = "form-control" type = "text" name = "viewcount" />
+									<input id = "viewCnt" class = "form-control" type = "number" name = "viewcount" value = "${event.eventViewCnt}"/>
 								</div>
 							</div>					
 						</div>
@@ -264,7 +266,7 @@
 						<div id = "write">
 							<div id = "writeC">
 								<div class="tab-content">
-									<textarea id = "WriteContent" name = "WriteContent" style = "height:500px;"></textarea>
+									<textarea id = "WriteContent" name = "content" style = "height:500px;"></textarea>
 								</div>
 							</div>
 							<div id = "buttonGroup">
@@ -274,6 +276,7 @@
 						</div>				
 				</div>
 			</form>
+			</c:if>
 		</div>
   	</div>
 </div>
@@ -286,12 +289,17 @@ CKEDITOR.replace('WriteContent',{
 }
 );
 CKEDITOR.config.removePlugins = 'resize';
+CKEDITOR.config.language = 'ko';
 
 $("#file").fileinput({
 	showUpload: false,
 	showUploadedThumbs: true
 	});
-	
+
+var data = '${event.eventTitle}';
+
+CKEDITOR.instances.WriteContent.setData(data);
+
 $("#submit").submit(function(e){
 	if(fileCheck() == true){
 		console.log("성공");
@@ -319,7 +327,98 @@ function fileCheck(){
 		upload=confirm('BMP 파일은 웹상에서 사용하기엔 적절한 이미지 포맷이 아닙니다.\n 그래도 계속 사용하시겠습니까?');
 		if(!upload) return false;
 	}
+	if($("#eventTitle").val() == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '제목을 입력하세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return false;
+	}
+	if($("#eventSummary").val() == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '요약 내용을 입력하세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return false;
+	}else{
+		if($.isNumeric($("#viewCnt").val())){
+			if($("#viewCnt").val() < 0){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '0이상의 값을 입력하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return false;
+			}
+		}
+	}
+	if($("#input-group #input1 input").val()=="" || $("#input-group #input2 input").val()==""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'warning',
+			  title: '날짜를 입력하세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return false;
+	}
+	if($("#viewCnt").val() == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '조회수를 입력하세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return false;
+	}
 	return true;
+}
+
+function chkword(obj, maxByte) {
+	 
+    var strValue = obj.value;
+    var strLen = strValue.length;
+    var totalByte = 0;
+    var len = 0;
+    var oneChar = "";
+    var str2 = "";
+
+    for (var i = 0; i < strLen; i++) {
+        oneChar = strValue.charAt(i);
+        if (escape(oneChar).length > 4) {
+            totalByte += 2;
+        } else {
+            totalByte++;
+        }
+
+        // 입력한 문자 길이보다 넘치면 잘라내기 위해 저장
+        if (totalByte <= maxByte) {
+            len = i + 1;
+        }
+    }
+
+    // 넘어가는 글자는 자른다.
+    if (totalByte > maxByte) {
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: maxByte/2 + '자를 초과할수는 없습니다.',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+        str2 = strValue.substr(0, len);
+        obj.value = str2;
+        chkword(obj, 4000);
+    }
 }
 </script>
 
