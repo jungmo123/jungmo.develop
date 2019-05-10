@@ -14,6 +14,21 @@ public class Event {
 	private int nextNum;
 	private int preNum;
 	
+	public Event(){}
+
+	public Event(int eventNum, String eventTitle, String eventSummary,
+			String eventContent, Date eventSDate, Date eventEDate,
+			String eventListImageUrl, int eventViewCnt) {
+		this.eventNum = eventNum;
+		this.eventTitle = eventTitle;
+		this.eventSummary = eventSummary;
+		this.eventContent = eventContent;
+		this.eventSDate = eventSDate;
+		this.eventEDate = eventEDate;
+		this.eventListImageUrl = eventListImageUrl;
+		this.eventViewCnt = eventViewCnt;
+	}
+
 	public int getEventNum() {
 		return eventNum;
 	}

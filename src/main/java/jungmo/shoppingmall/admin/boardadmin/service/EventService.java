@@ -11,4 +11,5 @@ public interface EventService {
 	Event getEventRead(int eventNum);
 	int deleteEvent(List<Integer> list);
 	int delEvent(int eventNum);
+	int addEvent(Event event);
 }

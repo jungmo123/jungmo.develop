@@ -48,6 +48,11 @@
 		where event_num = #{eventNum}
 	</select>
 	
+	<insert id = "addEvent" parameterType = "event">
+		insert into events
+		values (#{eventNum},#{eventTitle},#{eventSummary},#{eventContent},#{eventSDate),#{eventEDate},#{eventListImageUrl},#{eventViewCnt})
+	</insert>
+	
 	<resultMap id = "eventMap" type = "event">
 		<id property = "eventNum" column = "event_num" />
 		<result property = "eventTitle" column = "event_title" />

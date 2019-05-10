@@ -31,4 +31,8 @@ public class EventDaoImpl implements EventDao{
 	public int delEvent(int eventNum){
 		return eventMapper.delEvent(eventNum);
 	}
+	
+	public int addEvent(Event event){
+		return eventMapper.addEvent(event);
+	}
 }
