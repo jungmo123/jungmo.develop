@@ -31,5 +31,6 @@
 			<typeAlias alias = "otoa" type = "jungmo.shoppingmall.admin.boardadmin.domain.OtoAnser" />
 			<typeAlias alias = "godr" type = "jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview" />
 			<typeAlias alias = "event" type = "jungmo.shoppingmall.admin.boardadmin.domain.Event" />
+			<typeAlias alias = "board" type = "jungmo.shoppingmall.admin.boardadmin.domain.Board" />
 	</typeAliases>
 </configuration>

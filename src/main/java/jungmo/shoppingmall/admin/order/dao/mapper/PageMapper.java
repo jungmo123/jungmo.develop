@@ -24,4 +24,5 @@ public interface PageMapper {
 	int getGodrSearchTotRowCnt(@Param("godcNum") int godcNum,@Param("godrContent") String godrContent);
 	int getEventTotRowCnt();
 	int getEventSearchTotRowCnt(String eventContent);
+	int getBorcTotRowCnt(int borNum);
 }

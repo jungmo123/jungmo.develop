@@ -56,7 +56,7 @@
 					<li><a href = "oneTwoOne">1:1 문의</a></li>
 					<li><a href = "goodsReview">상품평</a></li>
 					<li><a href = "event">이벤트</a></li>
-					<li><a href = "../BOARDADMIN/19.html">게시판 카테고리 관리</a></li>
+					<li><a href = "boardCategory">게시판 카테고리 관리</a></li>
 				</ul>
 			</div>
 			<div class = "btn-group drop">

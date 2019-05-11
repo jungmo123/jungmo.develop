@@ -1,9 +1,14 @@
 package jungmo.shoppingmall.admin.boardadmin.domain;
 
+import java.sql.*;
+
 public class BoardCategories {
 	private int poscNum;
 	private int borNum;
+	private int borcNum;
 	private String poscName;
+	private String userId;
+	private Date borcDate;
 	
 	public BoardCategories(){}
 	
@@ -15,7 +20,7 @@ public class BoardCategories {
 		this.poscNum = poscNum;
 		this.borNum = borNum;
 	}
-
+	
 	public int getPoscNum() {
 		return poscNum;
 	}
@@ -33,5 +38,29 @@ public class BoardCategories {
 	}
 	public void setPoscName(String poscName) {
 		this.poscName = poscName;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public Date getBorcDate() {
+		return borcDate;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setBorcDate(Date borcDate) {
+		this.borcDate = borcDate;
+	}
+
+	public int getBorcNum() {
+		return borcNum;
+	}
+
+	public void setBorcNum(int borcNum) {
+		this.borcNum = borcNum;
 	}
 }

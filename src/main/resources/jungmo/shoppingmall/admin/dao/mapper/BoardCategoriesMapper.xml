@@ -7,4 +7,24 @@
 		from board_categories
 		where bor_num = #{borNum}
 	</select>
+	
+	<select id ="getBoard" resultType = "board">
+		select bor_num borNum,bor_title borTitle
+		from boards
+	</select>
+	
+	<select id = "getBorc" parameterType = "int" resultMap = "BorcMap">
+		  	select posc_num,posc_name,bor_num,borc_num,user_id,borc_date
+		  	from board_categories
+		  	where bor_num = #{borNum}
+	</select>
+	
+	<resultMap id = "BorcMap" type = "bosc">
+		<result property = "poscNum" column = "posc_num" />
+		<result property = "poscName" column = "posc_name" />
+		<result property = "borNum" column = "bor_num" />
+		<result property = "borcNum" column = "borc_num" />
+		<result property = "userId" column = "user_id" />
+		<result property = "borcDate" column = "borc_date" />
+	</resultMap>
 </mapper>

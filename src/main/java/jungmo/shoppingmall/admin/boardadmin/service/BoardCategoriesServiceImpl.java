@@ -1,12 +1,12 @@
 package jungmo.shoppingmall.admin.boardadmin.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.admin.boardadmin.dao.BoardCategoriesDao;
-import jungmo.shoppingmall.admin.boardadmin.domain.BoardCategories;
+import jungmo.shoppingmall.admin.boardadmin.dao.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class BoardCategoriesServiceImpl implements BoardCategoriesService{
@@ -14,5 +14,13 @@ public class BoardCategoriesServiceImpl implements BoardCategoriesService{
 	
 	public List<BoardCategories> getBC(int borNum){
 		return bd.getBC(borNum);
+	}
+	
+	public List<Board> getBoard(){
+		return bd.getBoard();
+	}
+	
+	public List<BoardCategories> getBorc(int borNum){
+		return bd.getBorc(borNum);
 	}
 }

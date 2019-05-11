@@ -35,4 +35,8 @@ public class EventDaoImpl implements EventDao{
 	public int addEvent(Event event){
 		return eventMapper.addEvent(event);
 	}
+	
+	public int modifyEvent(Event event){
+		return eventMapper.modifyEvent(event);
+	}
 }

@@ -36,4 +36,8 @@ public class EventServiceImpl implements EventService{
 	public int addEvent(Event event){
 		return eventDao.addEvent(event);
 	}
+	
+	public int modifyEvent(Event event){
+		return eventDao.modifyEvent(event);
+	}
 }

@@ -52,6 +52,18 @@
 		insert into events
 		values (event_seq.nextval,#{eventTitle},#{eventSummary},#{eventContent},to_date(#{sd},'YYYY-MM-DD'),to_date(#{ed},'YYYY-MM-DD'),#{eventListImageUrl},#{eventViewCnt})
 	</insert>
+	 
+	<update id = "modifyEvent" parameterType = "event">
+		update events
+		set event_title = #{eventTitle},
+		event_summary = #{eventSummary},
+		event_content = #{eventContent},
+		event_sdate = to_date(#{sd},'YYYY-MM-DD'),
+		event_edate = to_date(#{ed},'YYYY-MM-DD'),
+		event_listimageurl = #{eventListImageUrl},
+		event_viewcnt = #{eventViewCnt}
+		where event_num = #{eventNum}
+	</update>
 	
 	<resultMap id = "eventMap" type = "event">
 		<id property = "eventNum" column = "event_num" />

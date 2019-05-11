@@ -86,6 +86,12 @@
     	 </if> 
 	</select>
 	
+	<select id = "getBorcTotRowCnt"  resultType = "int">
+		select count(borc_num)
+		from board_categories
+		where bor_num = #{borNum}
+	</select>
+	
 	<select id = "getGodqTotRowCnt"  resultType = "int">
 		select count(godq_num)
 		from goods_questions

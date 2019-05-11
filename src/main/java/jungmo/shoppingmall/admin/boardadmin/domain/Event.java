@@ -29,6 +29,19 @@ public class Event {
 		this.sd = sd;
 		this.ed = ed;
 	}
+	
+	public Event(int  eventNum,String eventTitle, String eventSummary,
+			String eventContent, String eventListImageUrl, int eventViewCnt,
+			String sd, String ed) {
+		this.eventNum = eventNum;
+		this.eventTitle = eventTitle;
+		this.eventSummary = eventSummary;
+		this.eventContent = eventContent;
+		this.eventListImageUrl = eventListImageUrl;
+		this.eventViewCnt = eventViewCnt;
+		this.sd = sd;
+		this.ed = ed;
+	}
 
 	public int getEventNum() {
 		return eventNum;

@@ -219,7 +219,7 @@
 				<a href="oneTwoOne"><span>1:1문의</span></a> 
 				<a href="goodsReview"><span>상품평</span></a> 
 				<a href="event" class="activeMenu"><span>이벤트</span></a>
-				<a href="16.html"><span>게시판카테고리 관리</span></a>
+				<a href="boardCategory"><span>게시판카테고리 관리</span></a>
 			</div>
 		</div>
 		<div id="content">
@@ -230,8 +230,8 @@
 				<p id = "currentIdx">&#124; 게시판관리 > 이벤트 등록/수정하기</p>
 			</div>
 			<c:if test = "${event!=null}">
-			<form id = "submit" action = "modifyEvent" method = "post" enctype = "multipart/form-data">
-				<input type = "text" name = "eventNum" style="display:none" />
+			<form id = "modify" action = "addEvent" method = "post" enctype = "multipart/form-data">
+				<input type = "text" name = "eventNum" value = "${event.eventNum}" style="display:none" />
 				<div id = "event">
 					<div id = "eventForm">
 						<div>
@@ -257,7 +257,55 @@
 					</div>
 				</div>
 				<div id = "eventBody">
-					<strong>목록 이미지 등록</strong>
+					<strong>목록 이미지 수정(미등록시 기존 이미지 사용)</strong>
+					<div id = "eventImg">
+						<div class="form-group">
+						<input id="file" type="file" class="file" name = "file" data-preview-file-type="any">
+						<input type = "text" name = "original" value = "${event.eventListImageUrl}" style = "display:none"/>
+						</div>
+					</div>
+						<div id = "write">
+							<div id = "writeC">
+								<div class="tab-content">
+									<textarea id = "WriteContent" name = "content" style = "height:500px;"></textarea>
+								</div>
+							</div>
+							<div id = "buttonGroup">
+								<button type = "submit" class = "btn btn-default">작성 완료</button>
+								<button class = "btn btn-default">작성 취소</button>
+							</div>
+						</div>				
+				</div>
+			</form>
+			</c:if>
+			<c:if test = "${event==null}">
+			<form id = "submit" action = "addEvent" method = "post" enctype = "multipart/form-data">
+				<div id = "event">
+					<div id = "eventForm">
+						<div>
+							<input id = "eventTitle" type = "text" name = "title" class = "form-control" placeholder = "제목을 입력하세요!" onkeyup="chkword(this,40)" value = "${event.eventTitle}"/>
+							<textarea id = "eventSummary" class = "form-control" name = "summary" placeholder = "이벤트 요약 내용을 입력하세요!(50자 이내 , 줄바꿈 1회 가능)" onkeyup="chkword(this,100)">${event.eventSummary}</textarea>
+						</div>
+						<div>
+							<span>이벤트 기간</span>
+							<div id = "input-group">
+								<div id = "input1">
+									<input type="date" name="sdate" class="dateInput" value = "${event.eventSDate}">
+								</div>
+								<span>~</span>
+								<div id = "input2">
+									<input type="date" name="edate" class="dateInput" value = "${event.eventEDate}">		
+								</div>
+								<div id = "viewDiv">
+									<span>조회수 :</span>
+									<input id = "viewCnt" class = "form-control" type = "number" name = "viewcount" value = "${event.eventViewCnt}"/>
+								</div>
+							</div>					
+						</div>
+					</div>
+				</div>
+				<div id = "eventBody">
+					<strong>목록 이미지 수정(미등록시 기존 이미지 사용)</strong>
 					<div id = "eventImg">
 						<div class="form-group">
 						<input id="file" type="file" class="file" name = "file" data-preview-file-type="any">
@@ -301,15 +349,44 @@ var data = '${event.eventTitle}';
 CKEDITOR.instances.WriteContent.setData(data);
 
 $("#submit").submit(function(e){
-	if(fileCheck() == true){
+	if(fileCheck(true) == true){
 		console.log("성공");
 	}else{
 		e.preventDefault();
 	}
 })
 
-function fileCheck(){
+$("#modify").submit(function(e){
+	if(fileCheck(false) == true){
+		console.log("성공");
+	}else{
+		e.preventDefault();
+	}
+})
+
+function fileCheck(bl){
 	obj = document.getElementById("file");
+	if(bl == false){
+		if(obj.value == ''){
+			return injection(obj);
+		}else{
+			pathpoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(pathpoint+1,obj.length);
+			filetype = filepoint.toLowerCase();
+			if(filetype=='jpg' || filetype == 'gif' || filetype == 'png' || filetype == 'jpeg' || filetype == 'bmp'){
+				
+			}else{
+				alert("이미지 파일만 선택할 수 있습니다.");
+				return false;
+			}
+			if(filetype == 'bmp'){
+				upload=confirm('BMP 파일은 웹상에서 사용하기엔 적절한 이미지 포맷이 아닙니다.\n 그래도 계속 사용하시겠습니까?');
+				if(!upload) return false;
+			}
+			return injection(obj);			
+		}
+	}
+	else{
 	if(obj.value == ''){
 		alert("이미지를 등록해주세요.")
 		return false;
@@ -327,6 +404,11 @@ function fileCheck(){
 		upload=confirm('BMP 파일은 웹상에서 사용하기엔 적절한 이미지 포맷이 아닙니다.\n 그래도 계속 사용하시겠습니까?');
 		if(!upload) return false;
 	}
+	return injection(obj);
+	}
+}
+
+function injection(obj){
 	if($("#eventTitle").val() == ""){
 		Swal.fire({
 			  position: 'top',
@@ -358,6 +440,16 @@ function fileCheck(){
 					});
 				return false;
 			}
+			if($("#viewCnt").val() > 99999){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '10만이하의 값을 입력하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return false;
+			}
 		}
 	}
 	if($("#input-group #input1 input").val()=="" || $("#input-group #input2 input").val()==""){
@@ -380,7 +472,7 @@ function fileCheck(){
 			});
 		return false;
 	}
-	return true;
+	return true;	
 }
 
 function chkword(obj, maxByte) {

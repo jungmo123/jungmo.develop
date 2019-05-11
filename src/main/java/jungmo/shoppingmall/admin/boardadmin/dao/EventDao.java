@@ -12,4 +12,5 @@ public interface EventDao {
 	int deleteEvent(List<Integer> list);
 	int delEvent(int eventNum);
 	int addEvent(Event event);
+	int modifyEvent(Event event);
 }

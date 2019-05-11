@@ -71,7 +71,7 @@
 				<a href="oneTwoOne"><span>1:1문의</span></a> 
 				<a href="goodsReview"><span>상품평</span></a> 
 				<a href="event" class="activeMenu"><span>이벤트</span></a>
-				<a href="16.html"><span>게시판카테고리 관리</span></a>
+				<a href="boardCategory"><span>게시판카테고리 관리</span></a>
 			</div>
 		</div>
 		<div id="content">
@@ -100,9 +100,9 @@
 						<button id = "next" class = "form-control">다음글&nbsp;<span class = "glyphicon glyphicon-triangle-bottom"></span></button>
 					</div>
 					<div id = "rightBox">
-						<button class = "form-control" onclick = "location.href='15.html'">이벤트 등록</button>
+						<button class = "form-control" onclick = "location.href='eventRegister'">이벤트 등록</button>
 						<button id = "eventModify" class = "form-control">수정</button>
-						<button class = "form-control">삭제</button>
+						<button id = "eventDelete" class = "form-control" >삭제</button>
 					</div>
 				</div>
 			</div>
@@ -144,6 +144,13 @@
 	})
 	
 	$("#eventModify").click(function(){
+		$("#modifyForm").submit();
+	})
+	
+	$("#eventDelete").click(function(){
+		$("#modifyForm").attr({
+			action:"eventDel"
+		})
 		$("#modifyForm").submit();
 	})
 </script>

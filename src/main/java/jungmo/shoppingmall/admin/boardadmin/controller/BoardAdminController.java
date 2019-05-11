@@ -577,7 +577,6 @@ public class BoardAdminController {
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("posts",eventService.getEvent(myPage));
 		eventIdx = idx;
-		System.out.println(eventType);
 	}
 
 	public void eventSearch(HttpServletRequest request,Model model,String idx){
@@ -624,7 +623,6 @@ public class BoardAdminController {
 	@RequestMapping("/admin/eventRead{idx}")
 	public String eventRead(@PathVariable String idx,Model model,HttpServletRequest request){
 		model.addAttribute("event",eventService.getEventRead(Integer.valueOf(idx)));
-		System.out.println(eventService.getEventRead(Integer.valueOf(idx)).getNextNum());
 		return "manager/boardadmin/eventRead";
 	}
 	
@@ -651,9 +649,10 @@ public class BoardAdminController {
 		return "redirect:EIDX";
 	}
 	
-	@RequestMapping(value="/admin/eventDel{idx}",method=RequestMethod.POST)
-	public String eventDel(@PathVariable String idx,HttpServletRequest request){
-		eventService.delEvent(Integer.valueOf(idx));
+	@RequestMapping(value="/admin/eventDel",method=RequestMethod.POST)
+	public String eventDel(HttpServletRequest request){
+		int eventNum = Integer.valueOf(request.getParameter("eventNum"));
+		eventService.delEvent(Integer.valueOf(eventNum));
 		return "redirect:EIDX";
 	}
 	
@@ -672,6 +671,8 @@ public class BoardAdminController {
 	public String addEvent(Model model,HttpServletRequest request,MultipartFile file) throws ParseException{
 		String dir = request.getServletContext().getRealPath("/upload");
 		String id = (String)request.getSession().getAttribute("admin");
+		String original = request.getParameter("original");
+		String fullname;
 		SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd");
 		String sdate = request.getParameter("sdate");
 		String edate = request.getParameter("edate");
@@ -691,17 +692,29 @@ public class BoardAdminController {
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
         String today = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
-		String fileName = file.getOriginalFilename();
-		String fullname = "/upload" + "/" + id+today+fileName;
-		save(dir + "/" + id+today+fileName,file);
 		String [] value = summary.split("\n");
 		if(value.length != 1 && value.length != 0){
 			summary = "";
 			summary += value[0]+"<br>";
 			summary += value[1];
 		}
-		System.out.println(summary);
-		eventService.addEvent(new Event(title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
+		if(original != null && original != ""){
+			int eventNum = Integer.valueOf(request.getParameter("eventNum"));
+			if(file != null){
+				String fileName = file.getOriginalFilename();
+				fullname = "/upload" + "/" + id+today+fileName;
+				save(dir + "/" + id+today+fileName,file);
+				eventService.modifyEvent(new Event(eventNum,title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
+			}else{
+				fullname = original;
+				eventService.modifyEvent(new Event(eventNum,title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
+			}
+		}else{
+			String fileName = file.getOriginalFilename();
+			fullname = "/upload" + "/" + id+today+fileName;
+			save(dir + "/" + id+today+fileName,file);
+			eventService.addEvent(new Event(title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
+		} 			
 		return "redirect:event1";
 	}
 	
@@ -712,4 +725,26 @@ public class BoardAdminController {
 			e.printStackTrace();
 		}
 	}
+	
+	// boardCategory
+	
+	@RequestMapping("/admin/boardCategory")
+	public String boardCategory(Model model){
+		model.addAttribute("boards",boscService.getBoard());
+		return "manager/boardadmin/boardCategory";
+	}
+	
+	@RequestMapping("/admin/getBoard")
+	@ResponseBody
+	public List<BoardCategories> getBoard(int borNum){
+		List<BoardCategories> bor = boscService.getBorc(borNum);
+		return bor;
+	}
+	
+	@RequestMapping("/admin/addBorc")
+	@ResponseBody
+	public List<BoardCategories> addBorc(int borNum){
+		List<BoardCategories> bor = boscService.getBorc(borNum);
+		return bor;
+	}	
 }
