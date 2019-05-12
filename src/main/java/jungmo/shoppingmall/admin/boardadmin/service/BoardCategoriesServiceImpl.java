@@ -5,6 +5,7 @@ import java.util.*;
 import jungmo.shoppingmall.admin.boardadmin.dao.*;
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -22,5 +23,25 @@ public class BoardCategoriesServiceImpl implements BoardCategoriesService{
 	
 	public List<BoardCategories> getBorc(int borNum){
 		return bd.getBorc(borNum);
+	}
+	
+	public BoardCategories getExistBorc(@Param("borNum") int borNum,@Param("borcNum") int borcNum){
+		return bd.getExistBorc(borNum, borcNum);
+	}
+	
+	public int updatePosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum){
+		return bd.updatePosc(borNum, borcNum);
+	}
+	
+	public int updateBorc(BoardCategories borc){
+		return bd.updateBorc(borc);
+	}
+	
+	public int addBorc(BoardCategories borc){
+		return bd.addBorc(borc);
+	}
+	
+	public int deleteBorc(HashMap<String,List<Integer>> map){
+		return bd.deleteBorc(map);
 	}
 }

@@ -20,7 +20,22 @@ public class BoardCategories {
 		this.poscNum = poscNum;
 		this.borNum = borNum;
 	}
-	
+
+	public BoardCategories(int poscNum, int borNum, int borcNum, String poscName) {
+		this.poscNum = poscNum;
+		this.borNum = borNum;
+		this.borcNum = borcNum;
+		this.poscName = poscName;
+	}
+
+	public BoardCategories(int borNum, int borcNum,
+			String poscName, String userId) {
+		this.borNum = borNum;
+		this.borcNum = borcNum;
+		this.poscName = poscName;
+		this.userId = userId;
+	}
+
 	public int getPoscNum() {
 		return poscNum;
 	}

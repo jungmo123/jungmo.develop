@@ -201,6 +201,7 @@
 				<div class = "modal-body">
 					<div>
 						<input id = "borNum"  name = "borNum" type = "number" style="display:none">
+						<input id = "poscNum"  name = "poscNum" type = "number" style="display:none">
 						<span>* 순번 : </span>
 						<input id = "borcNum" name = "borcNum" type = "number" class = "form-control" />	
 						<span>* 카테고리명 : </span>
@@ -211,7 +212,7 @@
 					</div>
 				</div>
 				<div class ="modal-footer">
-					<button id = "add" type = "button" class = "btn btn-default" data-dismiss = "modal">생성</button>
+					<button type = "button" class = "btn btn-default add" data-dismiss = "modal">생성</button>
 					<button type = "button" class = "btn btn-default" data-dismiss = "modal">취소</button>
 				</div>
 			</div>
@@ -233,7 +234,8 @@
 			var checkbox = $("<input></input>");
 			var button = $("<button></button>")
 			checkbox.attr({
-				type:"checkbox"
+				type:"checkbox",
+				"class":list[i].poscNum
 			});
 			td.append(checkbox);
 			tr.append(td);
@@ -249,7 +251,8 @@
 			tr.append(td5);
 			$("tbody").append(tr);
 			button.attr({
-				'class':"form-control",
+				'class':"form-control borcModify",
+				"id":list[i].poscNum,
 				"data-toggle":"modal",
 				"data-target":"#ctc"
 			})
@@ -297,7 +300,7 @@
 					Swal.fire({
 						  position: 'top',
 						  type: 'error',
-						  title: '삭제를 실패하였습니다.',
+						  title: '실패하였습니다.',
 						  showConfirmButton: false,
 						  timer: 1500
 						});
@@ -305,20 +308,34 @@
 			})
 		})
 		
-		$("#Cadd").click(function(){
+		$("#Cadd").click(function(e){	
 			$("#borNum").val($("#boardCategory").val());
-			$("#modalForm").attr({
-				action:"addBorc"
+			$(".add").attr({
+				"id":"add"
 			})
 		})
 		
-		$("#add").click(function(){
-			var borNum = $("#borNum").val();
+		$(document).on("click","#add",function(event){
+			var borNum = $("#boardCategory").val();
+			var borcNum= $("#borcNum").val();
+			var poscName = $("#poscName").val();
+			if($("tr").length == 21){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '최대 20개까지 생성가능합니다!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;
+			}
  			$.ajax({
 				url:"addBorc",
 				method:"post",
 				data: {
-					borNum:borNum
+					borNum:borNum,
+					borcNum:borcNum,
+					poscName:poscName
 				},
 				success:function(list){
 					getBorc(list);
@@ -327,12 +344,86 @@
 					Swal.fire({
 						  position: 'top',
 						  type: 'error',
-						  title: '삭제를 실패하였습니다.',
+						  title: '모든 값을 입력해주세요.',
 						  showConfirmButton: false,
 						  timer: 1500
 						});
 				}
 			})			
+		})
+		
+		$("#Cdelete").click(function(){
+			var input = $("td input:checked");
+			var borNum = $("#boardCategory").val();
+			var list = [];
+			$.each(input,function(index,item){
+				list[index] = $(item).prop("class");
+			})
+			if(list.length == 0){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '삭제할 카테고리를 선택하세요!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});				
+			}else{
+	 			$.ajax({
+					url:"deleteBorc",
+					method:"post",
+					data: {
+						borNum:borNum,
+						list:list,
+					},
+					success:function(list){
+						getBorc(list);
+					},
+					error:function(a,b,errMsg){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '실패하였습니다.',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+					}
+				})				
+			}
+		})
+		$(document).on("click",".borcModify",function(event){
+			$("#poscNum").val($(this).prop("id"));
+			$(".add").attr({
+				"id":"modify"
+			})
+		})
+
+		$(document).on("click","#modify",function(event){
+			var borNum = $("#boardCategory").val();
+			var borcNum= $("#borcNum").val();
+			var poscNum = $("#poscNum").val();
+			var poscName = $("#poscName").val();
+  			$.ajax({
+				url:"modifyBorc",
+				method:"post",
+				data: {
+					borNum:borNum,
+					borcNum:borcNum,
+					poscNum:poscNum,
+					poscName:poscName
+				},
+				success:function(list){
+					getBorc(list);
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '모든 값을 입력해주세요.',
+						  showConfirmButton: false,
+						  timer: 1500
+						});
+				}
+			})
 		})
 	</script>
 

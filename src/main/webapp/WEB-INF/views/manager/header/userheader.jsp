@@ -14,7 +14,7 @@
 				</div>
 				<div id="conatiner">
 					<div id="nav" class="btn-group">
-						<div class="btn-group drop is-current">
+						<div class="btn-group drop">
 							<button type="button" class="btn btn-default dropdown-toggle"
 								type="button" data-toggle="dropdown">주문 관리</button>
 							<ul class="dropdown-menu">
@@ -38,7 +38,7 @@
 								<li><a href="boardCategory">게시판 카테고리 관리</a></li>
 							</ul>
 						</div>
-						<div class="btn-group drop">
+						<div class="btn-group drop is-current">
 							<button type="button" class="btn btn-default dropdown-toggle"
 								type="button" data-toggle="dropdown">회원 관리</button>
 							<ul class="dropdown-menu">

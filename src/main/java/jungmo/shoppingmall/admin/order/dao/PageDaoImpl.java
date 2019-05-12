@@ -87,4 +87,8 @@ public class PageDaoImpl implements PageDao{
 	public int getBorcTotRowCnt(int borNum){
 		return pageMapper.getBorcTotRowCnt(borNum);
 	}
+	
+	public int getUserTotRowCnt(){
+		return pageMapper.getUserTotRowCnt();
+	}
 }

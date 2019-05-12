@@ -281,7 +281,7 @@
 						modifyButton.setAttribute("type","button");
 						formdiv.append(modifyButton);
 						var modifyArea = document.createElement("textarea");
-						modifyArea.setAttribute("cols","85");
+						modifyArea.setAttribute("cols","82");
 						modifyArea.setAttribute("rows","3");
 						formdiv.append(modifyArea);
 						modifyForm.append(formdiv);

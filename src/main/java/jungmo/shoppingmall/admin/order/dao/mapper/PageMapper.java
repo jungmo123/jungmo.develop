@@ -25,4 +25,5 @@ public interface PageMapper {
 	int getEventTotRowCnt();
 	int getEventSearchTotRowCnt(String eventContent);
 	int getBorcTotRowCnt(int borNum);
+	int getUserTotRowCnt();
 }

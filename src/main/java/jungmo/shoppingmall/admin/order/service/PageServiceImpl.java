@@ -105,6 +105,10 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getBorcTotRowCnt(borNum);
 	}
 	
+	public int getUserTotRowCnt(){
+		return pageDao.getUserTotRowCnt();
+	}
+	
 	private void init(){
 		endPage = (int)(Math.ceil(page.getCurrentPage()/(double)pageNumCnt)*pageNumCnt);
 		

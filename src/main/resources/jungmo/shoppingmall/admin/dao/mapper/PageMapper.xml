@@ -204,4 +204,9 @@
 		order by ord_num
 	]]>
 	</select>
+	
+	<select id = "getUserTotRowCnt" resultType = "int">
+		select count(user_id)
+		from users
+	</select>
 </mapper>

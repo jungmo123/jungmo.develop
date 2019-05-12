@@ -743,8 +743,47 @@ public class BoardAdminController {
 	
 	@RequestMapping("/admin/addBorc")
 	@ResponseBody
-	public List<BoardCategories> addBorc(int borNum){
+	public List<BoardCategories> addBorc(int borNum,int borcNum,String poscName,HttpServletRequest request){
+		String userId = (String)request.getSession().getAttribute("admin");
+		BoardCategories borc = new BoardCategories(borNum,borcNum,poscName,userId);
+		if(boscService.getExistBorc(borNum, borcNum) != null){
+			System.out.println("true");
+			boscService.updatePosc(borNum, borcNum);
+			boscService.addBorc(borc);
+		}else{
+			System.out.println("false");
+			boscService.addBorc(borc);
+		}
 		List<BoardCategories> bor = boscService.getBorc(borNum);
 		return bor;
-	}	
+	}
+
+	@RequestMapping("/admin/deleteBorc")
+	@ResponseBody
+	public List<BoardCategories> deleteBorc(@RequestParam(value="list[]")List<Integer> list,int borNum,HttpServletRequest request){
+		HashMap<String,List<Integer>> map = new HashMap<>();
+		map.put("list", list);
+		List<Integer> bornum = new ArrayList<>();
+		bornum.add(borNum);
+		map.put("borNum", bornum);
+		boscService.deleteBorc(map);
+		List<BoardCategories> bor = boscService.getBorc(borNum);
+		return bor;
+	}
+	
+	@RequestMapping("/admin/modifyBorc")
+	@ResponseBody
+	public List<BoardCategories> modifyBorc(int borNum,int borcNum,int poscNum,String poscName,HttpServletRequest request){
+		BoardCategories borc = new BoardCategories(poscNum,borNum,borcNum,poscName);
+		if(boscService.getExistBorc(borNum, borcNum) != null){
+			System.out.println("true");
+			boscService.updatePosc(borNum, borcNum);
+			boscService.updateBorc(borc);
+		}else{
+			boscService.updateBorc(borc);
+		}
+		System.out.println("수정");
+		List<BoardCategories> bor = boscService.getBorc(borNum);
+		return bor;
+	}
 }

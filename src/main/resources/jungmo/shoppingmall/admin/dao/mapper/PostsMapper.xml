@@ -22,7 +22,7 @@
 	
 	<select id = "getPost" parameterType = "map" resultMap = "posContentMap">
     select * from(
-    	select pos_num,posts.posc_num,posts.bor_num,pos_title,pos_content,pos_writingdate,pos_viewcnt,user_id,posc_name,
+    	select pos_num,posts.posc_num,posts.bor_num,pos_title,pos_content,pos_writingdate,pos_viewcnt,posts.user_id,posc_name,
    		lead(pos_num,1,0) over (order by pos_num) next,lag(pos_num,1,0) over (order by pos_num) pre,
     lead(posts.posc_num,1,0) over (order by pos_num) nextc,lag(posts.posc_num,1,0) over (order by pos_num) prec
 		from posts

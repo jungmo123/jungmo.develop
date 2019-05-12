@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.admin.user.dao.mapper.UserMapper">
+	<select id = "getUsers" parameterType = "page" resultMap = "userMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(	
+				select users.user_id,sum(god_sellingprice*god_amount) as purchaseAmount,user_joindate,user_name,user_level,user_visitcnt,user_hp,user_mailagreement
+				from users
+				full outer join orders
+				on (orders.user_id = users.user_id)
+				full outer join purchases
+				on (orders.ord_num = purchases.ord_num)
+				full outer join goods
+				on (purchases.god_num = goods.god_num)
+				join point_policies
+				on (pnp_num = 1)
+				group by users.user_id,user_name,user_level,user_visitcnt,user_hp,user_mailagreement,user_joindate
+				order by user_joindate desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<resultMap id = "userMap" type = "user">
+		<id property = "userId" column = "user_id"/>
+		<result property = "userName" column = "user_name" />
+		<result property = "userEmail" column = "user_email" />
+		<result property = "userPhone" column = "user_phone" />
+		<result property = "userPostCode" column = "user_postcode" />
+		<result property = "userStreet" column = "user_street" />
+		<result property = "userDetailarea" column = "user_detailarea" />
+		<result property = "userLevel" column = "user_level" />
+		<result property = "userHp" column = "user_hp" />
+		<result property = "userJoinDate" column = "user_joindate"/>
+		<result property = "userMailAgreement" column = "user_mailagreement" />
+		<result property = "userVisitCnt" column = "user_visitcnt" />
+		<result property = "userLatestDate" column = "user_latestdate" />
+		<result property = "purchaseAmount" column = "purchase_amount" />
+	</resultMap>
+</mapper>

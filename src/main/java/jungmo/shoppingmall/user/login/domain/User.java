@@ -17,6 +17,7 @@ public class User {
 	private String userMailAgreement;
 	private int userVisitCnt;
 	private Date userLatestDate;
+	private int purchaseAmount;
 
 	public User() {}
 	
@@ -163,6 +164,14 @@ public class User {
 
 	public void setUserLatestDate(Date userLatestDate) {
 		this.userLatestDate = userLatestDate;
+	}
+
+	public int getPurchaseAmount() {
+		return purchaseAmount;
+	}
+
+	public void setPurchaseAmount(int purchaseAmount) {
+		this.purchaseAmount = purchaseAmount;
 	}
 
 }

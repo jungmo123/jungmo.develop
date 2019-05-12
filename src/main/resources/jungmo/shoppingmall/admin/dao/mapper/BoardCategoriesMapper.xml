@@ -17,7 +17,43 @@
 		  	select posc_num,posc_name,bor_num,borc_num,user_id,borc_date
 		  	from board_categories
 		  	where bor_num = #{borNum}
+		  	order by borc_num
 	</select>
+	 
+	<select id ="getExistBorc" parameterType ="map" resultType = "bosc">
+		select posc_num poscNum,posc_name poscName
+		from board_categories
+		where bor_num = #{borNum} and borc_num = #{borcNum}
+	</select>
+	
+	<insert id = "addBorc" parameterType = "bosc">
+		insert into board_categories
+		values (borc_seq.nextval,#{poscName},#{borNum},#{borcNum},#{userId},sysdate)
+	</insert>
+	
+	<update id = "updateBorc" parameterType = "bosc">
+		update board_categories
+		set borc_num = #{borcNum},posc_name = #{poscName}
+		where bor_num = #{borNum} and posc_num = #{poscNum}
+	</update>
+	
+	<update id = "updatePosc" parameterType = "map">
+		update board_categories
+		set borc_num = borc_num+1
+		where bor_num = #{borNum} and borc_num >= #{borcNum}
+	</update>
+	
+	<delete id  = "deleteBorc" parameterType = "hashmap">
+		delete from board_categories
+		where
+		<foreach item="bor" collection = "borNum">
+			bor_num = #{bor} and
+		</foreach>
+		posc_num in
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach> 
+	</delete>
 	
 	<resultMap id = "BorcMap" type = "bosc">
 		<result property = "poscNum" column = "posc_num" />

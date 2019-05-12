@@ -30,4 +30,5 @@ public interface PageService {
 	int getEventTotRowCnt();
 	int getEventSearchTotRowCnt(String eventContent);
 	int getBorcTotRowCnt(int borNum);
+	int getUserTotRowCnt();
 }

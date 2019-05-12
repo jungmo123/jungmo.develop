@@ -25,4 +25,5 @@ public interface PageDao {
 	int getEventTotRowCnt();
 	int getEventSearchTotRowCnt(String eventContent);
 	int getBorcTotRowCnt(int borNum);
+	int getUserTotRowCnt();
 }
