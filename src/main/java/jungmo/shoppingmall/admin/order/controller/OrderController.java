@@ -320,6 +320,9 @@ public class OrderController {
 		HashMap<String,List<Integer>> option = new HashMap<>();
 		option.put("list", godNums);
 		model.addAttribute("purchase",orderService.getPurchase(idx));
+		for(int i = 0 ; i < orderService.getPurchase(idx).getGoodsOption().size() ; i++){
+			System.out.println(orderService.getPurchase(idx).getGoodsOption().get(i).getOptName());
+		}
 		model.addAttribute("savePoint",orderService.getSm(1));
 		model.addAttribute("delivery",orderService.getDv(1));
 		return "manager/order/orderDetail";

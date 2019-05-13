@@ -1,6 +1,7 @@
 package jungmo.shoppingmall.admin.order.dao.mapper;
 
 import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.user.domain.*;
 
 import org.apache.ibatis.annotations.*;
 
@@ -26,4 +27,5 @@ public interface PageMapper {
 	int getEventSearchTotRowCnt(String eventContent);
 	int getBorcTotRowCnt(int borNum);
 	int getUserTotRowCnt();
+	int getUserSearchTotRowCnt(UserSearch us);
 }

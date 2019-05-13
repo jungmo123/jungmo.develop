@@ -2,6 +2,7 @@ package jungmo.shoppingmall.admin.order.service;
 
 import jungmo.shoppingmall.admin.order.dao.*;
 import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.user.domain.*;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
@@ -107,6 +108,10 @@ public class PageServiceImpl implements PageService{
 	
 	public int getUserTotRowCnt(){
 		return pageDao.getUserTotRowCnt();
+	}
+	
+	public int getUserSearchTotRowCnt(UserSearch us){
+		return pageDao.getUserSearchTotRowCnt(us);
 	}
 	
 	private void init(){

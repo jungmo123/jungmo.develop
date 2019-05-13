@@ -18,7 +18,7 @@
 <style>
 	#searchBar{
 		text-align:center;
-		margin:10px 0px 60px 0px;
+		margin:10px 0px 20px 0px;
 	}
 	#searchBar input[type="text"]{
 		display:inline;
@@ -38,8 +38,6 @@
 	#detailOpen,
 	#detailClose{
 		width:120px !important;
-		float:right;
-		top:10px;
 	}
 	#detailBox{
 		margin:20px 0px 20px 0px;
@@ -228,7 +226,7 @@
 				<hr>
 			</div>
 			<div id="submenu">
-				<a href="userIdx"><span>회원 목록</span></a>
+				<a href="userIdx" class = "activeMenu"><span>회원 목록</span></a>
 				<a href="../USER/03.html"><span>탈퇴 회원 목록</span></a>
 				<a href="../USER/04.html"><span>메일 관리</span></a>
 				<a href="../USER/05.html"><span>SMS 관리</span></a>
@@ -244,15 +242,14 @@
 				<hr>
 			</div>
 			<div id = "searchBox">
+				<form action = "userIdxSearch1" method = "post">
 				<div id = "searchBar">
-					<form>
-						<select class = "form-control">
-							<option>이름</option>
+						<select name = "SearchBar" class = "form-control">
+							<option value = "1">이름</option>
 						</select>
 						<input type = "text" class = "form-control" name = "title" />
-						<button type = "button" class = "btn btn-default">검색</button>
-					</form>
-					<button id = "detailOpen" class = "btn btn-default">상세 검색 열기<span class = "glyphicon glyphicon-triangle-bottom"></span></button>
+						<button type = "submit" class = "btn btn-default">검색</button>
+					<button type = "button" id = "detailOpen" class = "btn btn-default">상세 검색 열기<span class = "glyphicon glyphicon-triangle-bottom"></span></button>
 				</div>
 				<hr>
 				<div id = "detailBox" class = "none">
@@ -260,11 +257,11 @@
 						<div>
 							<span>가입일</span>
 							<div id = "input1">
-								<input type="date" name="dateofbirth" class="dateInput">
+								<input type="date" name="sdate" class="dateInput">
 							</div>
 							<span>~</span>
 							<div id = "input2">
-								<input type="date" name="dateofbirth" class="dateInput">	
+								<input type="date" name="edate" class="dateInput">	
 							</div>						
 						</div>
 						<div>
@@ -277,8 +274,12 @@
 					<div id = "second">
 						<div>
 							<span>회원 등급</span>
-							<select class = "form-control">
-								<option>1</option>
+							<select name = "userLevel" class = "form-control">
+								<option value = "0">0</option>
+								<option value = "1">1</option>
+								<option value = "2">2</option>
+								<option value = "3">3</option>
+								<option value = "4">4</option>
 							</select>
 						</div>
 						<div>
@@ -292,9 +293,9 @@
 						<div>
 							<div class="custom-control custom-radio">
 								<span>메일 수신</span>
-								<input type="radio" name="mail" id="mailAgree" class="custom-control-input">
+								<input type="radio" name="mail" id="mailAgree" class="custom-control-input" value = "수신">
 								<label class="custom-control-label" for="mail">수신</label>
-								<input type="radio" name="mail" id="mailReject" class="custom-control-input">
+								<input type="radio" name="mail" id="mailReject" class="custom-control-input" value = "거부">
 								<label class="custom-control-label" for="mailReject">거부</label>
 							</div>
 						</div>
@@ -303,10 +304,13 @@
 						<button class = "btn btn-default">상세 검색</button>
 					</div>
 				</div>
+				<div id = "lank">
+					<strong><i class="fas fa-asterisk"></i>회원 등급: 1.회원, 2. 고객센터, 3. 운영팀, 4. 사업팀</strong>
+				</div>
+				</form>
 			</div>
-		<form>
 			<div id = "searchNumber">
-				<span>000 건의 검색 결과가 있습니다.</span>
+				<span>${cnt} 건의 검색 결과가 있습니다.</span>
 			</div>
 			<div>
 				<table id = "table" class = "table table-hover">
@@ -325,15 +329,15 @@
 					</thead>
 					<tbody>
 						<c:forEach var = "post" items = "${posts}" varStatus = "state">
-							<tr>
-								<td><input type = "checkbox"  id = "${post.userId}"/></td>
+							<tr id = "${post.userId}">
+								<td><input type = "checkbox"  id = "${post.userId}" class = "check" /></td>
 								<td>${post.userJoinDate}</td>
 								<td>${post.userName}</td>
 								<td>${post.userId}</td>
 								<td>${post.userLevel}</td>
 								<td>${post.userVisitCnt}</td>
-								<td>${post.purchaseAmount}원</td>
-								<td>${post.userHp}원</td>
+								<td><fmt:formatNumber value="${post.purchaseAmount}" pattern="#,###" />원</td>
+								<td><fmt:formatNumber value="${post.userHp}" pattern="#,###" />원</td>
 								<td>${post.userMailAgreement}</td>
 							</tr>
 						</c:forEach>
@@ -343,7 +347,6 @@
 				<button id = "pointGive" class = "btn btn-default">선택 회원 포인트 지급</button>
 				<button id = "pointGive" class = "btn btn-default">검색된 회원 포인트 지급</button>
 			</div>
-		</form>
 			 <div id = "pagination">
 				<div>
 					<ul class = "pagination">
@@ -393,6 +396,34 @@ $(document).on("click","#detailClose",function(event){
 			"id":"detailOpen"
 		})
 		$("#detailBox").addClass("none");
+	})
+	
+	$("#leave").click(function(){
+		var input = $(".check:checked");
+		var list = [];
+		$.each(input,function(index,item){
+			list[index] = $(item).prop("id");
+		})
+		var form = $("<form></form>");
+		form.attr({
+			action:"userStateChange",
+			method:"post",
+			style:"display:none"
+		})
+		var $input = $("<input></input>");
+		$input.attr({
+			type:"text",
+			name:"list"
+		})
+		$input.val(list);
+		form.append($input);
+		$("body").append(form);
+		form.submit();
+	})
+	
+	$("td").not('td:nth-child(1)').click(function(){
+		var userId = $(this).parents("tr").prop("id");
+		location.href = "/shoppingmall/admin/userInfo" + userId;
 	})
 </script>
 

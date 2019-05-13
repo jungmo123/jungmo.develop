@@ -31,7 +31,7 @@ public class LoginController {
 		boolean bl = loginService.loginTest(user);
 		if(bl == true){
 			session.setAttribute("user", userId);
-			loginService.updateVisit(userId);
+			loginService.addVisit(userId);
 		}
 		return bl;
 	}
@@ -55,7 +55,7 @@ public class LoginController {
 		boolean bl = loginService.adminTest(user);
 		if(bl == true){
 			session.setAttribute("admin", userId);
-			loginService.updateVisit(userId);
+			loginService.addVisit(userId);
 		}
 		return bl;
 	}

@@ -2,6 +2,7 @@ package jungmo.shoppingmall.admin.order.dao;
 
 import jungmo.shoppingmall.admin.order.dao.mapper.*;
 import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.user.domain.*;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
@@ -90,5 +91,9 @@ public class PageDaoImpl implements PageDao{
 	
 	public int getUserTotRowCnt(){
 		return pageMapper.getUserTotRowCnt();
+	}
+	
+	public int getUserSearchTotRowCnt(UserSearch us){
+		return pageMapper.getUserSearchTotRowCnt(us);
 	}
 }

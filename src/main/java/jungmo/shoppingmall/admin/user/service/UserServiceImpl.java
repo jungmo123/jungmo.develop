@@ -16,4 +16,12 @@ public class UserServiceImpl implements UserService{
 	public List<User> getUsers(Page page){
 		return userDao.getUsers(page);
 	}
+	
+	public int userStateChange(HashMap<String,List<String>> map){
+		return userDao.userStateChange(map);
+	}
+	
+	public List<User> getSearchUsers(Page page){
+		return userDao.getSearchUsers(page);
+	}
 }

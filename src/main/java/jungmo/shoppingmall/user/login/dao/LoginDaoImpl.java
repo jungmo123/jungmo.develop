@@ -14,11 +14,11 @@ public class LoginDaoImpl implements LoginDao{
 		return loginMapper.loginTest(user);
 	}
 	
-	public int updateVisit(String userId){
-		return loginMapper.updateVisit(userId);
-	}
-	
 	public int updateUser(User user){
 		return loginMapper.updateUser(user);
+	}
+	
+	public int addVisit(String userId){
+		return loginMapper.addVisit(userId);
 	}
 }

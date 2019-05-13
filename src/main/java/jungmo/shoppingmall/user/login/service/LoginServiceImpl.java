@@ -1,10 +1,10 @@
 package jungmo.shoppingmall.user.login.service;
 
-import jungmo.shoppingmall.user.login.dao.LoginDao;
-import jungmo.shoppingmall.user.login.domain.User;
+import jungmo.shoppingmall.user.login.dao.*;
+import jungmo.shoppingmall.user.login.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -32,11 +32,11 @@ public class LoginServiceImpl implements LoginService{
 		return bl;
 	}
 	
-	public int updateVisit(String userId){
-		return loginDao.updateVisit(userId);
-	}
-	
 	public int updateUser(User user){
 		return loginDao.updateUser(user);
-	}	
+	}
+	
+	public int addVisit(String userId){
+		return loginDao.addVisit(userId);
+	}
 }
