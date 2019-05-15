@@ -135,8 +135,22 @@ public class UserController {
 	}
 	
 	@RequestMapping("/admin/userInfo{userId}")
-	public String userInfo(@PathVariable String userId){
-		System.out.println(userId);
+	public String userInfo(@PathVariable String userId,Model model){
+		model.addAttribute("user",userService.getUser(userId));
 		return "manager/user/userInfo";
+	}
+	
+	@RequestMapping("/admin/getLoglog")
+	@ResponseBody
+	public List<Loglog> getLoglog(String userId){
+		List<Loglog> list = userService.getLoglog(userId);
+		return list;
+	}
+	
+	@RequestMapping("/admin/getPurl")
+	@ResponseBody
+	public List<PurchaseList> getPurl(String userId){
+		List<PurchaseList> list = userService.getPurl(userId);
+		return list;
 	}
 }

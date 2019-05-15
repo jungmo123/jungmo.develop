@@ -4,6 +4,7 @@ import java.util.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.dao.*;
+import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -23,5 +24,17 @@ public class UserServiceImpl implements UserService{
 	
 	public List<User> getSearchUsers(Page page){
 		return userDao.getSearchUsers(page);
+	}
+	
+	public User getUser(String userId){
+		return userDao.getUser(userId);
+	}
+	
+	public List<Loglog> getLoglog(String userId){
+		return userDao.getLoglog(userId);
+	}
+	
+	public List<PurchaseList> getPurl(String userId){
+		return userDao.getPurl(userId);
 	}
 }

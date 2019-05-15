@@ -6,4 +6,5 @@ public interface LoginDao {
 	User loginTest(User user);
 	int updateUser(User user);
 	int addVisit(String userId);
+	int updateLatestDate(String userId);
 }

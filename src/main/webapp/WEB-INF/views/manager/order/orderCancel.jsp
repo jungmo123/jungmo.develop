@@ -263,11 +263,14 @@
 										<td>${oc.user.userId}</td>
 										<td>${oc.paymentMethod}</td>
 										<c:set var = "total" value = "0" />
-										<c:forEach  var = "option" items= "${oc.goodsOption}" varStatus = "state">
-											<c:set var = "total" value = "${(total + option.optPrice)}" />
-										</c:forEach>
 										<c:forEach var = "god" items = "${oc.goods}" varStatus = "state">
+											<c:forEach  var = "option" items= "${oc.goodsOption}" varStatus = "state">
+												<c:if test = "${option.ordNum == oc.ordNum && option.godNum == god.godNum}" >
+													<c:set var = "total" value = "${(total + option.optPrice)}" />
+												</c:if>
+											</c:forEach>
 											<c:set var = "totalprice" value = "${((totalprice+(total+god.godSellingPrice)*god.godAmount))}" />
+											<c:set var = "total" value = "0" />
 										</c:forEach>
 										<c:set var = "usingPoint" value = "${oc.usingPoint}" />
 										<c:set var = "dvPrice" value = "0" />

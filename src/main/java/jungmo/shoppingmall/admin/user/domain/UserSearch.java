@@ -28,9 +28,6 @@ public class UserSearch {
 		this.maxSaved = maxSaved;
 		this.email = email;
 	}
-
-
-
 	public String getTitle() {
 		return title;
 	}

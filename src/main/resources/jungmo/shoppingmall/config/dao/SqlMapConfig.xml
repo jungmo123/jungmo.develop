@@ -33,5 +33,7 @@
 			<typeAlias alias = "event" type = "jungmo.shoppingmall.admin.boardadmin.domain.Event" />
 			<typeAlias alias = "board" type = "jungmo.shoppingmall.admin.boardadmin.domain.Board" />
 			<typeAlias alias = "us" type = "jungmo.shoppingmall.admin.user.domain.UserSearch" />
+			<typeAlias alias = "loglog" type = "jungmo.shoppingmall.admin.user.domain.Loglog" />
+			<typeAlias alias = "purl" type = "jungmo.shoppingmall.admin.user.domain.PurchaseList" />
 	</typeAliases>
 </configuration>

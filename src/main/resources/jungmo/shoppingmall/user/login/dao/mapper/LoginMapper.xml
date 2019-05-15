@@ -12,4 +12,10 @@
 		insert into login_logs
 		values (#{userId},sysdate)
 	</insert>
+	
+	<update id = "updateLatestDate" parameterType = "string">
+		update users
+		set user_latestdate = sysdate
+		where user_id = #{userId}
+	</update>
 </mapper> 

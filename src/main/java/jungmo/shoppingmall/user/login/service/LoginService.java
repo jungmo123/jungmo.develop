@@ -7,4 +7,5 @@ public interface LoginService {
 	boolean adminTest(User user);
 	int updateUser(User user);
 	int addVisit(String userId);
+	int updateLatestDate(String userId);
 }

@@ -72,7 +72,7 @@
 		join item_option
 		on (purchase_option.opt_name = item_option.opt_name)
 		and (purchase_option.opt_content = item_option.opt_content)
-		where ord_num = #{ordNum} and god_num = #{godNum}
+		where ord_num = #{ordNum}
 		order by purchase_option.ord_num
 	</select>
 	
@@ -271,7 +271,7 @@
 		<id property = "ordNum" column = "ord_num" />
 		<association property = "order" resultMap = "getOrder" />
 		<collection property = "goods" columnPrefix = "god_" resultMap="godMap" />
-		<collection property = "goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property = "goodsOption" column = "ord_num" select = "getGodo" />
 	</resultMap>
 	
 	<resultMap id = "godMap" type = "god">
@@ -311,7 +311,7 @@
 		<id property = "ordNum" column = "ord_num" />
 		<association property = "order" resultMap = "getOrder" />
 		<collection property = "goods" columnPrefix = "god_" resultMap="godMap" />
-		<collection property = "goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property = "goodsOption" column = "ord_num" select = "getGodo" />
 	</resultMap>
 	 
 	<resultMap id = "godoMap" type = "godo">
@@ -331,7 +331,7 @@
 		<result property = "paymentMethod" column = "paymentmethod" />
 		<association property="user" resultMap = "getUser" />
 		<collection property="goods" column="ord_num" select = "getGoods" />
-		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property="goodsOption" column = "ord_num" select = "getGodo" />
 	</resultMap>
 	 
 	<resultMap id = "refMap" type = "ref">

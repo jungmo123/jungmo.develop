@@ -402,17 +402,21 @@
 									<strong class = "itemName">상품명</strong>
 									<span>${product.godName}</span>
 									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
+									<c:if test = "${product.godNum == option.godNum}">
 									<br>
 									<strong class = "itemName">${option.optName}</strong>
 									<span>${option.optContent}</span>
+									</c:if>
 									</c:forEach>						
 								</div>
 								<div>
 									<span>${product.godSellingPrice}원</span>
 									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
+									<c:if test = "${product.godNum == option.godNum}">
 									<br>
 									<c:set var = "total" value = "${(total + option.optPrice)}" />
 									<span>${option.optPrice}원</span>
+									</c:if>
 									</c:forEach>					
 							</div>						
 						</td>
@@ -422,10 +426,11 @@
 						</td>
 						<td>
 						<c:set var = "totalprice" value = "${((totalprice+(total+product.godSellingPrice)*product.godAmount))}" />
+						<c:set var = "totalPoint" value = "${((total+product.godSellingPrice)*product.godAmount)}" />
 							<span><c:out value = "${((total+product.godSellingPrice)*product.godAmount)}원" /></span>
 						</td> 
 						<td>
-							<fmt:parseNumber var = "price" value ="${(totalprice/savePoint.savePointPercent)}" />
+							<fmt:parseNumber var = "price" value ="${(totalPoint/savePoint.savePointPercent)}" />
 							<strong>${price}원</strong>
 						</td>
 					</tr>

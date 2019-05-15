@@ -39,4 +39,8 @@ public class LoginServiceImpl implements LoginService{
 	public int addVisit(String userId){
 		return loginDao.addVisit(userId);
 	}
+	
+	public int updateLatestDate(String userId){
+		return loginDao.updateLatestDate(userId);
+	}
 }

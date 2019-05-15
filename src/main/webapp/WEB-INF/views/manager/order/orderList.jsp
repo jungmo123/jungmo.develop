@@ -284,11 +284,14 @@
 										</td>
 										<c:set var = "total" value = "0" />
 										<td>${purchase.order.user.userName}<br>${purchase.order.user.userId}</td>
-										<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
-											<c:set var = "total" value = "${(total + option.optPrice)}" />
-										</c:forEach>
 										<c:forEach var = "god" items = "${purchase.goods}" varStatus = "state">
+											<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
+												<c:if test = "${option.ordNum == purchase.ordNum && option.godNum == god.godNum}" >
+													<c:set var = "total" value = "${(total + option.optPrice)}" />
+												</c:if>
+											</c:forEach>
 											<c:set var = "totalprice" value = "${((totalprice+(total+god.godSellingPrice)*god.godAmount))}" />
+											<c:set var = "total" value = "0" />
 										</c:forEach>
 										<c:set var = "usingPoint" value = "${purchase.order.usingPoint}" />
 										<c:set var = "dvPrice" value = "0" />

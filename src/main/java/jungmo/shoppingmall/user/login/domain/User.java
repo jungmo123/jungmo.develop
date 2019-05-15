@@ -173,5 +173,4 @@ public class User {
 	public void setPurchaseAmount(int purchaseAmount) {
 		this.purchaseAmount = purchaseAmount;
 	}
-
 }

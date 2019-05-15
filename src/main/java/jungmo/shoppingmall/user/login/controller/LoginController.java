@@ -32,6 +32,7 @@ public class LoginController {
 		if(bl == true){
 			session.setAttribute("user", userId);
 			loginService.addVisit(userId);
+			loginService.updateLatestDate(userId);
 		}
 		return bl;
 	}
@@ -56,6 +57,7 @@ public class LoginController {
 		if(bl == true){
 			session.setAttribute("admin", userId);
 			loginService.addVisit(userId);
+			loginService.updateLatestDate(userId);
 		}
 		return bl;
 	}
