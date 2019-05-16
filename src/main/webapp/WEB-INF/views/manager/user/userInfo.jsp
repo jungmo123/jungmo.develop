@@ -211,7 +211,7 @@
 	table tr td:last-child > div{
 		margin-left:10px;
 	}
-	table tr:nth-child(6){
+	.container table tr:nth-child(6){
 		height:75px;
 	}
 	table tr:nth-child(3) td:last-child div:nth-child(1),
