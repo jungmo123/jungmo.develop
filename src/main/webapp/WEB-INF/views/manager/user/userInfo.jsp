@@ -155,32 +155,42 @@
 	textarea{
 		text-align:center;
 	}
-	#receipt .modal-dialog{
+	#receipt .modal-dialog,
+	#pointModal .modal-dialog{
 		width:420px;
 	}
-	#receipt .modal-header{
+	#receipt .modal-header,
+	#pointModal .modal-header{
 		border:0;
 	}
-	#receipt .modal-body{
+	#receipt .modal-body,
+	#pointModal .modal-body{
 		padding:0px 15px 0px 15px;
 	}
-	#receipt .modal-body div{
+	#receipt .modal-body div,
+	#pointModal .modal-body div{
 		margin-bottom:10px;
 	}
 	#receipt table tr th,
-	#receipt table tr td{
+	#receipt table tr td,
+	#pointModal table tr th,
+	#pointModal table tr td{
 		text-align:center;
 	}
-	#receipt #table{
+	#receipt #table,
+	#pointModal #table{
 		width:100%;
 		height:200px;
     	display: block;
     	overflow: auto;
 	}
-	#receipt #closeButton{
+	#receipt #closeButton,
+	#pointModal #closeButton{
 		text-align:center;
 	}
-	#receipt #closeButton button{
+	#receipt #closeButton button,
+	#pointModal #closeButton button
+	{
 		width:100px;
 	}
 	#firstTable input{
@@ -313,7 +323,8 @@
 		overflow: auto;
 		height:300px;
 	}
-	#receipt .modal-content{
+	#receipt .modal-content,
+	#pointModal .modal-content{
 		width:520px;
 	}
 	#table tr th:nth-child(1){
@@ -327,6 +338,14 @@
 	}
 	#table tr th:nth-child(4){
 		width:120px;
+	}
+	#cancel{
+		width:100px;
+		margin:10px 0px 0px 5px;
+		float:right;
+	}
+	#idx{
+		margin-top:10px;
 	}
 </style>
 </head>
@@ -360,7 +379,8 @@
 				<p id = "menuName">Order Managament</p>
 				<p id = "currentIdx">&#124; 주문관리 > 교환/환불 > 상세보기</p>
 			</div>
-		<form id = "registerForm">
+		<form id = "registerForm" action = "modifyUserInfo" method = "post">
+			<input type = "text" name = "userId" value = "${user.userId}" style = "display:none"/>
 			<div id = "apply">
 				<div id = "stateInfo">
 					<strong>가입정보</strong>
@@ -445,6 +465,14 @@
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<td><strong>동의내역</strong></td>
+							<td>
+								<c:forEach var = "clause" items = "${clauses}" varStatus = "state">
+									<span><strong>&#124;&nbsp;</strong>${clause.clsTitle} : <strong>${clause.clscAgreement}</strong></span>
+								</c:forEach>
+							</td>
+						</tr>
 					</table>
 							
 					<div id = "useInfo">
@@ -463,7 +491,7 @@
 							</td>
 							<td>
 								<span>
-									<select id = "userLevel">
+									<select id = "userLevel" name = "userLevel">
 										<option>1</option>
 										<option>2</option>
 										<option>3</option>
@@ -504,22 +532,20 @@
 							</td>
 							<td>
 								<span>${user.userHp}</span>
-								<c:if test = "${user.userHp != 0}">
-								<button type = "button" class = "btn btn-default">포인트 적립 내역 보기</button>
-								</c:if>
+								<button id = "polg" type = "button" class = "btn btn-default" data-toggle = "modal" data-target = "#pointModal">포인트 적립 내역 보기</button>
 							</td>
 						</tr>
 					</table>
 					<div id = "buttonBox">
 						<div>
-							<button class = "btn btn-default">회원 탈퇴</button>
+							<button type = "button" id = "leave" class = "btn btn-default">회원 탈퇴</button>
 						</div>
 						<div>
-							<button class = "btn btn-default">수정</button>
-							<button class = "btn btn-default">취소</button>
+							<button type = "submit" id = "modify" class = "btn btn-default">수정</button>
+							<a href = "useridx" id = "cancel" class = "btn btn-default">취소</a>
 						</div>
 						<div>
-							<button class = "btn btn-default">목록보기</button>
+							<a href = "useridx" id = "idx" class = "btn btn-default">목록보기</a>
 						</div>
 					</div>
 				</div>
@@ -578,6 +604,41 @@
 								</tr>
 							</thead>
 							<tbody id = "purlTbody">
+							</tbody>
+						</table>				
+					</div>
+					<div id = "closeButton">
+						<button class = "btn btn-default" data-dismiss = "modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class = "modal fade" id ="pointModal">
+		<div class = "modal-dialog modal-md">
+			<div class ="modal-content">
+				<div class = "modal-header">
+					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+					<h4 class = "modal-title">&#124;&nbsp;구매내역 보기</h4>
+					<hr>
+				</div>
+				<div class = "modal-body">
+					<div>
+						<strong>계정 : </strong>
+						<span>${user.userId}</span>					
+					</div>
+					<div>
+						<table id = "table" class = "table table-hover">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>변동일</th>
+									<th>변동내역</th>
+									<th>변동액</th>
+								</tr>
+							</thead>
+							<tbody id = "pointBody">
 							</tbody>
 						</table>				
 					</div>
@@ -801,7 +862,6 @@ function showPostcode() {
 				},
 				success:function(data){
 					$("#purlTbody").text("");
-					var price;
 					for(var i = 0 ; i < data.length ; i++){
 						if(data[i] != null){
 							var tr = $("<tr></tr>");
@@ -823,7 +883,6 @@ function showPostcode() {
 							$("#purlTbody").append(tr);
 						}
 					}
-					console.log(price);
 				},
 				error:function(a,b,errMsg){
 					Swal.fire({
@@ -835,6 +894,67 @@ function showPostcode() {
 						});
 				}
 			})
+		})
+		
+		$("#polg").click(function(){
+			var userId = "${user.userId}";
+			$.ajax({
+				url:"getPointLogs",
+				method:"post",
+				data: {
+					userId:userId
+				},
+				success:function(data){
+					$("#pointBody").text("");
+					for(var i = 0 ; i < data.length ; i++){
+						if(data[i] != null){
+							var tr = $("<tr></tr>");
+							var number = $("<td></td>");
+							number.text(i+1);
+							tr.append(number);
+							var polgDate = $("<td></td>");
+							var date = new Date(data[i].polgDate);
+							polgDate.text(getTimeStamp(date))
+							tr.append(polgDate)
+							var polgContent = $("<td></td>");
+							polgContent.text(data[i].polgContent);
+							tr.append(polgContent);
+							var polgChange = $("<td></td>");
+							polgChange.text(data[i].polgChange);
+							tr.append(polgChange);
+							$("#pointBody").append(tr);
+						}
+					}
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '삭제를 실패하였습니다.',
+						  showConfirmButton: false,
+						  timer: 1500
+						});
+				}
+			})
+		})
+		
+		$("#leave").click(function(){
+			var form = $("<form></form>");
+			form.attr({
+				action:"modifyUserState",
+				method:"post",
+				style:"display:none"
+			})
+			var input = $("<input></input>");
+			var userId = "${user.userId}"
+			input.attr({
+				name:"userId",
+				type:"text"
+			})
+			input.val(userId);
+			form.append(input);
+			$("body").append(form);
+			form.submit();
 		})
 	})
 </script>	

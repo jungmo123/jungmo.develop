@@ -746,7 +746,8 @@ public class BoardAdminController {
 	public List<BoardCategories> addBorc(int borNum,int borcNum,String poscName,HttpServletRequest request){
 		String userId = (String)request.getSession().getAttribute("admin");
 		BoardCategories borc = new BoardCategories(borNum,borcNum,poscName,userId);
-		if(boscService.getExistBorc(borNum, borcNum) != null){
+		BoardCategories boardCategory = boscService.getExistBorc(borNum, borcNum);
+		if(boardCategory != null){
 			System.out.println("true");
 			boscService.updatePosc(borNum, borcNum);
 			boscService.addBorc(borc);
@@ -773,12 +774,18 @@ public class BoardAdminController {
 	
 	@RequestMapping("/admin/modifyBorc")
 	@ResponseBody
-	public List<BoardCategories> modifyBorc(int borNum,int borcNum,int poscNum,String poscName,HttpServletRequest request){
+	public List<BoardCategories> modifyBorc(int borNum,int borcNum,int poscNum,String poscName,int currentBorcNum,HttpServletRequest request){
 		BoardCategories borc = new BoardCategories(poscNum,borNum,borcNum,poscName);
-		if(boscService.getExistBorc(borNum, borcNum) != null){
-			System.out.println("true");
+		BoardCategories boardCategory = boscService.getExistBorc(borNum, borcNum);
+		System.out.println(currentBorcNum);
+		if(boardCategory != null && (boardCategory.getPoscNum() != poscNum && currentBorcNum > borcNum)){
+			System.out.println("1");
 			boscService.updatePosc(borNum, borcNum);
 			boscService.updateBorc(borc);
+		}else if(boardCategory != null && (boardCategory.getPoscNum() != poscNum && currentBorcNum < borcNum)){
+			System.out.println("2");
+			boscService.downPosc(borNum, borcNum,currentBorcNum);
+			boscService.updateBorc(borc);			
 		}else{
 			boscService.updateBorc(borc);
 		}

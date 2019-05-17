@@ -1,9 +1,10 @@
 package jungmo.shoppingmall.user.join.domain;
 
 public class ClauseCategory {
-	int clsNum;
-	String userId;
-	String clscAgreement;
+	private int clsNum;
+	private String userId;
+	private String clscAgreement;
+	private String clsTitle;
 	
 	public ClauseCategory(){}
 	
@@ -11,6 +12,14 @@ public class ClauseCategory {
 		this.clsNum = clsNum;
 		this.userId = userId;
 		this.clscAgreement = clscAgreement;
+	}
+	
+	public ClauseCategory(int clsNum, String userId, String clscAgreement,
+			String clsTitle) {
+		this.clsNum = clsNum;
+		this.userId = userId;
+		this.clscAgreement = clscAgreement;
+		this.clsTitle = clsTitle;
 	}
 
 	public int getClsNum() {
@@ -35,5 +44,13 @@ public class ClauseCategory {
 
 	public void setClscAgreement(String clscAgreement) {
 		this.clscAgreement = clscAgreement;
+	}
+
+	public String getClsTitle() {
+		return clsTitle;
+	}
+
+	public void setClsTitle(String clsTitle) {
+		this.clsTitle = clsTitle;
 	}
 }

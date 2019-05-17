@@ -5,6 +5,7 @@ import java.util.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.dao.mapper.*;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -36,5 +37,25 @@ public class UserDaoImpl implements UserDao{
 	
 	public List<PurchaseList> getPurl(String userId){
 		return userMapper.getPurl(userId);
+	}
+	
+	public List<PointLogs> getPointLogs(String userId){
+		return userMapper.getPointLogs(userId);
+	}
+	
+	public int addPoint(PointLogs pl){
+		return userMapper.addPoint(pl);
+	}
+	
+	public List<ClauseCategory> getClauses(String userId){
+		return userMapper.getClauses(userId);
+	}
+	
+	public int updateUserInfo(User user){
+		return userMapper.updateUserInfo(user);
+	}
+	
+	public int updateUserState(String userId){
+		return userMapper.updateUserState(userId);
 	}
 }

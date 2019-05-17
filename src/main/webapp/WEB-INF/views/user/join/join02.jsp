@@ -14,9 +14,9 @@
 			String str =(String)request.getParameter(String.valueOf(clauses.get(i).getClsNum()));
 			values =  new HashMap<>();
 			if(str != null){
-				str = "Y";
+				str = "동의";
 			}else{
-				str = "N";
+				str = "미동의";
 			}
 			values.put(String.valueOf(clauses.get(i).getClsNum()), str);
 			names.add(i,values);

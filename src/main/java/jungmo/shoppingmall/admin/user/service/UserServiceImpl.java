@@ -5,6 +5,7 @@ import java.util.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.dao.*;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -36,5 +37,25 @@ public class UserServiceImpl implements UserService{
 	
 	public List<PurchaseList> getPurl(String userId){
 		return userDao.getPurl(userId);
+	}
+	
+	public List<PointLogs> getPointLogs(String userId){
+		return userDao.getPointLogs(userId);
+	}
+	
+	public int addPoint(PointLogs pl){
+		return userDao.addPoint(pl);
+	}
+	
+	public List<ClauseCategory> getClauses(String userId){
+		return userDao.getClauses(userId);
+	}
+	
+	public int updateUserInfo(User user){
+		return userDao.updateUserInfo(user);
+	}
+	
+	public int updateUserState(String userId){
+		return userDao.updateUserState(userId);
 	}
 }

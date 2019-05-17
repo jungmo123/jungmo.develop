@@ -72,6 +72,7 @@ public class JoinController {
 			String key = (String)iterator.next();
 			String value = list.get(i).get(key);
 			joinService.addClsc(new ClauseCategory(Integer.parseInt(key),userId,value));
+			joinService.addJoinPoint(userId);
 		}
 
 		return "redirect:/";

@@ -1,15 +1,13 @@
 package jungmo.shoppingmall.user.join.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.user.join.dao.JoinDao;
-import jungmo.shoppingmall.user.join.domain.Clause;
-import jungmo.shoppingmall.user.join.domain.ClauseCategory;
-import jungmo.shoppingmall.user.join.domain.Overlap;
-import jungmo.shoppingmall.user.login.domain.User;
+import jungmo.shoppingmall.user.join.dao.*;
+import jungmo.shoppingmall.user.join.domain.*;
+import jungmo.shoppingmall.user.login.domain.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class JoinServiceImpl implements JoinService{
@@ -34,5 +32,9 @@ public class JoinServiceImpl implements JoinService{
 		}else{
 			return false;
 		}
+	}
+	
+	public void addJoinPoint(String userId){
+		joinDao.addJoinPoint(userId);
 	}
 }

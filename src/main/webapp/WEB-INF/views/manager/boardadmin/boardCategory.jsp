@@ -203,7 +203,8 @@
 						<input id = "borNum"  name = "borNum" type = "number" style="display:none">
 						<input id = "poscNum"  name = "poscNum" type = "number" style="display:none">
 						<span>* 순번 : </span>
-						<input id = "borcNum" name = "borcNum" type = "number" class = "form-control" />	
+						<input id = "borcNum" name = "borcNum" type = "number" class = "form-control" />
+						<input id = "currentBorcNum" name = "currentBorcNum" type = "number" class = "form-control" style="display:none" />		
 						<span>* 카테고리명 : </span>
 						<input id = "poscName" name = "poscName" type = "text" class = "form-control" />					
 					</div>
@@ -240,6 +241,9 @@
 			td.append(checkbox);
 			tr.append(td);
 			td1.text(list[i].borcNum);
+			td1.attr({
+				"class":"borNum"
+			})
 			tr.append(td1);
 			td2.text(list[i].borcDate);
 			tr.append(td2);
@@ -310,6 +314,8 @@
 		
 		$("#Cadd").click(function(e){	
 			$("#borNum").val($("#boardCategory").val());
+			$("#borcNum").val("");
+			$("#poscName").val("");
 			$(".add").attr({
 				"id":"add"
 			})
@@ -392,6 +398,9 @@
 		})
 		$(document).on("click",".borcModify",function(event){
 			$("#poscNum").val($(this).prop("id"));
+			$("#borcNum").val("");
+			$("#poscName").val("");
+			$("#currentBorcNum").val($(this).parents("tr").find(".borNum").text());
 			$(".add").attr({
 				"id":"modify"
 			})
@@ -402,6 +411,7 @@
 			var borcNum= $("#borcNum").val();
 			var poscNum = $("#poscNum").val();
 			var poscName = $("#poscName").val();
+			var currentBorcNum = $("#currentBorcNum").val();
   			$.ajax({
 				url:"modifyBorc",
 				method:"post",
@@ -409,7 +419,8 @@
 					borNum:borNum,
 					borcNum:borcNum,
 					poscNum:poscNum,
-					poscName:poscName
+					poscName:poscName,
+					currentBorcNum:currentBorcNum
 				},
 				success:function(list){
 					getBorc(list);

@@ -42,6 +42,15 @@
 		set borc_num = borc_num+1
 		where bor_num = #{borNum} and borc_num >= #{borcNum}
 	</update>
+	 
+	<update id = "downPosc" parameterType = "map">
+		<![CDATA[
+		update board_categories
+		set borc_num = borc_num-1
+		where bor_num = #{borNum} and borc_num > #{currentBorcNum}
+		and borc_num <= #{borcNum}
+		]]>
+	</update>
 	
 	<delete id  = "deleteBorc" parameterType = "hashmap">
 		delete from board_categories

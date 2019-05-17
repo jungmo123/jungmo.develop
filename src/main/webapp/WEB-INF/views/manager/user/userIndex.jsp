@@ -208,6 +208,25 @@
 	.none{
 		display:none;
 	}
+	#givePoint .modal-content{
+		width:300px;
+	}
+	#Reason{
+		display:inline-block;
+		width:200px;
+	}
+	#gp{
+		display:inline-block;
+		width:100px;		
+	}
+	#closeButton{
+		text-align:center;
+	}
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	    margin: 0;
+	}
 </style>
 </head>
 <body>
@@ -344,8 +363,8 @@
 					</tbody>
 				</table>
 				<button id = "leave" class = "btn btn-default">선택 탈퇴</button>
-				<button id = "pointGive" class = "btn btn-default">선택 회원 포인트 지급</button>
-				<button id = "pointGive" class = "btn btn-default">검색된 회원 포인트 지급</button>
+				<button id = "checkP" class = "btn btn-default" data-toggle = "modal" data-target = "#givePoint">선택 회원 포인트 지급</button>
+				<button id = "SearchP" class = "btn btn-default" data-toggle = "modal" data-target = "#givePoint">검색된 회원 포인트 지급</button>
 			</div>
 			 <div id = "pagination">
 				<div>
@@ -369,6 +388,31 @@
 		</div>
 	</div>
 </div>
+
+	<div class = "modal fade" id ="givePoint">
+		<div class = "modal-dialog modal-sm">
+			<div class ="modal-content">
+				<div class = "modal-header">
+					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+					<h4 class = "modal-title">&#124;&nbsp;포인트 지급</h4>
+					<hr>
+				</div>
+				<div class = "modal-body">
+					<div id = "loginLog">
+						<form id = "pointForm" method ="post">
+							<input id = "checkPoint" name = "checkPoint" type = "text" style="display:none"/>
+							<p>지급 사유 : <input id = "Reason" type = "text" class = "form-control" name = "reason"></p>
+							<p>지급할 포인트 : <input id = "gp" type = "number" class = "form-control" name = "point"></p>
+						</form>
+					</div>
+					<div id = "closeButton">
+						<button id = "submit" class = "btn btn-default">완료</button>
+						<button class = "btn btn-default" data-dismiss = "modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <script type = "text/javascript">
 
@@ -425,6 +469,64 @@ $(document).on("click","#detailClose",function(event){
 		var userId = $(this).parents("tr").prop("id");
 		location.href = "/shoppingmall/admin/userInfo" + userId;
 	})
+	
+	$("#checkP").click(function(){
+		var list = [];
+		var checkbox = $("tbody input:checked");
+		$.each(checkbox,function(index,item){
+			list.push($(item).prop("id"));
+		})
+		$("#checkPoint").val(list);
+		$("#pointForm").attr({
+			action:"checkPoint"
+		})
+	})
+	
+	$("#submit").click(function(){
+		if($("tbody input:checked").length == 0){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: "포인트를 지급할 사용자를 선택하세요!",
+				  showConfirmButton: false,
+				  timer: 1500
+				});			
+		}else if($("#Reason").val() == ''){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: "지급 사유를 입력하세요!",
+				  showConfirmButton: false,
+				  timer: 1500
+				});					
+		}else if($("#gp").val() == ''){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: "지급할 포인트를 입력하세요!",
+				  showConfirmButton: false,
+				  timer: 1500
+				});				
+		}else{
+			$("#pointForm").submit();	
+		}
+	})
+	
+$("#gp").change(function() { 
+    var num = $(this).val() - 1; 
+    if(typeof num !== "number" || num < 0) { 
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: "양수만 입력해주세요!",
+			  showConfirmButton: false,
+			  timer: 1500
+			});	
+		$(this).val("");
+        $(this).focus(); 
+        return false; 
+    } 
+}); 
 </script>
 
 </body>

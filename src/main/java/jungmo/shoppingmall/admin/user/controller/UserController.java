@@ -9,6 +9,7 @@ import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.admin.user.service.*;
+import jungmo.shoppingmall.user.login.domain.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -25,7 +26,6 @@ public class UserController {
 	private String SearchBar;
 	private String sdate;
 	private String edate;
-	private String date3;
 	private String userLevel;
 	private String minPrice;
 	private String maxPrice;
@@ -137,6 +137,7 @@ public class UserController {
 	@RequestMapping("/admin/userInfo{userId}")
 	public String userInfo(@PathVariable String userId,Model model){
 		model.addAttribute("user",userService.getUser(userId));
+		model.addAttribute("clauses",userService.getClauses(userId));
 		return "manager/user/userInfo";
 	}
 	
@@ -152,5 +153,59 @@ public class UserController {
 	public List<PurchaseList> getPurl(String userId){
 		List<PurchaseList> list = userService.getPurl(userId);
 		return list;
+	}
+	
+	@RequestMapping("/admin/getPointLogs")
+	@ResponseBody
+	public List<PointLogs> getPointLogs(String userId){
+		List<PointLogs> list = userService.getPointLogs(userId);
+		return list;
+	}
+	
+	@RequestMapping("/admin/checkPoint")
+	public String checkPoint(HttpServletRequest request,Model model){
+		System.out.println(request.getParameter("checkPoint"));
+		System.out.println(request.getParameter("reason"));
+		System.out.println(request.getParameter("point"));
+		List<String> userId = new ArrayList<>();
+		StringTokenizer st = new StringTokenizer(request.getParameter("checkPoint"),",");
+		while(st.hasMoreTokens()){
+			userId.add(st.nextToken());
+		}
+		PointLogs pl = new PointLogs(userId,request.getParameter("reason"),Integer.valueOf(request.getParameter("point")));
+		userService.addPoint(pl);
+		return "redirect:userIdx" + type+ index;
+	}
+	
+	@RequestMapping("/admin/useridx")
+	public String useridx(){
+		return "redirect:userIdx" + type+ index;
+	}
+	
+	@RequestMapping(value="/admin/modifyUserInfo",method=RequestMethod.POST)
+	public String modifyUserInfo(HttpServletRequest request){
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+		String email1 = request.getParameter("email1");
+		String email2 = request.getParameter("email2");
+		String userEmail = email1 + "@" + email2;
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone3 = request.getParameter("phone3");
+		String userPhone = phone1+"-"+phone2+"-"+phone3;
+		String userPostcode = request.getParameter("userPostcode");
+		String userStreet = request.getParameter("userStreet");
+		String userDetailArea = request.getParameter("userDetailArea");
+		String userLevel = request.getParameter("userLevel");
+		System.out.println(userId + " " + userPwd + " " + userEmail + " " + userPhone + " " + userPostcode + " " + userStreet + " " + userDetailArea + " " + userLevel);
+		User user = new User(userId,userPwd,userEmail,userPhone,userPostcode,userStreet,userDetailArea,Integer.valueOf(userLevel));
+		userService.updateUserInfo(user);
+		return "redirect:userIdx" + type+ index;
+	}
+	
+	@RequestMapping(value="/admin/modifyUserState",method=RequestMethod.POST)
+	public String modifyUserState(HttpServletRequest request){
+		userService.updateUserState(request.getParameter("userId"));
+		return "redirect:userIdx" + type+ index;
 	}
 }

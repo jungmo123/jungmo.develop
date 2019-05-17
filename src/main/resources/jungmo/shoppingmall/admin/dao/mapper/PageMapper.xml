@@ -214,13 +214,14 @@
 	<select id = "getUserSearchTotRowCnt"  parameterType="us" resultType = "int">
 		<![CDATA[
 		select count(*) from(
-			select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,user_hp,visitcnt,user_mailagreement from(
+			select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,d.point from(
+       		 	select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement from(
 				select user_joindate,user_name,user_id,ord_num,
 				(case when sum(price)-usingpoint <  freedeliverymp then sum(price)-usingpoint+basic_fee
 				else sum(price)-usingpoint
 				end) as totalprice
-				,user_hp,visitcnt,user_mailagreement,user_level from(
-				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,b.user_hp,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level from(
+				,visitcnt,user_mailagreement,user_level from(
+				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level from(
 				(select user_id,ord_num,god_num,sum(opt_price) price from(
 				select users.user_id,purchase_option.god_num,purchase_option.ord_num,item_option.opt_price,purchase_option.opt_content
 				from purchases
@@ -239,7 +240,7 @@
 				group by users.user_id,purchase_option.god_num,item_option.opt_price,purchase_option.ord_num,purchase_option.opt_content)
 				group by user_id,ord_num,god_num) a
 				full outer join
-				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_hp,user_mailagreement,freedeliverymp,basic_fee
+				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
 				from users
 				full outer join orders
 				on (orders.user_id = users.user_id)
@@ -253,13 +254,19 @@
 				on (pnp_num = 1)
 				join delivery_policies
 				on (dvp_num = 1)
-				group by users.user_id,user_name,user_level,user_hp,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
+				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
 				having user_state = '가입') b
 				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
-				group by user_joindate,user_name,user_id,ord_num,user_hp,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
+				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
 				having user_id is not null)
-				group by user_joindate,user_name,user_id,user_hp,visitcnt,user_mailagreement,user_level
-				having
+				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level
+				order by user_joindate desc) c
+		        full outer join
+		        (select user_id,sum(polg_change) point
+		        from point_logs
+		        group by user_id) d
+		        on(c.user_id = d.user_id)
+		        where
 				]]>
 				<if test = "SearchBar == 1" >
 				(user_name like '%' || #{title} || '%')
@@ -275,22 +282,22 @@
 				</if>
 				<if test = "minPrice != ''">
 				<![CDATA[
-				and sum(totalprice) > #{minPrice}
+				and purchase_amount > #{minPrice}
 				]]>
 				</if>
 				<if test = "maxPrice != ''">
 				<![CDATA[
-				and sum(totalprice) < #{maxPrice}
+				and purchase_amount < #{maxPrice}
 				]]>
 				</if>
 				<if test = "minSaved != ''">
 				<![CDATA[
-				and user_hp > ${minSaved}
+				and point > ${minSaved}
 				]]>
 				</if>
 				<if test = "maxSaved != ''">
 				<![CDATA[
-				and user_hp < ${maxSaved}
+				and point < ${maxSaved}
 				]]>
 				</if>
 				<if test = "email != ''">

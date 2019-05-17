@@ -1,14 +1,14 @@
 package jungmo.shoppingmall.user.join.service;
 
-import java.util.List;
+import java.util.*;
 
-import jungmo.shoppingmall.user.join.domain.Clause;
-import jungmo.shoppingmall.user.join.domain.ClauseCategory;
-import jungmo.shoppingmall.user.login.domain.User;
+import jungmo.shoppingmall.user.join.domain.*;
+import jungmo.shoppingmall.user.login.domain.*;
 
 public interface JoinService {
 	void addUser(User user);
 	void addClsc(ClauseCategory clsc);
 	boolean overlapInjection(String userId); 
 	List<Clause> getClauses();
+	void addJoinPoint(String userId);
 }

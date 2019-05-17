@@ -14,6 +14,11 @@
 		values(#{clsNum},#{userId},#{clscAgreement})
 	</insert>
 	
+	<insert id = "addJoinPoint" parameterType = "string">
+		insert into point_logs(user_id,polg_date,polg_content,polg_change)
+		select #{userId},sysdate,'회원가입 이벤트',joinpoint from point_policies where pnp_num = 1;
+	</insert>
+	
 	<select id = "getClauses" resultType = "cls">
 		select cls_num clsNum,cls_title clsTitle,cls_content clsContent,cls_usage clsUsage
 		from clauses

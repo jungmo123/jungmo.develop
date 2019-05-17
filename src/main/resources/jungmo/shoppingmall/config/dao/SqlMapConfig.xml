@@ -35,5 +35,6 @@
 			<typeAlias alias = "us" type = "jungmo.shoppingmall.admin.user.domain.UserSearch" />
 			<typeAlias alias = "loglog" type = "jungmo.shoppingmall.admin.user.domain.Loglog" />
 			<typeAlias alias = "purl" type = "jungmo.shoppingmall.admin.user.domain.PurchaseList" />
+			<typeAlias alias = "polg" type = "jungmo.shoppingmall.admin.user.domain.PointLogs" />
 	</typeAliases>
 </configuration>

@@ -12,8 +12,8 @@ public class User {
 	private String userStreet;
 	private String userDetailArea;
 	private int userLevel;
-	private Date userJoinDate;
 	private int userHp;
+	private Date userJoinDate;
 	private String userMailAgreement;
 	private int userVisitCnt;
 	private Date userLatestDate;
@@ -52,11 +52,25 @@ public class User {
 		this.userStreet = userStreet;
 		this.userDetailArea = userDetailArea;
 	}
-
+	
+	//관리자 회원 정보 수정
+	public User(String userId,String userPwd, String userEmail, String userPhone,
+			String userPostcode, String userStreet, String userDetailArea,
+			int userLevel) {
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userEmail = userEmail;
+		this.userPhone = userPhone;
+		this.userPostcode = userPostcode;
+		this.userStreet = userStreet;
+		this.userDetailArea = userDetailArea;
+		this.userLevel = userLevel;
+	}
 
 	public String getUserId() {
 		return userId;
 	}
+
 
 	public String getUserName() {
 		return userName;
@@ -100,10 +114,6 @@ public class User {
 
 	public Date getUserJoinDate() {
 		return userJoinDate;
-	}
-
-	public int getUserHp() {
-		return userHp;
 	}
 
 	public String getUserMailAgreement() {
@@ -150,10 +160,6 @@ public class User {
 		this.userJoinDate = userJoinDate;
 	}
 
-	public void setUserHp(int userHp) {
-		this.userHp = userHp;
-	}
-
 	public void setUserMailAgreement(String userMailAgreement) {
 		this.userMailAgreement = userMailAgreement;
 	}
@@ -172,5 +178,13 @@ public class User {
 
 	public void setPurchaseAmount(int purchaseAmount) {
 		this.purchaseAmount = purchaseAmount;
+	}
+
+	public int getUserHp() {
+		return userHp;
+	}
+
+	public void setUserHp(int userHp) {
+		this.userHp = userHp;
 	}
 }
