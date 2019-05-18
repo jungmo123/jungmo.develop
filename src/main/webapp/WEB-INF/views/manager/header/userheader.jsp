@@ -43,7 +43,7 @@
 								type="button" data-toggle="dropdown">회원 관리</button>
 							<ul class="dropdown-menu">
 								<li><a href="userIdx">회원 목록</a></li>
-								<li><a href="../USER/03.html">탈퇴 회원 목록</a></li>
+								<li><a href="leaveUserIdx">탈퇴 회원 목록</a></li>
 								<li><a href="../USER/04.html">메일 관리</a></li>
 								<li><a href="../USER/05.html">SMS 관리</a></li>
 								<li><a href="../USER/06.html">대량 메일 발송</a></li>

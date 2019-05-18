@@ -31,6 +31,8 @@ public class Page {
 	private String minSaved;
 	private String maxSaved;
 	private String email;
+	private String polgContent;
+	private int polgChange;
 	
 	public Page(){
 		this(1,5);
@@ -48,6 +50,22 @@ public class Page {
 			String minSaved, String maxSaved, String email) {
 		this.currentPage = currentPage;
 		this.rowCnt = 5;
+		this.title = title;
+		SearchBar = searchBar;
+		this.sdate = sdate;
+		this.edate = edate;
+		this.userLevel = userLevel;
+		this.minPrice = minPrice;
+		this.maxPrice = maxPrice;
+		this.minSaved = minSaved;
+		this.maxSaved = maxSaved;
+		this.email = email;
+	}
+
+	public Page(String type, String title, String searchBar, String sdate,
+			String edate, String userLevel, String minPrice, String maxPrice,
+			String minSaved, String maxSaved, String email) {
+		this.type = type;
 		this.title = title;
 		SearchBar = searchBar;
 		this.sdate = sdate;
@@ -329,5 +347,21 @@ public class Page {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPolgContent() {
+		return polgContent;
+	}
+
+	public int getPolgChange() {
+		return polgChange;
+	}
+
+	public void setPolgContent(String polgContent) {
+		this.polgContent = polgContent;
+	}
+
+	public void setPolgChange(int polgChange) {
+		this.polgChange = polgChange;
 	}
 }

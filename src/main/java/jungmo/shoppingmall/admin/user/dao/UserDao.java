@@ -19,4 +19,5 @@ public interface UserDao {
 	List<ClauseCategory> getClauses(String userId);
 	int updateUserInfo(User user);
 	int updateUserState(String userId);
+	int SearchAddPoint(Page page);
 }

@@ -58,4 +58,8 @@ public class UserDaoImpl implements UserDao{
 	public int updateUserState(String userId){
 		return userMapper.updateUserState(userId);
 	}
+	
+	public int SearchAddPoint(Page page){
+		return userMapper.SearchAddPoint(page);
+	}
 }

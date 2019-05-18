@@ -208,4 +208,27 @@ public class UserController {
 		userService.updateUserState(request.getParameter("userId"));
 		return "redirect:userIdx" + type+ index;
 	}
+	
+	@RequestMapping(value="/admin/SearchPoint",method=RequestMethod.POST)
+	public String SearchPoint(HttpServletRequest request,Model model){
+		System.out.println(request.getParameter("reason"));
+		System.out.println(request.getParameter("point"));
+		Page myPage = null;
+		if(type == ""){
+			myPage = new Page();
+			myPage.setType(type);
+		}else{
+			myPage = new Page(type,title,SearchBar,sdate,edate,userLevel,minPrice,maxPrice,minSaved,maxSaved,mail);
+		}
+		myPage.setPolgContent(request.getParameter("reason"));
+		myPage.setPolgChange(Integer.parseInt(request.getParameter("point")));
+		System.out.println(myPage.getTitle());
+		userService.SearchAddPoint(myPage);
+		return "redirect:userIdx" + type+ index;
+	}
+	
+	@RequestMapping("/admin/leaveUserIdx")
+	public String leaveUserIdx(){
+		return "manager/user/leaveUserIndex";
+	}
 }

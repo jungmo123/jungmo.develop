@@ -58,4 +58,8 @@ public class UserServiceImpl implements UserService{
 	public int updateUserState(String userId){
 		return userDao.updateUserState(userId);
 	}
+	
+	public int SearchAddPoint(Page page){
+		return userDao.SearchAddPoint(page);
+	}
 }

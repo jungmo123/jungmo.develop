@@ -246,7 +246,7 @@
 			</div>
 			<div id="submenu">
 				<a href="userIdx" class = "activeMenu"><span>회원 목록</span></a>
-				<a href="../USER/03.html"><span>탈퇴 회원 목록</span></a>
+				<a href="leaveUserIdx"><span>탈퇴 회원 목록</span></a>
 				<a href="../USER/04.html"><span>메일 관리</span></a>
 				<a href="../USER/05.html"><span>SMS 관리</span></a>
 				<a href="../USER/06.html"><span>대량 메일 발송</span></a>
@@ -482,33 +482,41 @@ $(document).on("click","#detailClose",function(event){
 		})
 	})
 	
+	$("#SearchP").click(function(){
+		$("#pointForm").attr({
+			action:"SearchPoint"
+		})		
+	})
+	
 	$("#submit").click(function(){
 		if($("tbody input:checked").length == 0){
-			Swal.fire({
-				  position: 'top',
-				  type: 'error',
-				  title: "포인트를 지급할 사용자를 선택하세요!",
-				  showConfirmButton: false,
-				  timer: 1500
-				});			
-		}else if($("#Reason").val() == ''){
-			Swal.fire({
-				  position: 'top',
-				  type: 'error',
-				  title: "지급 사유를 입력하세요!",
-				  showConfirmButton: false,
-				  timer: 1500
-				});					
-		}else if($("#gp").val() == ''){
-			Swal.fire({
-				  position: 'top',
-				  type: 'error',
-				  title: "지급할 포인트를 입력하세요!",
-				  showConfirmButton: false,
-				  timer: 1500
-				});				
-		}else{
-			$("#pointForm").submit();	
+			if($("#pointForm").attr("action")=='checkPoint'){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: "포인트를 지급할 사용자를 선택하세요!",
+					  showConfirmButton: false,
+					  timer: 1500
+					});	
+			}else if($("#Reason").val() == ''){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: "지급 사유를 입력하세요!",
+					  showConfirmButton: false,
+					  timer: 1500
+					});					
+			}else if($("#gp").val() == ''){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: "지급할 포인트를 입력하세요!",
+					  showConfirmButton: false,
+					  timer: 1500
+					});				
+			}else{
+				$("#pointForm").submit();	
+			}
 		}
 	})
 	
