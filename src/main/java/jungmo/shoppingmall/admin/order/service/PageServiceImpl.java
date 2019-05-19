@@ -106,12 +106,16 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getBorcTotRowCnt(borNum);
 	}
 	
-	public int getUserTotRowCnt(){
-		return pageDao.getUserTotRowCnt();
+	public int getUserTotRowCnt(String userState){
+		return pageDao.getUserTotRowCnt(userState);
 	}
 	
 	public int getUserSearchTotRowCnt(UserSearch us){
 		return pageDao.getUserSearchTotRowCnt(us);
+	}
+	
+	public int getLeaveUserSearchTotRowCnt(UserSearch us){
+		return pageDao.getLeaveUserSearchTotRowCnt(us);
 	}
 	
 	private void init(){

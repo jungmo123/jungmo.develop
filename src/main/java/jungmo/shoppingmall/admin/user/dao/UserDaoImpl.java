@@ -19,12 +19,24 @@ public class UserDaoImpl implements UserDao{
 		return userMapper.getUsers(page);
 	}
 	
+	public List<User> getLeaveUsers(Page page){
+		return userMapper.getLeaveUsers(page);
+	}
+	
 	public int userStateChange(HashMap<String,List<String>> map){
 		return userMapper.userStateChange(map);
 	}
 	
+	public int addLeaveUser(HashMap<String,List<String>> map){
+		return userMapper.addLeaveUser(map);
+	}
+	
 	public List<User> getSearchUsers(Page page){
 		return userMapper.getSearchUsers(page);
+	}
+	
+	public List<User> getLeaveSearchUsers(Page page){
+		return userMapper.getLeaveSearchUsers(page);
 	}
 	
 	public User getUser(String userId){
@@ -61,5 +73,17 @@ public class UserDaoImpl implements UserDao{
 	
 	public int SearchAddPoint(Page page){
 		return userMapper.SearchAddPoint(page);
+	}
+	
+	public int deleteUser(HashMap<String,List<String>> map){
+		return userMapper.deleteUser(map);
+	}
+	
+	public MailForm getMailForm(String mailType){
+		return userMapper.getMailForm(mailType);
+	}
+	
+	public int updateMailForm(MailForm mailForm){
+		return userMapper.updateMailForm(mailForm);
 	}
 }

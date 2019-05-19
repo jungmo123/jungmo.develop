@@ -33,6 +33,7 @@ public class Page {
 	private String email;
 	private String polgContent;
 	private int polgChange;
+	private String userState;
 	
 	public Page(){
 		this(1,5);
@@ -363,5 +364,11 @@ public class Page {
 
 	public void setPolgChange(int polgChange) {
 		this.polgChange = polgChange;
+	}
+	public String getUserState() {
+		return userState;
+	}
+	public void setUserState(String userState) {
+		this.userState = userState;
 	}
 }

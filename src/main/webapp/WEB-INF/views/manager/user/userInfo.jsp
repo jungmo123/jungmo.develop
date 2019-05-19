@@ -367,7 +367,7 @@
 			<div id="submenu">
 				<a href="userIdx" class = "activeMenu"><span>회원 목록</span></a>
 				<a href="leaveUserIdx"><span>탈퇴 회원 목록</span></a>
-				<a href="../USER/04.html"><span>메일 관리</span></a>
+				<a href="mail"><span>메일 관리</span></a>
 				<a href="../USER/05.html"><span>SMS 관리</span></a>
 				<a href="../USER/06.html"><span>대량 메일 발송</span></a>
 			</div>

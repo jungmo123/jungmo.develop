@@ -11,12 +11,19 @@ public class UserSearch {
 	private String minSaved;
 	private String maxSaved;
 	private String email;
+	private String userState;
 	
 	public UserSearch(){}
-	
+		
+	public UserSearch(String title, String searchBar) {
+		super();
+		this.title = title;
+		SearchBar = searchBar;
+	}
+
 	public UserSearch(String title, String searchBar, String sdate,
 			String edate, String userLevel, String minPrice, String maxPrice,
-			String minSaved, String maxSaved, String email) {
+			String minSaved, String maxSaved, String email,String userState) {
 		this.title = title;
 		SearchBar = searchBar;
 		this.sdate = sdate;
@@ -27,6 +34,7 @@ public class UserSearch {
 		this.minSaved = minSaved;
 		this.maxSaved = maxSaved;
 		this.email = email;
+		this.userState = userState;
 	}
 	public String getTitle() {
 		return title;
@@ -87,5 +95,11 @@ public class UserSearch {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getUserState() {
+		return userState;
+	}
+	public void setUserState(String userState) {
+		this.userState = userState;
 	}
 }

@@ -47,7 +47,7 @@
 				join delivery_policies
 				on (dvp_num = 1)
 				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
-				having user_state = '가입') b
+				having user_state = #{userState}) b
 				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
 				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
 				having user_id is not null)
@@ -57,6 +57,68 @@
 		        (select user_id,sum(polg_change) point
 		        from point_logs
 		        group by user_id) d
+		        on(c.user_id = d.user_id)
+		        where c.user_id is not null
+		        order by user_joindate desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getLeaveUsers" parameterType = "page" resultMap = "userMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(	
+				select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,scd_date,scd_date+90 as duedate,trunc((scd_date+91)-sysdate) as dday,scdc_code,scd_content from(
+       			select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement from(
+				select user_joindate,user_name,user_id,ord_num,
+				(case when sum(price)-usingpoint <  freedeliverymp then sum(price)-usingpoint+basic_fee
+				else sum(price)-usingpoint
+				end) as totalprice
+				,visitcnt,user_mailagreement,user_level from(
+				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level from(
+				(select user_id,ord_num,god_num,sum(opt_price) price from(
+				select users.user_id,purchase_option.god_num,purchase_option.ord_num,item_option.opt_price,purchase_option.opt_content
+				from purchases
+				full outer join goods
+				on (purchases.god_num = goods.god_num)
+				full outer join orders
+				on (orders.ord_num = purchases.ord_num)
+				full outer join point_policies
+				on (pnp_num = 1)
+				full outer join users
+				on (orders.user_id = users.user_id)
+				full outer join purchase_option
+				on (orders.ord_num = purchase_option.ord_num)
+				join item_option
+				on (purchase_option.opt_name = item_option.opt_name and purchase_option.opt_content = item_option.opt_content)
+				group by users.user_id,purchase_option.god_num,item_option.opt_price,purchase_option.ord_num,purchase_option.opt_content)
+				group by user_id,ord_num,god_num) a
+				full outer join
+				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
+				from users
+				full outer join orders
+				on (orders.user_id = users.user_id)
+				full outer join purchases
+				on (orders.ord_num = purchases.ord_num and orders.ord_type != '교환' and orders.ord_type != '환불' and orders.ord_type != '주문취소')
+				full outer join goods
+				on (purchases.god_num = goods.god_num)
+				full outer join login_logs
+				on (users.user_id = login_logs.user_id)
+				join point_policies
+				on (pnp_num = 1)
+				join delivery_policies
+				on (dvp_num = 1)
+				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
+				having user_state = '탈퇴') b
+				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
+				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
+				having user_id is not null)
+				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level
+				order by user_joindate desc) c
+		        full outer join
+		        (select user_id,scd_date,scdc_code,scd_content
+		        from secede_users) d
 		        on(c.user_id = d.user_id)
 		        where c.user_id is not null
 		        order by user_joindate desc
@@ -110,7 +172,7 @@
 				join delivery_policies
 				on (dvp_num = 1)
 				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
-				having user_state = '가입') b
+				having user_state = #{userState}) b
 				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
 				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
 				having user_id is not null)
@@ -159,6 +221,73 @@
 				and user_mailagreement = #{email}
 				</if>
 				order by user_joindate desc
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+		  	]]>
+	</select>
+	
+	<select id = "getLeaveSearchUsers"  parameterType="page" resultMap = "userMap">
+	 <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(			
+        		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,scd_date,scd_date+90 as duedate,trunc((scd_date+91)-sysdate) as dday,scdc_code,scd_content from(
+        		select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement from(
+				select user_joindate,user_name,user_id,ord_num,
+				(case when sum(price)-usingpoint <  freedeliverymp then sum(price)-usingpoint+basic_fee
+				else sum(price)-usingpoint
+				end) as totalprice
+				,visitcnt,user_mailagreement,user_level from(
+				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level from(
+				(select user_id,ord_num,god_num,sum(opt_price) price from(
+				select users.user_id,purchase_option.god_num,purchase_option.ord_num,item_option.opt_price,purchase_option.opt_content
+				from purchases
+				full outer join goods
+				on (purchases.god_num = goods.god_num)
+				full outer join orders
+				on (orders.ord_num = purchases.ord_num)
+				full outer join point_policies
+				on (pnp_num = 1)
+				full outer join users
+				on (orders.user_id = users.user_id)
+				full outer join purchase_option
+				on (orders.ord_num = purchase_option.ord_num)
+				join item_option
+				on (purchase_option.opt_name = item_option.opt_name and purchase_option.opt_content = item_option.opt_content)
+				group by users.user_id,purchase_option.god_num,item_option.opt_price,purchase_option.ord_num,purchase_option.opt_content)
+				group by user_id,ord_num,god_num) a
+				full outer join
+				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
+				from users
+				full outer join orders
+				on (orders.user_id = users.user_id)
+				full outer join purchases
+				on (orders.ord_num = purchases.ord_num and orders.ord_type != '교환' and orders.ord_type != '환불' and orders.ord_type != '주문취소')
+				full outer join goods
+				on (purchases.god_num = goods.god_num)
+				full outer join login_logs
+				on (users.user_id = login_logs.user_id)
+				join point_policies
+				on (pnp_num = 1)
+				join delivery_policies
+				on (dvp_num = 1)
+				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
+				having user_state = '탈퇴') b
+				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
+				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
+				having user_id is not null)
+				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level
+				order by user_joindate desc) c
+		        full outer join
+		        (select user_id,scd_date,scdc_code,scd_content
+		        from secede_users) d
+		        on(c.user_id = d.user_id)
+		        where c.user_id is not null
+				]]>
+				<if test = "SearchBar == 1" >
+				and (user_name like '%' || #{title} || '%')
+				</if>
+				 order by user_joindate desc
 				<![CDATA[
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
@@ -301,6 +430,12 @@
 		on (clause_categories.cls_num = clauses.cls_num)
 		where user_id = #{userId}
 	</select>
+	  
+	<select id = "getMailForm" parameterType = "string" resultType = "mf">
+		select mail_type mailType,automaticallysend AutomaticallySend,mail_title mailTitle,mail_content mailContent
+		from mailform
+		where mail_type = #{mailType}
+	</select>
 	 
 	<update id = "userStateChange" parameterType = "map">
 		update users
@@ -330,6 +465,21 @@
 		set user_state = '탈퇴'
 		where user_id = #{userId}
 	</update>
+	 
+	<update id = "updateMailForm" parameterType = "mf">
+		update mailform
+		set automaticallysend = #{automaticallySend},mail_title = #{mailTitle},mail_content = #{mailContent}
+		where mail_type = #{mailType}
+	</update>
+	
+	<insert id = "addLeaveUser" parameterType = "map">
+		insert all
+		<foreach item = "ls" collection = "list">
+			into secede_users
+			values(#{ls},sysdate,4,'관리자 지정 탈퇴')
+		</foreach>
+		select 1 from dual
+	</insert>
 	 
 	<insert id = "addPoint" parameterType = "polg">
 		insert all
@@ -435,6 +585,14 @@
 				</if>
 	</insert>
 	 
+	<delete id = "deleteUser" parameterType = "map">
+		delete users
+		where user_id in
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach> 
+	</delete>
+	 
 	<resultMap id = "userMap" type = "user">
 		<id property = "userId" column = "user_id"/>
 		<result property = "userName" column = "user_name" />
@@ -450,5 +608,10 @@
 		<result property = "userVisitCnt" column = "visitcnt" />
 		<result property = "userLatestDate" column = "user_latestdate" />
 		<result property = "purchaseAmount" column = "purchase_amount" />
+		<result property = "scdDate" column = "scd_date" />
+		<result property = "scdcCode" column = "scdc_code" />
+		<result property = "scdContent" column = "scd_content" />
+		<result property = "dueDate" column = "duedate" />
+		<result property = "dDay" column = "dday" />
 	</resultMap>
 </mapper>

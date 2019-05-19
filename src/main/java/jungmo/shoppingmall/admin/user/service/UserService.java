@@ -9,8 +9,11 @@ import jungmo.shoppingmall.user.login.domain.*;
 
 public interface UserService {
 	List<User> getUsers(Page page);
+	List<User> getLeaveUsers(Page page);
 	int userStateChange(HashMap<String,List<String>> map);
+	int addLeaveUser(HashMap<String,List<String>> map);
 	List<User> getSearchUsers(Page page);
+	List<User> getLeaveSearchUsers(Page page);
 	User getUser(String userId);
 	List<Loglog> getLoglog(String userId);
 	List<PurchaseList> getPurl(String userId);
@@ -20,4 +23,7 @@ public interface UserService {
 	int updateUserInfo(User user);
 	int updateUserState(String userId);
 	int SearchAddPoint(Page page);
+	int deleteUser(HashMap<String,List<String>> map);
+	MailForm getMailForm(String mailType);
+	int updateMailForm(MailForm mailForm);
 }

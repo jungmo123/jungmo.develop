@@ -22,8 +22,9 @@
 			names.add(i,values);
 		}
 		session.setAttribute("names", names);
+		System.out.print(clauses);
 	}else{
-		response.sendRedirect("register01");
+		response.sendRedirect("join01");
 	}
 %>
 
@@ -472,6 +473,14 @@ input[type="number"]::-webkit-inner-spin-button {
 				|| /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(value);
 		}
 	);
+	
+	$.validator.addMethod(
+			"idck",
+			function(value,element){
+				return this.optional(element)
+					|| /^[a-zA-Z](?=.{0,28}[0-9])[0-9a-zA-Z]{5,19}$/.test(value);
+			}
+		);
 
 	$(function() {
 			$("#registerForm").validate({
@@ -483,7 +492,10 @@ input[type="number"]::-webkit-inner-spin-button {
 						usernameck : true
 					},
 					userId : {
-						required : true
+						required : true,
+						minlength : 6,
+						maxlength : 20,
+						idck : true
 					},
 					userPwd : {
 						required : true,
@@ -549,6 +561,15 @@ input[type="number"]::-webkit-inner-spin-button {
 					userId : {
 						required : function(){
 							return "아이디를 입력하세요.";
+						},
+						minlength : function(){
+							return "6글자 이상으로 입력하세요."
+						},
+						maxlength : function(){
+							return "20글자 이하로 입력하세요.";
+						},
+						idck : function(){
+							return "첫글자는 영문이여야하며 영문숫자 혼합으로만 입력하세요";
 						}
 					},		
 					email1 : {

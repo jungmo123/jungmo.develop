@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.admin.user.service.*;
 import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.join.service.*;
 import jungmo.shoppingmall.user.login.domain.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class JoinController {
 	@Autowired private JoinService joinService;
+	@Autowired private UserService userService;
 	
 	@RequestMapping("/join01")
 	public String join01(Model model){
@@ -23,8 +26,13 @@ public class JoinController {
 		return "user/join/join01";
 	}
 	
-	@RequestMapping("/join02")
-	public String join02(){
+	@RequestMapping(value="/join02",method=RequestMethod.GET)
+	public String joinG02(){
+		return "redirect:join01";
+	}
+	
+	@RequestMapping(value="/join02",method=RequestMethod.POST)
+	public String joinP02(){
 		return "user/join/join02";
 	}
 	
@@ -37,6 +45,7 @@ public class JoinController {
 	
 	@RequestMapping(value = "/join03",method=RequestMethod.POST)
 	public String joinComplete(HttpServletRequest request,HttpSession session){
+		MailForm mf = userService.getMailForm("회원 가입 완료 메일");
 		List<Map<String,String>> list = (List<Map<String,String>>)session.getAttribute("names");
 		Set set;
 		Iterator iterator;		
@@ -72,9 +81,12 @@ public class JoinController {
 			String key = (String)iterator.next();
 			String value = list.get(i).get(key);
 			joinService.addClsc(new ClauseCategory(Integer.parseInt(key),userId,value));
-			joinService.addJoinPoint(userId);
 		}
-
+		joinService.addJoinPoint(userId);
+		if(mf.getAutomaticallySend().equals("예")){
+			String mailContent = mf.getMailContent().replace("{아이디}", userId);
+			joinService.mailSend(userEmail, mf.getMailTitle(),mailContent);
+		}
 		return "redirect:/";
 	}
 }

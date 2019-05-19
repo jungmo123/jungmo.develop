@@ -18,6 +18,11 @@ public class User {
 	private int userVisitCnt;
 	private Date userLatestDate;
 	private int purchaseAmount;
+	private Date scdDate;
+	private int scdcCode;
+	private String scdContent;
+	private Date dueDate;
+	private int dDay;
 
 	public User() {}
 	
@@ -186,5 +191,45 @@ public class User {
 
 	public void setUserHp(int userHp) {
 		this.userHp = userHp;
+	}
+
+	public Date getScdDate() {
+		return scdDate;
+	}
+
+	public int getScdcCode() {
+		return scdcCode;
+	}
+
+	public String getScdContent() {
+		return scdContent;
+	}
+
+	public void setScdDate(Date scdDate) {
+		this.scdDate = scdDate;
+	}
+
+	public void setScdcCode(int scdcCode) {
+		this.scdcCode = scdcCode;
+	}
+
+	public void setScdContent(String scdContent) {
+		this.scdContent = scdContent;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public int getdDay() {
+		return dDay;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public void setdDay(int dDay) {
+		this.dDay = dDay;
 	}
 }

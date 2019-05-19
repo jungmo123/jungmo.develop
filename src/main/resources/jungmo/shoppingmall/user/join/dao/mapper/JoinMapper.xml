@@ -5,7 +5,7 @@
 	<insert id="addUser" parameterType="user">
 		insert into users
 		values(
-		#{userId},#{userName},#{userPwd},#{userEmail},#{userPhone},#{userPostcode},#{userStreet},#{userDetailArea},1,sysdate,0,#{userMailAgreement},null,'가입'
+		#{userId},#{userName},#{userPwd},#{userEmail},#{userPhone},#{userPostcode},#{userStreet},#{userDetailArea},1,sysdate,#{userMailAgreement},null,'가입'
 		)
 	</insert>
 	
@@ -16,7 +16,7 @@
 	
 	<insert id = "addJoinPoint" parameterType = "string">
 		insert into point_logs(user_id,polg_date,polg_content,polg_change)
-		select #{userId},sysdate,'회원가입 이벤트',joinpoint from point_policies where pnp_num = 1;
+		select #{userId},sysdate,'회원가입 이벤트',joinpoint from point_policies where pnp_num = 1
 	</insert>
 	
 	<select id = "getClauses" resultType = "cls">

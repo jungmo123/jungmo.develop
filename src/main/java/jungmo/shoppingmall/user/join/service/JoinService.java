@@ -11,4 +11,5 @@ public interface JoinService {
 	boolean overlapInjection(String userId); 
 	List<Clause> getClauses();
 	void addJoinPoint(String userId);
+	void mailSend(String userEmail,String mailTitle,String mailContent);
 }
