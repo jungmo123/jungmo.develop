@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 	@Autowired private UserService userService;
 	@Autowired private PageService pageService;
+	private UserSearch us = null;
 	private int index;
 	private int leaveIndex;
 	private String leaveType;
@@ -320,5 +321,67 @@ public class UserController {
 		MailForm mailForm = new MailForm(mailType,auto,mailTitle,mailContent);
 		userService.updateMailForm(mailForm);
 		return "성공";
+	}
+	
+	@RequestMapping("/admin/sms")
+	public String sms(){
+		return "manager/user/sms";
+	}
+	
+	@RequestMapping("/admin/getSmsForm")
+	@ResponseBody
+	public List<SmsForm> getSmsForm(){
+		return userService.getSmsForms();
+	}
+	
+	@RequestMapping("/admin/modifySmsForm")
+	@ResponseBody
+	public List<SmsForm> modifySmsForm(int smsNum,String smsContent,boolean smsAutomaticallySend){
+		System.out.println(smsNum + " "  + smsContent + " " +smsAutomaticallySend);
+		SmsForm sms;
+		if(smsAutomaticallySend == true){
+			sms = new SmsForm(smsNum,smsContent,"예");
+		}else{
+			sms = new SmsForm(smsNum,smsContent,"아니요");
+		}
+		userService.updateSmsForm(sms);
+		return userService.getSmsForms();
+	}
+	
+	@RequestMapping("/admin/bulkMailSending")
+	public String bulkMailSending(){
+		return "manager/user/bulkMailSending";
+	}
+
+	@RequestMapping("/admin/mailSearch")
+	@ResponseBody
+	public List<User> mailSearch(String date1,String date2,String minPrice,String maxPrice,String userLevel,String minSaved,String maxSaved,String mailagreement) throws ParseException{
+		SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd");
+		String date3;
+		if(date1 != "" && date2 != ""){
+			Date Date1 = dt.parse(date1);
+			Date Date2 = dt.parse(date2);
+			int compare = date1.compareTo(date2);
+			if(compare > 0){
+				date3 = sdate;
+				sdate = edate;
+				edate = date3;
+			}			
+		}
+		us = new UserSearch(date1,date2,userLevel,minPrice,maxPrice,minSaved,maxSaved,mailagreement);
+		try{
+			Thread.sleep(100);
+		}catch(InterruptedException e){
+			System.out.println(e.getMessage());
+		}
+		return userService.SearchMailUser(us);
+	}
+	@RequestMapping("/admin/SearchSend")
+	@ResponseBody	
+	public String SearchSend(String mailAddress,String mailTitle,String mailContent,String [] userIdList){
+		  System.out.println(mailAddress + " " + mailTitle + " " +mailContent);
+		  List<String> userId = new ArrayList<>();
+		  List<User> users = userService.SearchMailUser(us);
+		return "ㅎ";
 	}
 }

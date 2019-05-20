@@ -54,4 +54,18 @@ public class JoinServiceImpl implements JoinService{
 		}catch(Exception e){}
 		mailSender.send(message);
 	}
+	
+	@Override
+	public void mailshot(List<String> userEmail,String mailTitle,String mailContent){
+		MimeMessage message = mailSender.createMimeMessage();
+		String txt = mailContent;
+		for(int i = 0 ; i < userEmail.size() ; i++){
+			try{
+				message.addRecipient(RecipientType.TO, new InternetAddress(userEmail.get(i)));
+				message.setSubject(mailTitle);
+				message.setText(txt,"utf-8","html");
+			}catch(Exception e){}
+			mailSender.send(message);			
+		}
+	}
 }

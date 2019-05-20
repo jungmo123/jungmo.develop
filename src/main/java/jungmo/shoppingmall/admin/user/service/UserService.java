@@ -26,4 +26,8 @@ public interface UserService {
 	int deleteUser(HashMap<String,List<String>> map);
 	MailForm getMailForm(String mailType);
 	int updateMailForm(MailForm mailForm);
+	List<SmsForm> getSmsForms();
+	int updateSmsForm(SmsForm sms);
+	SmsForm getSmsForm(int smsNum);
+	List<User> SearchMailUser(UserSearch us);
 }

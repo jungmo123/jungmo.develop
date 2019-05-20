@@ -12,6 +12,7 @@ public class UserSearch {
 	private String maxSaved;
 	private String email;
 	private String userState;
+	private String mailagreement;
 	
 	public UserSearch(){}
 		
@@ -36,6 +37,19 @@ public class UserSearch {
 		this.email = email;
 		this.userState = userState;
 	}
+	
+	public UserSearch(String sdate, String edate, String userLevel,
+			String minPrice, String maxPrice, String minSaved, String maxSaved,String mailagreement) {
+		this.sdate = sdate;
+		this.edate = edate;
+		this.userLevel = userLevel;
+		this.minPrice = minPrice;
+		this.maxPrice = maxPrice;
+		this.minSaved = minSaved;
+		this.maxSaved = maxSaved;
+		this.mailagreement = mailagreement;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -101,5 +115,12 @@ public class UserSearch {
 	}
 	public void setUserState(String userState) {
 		this.userState = userState;
+	}
+
+	public String getMailagreement() {
+		return mailagreement;
+	}
+	public void setMailagreement(String mailagreement) {
+		this.mailagreement = mailagreement;
 	}
 }

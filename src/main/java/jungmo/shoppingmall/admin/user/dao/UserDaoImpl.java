@@ -86,4 +86,20 @@ public class UserDaoImpl implements UserDao{
 	public int updateMailForm(MailForm mailForm){
 		return userMapper.updateMailForm(mailForm);
 	}
+	
+	public List<SmsForm> getSmsForms(){
+		return userMapper.getSmsForms();
+	}
+	
+	public int updateSmsForm(SmsForm sms){
+		return userMapper.updateSmsForm(sms);
+	}
+	
+	public SmsForm getSmsForm(int smsNum){
+		return userMapper.getSmsForm(smsNum);
+	}
+	
+	public List<User> SearchMailUser(UserSearch us){
+		return userMapper.SearchMailUser(us);
+	}
 }

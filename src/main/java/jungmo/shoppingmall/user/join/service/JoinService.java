@@ -12,4 +12,5 @@ public interface JoinService {
 	List<Clause> getClauses();
 	void addJoinPoint(String userId);
 	void mailSend(String userEmail,String mailTitle,String mailContent);
+	void mailshot(List<String> userEmail,String mailTitle,String mailContent);
 }

@@ -9,7 +9,10 @@ import jungmo.shoppingmall.admin.user.service.*;
 import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.join.service.*;
 import jungmo.shoppingmall.user.login.domain.*;
+import net.nurigo.java_sdk.api.*;
+import net.nurigo.java_sdk.exceptions.*;
 
+import org.json.simple.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -19,6 +22,26 @@ import org.springframework.web.bind.annotation.*;
 public class JoinController {
 	@Autowired private JoinService joinService;
 	@Autowired private UserService userService;
+	
+	public void smsSend(String userPhone,String smsContent){
+	    String api_key = "NCSBHPATHFNEH8IA";
+	    String api_secret = "G88XEYAEN8X8UMPDEGZID3HXA4KPB5HX";
+	    Message coolsms = new Message(api_key, api_secret);
+
+	    HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", userPhone);
+	    params.put("from", "01046449858");
+	    params.put("type", "SMS");
+	    params.put("text", smsContent);
+
+	    try {
+	      JSONObject obj = (JSONObject) coolsms.send(params);
+	      System.out.println(obj.toString());
+	    } catch (CoolsmsException e) {
+	      System.out.println(e.getMessage());
+	      System.out.println(e.getCode());
+	    }
+	}
 	
 	@RequestMapping("/join01")
 	public String join01(Model model){
@@ -60,6 +83,7 @@ public class JoinController {
 		String phone1 = request.getParameter("phone1");
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
+		String phone = phone1+phone2+phone3;
 		String userPhone = phone1+"-"+phone2+"-"+phone3;
 		String userPostcode = request.getParameter("userPostcode");
 		String userStreet = request.getParameter("userStreet");
@@ -87,6 +111,8 @@ public class JoinController {
 			String mailContent = mf.getMailContent().replace("{아이디}", userId);
 			joinService.mailSend(userEmail, mf.getMailTitle(),mailContent);
 		}
+		SmsForm sms = userService.getSmsForm(1);
+		//smsSend(phone,sms.getSmsContent());
 		return "redirect:/";
 	}
 }

@@ -38,5 +38,6 @@
 			<typeAlias alias = "polg" type = "jungmo.shoppingmall.admin.user.domain.PointLogs" />
 			<typeAlias alias = "lu" type = "jungmo.shoppingmall.admin.user.domain.LeaveUser" />
 			<typeAlias alias = "mf" type = "jungmo.shoppingmall.admin.user.domain.MailForm" />
+			<typeAlias alias = "sms" type = "jungmo.shoppingmall.admin.user.domain.SmsForm" />
 	</typeAliases>
 </configuration>

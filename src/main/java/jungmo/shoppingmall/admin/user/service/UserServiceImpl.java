@@ -86,4 +86,20 @@ public class UserServiceImpl implements UserService{
 	public int updateMailForm(MailForm mailForm){
 		return userDao.updateMailForm(mailForm);
 	}
+	
+	public List<SmsForm> getSmsForms(){
+		return userDao.getSmsForms();
+	}
+	
+	public int updateSmsForm(SmsForm sms){
+		return userDao.updateSmsForm(sms);
+	}
+	
+	public SmsForm getSmsForm(int smsNum){
+		return userDao.getSmsForm(smsNum);
+	}
+	
+	public List<User> SearchMailUser(UserSearch us){
+		return userDao.SearchMailUser(us);
+	}
 }
