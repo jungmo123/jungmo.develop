@@ -232,11 +232,11 @@
 	}
 	tr td:nth-child(1),
 	tr th:nth-child(1){
-		width:53px;
+		width:45px;
 	}
 	tr td:nth-child(2),
 	tr th:nth-child(2){
-		width:110px;
+		width:80px;
 	}
 	tr td:nth-child(3),
 	tr th:nth-child(3){
@@ -244,25 +244,25 @@
 	}
 	tr td:nth-child(4),
 	tr th:nth-child(4){
-		width:76px;
+		width:90px;
 	}
 	tr td:nth-child(5),
 	tr th:nth-child(5){
-		width:85px;
+		width:40px;
 	}
 	tr td:nth-child(6),
-	tr th:nth-child(6),
-	tr td:nth-child(8),
-	tr th:nth-child(8){
-		width:70px;
+	tr th:nth-child(6){
+		width:170px;
 	}
 	tr td:nth-child(7),
-	tr th:nth-child(7){
-		width:116px;
+	tr th:nth-child(7),
+	tr td:nth-child(8),
+	tr th:nth-child(8){
+		width:90px;
 	}
 	tr td:nth-child(9),
 	tr th:nth-child(9){
-		width:127px;
+		width:40px;
 	}
 	.display-none{
 		display:none;
@@ -283,6 +283,10 @@
         left:50%;
         margin-left: -21px;
         margin-top: -21px;
+    }
+    #table tr td,
+    #table tr th{
+    	font-size:12px;
     }
 </style>
 </head>
@@ -401,8 +405,8 @@
 									<th>가입일</th>
 									<th>이름</th>
 									<th>아이디</th>
-									<th>회원등급</th>
-									<th>방문수</th>
+									<th>등급</th>
+									<th>이메일</th>
 									<th>구매 금액</th>
 									<th>적립금</th>
 									<th>메일</th>
@@ -427,13 +431,13 @@
 	    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 	}
 	
-	
-var userIdList = []
+jQuery.ajaxSettings.traditional = true;
+var userMailList = []
 var getUsers = function(list){
 	$("tbody").text("");
-	userIdList = [];
+	userMailList = [];
 	for(var i = 0 ; i < list.length ; i++){
-		userIdList.push(list[i].userId);
+		userMailList.push(list[i].userEmail);
 		var tr = $("<tr></tr>");
 		var td = $("<td></td>");
 		var td1 = $("<td></td>");
@@ -448,7 +452,8 @@ var getUsers = function(list){
 		var button = $("<button></button>")
 		checkbox.attr({
 			type:"checkbox",
-			"class":list[i].userId
+			"id":list[i].userId,
+			"class":"Check"
 		});
 		td.append(checkbox);
 		tr.append(td);		
@@ -460,7 +465,10 @@ var getUsers = function(list){
 		tr.append(td3);
 		td4.text(list[i].userLevel);
 		tr.append(td4);
-		td5.text(list[i].userVisitCnt);
+		td5.text(list[i].userEmail);
+		td5.attr({
+			"class":"email"
+		})
 		tr.append(td5);
 		td6.text(numberWithCommas(list[i].purchaseAmount)+"원");
 		tr.append(td6);
@@ -530,22 +538,24 @@ $("#Search").click(function(){
 				  timer: 1500
 				});			
 		}else{
-			var mailAddress = $("input[name=emailAddress]").val();
 			var mailTitle = $("input[name=emailTitle]").val();
 			var mailContent = CKEDITOR.instances.WriteContent.getData();
-			jQuery.ajaxSettings.traditional = true;
-			console.log(userIdList);
 		 	 $.ajax({   
 				   type: "POST"  
 				  ,url: "SearchSend"
 				  ,data:{
-					  mailAddress:mailAddress,
 					  mailTitle:mailTitle,
 					  mailContent:mailContent,
-					  userIdList:userIdList
+					  userMailList:userMailList
 				  }
-				  ,success:function(data){
-				   	console.log(data);
+				  ,success:function(){
+						Swal.fire({
+							  position: 'top',
+							  type: 'success',
+							  title: '메일 발송 완료!',
+							  showConfirmButton: false,
+							  timer: 154500
+							});	
 				  }
 				  ,beforeSend:function(){
 				        $('.wrap-loading').removeClass('display-none');
@@ -556,8 +566,55 @@ $("#Search").click(function(){
 				  ,error:function(data){
 				    alert("error");
 				  }
-				  });			
+			});			
 		}
+})
+
+$("#Select").click(function(){
+	var userEmail = $(".Check:checked").parents("tr").find(".email");
+	var SelectList = [];
+	if(userEmail.length == 0){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '회원을 선택하세요!',
+			  showConfirmButton: false,
+			  timer: 154500
+			});			
+	}else{
+		$.each(userEmail,function(index,item){
+			SelectList.push($(item).text());
+		})
+		var mailTitle = $("input[name=emailTitle]").val();
+		var mailContent = CKEDITOR.instances.WriteContent.getData();
+	 	 $.ajax({   
+			   type: "POST"  
+			  ,url: "SelectSend"
+			  ,data:{
+				  mailTitle:mailTitle,
+				  mailContent:mailContent,
+				  SelectList:SelectList
+			  }
+			  ,success:function(){
+					Swal.fire({
+						  position: 'top',
+						  type: 'success',
+						  title: '메일 발송 완료!',
+						  showConfirmButton: false,
+						  timer: 1500
+						});	
+			  }
+			  ,beforeSend:function(){
+			        $('.wrap-loading').removeClass('display-none');
+			  }
+			    ,complete:function(){
+			        $('.wrap-loading').addClass('display-none');
+			    }
+			  ,error:function(data){
+			    alert("error");
+			  }
+		});	
+	}
 })
 </script>
 

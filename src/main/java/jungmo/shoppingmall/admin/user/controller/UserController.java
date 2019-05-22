@@ -1,8 +1,10 @@
 package jungmo.shoppingmall.admin.user.controller;
 
 import java.text.*;
+import java.text.ParseException;
 import java.util.*;
 
+import javax.mail.internet.*;
 import javax.servlet.http.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
@@ -355,7 +357,7 @@ public class UserController {
 
 	@RequestMapping("/admin/mailSearch")
 	@ResponseBody
-	public List<User> mailSearch(String date1,String date2,String minPrice,String maxPrice,String userLevel,String minSaved,String maxSaved,String mailagreement) throws ParseException{
+	public List<User> mailSearch(String date1,String date2,String minPrice,String maxPrice,String userLevel,String minSaved,String maxSaved,String mailagreement) throws AddressException, ParseException{
 		SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd");
 		String date3;
 		if(date1 != "" && date2 != ""){
@@ -378,10 +380,15 @@ public class UserController {
 	}
 	@RequestMapping("/admin/SearchSend")
 	@ResponseBody	
-	public String SearchSend(String mailAddress,String mailTitle,String mailContent,String [] userIdList){
-		  System.out.println(mailAddress + " " + mailTitle + " " +mailContent);
-		  List<String> userId = new ArrayList<>();
-		  List<User> users = userService.SearchMailUser(us);
-		return "ㅎ";
+	public void SearchSend(String mailTitle,String mailContent,String [] userMailList) throws AddressException{
+		  userService.mailshot(userMailList,mailTitle,mailContent);
+		return ;
+	}
+	
+	@RequestMapping("/admin/SelectSend")
+	@ResponseBody	
+	public void SelectSend(String mailTitle,String mailContent,String [] SelectList) throws AddressException{
+		userService.mailshot(SelectList,mailTitle,mailContent);
+		return ;
 	}
 }

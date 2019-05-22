@@ -2,6 +2,8 @@ package jungmo.shoppingmall.admin.user.service;
 
 import java.util.*;
 
+import javax.mail.internet.*;
+
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.join.domain.*;
@@ -30,4 +32,5 @@ public interface UserService {
 	int updateSmsForm(SmsForm sms);
 	SmsForm getSmsForm(int smsNum);
 	List<User> SearchMailUser(UserSearch us);
+	void mailshot(String [] userEmail,String mailTitle,String mailContent) throws AddressException;
 }

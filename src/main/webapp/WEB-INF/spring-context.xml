@@ -31,6 +31,7 @@
 	<mvc:resources location="editor/" mapping="/editor/**" />
 	<mvc:resources location="ckeditor/" mapping="/ckeditor/**" />
 	<mvc:resources location="fileinput/" mapping="/fileinput/**" />
+	<mvc:resources location="bootstrapFileinput/" mapping="/bootstrapFileinput/**" />
 
 	<bean id = "dataSource" class = "org.springframework.jndi.JndiObjectFactoryBean">
 		<property name ="jndiName" value = "java:comp/env/jdbc/jungmo"/>

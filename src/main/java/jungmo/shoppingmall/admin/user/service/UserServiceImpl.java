@@ -2,6 +2,9 @@ package jungmo.shoppingmall.admin.user.service;
 
 import java.util.*;
 
+import javax.mail.*;
+import javax.mail.internet.*;
+
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.dao.*;
 import jungmo.shoppingmall.admin.user.domain.*;
@@ -9,11 +12,13 @@ import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import org.springframework.mail.javamail.*;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService{
 	@Autowired private UserDao userDao;
+	@Autowired private JavaMailSender mailSender;
 	
 	public List<User> getUsers(Page page){
 		return userDao.getUsers(page);
@@ -101,5 +106,21 @@ public class UserServiceImpl implements UserService{
 	
 	public List<User> SearchMailUser(UserSearch us){
 		return userDao.SearchMailUser(us);
+	}
+	
+	@Override
+	public void mailshot(String [] userEmail,String mailTitle,String mailContent) throws AddressException{
+		MimeMessage message = mailSender.createMimeMessage();
+		String txt = mailContent;
+		InternetAddress [] addArray = new InternetAddress[userEmail.length];
+		for(int i = 0 ; i < userEmail.length ; i++){
+				addArray[i] = new InternetAddress(userEmail[i]);
+		}
+		try{
+			message.addRecipients(Message.RecipientType.TO,addArray);
+			message.setSubject(mailTitle);
+			message.setText(txt,"utf-8","html");
+		}catch(Exception e){}
+		mailSender.send(message);			
 	}
 }

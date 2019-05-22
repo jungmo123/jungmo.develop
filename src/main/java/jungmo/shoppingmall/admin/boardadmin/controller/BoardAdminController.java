@@ -567,7 +567,7 @@ public class BoardAdminController {
 		return "redirect:goodsReview" + Type + idx;		
 	}
 	
-	// Event
+	// 이벤트
 	
 	public void event(HttpServletRequest request,Model model,String idx){
 		eventType = "";

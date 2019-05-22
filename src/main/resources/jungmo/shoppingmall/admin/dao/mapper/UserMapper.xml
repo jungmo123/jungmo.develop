@@ -604,14 +604,14 @@
 	
 	<select id = "SearchMailUser" parameterType = "us" resultMap = "userMap">
 		<![CDATA[
-		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,d.point from(
-        	select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement from(
+		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,d.point,user_email from(
+        	select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement,user_email from(
 				select user_joindate,user_name,user_id,ord_num,
 				(case when sum(price)-usingpoint <  freedeliverymp then sum(price)-usingpoint+basic_fee
 				else sum(price)-usingpoint
 				end) as totalprice
-				,visitcnt,user_mailagreement,user_level from(
-				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level from(
+				,visitcnt,user_mailagreement,user_level,user_email from(
+				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level,b.user_email from(
 				(select user_id,ord_num,god_num,sum(opt_price) price from(
 				select users.user_id,purchase_option.god_num,purchase_option.ord_num,item_option.opt_price,purchase_option.opt_content
 				from purchases
@@ -630,7 +630,7 @@
 				group by users.user_id,purchase_option.god_num,item_option.opt_price,purchase_option.ord_num,purchase_option.opt_content)
 				group by user_id,ord_num,god_num) a
 				full outer join
-				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
+				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,user_email,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
 				from users
 				full outer join orders
 				on (orders.user_id = users.user_id)
@@ -644,12 +644,12 @@
 				on (pnp_num = 1)
 				join delivery_policies
 				on (dvp_num = 1)
-				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level
+				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level,user_email
 				having user_state = '가입') b
 				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
-				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level
+				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level,user_email
 				having user_id is not null)
-				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level
+				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level,user_email
 				order by user_joindate desc) c
 		        full outer join
 		        (select user_id,sum(polg_change) point
