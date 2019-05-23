@@ -3,10 +3,38 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.banner.dao.mapper.BannerMapper">
 	<select id = "getBanners" parameterType = "string" resultMap = "bnnMap">
-		select bnn_num,bnn_location,bnn_displaytype,bnn_explainment,bnn_imageurl,bnn_link,bnn_type,bnn_alttext
+		select bnn_num,bnn_location,bnn_displaytype,bnn_explainment,bnn_imageurl,bnn_link,bnn_type
 		from banners
 		where bnn_location = #{bnnLocation}
+		order by bnn_num
+	</select>	
+	 
+	<select id = "getBanner" parameterType = "int" resultMap = "bnnMap">
+		select bnn_num,bnn_location,bnn_displaytype,bnn_explainment,bnn_imageurl,bnn_link,bnn_type
+		from banners
+		where bnn_num = #{bnnNum}
+		order by bnn_num
 	</select>
+	
+	<update id = "updateBanner" parameterType = "banner">
+		update banners
+		set bnn_displaytype = #{bnnDisplayType},bnn_explainment = #{bnnExplainment},
+		bnn_imageurl = #{bnnImageUrl},bnn_link = #{bnnLink},bnn_type=#{bnnType}
+		where bnn_num = #{bnnNum}
+	</update>
+	
+	<insert id = "addBanner" parameterType = "banner" >
+	 <selectKey keyProperty="bnnNum" resultType="int" order="BEFORE">  
+        select banner_seq.nextval FROM dual
+     </selectKey>
+		insert into banners (bnn_num,bnn_location,bnn_displaytype,bnn_explainment,bnn_imageurl,bnn_link,bnn_type)
+		values (#{bnnNum},#{bnnLocation},#{bnnDisplayType},#{bnnExplainment},#{bnnImageUrl},#{bnnLink},#{bnnType})
+	</insert>
+	 
+	<delete id = "deleteBanner" parameterType = "int">
+		delete from banners
+		where bnn_num = #{bnnNum}
+	</delete>
 	
 	<resultMap id = "bnnMap" type = "banner">
 		<id property = "bnnNum" column = "bnn_num" />
@@ -16,6 +44,5 @@
 		<result property = "bnnImageUrl" column = "bnn_imageurl" />
 		<result property = "bnnLink" column = "bnn_link" />
 		<result property = "bnnType" column = "bnn_type" />
-		<result property = "bnnAltText" column = "bnn_alttext" />
 	</resultMap>
 </mapper>

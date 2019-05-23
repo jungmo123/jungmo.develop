@@ -8,20 +8,27 @@ public class Banner {
 	private String bnnImageUrl;
 	private String bnnLink;
 	private String bnnType;
-	private String bnnAltText;
 	
 	public Banner(){}
 	
-	public Banner(int bnnNum, String bnnLocation, String bnnDisplayType,
-			String bnnExplainment, String bnnImageUrl,String bnnLink,String bnnType,String bnnAltText) {
-		this.bnnNum = bnnNum;
+	public Banner(String bnnLocation, String bnnDisplayType,
+			String bnnExplainment, String bnnImageUrl,String bnnLink,String bnnType) {
 		this.bnnLocation = bnnLocation;
 		this.bnnDisplayType = bnnDisplayType;
 		this.bnnExplainment = bnnExplainment;
 		this.bnnImageUrl = bnnImageUrl;
 		this.bnnLink = bnnLink;
 		this.bnnType = bnnType;
-		this.bnnAltText = bnnAltText;
+	}
+	
+	public Banner(int bnnNum, String bnnDisplayType,
+			String bnnExplainment, String bnnImageUrl,String bnnLink,String bnnType) {
+		this.bnnNum = bnnNum;
+		this.bnnDisplayType = bnnDisplayType;
+		this.bnnExplainment = bnnExplainment;
+		this.bnnImageUrl = bnnImageUrl;
+		this.bnnLink = bnnLink;
+		this.bnnType = bnnType;
 	}
 
 	public int getBnnNum() {
@@ -65,11 +72,5 @@ public class Banner {
 	}
 	public void setBnnType(String bnnType) {
 		this.bnnType = bnnType;
-	}
-	public String getBnnAltText() {
-		return bnnAltText;
-	}
-	public void setBnnAltText(String bnnAltText) {
-		this.bnnAltText = bnnAltText;
 	}
 }
