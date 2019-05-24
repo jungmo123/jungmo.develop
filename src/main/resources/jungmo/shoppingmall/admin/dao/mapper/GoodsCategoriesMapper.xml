@@ -5,7 +5,7 @@
 	<select id = "getCategories" resultType = "godc">
 	 	select godc_num godcNum,godc_name godcName,godc_content godcContent
 	 	from goods_categories
-	 	where godc_viewstate = 'visible'
+	 	where godc_viewstate = 'visible' or godc_viewstate = 'allsold'
 	</select>
 	<select id = "getCategory" parameterType = "string" resultType = "godc">
  		select godc_num godcNum,godc_name godcName,godc_content godcContent

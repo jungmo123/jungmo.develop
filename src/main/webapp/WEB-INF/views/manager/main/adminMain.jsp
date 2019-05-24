@@ -79,7 +79,7 @@
 			<div class = "btn-group drop">
 				<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">상품 관리</button>
 				<ul class= "dropdown-menu">
-					<li><a href = "../GOODSADMIN/01.html">상품 등록</a></li>
+					<li><a href = "goodsRegister">상품 등록</a></li>
 					<li><a href = "../GOODSADMIN/04.html">상품 목록</a></li>
 					<li><a href = "../GOODSADMIN/05.html">카테고리 관리</a></li>
 				</ul>

@@ -79,7 +79,6 @@ public class BannerController {
 		String eventType = request.getParameter("eventType");
 		String bnnType = request.getParameter("bannerLink");
 		String bnnLocation = request.getParameter("bnnLocation");
-		System.out.println(linkAddress + " " + bannerExplainment + " " + eventType + " " + bnnType + " "  + bnnLocation);
 		Banner bn = null;
 		Iterator<String> itr = request.getFileNames();
 		if(itr.hasNext()){

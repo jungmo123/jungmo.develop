@@ -36,6 +36,9 @@
 		color:#727272;
 		font-weight:bold;
 	}
+	.dropdown-toggle::after{
+		display:none;
+	}
 	#eventType,#bannerTitle{
 		margin-top:10px;
 		padding:10px;
@@ -319,6 +322,18 @@ function LoadImg(value){
 
 $(document).on("click","#bannerModify",function(){
 	var form = new FormData($(this).parents("#uploadForm")[0]);
+	var linkAddress = $(this).parents("#uploadForm").find("input[name='linkAddress']").val();
+	var bannerExplainment = $(this).parents("#uploadForm").find("input[name='bannerExplainment']").val();
+	if(linkAddress == "" || bannerExplainment == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '모든 값을 입력해주세요!.',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return;
+	}
 	$.ajax({
 		url:"modifyBanner",
 		data:form,
@@ -350,6 +365,18 @@ $(document).on("click","#bannerModify",function(){
 $(document).on("click","#bannerAdd",function(){
 	var formData = new FormData($(this).parents("#uploadForm")[0]);
 	var form = $(this).parents("#uploadForm").find("#imageUrl");
+	var linkAddress = $(this).parents("#uploadForm").find("input[name='linkAddress']").val();
+	var bannerExplainment = $(this).parents("#uploadForm").find("input[name='bannerExplainment']").val();
+	if(linkAddress == "" || bannerExplainment == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '모든 값을 입력해주세요!.',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return;
+	}
 	var saveButton = $(this);
 	var deleteButton = $(this).next();
 	$.ajax({
@@ -384,7 +411,7 @@ $(document).on("click","#bannerAdd",function(){
 			Swal.fire({
 				  position: 'top',
 				  type: 'error',
-				  title: '실패하였습니다.',
+				  title: '모든 값을 입력해주세요!.',
 				  showConfirmButton: false,
 				  timer: 1500
 				});
