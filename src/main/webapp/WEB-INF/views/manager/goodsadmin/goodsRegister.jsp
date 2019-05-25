@@ -316,6 +316,78 @@
 	    padding: 0 !important;
 	    margin: 5px 0px 5px 10px;
 	}
+	#firstTable tr #Goodsintroduce > p{
+		display:block;
+		margin:5px 0px 0px 0px;
+		height:30px;
+		width:670px;
+		text-align:left;
+	}
+	#firstTable tr #option > p{
+		display:block;
+		margin:5px 0px 0px 0px;
+		width:670px;
+		text-align:left;
+	}
+	#Goodsintroduce button{
+		float:left;
+		margin-left:10px;
+		width:45px;
+		height:25px;
+		padding:0;
+	}
+	#option  p > button{
+		margin-left:10px;
+		width:45px;
+		height:25px;
+		padding:0;	
+	}
+	#Goodsintroduce input[type='checkbox'],
+	#option input[type='checkbox']{
+		margin-left:10px;
+	}
+	#Goodsintroduce input[type='text']:nth-child(2){
+		width:100px;
+		margin-left:5px;
+	}
+	#Goodsintroduce input[type='text']:nth-child(3){
+		width:450px;
+		margin-left:5px;
+	}
+	#option > p > span:nth-child(1) > input[type='text']:nth-child(2){
+		width:100px;
+	}
+	#option > p > span:nth-child(1) > input[type='text']:nth-child(3),
+	#option > p > span:not(:nth-child(1)) > input[type='text']:nth-child(1){
+		width:224px;
+	}
+	#option > p > span:nth-child(1) > input[type='number']:nth-child(4),
+	#option > p > span::not(:nth-child(1)) > input[type='number']:nth-child(2){
+		width:160px;
+	}
+	#option > p span:not(:nth-child(1)){
+		margin:10px 0px 0px 128px;
+	}
+	#option > p span input{
+		margin-bottom:5px;
+	}
+	#option > p span input[type='text'],
+	#option > p span input[type='number']{
+		margin-left:5px;
+	}
+	#option > p span button{
+		width:65px;
+		height:25px;
+		padding:0;
+		border-radius:5px;
+		position:relative;
+		bottom:3px;
+	}
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	    margin: 0;
+	}
 </style>
 <body>
 
@@ -345,7 +417,8 @@
 				<p id = "menuName">Product Managament</p>
 				<p id = "currentIdx">&#124; 상품 관리 > 상품 등록</p>
 			</div>
-			<form>
+			<form id = "GoodsForm">
+				<input type= "text" id = "Test" style="display:none" />
 				<div id = "apply">
 					<div id = "stateInfo">
 						<strong>상품 정보 입력</strong>
@@ -379,6 +452,28 @@
 									<span><input id = "godStock" type = "number" name = "godStock">개</span>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<strong>상품 정보</strong>
+								</td>
+								<td id = "Goodsintroduce" colspan = "5">
+									<p>
+										<button id = "addIntroduce"  type=  "button" class = "btn btn-default">추가</button>
+										<button id = "deleteIntroduce" type=  "button" class = "btn btn-default">삭제</button>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>상품 옵션</strong>
+								</td>
+								<td id = "option" colspan = "5">
+									<p>
+										<button id = "addOption"  type=  "button" class = "btn btn-default">추가</button>
+										<button id = "deleteOption" type=  "button" class = "btn btn-default">삭제</button>
+									</p>
+								</td>
+							</tr>
 						</table>
 					</div>
 				</div>
@@ -394,7 +489,7 @@
 									<div>
 										<strong>목록 이미지</strong>
 										<br>
-										<strong>000*000</strong>
+										<strong>331*421</strong>
 									</div>
 								</td>
 								<td>
@@ -409,25 +504,25 @@
 									<div>
 										<strong>상품 대표 이미지</strong>
 										<br>
-										<strong>000*000</strong>
+										<strong>500*466</strong>
 									</div>
 								</td>
 								<td>
 									<div class = "custom-file">
 										<input id = "check" type = "text" style = "display:none"/>
-										<input id = "repreImg1" type = "file" name = "repreImg1" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "repreImg1" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 									<div class = "custom-file">
-										<input id = "repreImg2" type = "file" name = "repreImg2" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "repreImg2" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 									<div class = "custom-file">
-										<input id = "repreImg3" type = "file" name = "repreImg3" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "repreImg3" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 									<div class = "custom-file">
-										<input id = "repreImg4" type = "file" name = "repreImg4" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "repreImg4" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 								</td>
@@ -437,7 +532,7 @@
 									<div>
 										<strong>메인 노출 이미지</strong>
 										<br>
-										<strong>000*000</strong>
+										<strong>651*556</strong>
 									</div>
 								</td>
 								<td>
@@ -509,7 +604,14 @@ CKEDITOR.config.language = 'ko';
 
 $("input[type='file']").change(function(){
 	var ext = $(this).val().split(".").pop().toLowerCase();
-	var input = $(this);
+	var file = this.files[0];
+	var _URL = window.URL || window.webkitURL;
+	var img = new Image();
+	var input = $(this).prop("id");
+	var name = $(this).prop("name");
+	var repre = "input[name='" + name + "']";
+	
+	img.src = _URL.createObjectURL(file);
 	if($.inArray(ext,["gif","jpg","jpeg","png"]) == -1){
 		Swal.fire({
 			  position: 'top',
@@ -533,32 +635,59 @@ $("input[type='file']").change(function(){
 			  timer: 1500
 			});
 		$(this).val("");
+		return;
 	}
-})
-
-$("#Indeximg").change(function(){
-	var file = this.files[0];
-	var _URL = window.URL || window.webkitURL;
-	var img = new Image();
-	
-	img.src = _URL.createObjectURL(file);
-	img.onload = function(){
-		if(img.width > 500 || img.height > 470){
-			Swal.fire({
-				  position: 'top',
-				  type: 'error',
-				  title: '500*470 이하 이미지만 가능합니다',
-				  showConfirmButton: false,
-				  timer: 1500
-				});
-			$("#check").val("바보");
-		}
+	if(input == "Indeximg"){
+		img.onload = function(){
+			if(img.width != 331 || img.height != 421){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '331*421 이미지만 가능합니다',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				$("#Indeximg").val("");
+				$("#Indeximg").next().text("");
+				return;
+			}
+		}		
+	}else if(input == "repreImg"){
+		img.onload = function(){
+			if(img.width != 500 || img.height != 466){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '500*466 이미지만 가능합니다',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				$(repre).val("");
+				$(repre).next().text("");
+				return;
+			}
+		}		
+	}else if(input == "mainimg"){
+		img.onload = function(){
+			if(img.width != 651 || img.height != 556){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '651*556 이하 이미지만 가능합니다',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				$("#mainimg").val("");
+				$("#mainimg").next().text("");
+				return;
+			}
+		}		
 	}
-	console.log($("#check").val());
 })
 
 $("#register").click(function(){
 	var text = "";
+	var introvalue;
 	var category = $("#CategorySelect").val();
 	var product = $("#productName").val();
 	var normalPrice = $("#normalPrice").val();
@@ -566,13 +695,40 @@ $("#register").click(function(){
 	var godStock = $("#godStock").val();
 	var introduce = $("#introduce").val();
 	var indeximg = $("#Indeximg").val();
-	var repreImg1 = $("#repreImg1").val();
-	var repreImg2 = $("#repreImg2").val();
-	var repreImg3 = $("#repreImg3").val();
-	var repreImg4 = $("#repreImg4").val();
+	var repreImg1 = $("input[name='repreImg1']").val();
+	var repreImg2 = $("input[name='repreImg2']").val();
+	var repreImg3 = $("input[name='repreImg3']").val();
+	var repreImg4 = $("input[name='repreImg4']").val();
 	var mainImg = $("#mainimg").val();
 	var WriteContent = CKEDITOR.instances.WriteContent.getData();
 	var productState = $("#ProductState").find("input[type='radio']:checked");
+	var infoList = [];
+	var optionList = [];
+	var data = {};
+	var goodsInfo = $("#Goodsintroduce").find("p:not(:nth-child(1))");
+	var goodsOption = $("#option").find("p:not(:nth-child(1))");
+	$.each(goodsInfo,function(index,item){
+		if($(item).find("input[name='goodsName']").val() == "" || $(item).find("input[name='goodsIntroduce']").val() == ""){
+			introvalue = "";
+		}else{
+			var a = $(item).find("input[name='goodsName']").val();
+			var b = $(item).find("input[name='goodsIntroduce']").val();
+			var result = a.concat(",",b);
+			infoList.push(result);
+		}
+	})
+	$.each(goodsOption,function(index,item){
+		var optionName = "";
+		$.each($(item).find("span"),function(index,item){
+			if(index == 0){
+				optionName = $(item).find("input[name='goodsOptionName']").val();
+			}
+			var a = $(item).find("input[name='goodsOptionIntroduce']").val();
+			var b = $(item).find("input[name='goodsOptionPrice']").val();
+			var result = optionName.concat(",",a,",",b);
+			optionList.push(result);
+		})
+	})
 	
 	if(category == "0"){
 		text = "카테고리를 선택하세요!";
@@ -584,11 +740,12 @@ $("#register").click(function(){
 		text = "정상 가격을 입력하세요!";
 	}else if(godStock == ""){
 		text = "최대 구매 개수를 입력하세요!";
+	}else if(introvalue == ""){
+		text = "상품 정보를 입력하세요!";
 	}else if(introduce == ""){
 		text = "상품 소개글을 입력하세요!";
 	}else if(!indeximg){
 			text = "목록 이미지를 선택 하세요!";
-
 	}else if(!repreImg1 && !repreImg2 && !repreImg3 && !repreImg4){
 		text = "대표 이미지를 하나 이상 선택 하세요!";
 	}else if(!mainImg){
@@ -598,8 +755,137 @@ $("#register").click(function(){
 	}else if(productState.length == 0){
 		text = "상품 노출 여부를 선택하세요!";
 	}
-	
-	console.log(text);
+		var formData = new FormData($("#GoodsForm")[0]);
+		$("Text").val(optionList);
+		console.log($("Text").val());
+		$.ajax({
+			url:"addGoods",
+			data: formData,
+			processData:false,
+			contentType:false,
+			type:'POST',
+			success:function(data){
+				$.ajax({
+					url:"addGoodsInfo",
+					method:"post",
+					data:{
+						list:optionList
+					},
+					success:function(data){
+						console.log("성공");
+					}
+				})
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '실패하였습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+			}
+		})		
+})
+
+$("#addIntroduce").click(function(){
+	var td = $(this).parents("td");
+	var length = $(this).parents("td").find("p").length;
+	if(length < 5){
+		var p = $("<p></p>");
+		p.append($("<input type = 'checkbox'>"));
+		p.append($("<input type = 'text' name = 'goodsName' placeholder = '항목명'>"));
+		p.append($("<input type = 'text' name = 'goodsIntroduce' placeholder ='설명'>"));
+		td.append(p);		
+	}else{
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '최대 4개까지만 등록이 가능합니다!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+	}
+})
+
+$("#addOption").click(function(){
+	var td = $(this).parents("td");
+	var length = $(this).parents("td").find("p").length;
+	if(length < 4){
+		var p = $("<p></p>");
+		var span1 = $("<span></span>");
+		var span2 = $("<span></span>");
+		span1.append($("<input type = 'checkbox'>"));
+		span1.append($("<input type = 'text' name = 'goodsOptionName' placeholder = '옵션명'>"));
+		span1.append($("<input type = 'text' name = 'goodsOptionIntroduce' placeholder = '설명'>"));
+		span1.append($("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>"));
+		span1.append($("<button id = 'optionAdd' type = 'button' class = 'btn btn-default'>항목 추가</button>"));
+		span2.append($("<input type = 'text' name = 'goodsOptionIntroduce' placeholder = '설명'>"));
+		span2.append($("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>"));
+		span2.append($("<button id = 'optionDelete' type = 'button' class = 'btn btn-default'>항목 삭제</button>"));
+		p.append(span1);
+		p.append(span2);
+		td.append(p);		
+	}else{
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '최대 3개까지만 등록이 가능합니다!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+	}
+})
+
+$("#deleteIntroduce").click(function(){
+	var checkbox = $(this).parents("td").find("input[type='checkbox']:checked");
+	for(var i = 0 ; i < checkbox.length ; i++){
+		$(checkbox[i]).parents("p").remove();
+	}
+})
+
+$("#deleteOption").click(function(){
+	var checkbox = $(this).parents("td").find("input[type='checkbox']:checked");
+	for(var i = 0 ; i < checkbox.length ; i++){
+		$(checkbox[i]).parents("p").remove();
+	}
+})
+
+$(document).on("click","#optionAdd",function(){
+	var td = $(this).parents("p");
+	var span = $("<span></span>");
+	span.append($("<input type = 'text' name = 'goodsOptionIntroduce' placeholder = '설명'>"));
+	span.append($("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>"));
+	td.append(span);
+})
+
+$(document).on("click","#optionDelete",function(){
+	var td = $(this).parents("p").find("span");
+	if(td.length > 2){
+		$(td[td.length-1]).remove();
+	}else{
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '옵션은 최소 2개 이상 있어야합니다!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});		
+	}
+})
+
+$("#introduce").keyup(function(){
+	var content = $(this).val();
+	if(content.length > 20){
+		$("#introduce").val(content.substring(0,20));
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '20자 이내로 입력하세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});		
+	}
 })
 </script>
 
