@@ -67,13 +67,10 @@
 	</select> 
 	
 	<select id = "getGodo" parameterType = "java.util.Map" resultMap = "godoMap">
-		select ord_num,god_num,purchase_option.opt_name,purchase_option.opt_content,opt_price
+		select ord_num,god_num,opt_name,opt_content,opt_price
 		from purchase_option
-		join item_option
-		on (purchase_option.opt_name = item_option.opt_name)
-		and (purchase_option.opt_content = item_option.opt_content)
 		where ord_num = #{ordNum}
-		order by purchase_option.ord_num
+		order by ord_num
 	</select>
 	
 	<select id = "getSm" parameterType = "int" resultType = "sm">

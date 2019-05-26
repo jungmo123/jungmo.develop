@@ -1,12 +1,13 @@
 package jungmo.shoppingmall.admin.order.domain;
 
+
 public class GoodsOption {
 	private String ordNum;
 	private int godNum;
 	private String optName;
 	private String optContent;
 	private String optPrice;
-	
+
 	public String getOrdNum() {
 		return ordNum;
 	}

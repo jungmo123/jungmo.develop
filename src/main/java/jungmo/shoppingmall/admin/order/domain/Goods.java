@@ -19,8 +19,29 @@ public class Goods {
 	private int godViewPoint;
 	private int godcNum;
 	private int godAmount;
+	private String godDetailInfo;
+	private String memo;
 	private GoodsCategories godc;
 	
+	public Goods(){}
+	 
+	public Goods(int godNormalPrice, int godSellingPrice,
+			String godMainImageUrl, String godListImageUrl, int godStock,
+			int godSellingLimit, String godName, String godDisplayType,
+			int godcNum, String godDetailInfo, String memo) {
+		this.godNormalPrice = godNormalPrice;
+		this.godSellingPrice = godSellingPrice;
+		this.godMainImageUrl = godMainImageUrl;
+		this.godListImageUrl = godListImageUrl;
+		this.godStock = godStock;
+		this.godSellingLimit = godSellingLimit;
+		this.godName = godName;
+		this.godDisplayType = godDisplayType;
+		this.godcNum = godcNum;
+		this.godDetailInfo = godDetailInfo;
+		this.memo = memo;
+	}
+
 	public int getOrdNum() {
 		return ordNum;
 	}
@@ -110,5 +131,17 @@ public class Goods {
 	}
 	public void setGodc(GoodsCategories godc) {
 		this.godc = godc;
+	}
+	public String getMemo() {
+		return memo;
+	}
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+	public String getGodDetailInfo() {
+		return godDetailInfo;
+	}
+	public void setGodDetailInfo(String godDetailInfo) {
+		this.godDetailInfo = godDetailInfo;
 	}
 }

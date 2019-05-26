@@ -83,7 +83,7 @@
 		margin-left:30px;
 	}
 	#firstTable tr:nth-child(2) td input[type='number']{
-		width:40px;
+		width:100px;
 		margin-right:5px;
 	}
 	#firstTable tr:nth-child(3) td input[type='number']{
@@ -418,11 +418,11 @@
 				<p id = "currentIdx">&#124; 상품 관리 > 상품 등록</p>
 			</div>
 			<form id = "GoodsForm">
-				<input type= "text" id = "Test" style="display:none" />
+				<input type="text" id = "Test" name = "text" style="display:none" />
 				<div id = "apply">
 					<div id = "stateInfo">
 						<strong>상품 정보 입력</strong>
-						<select id = "CategorySelect">
+						<select id = "CategorySelect" name = "category">
 							<option value = "0">카테고리 선택</option>
 							<c:forEach var = "category" items = "${categories}" varStatus = "state">
 								<option value = "${category.godcNum}">${category.godcName}</option>
@@ -445,18 +445,26 @@
 								<td>
 									<span><input id = "normalPrice" type = "number" name = "normalPrice">원</span>
 								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>재고</strong>
+								</td>
+								<td>
+									<span><input id = "godStock" type = "number" name = "godStock">개</span>
+								</td>
 								<td>
 									<strong>최대 구매 개수</strong>
 								</td>
 								<td>
-									<span><input id = "godStock" type = "number" name = "godStock">개</span>
+									<span><input id = "godSellingLimit" type = "number" name = "godSellingLimit">개</span>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<strong>상품 정보</strong>
 								</td>
-								<td id = "Goodsintroduce" colspan = "5">
+								<td id = "Goodsintroduce" colspan = "3">
 									<p>
 										<button id = "addIntroduce"  type=  "button" class = "btn btn-default">추가</button>
 										<button id = "deleteIntroduce" type=  "button" class = "btn btn-default">삭제</button>
@@ -480,7 +488,7 @@
 				<div id = "productIntroduce">
 					<strong>상품 소개글</strong>
 					<div id = "introduceTitle">
-						<input id = "introduce" class = "form-control" type = "text" name = "itTitle" placeholder = "20자 이내로 소개글을 입력하세요 "/>
+						<input id = "introduce" class = "form-control" type = "text" name = ProductIntroduce placeholder = "20자 이내로 소개글을 입력하세요 "/>
 					</div>
 					<div id = "introduceContent">
 						<table id = "secondTable">
@@ -567,17 +575,17 @@
 					<div id = "ProductMemo">
 						<strong>상품 메모 입력</strong>
 						<div>
-							<textarea id = "memo"></textarea>				
+							<textarea id = "memo" name = "memo"></textarea>				
 						</div>				
 					</div>
 				</div>
 				<div id = "ProductState">
 					<strong>상품 노출 여부 : </strong>
-					<input type="radio" name="productstate" id="visible">
+					<input type="radio" name="productstate" id="visible" value = "visible">
 					<label for="visible">진열</label>
-					<input type="radio" name="productstate" id=invisible>
+					<input type="radio" name="productstate" id=invisible value = "invisible">
 					<label for="invisible">숨김</label>
-					<input type="radio" name="productstate" id=allsold>
+					<input type="radio" name="productstate" id=allsold value = "allsold">
 					<label for="allsold">품절</label>				
 				</div>
 				<div id = "buttonGroup">
@@ -692,6 +700,7 @@ $("#register").click(function(){
 	var product = $("#productName").val();
 	var normalPrice = $("#normalPrice").val();
 	var sellingPrice = $("#sellingPrice").val();
+	var godSellingLimit = $("#godSellingLimit").val();
 	var godStock = $("#godStock").val();
 	var introduce = $("#introduce").val();
 	var indeximg = $("#Indeximg").val();
@@ -704,7 +713,6 @@ $("#register").click(function(){
 	var productState = $("#ProductState").find("input[type='radio']:checked");
 	var infoList = [];
 	var optionList = [];
-	var data = {};
 	var goodsInfo = $("#Goodsintroduce").find("p:not(:nth-child(1))");
 	var goodsOption = $("#option").find("p:not(:nth-child(1))");
 	$.each(goodsInfo,function(index,item){
@@ -755,9 +763,16 @@ $("#register").click(function(){
 	}else if(productState.length == 0){
 		text = "상품 노출 여부를 선택하세요!";
 	}
+	if(infoList == ""){
+		infoList.push("");
+	}
+	if(optionList == ""){
+		optionList.push("");
+	}
 		var formData = new FormData($("#GoodsForm")[0]);
-		$("Text").val(optionList);
-		console.log($("Text").val());
+		formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
+		formData.append('optionList',optionList);
+		formData.append('infoList',infoList);
 		$.ajax({
 			url:"addGoods",
 			data: formData,
@@ -765,16 +780,7 @@ $("#register").click(function(){
 			contentType:false,
 			type:'POST',
 			success:function(data){
-				$.ajax({
-					url:"addGoodsInfo",
-					method:"post",
-					data:{
-						list:optionList
-					},
-					success:function(data){
-						console.log("성공");
-					}
-				})
+				console.log("성공");
 			},
 			error:function(a,b,errMsg){
 				Swal.fire({
