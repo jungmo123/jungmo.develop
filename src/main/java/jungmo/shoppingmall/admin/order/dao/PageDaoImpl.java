@@ -1,5 +1,6 @@
 package jungmo.shoppingmall.admin.order.dao;
 
+import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.order.dao.mapper.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
@@ -99,5 +100,13 @@ public class PageDaoImpl implements PageDao{
 	
 	public int getLeaveUserSearchTotRowCnt(UserSearch us){
 		return pageMapper.getLeaveUserSearchTotRowCnt(us);
+	}
+	
+	public int getGoodsTotRowCnt(){
+		return pageMapper.getGoodsTotRowCnt();
+	}
+	
+	public int getGoodsSearchTotRowCnt(GoodsSearch gs){
+		return pageMapper.getGoodsSearchTotRowCnt(gs);
 	}
 }

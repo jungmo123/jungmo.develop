@@ -2,6 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.goodsadmin.dao.mapper.GoodsAdminMapper">
+	<select id = "getGoods" parameterType = "page" resultMap = "godMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+				select god_num,god_name,god_normalprice,god_sellingprice,god_displaytype,god_regdate,god_viewpoint,godc_name
+				from goods
+				join goods_categories
+				on (goods.godc_num = goods_categories.godc_num)
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getGoodsSearch" parameterType = "page" resultMap = "godMap">
+		  select * from(
+		  	select rownum as rnum, x.* from(				
+				select god_num,god_name,god_normalprice,god_sellingprice,god_displaytype,god_regdate,god_viewpoint,goods.godc_num,godc_name
+				from goods
+				join goods_categories
+				on (goods.godc_num = goods_categories.godc_num)
+				where
+				<if test = "SearchBar == 1" >
+				(god_name like '%' || #{title} || '%')
+				</if>
+				<if test = "sdate !='' " >
+				<![CDATA[
+					and god_regdate > to_date(#{sdate},'YYYY-MM-DD')
+					and god_regdate < to_date(#{edate},'YYYY-MM-DD')
+					]]>
+				</if>
+				<if test = "category != 0">
+				and goods.godc_num = #{category}
+				</if>
+				<if test = "minPrice != ''">
+				<![CDATA[
+				and god_sellingprice > #{minPrice}
+				]]>
+				</if>
+				<if test = "maxPrice != ''">
+				<![CDATA[
+				and god_sellingprice < #{maxPrice}
+				]]>
+				</if>
+				<if test = "displayType != ''">
+				and god_displaytype = #{displayType}
+				</if>
+				order by god_num desc
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+		  	]]>
+	</select>
+	
 	<insert id = "insertGoods" parameterType = "god">
 	 <selectKey keyProperty="godNum" resultType="int" order="BEFORE">  
         select god_seq.nextval FROM dual
@@ -20,4 +73,38 @@
 		</foreach>
 		select * from dual
 	</insert>
+	 
+	<insert id = "insertGoodsOption" parameterType = "map">
+		insert all
+			<foreach item="list" collection = "ol">
+				into goods_option
+				values(#{list.godNum},#{list.optName},#{list.optContent},#{list.optPrice})		
+			</foreach>
+		select * from dual
+	</insert>
+	 
+	<insert id = "insertGoodsIntroduce" parameterType = "map">
+		insert all
+			<foreach item="list" collection = "gi">
+				into intros
+				values(#{list.godNum},#{list.itrName},#{list.itrContent})
+			</foreach>
+		select * from dual
+	</insert> 
+	
+	<delete id = "deleteGoods" parameterType = "int">
+		delete from goods
+		where god_num = #{godNum}
+	</delete>
+	 
+	<resultMap id = "godMap" type = "god">
+		<id property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godDisplayType" column = "god_displaytype" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godNormalPrice' column = "god_normalprice" />
+		<result property = 'godViewPoint' column = "god_viewpoint" />
+		<result property = "godRegDate" column = "god_regdate" />
+	</resultMap> 
 </mapper>

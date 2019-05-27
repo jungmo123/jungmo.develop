@@ -406,7 +406,7 @@
 			</div>
 			<div id="submenu">
 				<a href="goodsRegister" class = "activeMenu"><span>상품 등록</span></a> 
-				<a href="goodsIndex"><span>상품 목록</span></a> 
+				<a href="goodsList"><span>상품 목록</span></a> 
 				<a href="categoryManagement"><span>카테고리 관리</span></a>
 			</div>
 		</div>
@@ -581,11 +581,11 @@
 				</div>
 				<div id = "ProductState">
 					<strong>상품 노출 여부 : </strong>
-					<input type="radio" name="productstate" id="visible" value = "visible">
+					<input type="radio" name="productstate" id="visible" value = "진열">
 					<label for="visible">진열</label>
-					<input type="radio" name="productstate" id=invisible value = "invisible">
+					<input type="radio" name="productstate" id=invisible value = "숨김">
 					<label for="invisible">숨김</label>
-					<input type="radio" name="productstate" id=allsold value = "allsold">
+					<input type="radio" name="productstate" id=allsold value = "품절">
 					<label for="allsold">품절</label>				
 				</div>
 				<div id = "buttonGroup">
@@ -742,9 +742,9 @@ $("#register").click(function(){
 		text = "카테고리를 선택하세요!";
 	}else if(product == ""){
 		text = "상품명을 입력하세요!";
-	}else if(normalPrice == ""){
-		text = "판매 가격을 입력하세요!";
 	}else if(sellingPrice == ""){
+		text = "판매 가격을 입력하세요!";
+	}else if(normalPrice == ""){
 		text = "정상 가격을 입력하세요!";
 	}else if(godStock == ""){
 		text = "최대 구매 개수를 입력하세요!";
@@ -769,29 +769,55 @@ $("#register").click(function(){
 	if(optionList == ""){
 		optionList.push("");
 	}
-		var formData = new FormData($("#GoodsForm")[0]);
-		formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
-		formData.append('optionList',optionList);
-		formData.append('infoList',infoList);
-		$.ajax({
-			url:"addGoods",
-			data: formData,
-			processData:false,
-			contentType:false,
-			type:'POST',
-			success:function(data){
-				console.log("성공");
-			},
-			error:function(a,b,errMsg){
-				Swal.fire({
-					  position: 'top',
-					  type: 'error',
-					  title: '실패하였습니다.',
-					  showConfirmButton: false,
-					  timer: 1500
-					});
-			}
-		})		
+		if(text == ""){
+			var formData = new FormData($("#GoodsForm")[0]);
+			formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
+			formData.append('optionList',optionList);
+			formData.append('infoList',infoList);
+			$.ajax({
+				url:"addGoods",
+				data: formData,
+				processData:false,
+				contentType:false,
+				type:'POST',
+				success:function(data){
+					if(data == "Gioverlap"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '상품 정보에 중복된 값을 입력했습니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});					
+					}else if(data == "Gooverlap"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '상품 옵션에 중복된 값을 입력했습니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});						
+					}
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '실패하였습니다.',
+						  showConfirmButton: false,
+						  timer: 1500
+						});
+				}
+			})			
+		}else{
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: text,
+				  showConfirmButton: false,
+				  timer: 1500
+				});			
+		}
 })
 
 $("#addIntroduce").click(function(){

@@ -18,6 +18,7 @@ public class Goods {
 	private Date godRegDate;
 	private int godViewPoint;
 	private int godcNum;
+	private String godcName;
 	private int godAmount;
 	private String godDetailInfo;
 	private String memo;
@@ -143,5 +144,11 @@ public class Goods {
 	}
 	public void setGodDetailInfo(String godDetailInfo) {
 		this.godDetailInfo = godDetailInfo;
+	}
+	public String getGodcName() {
+		return godcName;
+	}
+	public void setGodcName(String godcName) {
+		this.godcName = godcName;
 	}
 }

@@ -34,6 +34,8 @@ public class Page {
 	private String polgContent;
 	private int polgChange;
 	private String userState;
+	private String category;
+	private String displayType;
 	
 	public Page(){
 		this(1,5);
@@ -77,6 +79,21 @@ public class Page {
 		this.minSaved = minSaved;
 		this.maxSaved = maxSaved;
 		this.email = email;
+	}
+
+	public Page(int currentPage, String searchBar, String title , String sdate, String edate,
+			String minPrice, String maxPrice, String category,
+			String displayType) {
+		this.rowCnt = 5;
+		this.currentPage = currentPage;
+		this.title = title;
+		SearchBar = searchBar;
+		this.sdate = sdate;
+		this.edate = edate;
+		this.minPrice = minPrice;
+		this.maxPrice = maxPrice;
+		this.category = category;
+		this.displayType = displayType;
 	}
 
 	public Page(int currentPage){

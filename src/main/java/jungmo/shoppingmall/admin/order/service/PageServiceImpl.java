@@ -1,5 +1,6 @@
 package jungmo.shoppingmall.admin.order.service;
 
+import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.order.dao.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
@@ -116,6 +117,14 @@ public class PageServiceImpl implements PageService{
 	
 	public int getLeaveUserSearchTotRowCnt(UserSearch us){
 		return pageDao.getLeaveUserSearchTotRowCnt(us);
+	}
+	
+	public int getGoodsTotRowCnt(){
+		return pageDao.getGoodsTotRowCnt();
+	}
+	
+	public int getGoodsSearchTotRowCnt(GoodsSearch gs){
+		return pageDao.getGoodsSearchTotRowCnt(gs);
 	}
 	
 	private void init(){

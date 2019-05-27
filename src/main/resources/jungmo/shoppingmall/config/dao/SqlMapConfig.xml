@@ -40,5 +40,6 @@
 			<typeAlias alias = "mf" type = "jungmo.shoppingmall.admin.user.domain.MailForm" />
 			<typeAlias alias = "sms" type = "jungmo.shoppingmall.admin.user.domain.SmsForm" />
 			<typeAlias alias = "banner" type = "jungmo.shoppingmall.admin.banner.domain.Banner" />
+			<typeAlias alias = "gs" type = "jungmo.shoppingmall.admin.goodsadmin.domain.GoodsSearch" />
 	</typeAliases>
 </configuration>

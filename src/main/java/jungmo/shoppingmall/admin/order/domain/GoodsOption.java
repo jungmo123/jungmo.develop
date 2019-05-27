@@ -7,6 +7,16 @@ public class GoodsOption {
 	private String optName;
 	private String optContent;
 	private String optPrice;
+	
+	public GoodsOption(){}
+	
+	public GoodsOption(int godNum, String optName,
+			String optContent, String optPrice) {
+		this.godNum = godNum;
+		this.optName = optName;
+		this.optContent = optContent;
+		this.optPrice = optPrice;
+	}
 
 	public String getOrdNum() {
 		return ordNum;

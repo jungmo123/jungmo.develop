@@ -1,5 +1,6 @@
 package jungmo.shoppingmall.admin.order.service;
 
+import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 
@@ -34,4 +35,6 @@ public interface PageService {
 	int getUserTotRowCnt(String userState);
 	int getUserSearchTotRowCnt(UserSearch us);
 	int getLeaveUserSearchTotRowCnt(UserSearch us);
+	int getGoodsTotRowCnt();
+	int getGoodsSearchTotRowCnt(GoodsSearch gs);
 }
