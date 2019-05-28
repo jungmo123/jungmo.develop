@@ -15,6 +15,20 @@
 			]]>
 	</select>
 	
+	<select id = "selectGoods" parameterType = "int" resultMap = "godMap">
+			select god_num,god_name,god_normalprice,god_sellingprice,god_stock,god_displaytype,god_regdate,god_viewpoint,godc_name,god_detailinfo,god_intro,god_memo,god_sellinglimit,god_listimageurl,god_mainimageurl
+			from goods
+			join goods_categories
+			on (goods.godc_num = goods_categories.godc_num)
+			where god_num = #{godNum}
+	</select>
+	
+	<select id = "selectSubImg" parameterType = "int" resultType = "gsi">
+		select subimageurl subImageUrl,god_num godNum,imgnum,imgNum
+		from goods_sub_images
+		where god_num = #{godNum}
+	</select>
+	
 	<select id = "getGoodsSearch" parameterType = "page" resultMap = "godMap">
 		  select * from(
 		  	select rownum as rnum, x.* from(				
@@ -55,12 +69,30 @@
 		  	]]>
 	</select>
 	
+	<select id = "selectGodcList" parameterType = "int" resultMap = "godoMap">
+		select distinct god_num,opt_name
+		from goods_option
+		where god_num = #{godNum}
+	</select>
+	
+	<select id = "selectGodc" parameterType = "map" resultMap = "godoMap">
+		select opt_content,opt_price
+		from goods_option
+		where god_num = #{godNum} and opt_name = #{optName}
+	</select>
+	 
+	<select id= "selectGodI" parameterType = "int" resultType = "gi">
+		select itr_name itrName,itr_content itrContent
+		from intros
+		where god_num = #{godNum}
+	</select>
+	
 	<insert id = "insertGoods" parameterType = "god">
 	 <selectKey keyProperty="godNum" resultType="int" order="BEFORE">  
         select god_seq.nextval FROM dual
      </selectKey>
 		insert into goods
-		values(#{godNum},#{godNormalPrice},#{godSellingPrice},#{godMainImageUrl},#{godListImageUrl},#{godStock},#{godSellingLimit},#{godName},#{godDisplayType},sysdate,0,#{godcNum},#{godDetailInfo},#{memo})
+		values(#{godNum},#{godNormalPrice},#{godSellingPrice},#{godMainImageUrl},#{godListImageUrl},#{godStock},#{godSellingLimit},#{godName},#{godDisplayType},sysdate,0,#{godcNum},#{memo},#{godDetailInfo},#{godIntroduce})
 	</insert>
 
 	<insert id = "insertGoodsSub" parameterType = "hashmap">
@@ -102,9 +134,24 @@
 		<result property = "godName" column = "god_name" />
 		<result property = "godcName" column = "godc_name" />
 		<result property = "godDisplayType" column = "god_displaytype" />
+		<result property = "godSellingLimit" column = "god_sellinglimit" />
 		<result property = "godSellingPrice" column = "god_sellingprice" />
 		<result property = 'godNormalPrice' column = "god_normalprice" />
+		<result property = 'godListImageUrl' column = "god_listimageurl" />
+		<result property = 'godMainImageUrl' column = "god_mainimageurl" />
 		<result property = 'godViewPoint' column = "god_viewpoint" />
 		<result property = "godRegDate" column = "god_regdate" />
+		<result property = "godStock" column = "god_stock" />
+		<result property = "godIntroduce" column = "god_intro" />
+		<result property = "memo" column = "god_memo" />
+		<result property = "godDetailInfo" column = "god_detailinfo" />
 	</resultMap> 
+	
+	<resultMap id = "godoMap" type = "godo">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "optName" column = "opt_name" />
+		<result property = "optContent" column = "opt_content" />
+		<result property = "optPrice" column = "opt_price" />
+	</resultMap>
 </mapper>

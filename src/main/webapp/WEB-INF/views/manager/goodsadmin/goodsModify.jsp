@@ -23,6 +23,8 @@
 <style>
 	body{
 		color:#878787;
+	    margin: 0;
+	    padding: 0;
 	}
 	#stateInfo{
 		margin-top:10px;
@@ -405,8 +407,8 @@
 				<hr>
 			</div>
 			<div id="submenu">
-				<a href="goodsRegister" class = "activeMenu"><span>상품 등록</span></a> 
-				<a href="goodsList"><span>상품 목록</span></a> 
+				<a href="goodsRegister"><span>상품 등록</span></a> 
+				<a href="goodsList" class = "activeMenu"><span>상품 목록</span></a> 
 				<a href="categoryManagement"><span>카테고리 관리</span></a>
 			</div>
 		</div>
@@ -415,7 +417,7 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Product Managament</p>
-				<p id = "currentIdx">&#124; 상품 관리 > 상품 등록</p>
+				<p id = "currentIdx">&#124; 상품 관리 > 상품 수정</p>
 			</div>
 			<form id = "GoodsForm">
 				<input type="text" id = "Test" name = "text" style="display:none" />
@@ -428,7 +430,7 @@
 								<option value = "${category.godcNum}">${category.godcName}</option>
 							</c:forEach>
 						</select>
-						<input id = "productName" type = "text" name = "productName" placeholder = "상품명을 입력하세요." />
+						<input id = "productName" type = "text" name = "productName" value = "${god.godName}" />
 					</div>			
 					<div>
 						<table id = "firstTable">
@@ -437,13 +439,13 @@
 									<strong>판매 가격</strong>
 								</td>
 								<td>
-									<span><input id = "sellingPrice" type = "number" name = "sellingPrice">원</span>
+									<span><input id = "sellingPrice" type = "number" name = "sellingPrice" value = "${god.godSellingPrice}">원</span>
 								</td>
 								<td>
 									<strong>정상 가격</strong>
 								</td>
 								<td>
-									<span><input id = "normalPrice" type = "number" name = "normalPrice">원</span>
+									<span><input id = "normalPrice" type = "number" name = "normalPrice" value = "${god.godNormalPrice}">원</span>
 								</td>
 							</tr>
 							<tr>
@@ -451,13 +453,13 @@
 									<strong>재고</strong>
 								</td>
 								<td>
-									<span><input id = "godStock" type = "number" name = "godStock">개</span>
+									<span><input id = "godStock" type = "number" name = "godStock" value = "${god.godStock}">개</span>
 								</td>
 								<td>
 									<strong>최대 구매 개수</strong>
 								</td>
 								<td>
-									<span><input id = "godSellingLimit" type = "number" name = "godSellingLimit">개</span>
+									<span><input id = "godSellingLimit" type = "number" name = "godSellingLimit" value = "${god.godSellingLimit}">개</span>
 								</td>
 							</tr>
 							<tr>
@@ -469,6 +471,13 @@
 										<button id = "addIntroduce"  type=  "button" class = "btn btn-default">추가</button>
 										<button id = "deleteIntroduce" type=  "button" class = "btn btn-default">삭제</button>
 									</p>
+									<c:forEach var = "godi" items = "${godiList}">
+										<p>
+											<input type = 'checkbox'>
+											<input type = 'text' name = 'goodsName' value = '${godi.itrName}'>
+											<input type = 'text' name = 'goodsIntroduce' value = '${godi.itrContent}'>
+										</p>
+									</c:forEach>
 								</td>
 							</tr>
 							<tr>
@@ -480,6 +489,24 @@
 										<button id = "addOption"  type=  "button" class = "btn btn-default">추가</button>
 										<button id = "deleteOption" type=  "button" class = "btn btn-default">삭제</button>
 									</p>
+									<c:forEach var = "godo" items = "${godoList}">			
+									<p>
+										<c:forEach var = "god" items = "${godo.godoList}" varStatus = "status">
+										<c:choose>
+										<c:when test = "${status.index==0}">
+										<span>
+											<input type = 'checkbox'><input type = 'text' name = 'goodsOptionName' value = '${godo.optName}' /><input type = 'text' name = 'goodsOptionIntroduce' value = '${god.optContent}'/><input type = 'number' name = 'goodsOptionPrice' value = '${god.optPrice}'/><button id = 'optionAdd' type = 'button' class = 'btn btn-default'>항목 추가</button>
+										</span>
+										</c:when>
+										<c:otherwise>
+										<span>
+											<input type = 'text' name = 'goodsOptionIntroduce' value = '${god.optContent}' ><input type = 'number' name = 'goodsOptionPrice' value = '${god.optPrice}' ><button id = 'optionDelete' type = 'button' class = 'btn btn-default'>항목 삭제</button>
+										</span>										
+										</c:otherwise>
+										</c:choose>
+										</c:forEach>
+									</p>
+									</c:forEach>
 								</td>
 							</tr>
 						</table>
@@ -488,7 +515,7 @@
 				<div id = "productIntroduce">
 					<strong>상품 소개글</strong>
 					<div id = "introduceTitle">
-						<input id = "introduce" class = "form-control" type = "text" name = 'productIntroduce' placeholder = "20자 이내로 소개글을 입력하세요 "/>
+						<input id = "introduce" class = "form-control" type = "text" name = ProductIntroduce placeholder = "20자 이내로 소개글을 입력하세요"  value = "${god.godIntroduce}"/>
 					</div>
 					<div id = "introduceContent">
 						<table id = "secondTable">
@@ -575,7 +602,7 @@
 					<div id = "ProductMemo">
 						<strong>상품 메모 입력</strong>
 						<div>
-							<textarea id = "memo" name = "memo"></textarea>				
+							<textarea id = "memo" name = "memo" >${god.memo}</textarea>				
 						</div>				
 					</div>
 				</div>
@@ -598,19 +625,33 @@
 </div>
 
 <script type = 'text/javascript'>
+var listimage = "${god.godListImageUrl}";
+var mainimage = "${god.godMainImageUrl}";
 $(document).ready(function () {
-	  bsCustomFileInput.init()
+	  bsCustomFileInput.init();
+	 var gi = $("#ProductState > input[type='radio']");
+	 var currentGi = '${god.godDisplayType}';
+	 $.each(gi,function(index,item){
+		if($(item).val() == currentGi){
+			$(item).prop("checked",true);
+		}
+	 })
+	$("input[name='Indeximg']").next().text("${god.godListImageUrl}");
+	 $("input[name='mainimg']").next().text("${god.godMainImageUrl}");
 	});
 	
 CKEDITOR.replace('WriteContent',{
     toolbar: 'Full',
     uiColor: '#F2F5F7',
     height:'200px'
-}
-);
+});
 CKEDITOR.config.language = 'ko';
 
+var data = '${god.godDetailInfo}';
+CKEDITOR.instances.WriteContent.setData(data);
+
 $("input[type='file']").change(function(){
+	var label = $(this).next().text();
 	var ext = $(this).val().split(".").pop().toLowerCase();
 	var file = this.files[0];
 	var _URL = window.URL || window.webkitURL;
@@ -628,7 +669,11 @@ $("input[type='file']").change(function(){
 			  showConfirmButton: false,
 			  timer: 1500
 			});
-		$(this).val("");
+		$("#Indeximg").val("");
+		console.log("성공")
+		console.log($("#Indeximg").val());
+		console.log($("#Indeximg").next().text("바보"));
+		console.log("실패");
 		return;
 	}
 	
@@ -642,7 +687,8 @@ $("input[type='file']").change(function(){
 			  showConfirmButton: false,
 			  timer: 1500
 			});
-		$(this).val("");
+		$("#Indeximg").val("");
+		$("#Indeximg").next().text(label);
 		return;
 	}
 	if(input == "Indeximg"){
@@ -656,7 +702,7 @@ $("input[type='file']").change(function(){
 					  timer: 1500
 					});
 				$("#Indeximg").val("");
-				$("#Indeximg").next().text("");
+				$("#Indeximg").next().text(label);
 				return;
 			}
 		}		
@@ -721,7 +767,7 @@ $("#register").click(function(){
 		}else{
 			var a = $(item).find("input[name='goodsName']").val();
 			var b = $(item).find("input[name='goodsIntroduce']").val();
-			var result = a.concat("@^&",b);
+			var result = a.concat(",",b);
 			infoList.push(result);
 		}
 	})
@@ -733,7 +779,7 @@ $("#register").click(function(){
 			}
 			var a = $(item).find("input[name='goodsOptionIntroduce']").val();
 			var b = $(item).find("input[name='goodsOptionPrice']").val();
-			var result = optionName.concat("@^&",a,"@^&",b);
+			var result = optionName.concat(",",a,",",b);
 			optionList.push(result);
 		})
 	})
@@ -772,8 +818,8 @@ $("#register").click(function(){
 		if(text == ""){
 			var formData = new FormData($("#GoodsForm")[0]);
 			formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
-			formData.append('optionList',optionList.join('$$%'));
-			formData.append('infoList',infoList.join('$$%'));
+			formData.append('optionList',optionList);
+			formData.append('infoList',infoList);
 			$.ajax({
 				url:"addGoods",
 				data: formData,

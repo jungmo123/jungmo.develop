@@ -42,8 +42,6 @@
 	}
 	#detail{
 		width:120px !important;
-		float:right;
-		top:10px;
 	}
 	#detailBox{
 		margin:20px 0px 20px 0px;
@@ -143,7 +141,8 @@
     border-bottom:0;
 	}
 	#table tr td:not(:nth-child(2)) span,
-	#modify{
+	.modify,
+	input[type='checkbox']{
 		position:relative;
 		top:10px;
 	}
@@ -311,7 +310,7 @@
 									<a href = "../../USER/GOODS/02.html" target = "_blank">${goods.godName}</a>
 								</td>
 								<td>
-									<span>${goods.godSellingPrice}원</span>
+									<span><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</span>
 								</td>
 								<td>
 									<span>${goods.godDisplayType}</span>
@@ -323,16 +322,16 @@
 									<span>${goods.godViewPoint}</span>
 								</td>
 								<td>
-									<button id = "modify" class = "form-control">수정</button>
+									<button id = "${goods.godNum}" class = "form-control modify">수정</button>
 								</td>
 							</tr>
 							</c:forEach>
 					</tbody>
 				</table>
 				<button id = "delete" class = "btn btn-default">삭제</button>
-				<button id = "display" class = "btn btn-default">진열</button>
-				<button id = "hide" class = "btn btn-default">숨김</button>
-				<button id = "allsold" class = "btn btn-default">품절</button>
+				<button id = "진열" class = "btn btn-default search">진열</button>
+				<button id = "숨김" class = "btn btn-default search">숨김</button>
+				<button id = "품절" class = "btn btn-default search">품절</button>
 			</div>
  			<div id = "pagination">
 				<div>
@@ -356,6 +355,36 @@
 		</div>
 	</div>
 </div>
+
+<script type = "text/javascript">
+	$(".search").click(function(){
+		var form = $("<form action = 'goodsListSearch1' method = 'post' style='display:none'></form>");
+		var input1 = $("<input type = 'text' name = 'displayType'></input>");
+		var input2 = $("<input type = 'text' name = 'title'></input>");
+		var input3 = $("<input type = 'text' name = 'SearchBar'></input>");
+		var input4 = $("<input type = 'text' name = 'sdate'></input>");
+		var input5 = $("<input type = 'text' name = 'edate'></input>");
+		var input6 = $("<input type = 'text' name = 'category'></input>");
+		var input7 = $("<input type = 'text' name = 'minPrice'></input>");
+		var input8 = $("<input type = 'text' name = 'maxPrice'></input>");
+		input1.val($(this).prop("id"));
+		input3.val("1");
+		form.append(input1);
+		form.append(input2);
+		form.append(input3);
+		form.append(input4);
+		form.append(input5);
+		form.append(input6);
+		form.append(input7);
+		form.append(input8);
+		$("body").append(form);
+		form.submit();
+	})
+	
+	$(".modify").click(function(){
+		location.href = 'goodsModify' + $(this).prop("id");
+	})
+</script>
 
 </body>
 </html>

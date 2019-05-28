@@ -25,7 +25,7 @@ public class GoodsSearch {
 		this.category = category;
 		this.displayType = displayType;
 	}
-
+ 
 	public String getSdate() {
 		return sdate;
 	}

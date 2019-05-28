@@ -40,4 +40,24 @@ public class GoodsAdminServiceImpl implements GoodsAdminService{
 	public List<Goods> getGoodsSearch(Page page){
 		return gaDao.getGoodsSearch(page);
 	}
+	
+	public Goods selectGoods(int godNum){
+		return gaDao.selectGoods(godNum);
+	}
+	
+	public List<GoodsOption> selectGodcList(int godNum){
+		return gaDao.selectGodcList(godNum);
+	}
+	
+	public List<GoodsOption> selectGodc(String godNum,String optName){
+		return gaDao.selectGodc(godNum, optName);
+	}
+	
+	public List<GoodsIntroduce> selectGodI(int godNum){
+		return gaDao.selectGodI(godNum);
+	}
+	
+	public List<GoodsSubImage>selectSubImg(int godNum){
+		return gaDao.selectSubImg(godNum);
+	}
 }

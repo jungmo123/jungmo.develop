@@ -40,4 +40,24 @@ public class GoodsAdminDaoImpl implements GoodsAdminDao{
 	public List<Goods> getGoodsSearch(Page page){
 		return gaMapper.getGoodsSearch(page);
 	}
+	
+	public Goods selectGoods(int godNum){
+		return gaMapper.selectGoods(godNum);
+	}
+	
+	public List<GoodsOption> selectGodcList(int godNum){
+		return gaMapper.selectGodcList(godNum);
+	}
+	
+	public List<GoodsOption> selectGodc(String godNum,String optName){
+		return gaMapper.selectGodc(godNum, optName);
+	}
+	
+	public List<GoodsIntroduce> selectGodI(int godNum){
+		return gaMapper.selectGodI(godNum);
+	}
+	
+	public List<GoodsSubImage>selectSubImg(int godNum){
+		return gaMapper.selectSubImg(godNum);
+	}
 }

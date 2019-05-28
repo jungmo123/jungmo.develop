@@ -22,6 +22,7 @@ public class Goods {
 	private int godAmount;
 	private String godDetailInfo;
 	private String memo;
+	private String godIntroduce;
 	private GoodsCategories godc;
 	
 	public Goods(){}
@@ -29,7 +30,7 @@ public class Goods {
 	public Goods(int godNormalPrice, int godSellingPrice,
 			String godMainImageUrl, String godListImageUrl, int godStock,
 			int godSellingLimit, String godName, String godDisplayType,
-			int godcNum, String godDetailInfo, String memo) {
+			int godcNum, String godDetailInfo, String memo, String godIntroduce) {
 		this.godNormalPrice = godNormalPrice;
 		this.godSellingPrice = godSellingPrice;
 		this.godMainImageUrl = godMainImageUrl;
@@ -41,6 +42,7 @@ public class Goods {
 		this.godcNum = godcNum;
 		this.godDetailInfo = godDetailInfo;
 		this.memo = memo;
+		this.godIntroduce = godIntroduce;
 	}
 
 	public int getOrdNum() {
@@ -150,5 +152,11 @@ public class Goods {
 	}
 	public void setGodcName(String godcName) {
 		this.godcName = godcName;
+	}
+	public String getGodIntroduce() {
+		return godIntroduce;
+	}
+	public void setGodIntroduce(String godIntroduce) {
+		this.godIntroduce = godIntroduce;
 	}
 }

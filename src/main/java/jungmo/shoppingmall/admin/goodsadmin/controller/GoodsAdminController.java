@@ -34,6 +34,12 @@ public class GoodsAdminController {
 	private String minPrice;
 	private String maxPrice;
 	private String displayType;
+	private String ListImageUrl;
+	private String MainImageUrl;
+	private String repreImageUrl1;
+	private String repreImageUrl2;
+	private String repreImageUrl3;
+	private String repreImageUrl4;
 	
 	// 상품등록
 	
@@ -52,14 +58,15 @@ public class GoodsAdminController {
 		String normalPrice = request.getParameter("normalPrice");
 		String godSellingLimit = request.getParameter("godSellingLimit");
 		String godStock = request.getParameter("godStock");
-		String goodsIntroduce = request.getParameter("ProductIntroduce");
+		String goodsIntroduce = request.getParameter("productIntroduce");
 		String productInfo = request.getParameter("WriteContent");
 		String memo = request.getParameter("memo");
 		String productState = request.getParameter("productstate");
-		String [] optionList = request.getParameterValues("optionList");
-		String [] infoList = request.getParameterValues("infoList");
+		String optionList = request.getParameter("optionList");
+		String infoList = request.getParameter("infoList");
 		String indexFile = "";
 		String mainFile ="";
+		productInfo.trim();
 		String userId = (String)request.getSession().getAttribute("admin");
 		List<String> files = new ArrayList<String>();
 		List<String> repreFiles = new ArrayList<String>();
@@ -90,7 +97,7 @@ public class GoodsAdminController {
 				repreFiles.add(files.get(i));
 			}
 		}
-		Goods god = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo);
+		Goods god = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
 		gaService.insertGoods(god);
 		String godNum = String.valueOf(god.getGodNum());
 		List<String> num = new ArrayList<>();
@@ -106,24 +113,28 @@ public class GoodsAdminController {
 		int k = 0;
 		GoodsOption ol = new GoodsOption();
 		GoodsIntroduce gi = new GoodsIntroduce();
-		StringTokenizer st1 = new StringTokenizer(optionList[0],",");
-		StringTokenizer st2 = new StringTokenizer(infoList[0],",");
+		StringTokenizer st1 = new StringTokenizer(optionList,"$$%");
+		StringTokenizer st2 = new StringTokenizer(infoList,"$$%");
 		try{
 			while(st2.hasMoreTokens()){
 				String str2 = st2.nextToken();
-				switch(k){
-				case 0:	gi.setGodNum(god.getGodNum());
-							gi.setItrName(str2);
-							k++;
-							break;
-				case 1:gi.setItrContent(str2);
-							k = 0;
-							giArray.add(gi);
-							gi = new GoodsIntroduce();
-							break;
+				StringTokenizer str22 = new StringTokenizer(str2,"@^&");
+				while(str22.hasMoreTokens()){
+					String str222 = str22.nextToken();
+					switch(k){
+					case 0:	gi.setGodNum(god.getGodNum());
+								gi.setItrName(str222);
+								k++;
+								break;
+					case 1:gi.setItrContent(str222);
+								k = 0;
+								giArray.add(gi);
+								gi = new GoodsIntroduce();
+								break;
+					}					
 				}
 			}
-			if(!infoList[0].equals("")){
+			if(!infoList.equals("")){
 				intro.put("gi",giArray);
 				gaService.insertGoodsIntroduce(intro);
 			}
@@ -134,22 +145,26 @@ public class GoodsAdminController {
 		try{
 			while(st1.hasMoreTokens()){
 				String str1 = st1.nextToken();
-				switch(k){
-				case 0:	ol.setGodNum(god.getGodNum());
-							ol.setOptName(str1);
-							k++;
-							break;
-				case 1:ol.setOptContent(str1);
-							k++;
-							break;
-				case 2:ol.setOptPrice(str1);
-							k = 0;
-							optionArray.add(ol);
-							ol = new GoodsOption();
-							break;
+				StringTokenizer str11= new StringTokenizer(str1,"@^&");
+				while(str11.hasMoreTokens()){
+					String str111 = str11.nextToken();
+					switch(k){
+					case 0:	ol.setGodNum(god.getGodNum());
+								ol.setOptName(str111);
+								k++;
+								break;
+					case 1:ol.setOptContent(str111);
+								k++;
+								break;
+					case 2:ol.setOptPrice(str111);
+								k = 0;
+								optionArray.add(ol);
+								ol = new GoodsOption();
+								break;
+					}					
 				}
 			}
-			if(!optionList[0].equals("")){
+			if(!optionList.equals("")){
 				go.put("ol", optionArray);
 				gaService.insertGoodsOption(go);
 			}
@@ -264,5 +279,38 @@ public class GoodsAdminController {
 	public String godPSearch(@PathVariable String idx,HttpServletRequest request,Model model) throws ParseException{
 		search(request,model,idx,false);
 		return "manager/goodsadmin/goodsList";
+	}
+	
+	// 상품정보수정
+	
+	@RequestMapping("/admin/goodsModify{idx}")
+	public String goodsModify(@PathVariable String idx,HttpServletRequest request,Model model){
+		model.addAttribute("categories", godcService.getCategories());
+		int godNum = Integer.valueOf(idx);
+		Goods god = gaService.selectGoods(godNum);
+		ListImageUrl = god.getGodListImageUrl();
+		MainImageUrl = god.getGodMainImageUrl();
+		String content = god.getGodDetailInfo();
+		if(content != "" && content != null){
+			content = content.trim();
+		}
+		god.setGodDetailInfo(content);
+		model.addAttribute("god",god);
+		List<GoodsOptionList> godoList = new ArrayList<>();
+		List<GoodsOption> godo = gaService.selectGodcList(godNum);
+		if(godo.size() >= 1){
+			for(int i = 0 ; i < godo.size() ; i++){
+				GoodsOptionList gl = new GoodsOptionList();
+				String optName = godo.get(i).getOptName();
+				gl.setOptName(optName);
+				gl.setGodoList(gaService.selectGodc(idx, optName));
+				godoList.add(gl);
+			}
+		}
+		List<GoodsIntroduce> godi = gaService.selectGodI(godNum);
+		model.addAttribute("godiList",godi);
+		model.addAttribute("godoList",godoList);
+		System.out.println(gaService.selectSubImg(godNum).size());
+		return "manager/goodsadmin/goodsModify";
 	}
 }
