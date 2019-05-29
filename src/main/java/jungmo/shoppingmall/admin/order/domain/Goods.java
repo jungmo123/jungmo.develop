@@ -26,6 +26,25 @@ public class Goods {
 	private GoodsCategories godc;
 	
 	public Goods(){}
+	
+	public Goods(int godNum,int godNormalPrice, int godSellingPrice,
+			String godMainImageUrl, String godListImageUrl, int godStock,
+			int godSellingLimit, String godName, String godDisplayType,
+			int godcNum, String godDetailInfo, String memo, String godIntroduce) {
+		this.godNum = godNum;
+		this.godNormalPrice = godNormalPrice;
+		this.godSellingPrice = godSellingPrice;
+		this.godMainImageUrl = godMainImageUrl;
+		this.godListImageUrl = godListImageUrl;
+		this.godStock = godStock;
+		this.godSellingLimit = godSellingLimit;
+		this.godName = godName;
+		this.godDisplayType = godDisplayType;
+		this.godcNum = godcNum;
+		this.godDetailInfo = godDetailInfo;
+		this.memo = memo;
+		this.godIntroduce = godIntroduce;
+	}
 	 
 	public Goods(int godNormalPrice, int godSellingPrice,
 			String godMainImageUrl, String godListImageUrl, int godStock,

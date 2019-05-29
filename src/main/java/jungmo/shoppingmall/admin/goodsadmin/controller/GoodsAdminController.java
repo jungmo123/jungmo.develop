@@ -34,12 +34,12 @@ public class GoodsAdminController {
 	private String minPrice;
 	private String maxPrice;
 	private String displayType;
-	private String ListImageUrl;
-	private String MainImageUrl;
-	private String repreImageUrl1;
-	private String repreImageUrl2;
-	private String repreImageUrl3;
-	private String repreImageUrl4;
+	private String ListImageUrl = "";
+	private String MainImageUrl = "";
+	private String repreImageUrl1 = "";
+	private String repreImageUrl2 = "";
+	private String repreImageUrl3 = "";
+	private String repreImageUrl4 = "";
 	
 	// 상품등록
 	
@@ -81,12 +81,12 @@ public class GoodsAdminController {
 			String uploadFile = itr.next();
 			MultipartFile file = request.getFile(uploadFile);
 			String fileName = file.getOriginalFilename();
-			if(fileName != ""){
+			if(!fileName.equals("")){
 				fullName = fileName + userId+ today + idx + ".jpg";
 				files.add(fullName);
 				save(dir + "/" + fullName,file);
-				idx++;
 			}
+			idx++;
 		}
 		for(int i = 0 ; i < files.size() ; i++){
 			if(i == 0){
@@ -285,6 +285,10 @@ public class GoodsAdminController {
 	
 	@RequestMapping("/admin/goodsModify{idx}")
 	public String goodsModify(@PathVariable String idx,HttpServletRequest request,Model model){
+		repreImageUrl1 = "";
+		repreImageUrl2 = "";
+		repreImageUrl3 = "";
+		repreImageUrl4 = "";		
 		model.addAttribute("categories", godcService.getCategories());
 		int godNum = Integer.valueOf(idx);
 		Goods god = gaService.selectGoods(godNum);
@@ -310,7 +314,251 @@ public class GoodsAdminController {
 		List<GoodsIntroduce> godi = gaService.selectGodI(godNum);
 		model.addAttribute("godiList",godi);
 		model.addAttribute("godoList",godoList);
-		System.out.println(gaService.selectSubImg(godNum).size());
+		List<GoodsSubImage> gsi = gaService.selectSubImg(godNum);
+		for(int i = 0 ; i < gsi.size() ; i++){
+			switch(i){
+			case 0:	repreImageUrl1 = gsi.get(i).getSubImageUrl();
+						break;
+			case 1:repreImageUrl2 = gsi.get(i).getSubImageUrl();
+						break;
+			case 2:repreImageUrl3 = gsi.get(i).getSubImageUrl();
+						break;
+			case 3:repreImageUrl4 = gsi.get(i).getSubImageUrl();
+						break;
+			}
+		}
+		model.addAttribute("repreImageUrl1",repreImageUrl1);
+		model.addAttribute("repreImageUrl2",repreImageUrl2);
+		model.addAttribute("repreImageUrl3",repreImageUrl3);
+		model.addAttribute("repreImageUrl4",repreImageUrl4);
 		return "manager/goodsadmin/goodsModify";
+	}
+	
+	@RequestMapping("/admin/ModifyGoods")
+	@ResponseBody
+	public String ModifyGoods(MultipartHttpServletRequest request){
+		String godNum = request.getParameter("godNum");
+		String category = request.getParameter("category");
+		String godName = request.getParameter("productName");
+		String sellingPrice = request.getParameter("sellingPrice");
+		String normalPrice = request.getParameter("normalPrice");
+		String godSellingLimit = request.getParameter("godSellingLimit");
+		String godStock = request.getParameter("godStock");
+		String goodsIntroduce = request.getParameter("productIntroduce");
+		String productInfo = request.getParameter("WriteContent");
+		String memo = request.getParameter("memo");
+		String productState = request.getParameter("productstate");
+		String optionList = request.getParameter("optionList");
+		String infoList = request.getParameter("infoList");
+		String indexFile = "";
+		String mainFile ="";
+		productInfo.trim();
+		String userId = (String)request.getSession().getAttribute("admin");
+		List<String> files = new ArrayList<String>();
+		List<String> repreFiles = new ArrayList<String>();
+		Calendar calendar = Calendar.getInstance();
+        java.util.Date date = calendar.getTime();
+		String today = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
+		String dir = request.getServletContext().getRealPath("/upload");
+		String fullName = "";
+		Iterator<String> itr = request.getFileNames();
+		String filePath;
+		File f;
+		int idx = 1;
+		while(itr.hasNext()){
+			String uploadFile = itr.next();
+			MultipartFile file = request.getFile(uploadFile);
+			String fileName = file.getOriginalFilename();
+			if(!fileName.equals("")){
+				switch(idx){
+				case 1:filePath = dir + "/" + ListImageUrl;
+						  f = new File(filePath);
+						 if(f.exists()){
+							f.delete();
+						}
+						 break;
+				case 2:filePath = dir + "/" + repreImageUrl1;
+						  f = new File(filePath);
+						 if(f.exists()){
+							f.delete();
+						}
+				 break;
+				case 3:filePath = dir + "/" + repreImageUrl2;
+						  f = new File(filePath);
+						 if(f.exists()){
+							f.delete();
+						}
+				 break;
+				case 4:filePath = dir + "/" + repreImageUrl3;
+						  f = new File(filePath);
+						 if(f.exists()){
+							f.delete();
+						}
+				 break;
+				case 5:filePath = dir + "/" + repreImageUrl4;
+				  f = new File(filePath);
+				 if(f.exists()){
+					f.delete();
+				}
+				 break;
+				case 6:filePath = dir + "/" + MainImageUrl;
+				  f = new File(filePath);
+				 if(f.exists()){
+					f.delete();
+				}
+				 break;
+				}
+				fullName = fileName + userId+ today + idx + ".jpg";
+				files.add(fullName);
+				save(dir + "/" + fullName,file);
+			}else{
+				files.add("");
+			}
+			idx++;
+		}
+		for(int i = 0 ; i < files.size() ; i++){
+			if(i == 0){
+				indexFile = files.get(i);
+			}else if(i == files.size()-1){
+				mainFile = files.get(i);
+			}else{
+				if(!files.get(i).equals("")){
+					repreFiles.add(files.get(i));
+				}else{
+					switch(i){
+					case 1:repreFiles.add(repreImageUrl1);
+							 break;
+					case 2:repreFiles.add(repreImageUrl2);
+					  		 break;
+					case 3:repreFiles.add(repreImageUrl3);
+					  		 break;
+					case 4:repreFiles.add(repreImageUrl4);
+					  		 break;
+					}
+				}
+			}
+		}
+		
+		for(int i = 3 ; i > 0 ; i--){
+			if(repreFiles.get(i).equals("")){
+				repreFiles.remove(i);
+			}
+		}
+		if(mainFile.equals("")){
+			mainFile = MainImageUrl;
+		}
+		if(indexFile.equals("")){
+			indexFile = ListImageUrl;
+		}
+		gaService.deleteGoodsSub(Integer.valueOf(godNum));
+		Goods god = new Goods(Integer.valueOf(godNum),Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
+		gaService.updateGoods(god);
+		List<String> num = new ArrayList<>();
+		num.add(godNum);
+		HashMap<String,List<String>> godSub = new HashMap<>();
+		godSub.put("num", num);
+		godSub.put("img", repreFiles);
+		gaService.insertGoodsSub(godSub);
+		List<GoodsOption> optionArray = new ArrayList<>();
+		List<GoodsIntroduce> giArray = new ArrayList<>();
+		HashMap<String,List<GoodsOption>> go = new HashMap<>(); 
+		HashMap<String,List<GoodsIntroduce>> intro = new HashMap<>();
+		int k = 0;
+		GoodsOption ol = new GoodsOption();
+		GoodsIntroduce gi = new GoodsIntroduce();
+		StringTokenizer st1 = new StringTokenizer(optionList,"$$%");
+		StringTokenizer st2 = new StringTokenizer(infoList,"$$%");
+		gaService.deleteGoodsIntroduce(Integer.valueOf(godNum));
+		gaService.deleteGoodsOption(Integer.valueOf(godNum));
+		try{ 
+			while(st2.hasMoreTokens()){
+				String str2 = st2.nextToken();
+				StringTokenizer str22 = new StringTokenizer(str2,"@^&");
+				while(str22.hasMoreTokens()){
+					String str222 = str22.nextToken();
+					switch(k){
+					case 0:	gi.setGodNum(Integer.valueOf(godNum));
+								gi.setItrName(str222);
+								k++;
+								break;
+					case 1:gi.setItrContent(str222);
+								k = 0;
+								giArray.add(gi);
+								gi = new GoodsIntroduce();
+								break;
+					}					
+				}
+			}
+			if(!infoList.equals("")){
+				intro.put("gi",giArray);
+				gaService.insertGoodsIntroduce(intro);
+			}
+		}catch(Exception e){
+			gaService.deleteGoods(Integer.valueOf(godNum));
+			return "Gioverlap";
+		}
+		try{ 
+			System.out.println(optionList);
+			while(st1.hasMoreTokens()){
+				String str1 = st1.nextToken();
+				StringTokenizer str11= new StringTokenizer(str1,"@^&");
+				while(str11.hasMoreTokens()){
+					String str111 = str11.nextToken();
+					switch(k){
+					case 0:	ol.setGodNum(Integer.valueOf(godNum));
+								ol.setOptName(str111);
+								k++;
+								break;
+					case 1:ol.setOptContent(str111);
+								k++;
+								break;
+					case 2:ol.setOptPrice(str111);
+								k = 0;
+								optionArray.add(ol);
+								ol = new GoodsOption();
+								break;
+					}					
+				}
+			}
+			for(int i = 0 ; i < optionArray.size() ; i++){
+				System.out.println(optionArray.get(i).getGodNum() + " " + optionArray.get(i).getOptName() + " " + optionArray.get(i).getOptPrice() + " " + optionArray.get(i).getOptContent());
+			}
+			if(!optionList.equals("")){
+				go.put("ol", optionArray);
+				gaService.insertGoodsOption(go);
+			}
+		}catch(Exception e){
+			return "Gooverlap";
+		}
+		return "";
+	}
+	
+	@RequestMapping("/admin/deleteRepre")
+	@ResponseBody
+	public String ModifyGoods(String name,String godNum){
+		if(name.equals("repreImg2")){
+			repreImageUrl2 = "";
+			gaService.removeGoodsSub(godNum, "2");
+		}else if(name.equals("repreImg3")){
+			repreImageUrl3 = "";
+			gaService.removeGoodsSub(godNum, "3");
+		}else if(name.equals("repreImg4")){
+			repreImageUrl4 = "";
+			gaService.removeGoodsSub(godNum, "4");
+		}
+		return "";
+	}
+	
+	@RequestMapping(value="/admin/DeleteGoods",method=RequestMethod.POST)
+	public String DeleteGoods(HttpServletRequest request,Model model){
+		HashMap<String,List<String>> map = new HashMap<>();
+		List<String> list = new ArrayList<>();
+		StringTokenizer st = new StringTokenizer(request.getParameter("list"),",");
+		while(st.hasMoreTokens()){
+			list.add(st.nextToken()); 
+		}
+		map.put("list", list);
+		gaService.removeGoods(map);
+		return "redirect:goodsList" + type+ index;
 	}
 }

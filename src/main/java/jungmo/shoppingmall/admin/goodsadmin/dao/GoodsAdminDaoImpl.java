@@ -60,4 +60,28 @@ public class GoodsAdminDaoImpl implements GoodsAdminDao{
 	public List<GoodsSubImage>selectSubImg(int godNum){
 		return gaMapper.selectSubImg(godNum);
 	}
+	
+	public int deleteGoodsSub(int godNum){
+		return gaMapper.deleteGoodsSub(godNum);
+	}
+	
+	public int removeGoodsSub(String godNum,String imgNum){
+		return gaMapper.removeGoodsSub(godNum, imgNum);
+	}
+	
+	public int deleteGoodsOption(int godNum){
+		return gaMapper.deleteGoodsOption(godNum);
+	}
+	
+	public int deleteGoodsIntroduce(int godNum){
+		return gaMapper.deleteGoodsIntroduce(godNum);
+	}
+	
+	public int updateGoods(Goods god){
+		return gaMapper.updateGoods(god);
+	}
+	
+	public int removeGoods(HashMap<String,List<String>> map){
+		return gaMapper.removeGoods(map);
+	}
 }

@@ -131,10 +131,11 @@
 	}
 	#productIntroduce #secondTable tr td:last-child button{
 		position:relative;
-		top:5px;
+		bottom:2px;
 		height:26px;
 		background-color:#F2F5F7;
-		border:1px solid grey;
+		font-weight:bold;
+		font-size:12px;
 	}
 	#productIntroduce #secondTable tr:nth-child(2) td:last-child{
 		padding:10px 0 10px 0;
@@ -420,7 +421,7 @@
 				<p id = "currentIdx">&#124; 상품 관리 > 상품 수정</p>
 			</div>
 			<form id = "GoodsForm">
-				<input type="text" id = "Test" name = "text" style="display:none" />
+				<input type="number" id = "godNum" name = "godNum"  value = "${god.godNum}" style="display:none" />
 				<div id = "apply">
 					<div id = "stateInfo">
 						<strong>상품 정보 입력</strong>
@@ -515,7 +516,7 @@
 				<div id = "productIntroduce">
 					<strong>상품 소개글</strong>
 					<div id = "introduceTitle">
-						<input id = "introduce" class = "form-control" type = "text" name = ProductIntroduce placeholder = "20자 이내로 소개글을 입력하세요"  value = "${god.godIntroduce}"/>
+						<input id = "introduce" class = "form-control" type = "text" name = productIntroduce placeholder = "20자 이내로 소개글을 입력하세요"  value = "${god.godIntroduce}"/>
 					</div>
 					<div id = "introduceContent">
 						<table id = "secondTable">
@@ -529,6 +530,7 @@
 								</td>
 								<td>
 									<div class = "custom-file">
+										<input id = "text" type = "text" name = "idximg" value = "${god.godListImageUrl}"  style = "display:none" />
 										<input id = "Indeximg" type = "file" name = "Indeximg" class = "custom-file-input" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
@@ -545,21 +547,28 @@
 								<td>
 									<div class = "custom-file">
 										<input id = "check" type = "text" style = "display:none"/>
+										<input id = "text" type = "text" name = "repre1" value = "${repreImageUrl1}"  style = "display:none" />
 										<input id = "repreImg" type = "file" name = "repreImg1" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 									<div class = "custom-file">
+										<input id = "text" type = "text" name = "repre1" value = "${repreImageUrl2}"  style = "display:none" />
 										<input id = "repreImg" type = "file" name = "repreImg2" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
+									<button type = "button" class = "btn btn-default delete">삭제</button>
 									<div class = "custom-file">
+										<input id = "text" type = "text" name = "repre1" value = "${repreImageUrl3}"  style = "display:none" />
 										<input id = "repreImg" type = "file" name = "repreImg3" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
+									<button type = "button" class = "btn btn-default delete">삭제</button>
 									<div class = "custom-file">
+										<input id = "text" type = "text" name = "repre1" value = "${repreImageUrl4}"  style = "display:none" />
 										<input id = "repreImg" type = "file" name = "repreImg4" class = "custom-file-input repreImg" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
+									<button type = "button" class = "btn btn-default delete">삭제</button>
 								</td>
 							</tr>
 							<tr>
@@ -572,6 +581,7 @@
 								</td>
 								<td>
 									<div class = "custom-file">
+										<input id = "text" type = "text" name = "mainIMg" value = "${god.godMainImageUrl}"  style = "display:none" />
 										<input id = "mainimg" type = "file" name = "mainimg" class = "custom-file-input" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
@@ -627,6 +637,11 @@
 <script type = 'text/javascript'>
 var listimage = "${god.godListImageUrl}";
 var mainimage = "${god.godMainImageUrl}";
+var repreImageUrl1 = "${repreImageUrl1}";
+var repreImageUrl2 = "${repreImageUrl2}";
+var repreImageUrl3 = "${repreImageUrl3}";
+var repreImageUrl4 = "${repreImageUrl4}";
+
 $(document).ready(function () {
 	  bsCustomFileInput.init();
 	 var gi = $("#ProductState > input[type='radio']");
@@ -636,8 +651,18 @@ $(document).ready(function () {
 			$(item).prop("checked",true);
 		}
 	 })
+	 var godcNum = "${god.godcNum}";
+	 $.each($("#CategorySelect option"),function(index,item){
+		if($(item).val() == godcNum){
+			$("#CategorySelect").val($(item).val()).prop("selected",true);
+		}
+	 });
 	$("input[name='Indeximg']").next().text("${god.godListImageUrl}");
-	 $("input[name='mainimg']").next().text("${god.godMainImageUrl}");
+	$("input[name='mainimg']").next().text("${god.godMainImageUrl}");
+	$("input[name='repreImg1']").next().text("${repreImageUrl1}");
+	$("input[name='repreImg2']").next().text("${repreImageUrl2}");
+	$("input[name='repreImg3']").next().text("${repreImageUrl3}");
+	$("input[name='repreImg4']").next().text("${repreImageUrl4}");
 	});
 	
 CKEDITOR.replace('WriteContent',{
@@ -651,7 +676,8 @@ var data = '${god.godDetailInfo}';
 CKEDITOR.instances.WriteContent.setData(data);
 
 $("input[type='file']").change(function(){
-	var label = $(this).next().text();
+	var label = $(this).prev().val();
+	var inputName = $(this).prop("name");
 	var ext = $(this).val().split(".").pop().toLowerCase();
 	var file = this.files[0];
 	var _URL = window.URL || window.webkitURL;
@@ -669,26 +695,27 @@ $("input[type='file']").change(function(){
 			  showConfirmButton: false,
 			  timer: 1500
 			});
-		$("#Indeximg").val("");
-		console.log("성공")
-		console.log($("#Indeximg").val());
-		console.log($("#Indeximg").next().text("바보"));
-		console.log("실패");
-		return;
+			setTimeout(function() {
+				$("input[name="+inputName + "]").val("");
+				$("input[name="+inputName + "]").next().text(label);
+			}, 1);
+			return;
 	}
 	
 	var fileSize = this.files[0].size;
 	var maxSize = 1024 * 1024;
 	if(fileSize > maxSize){
-		Swal.fire({
-			  position: 'top',
-			  type: 'error',
-			  title: '파일용량이 1MB를 초과했습니다!',
-			  showConfirmButton: false,
-			  timer: 1500
-			});
-		$("#Indeximg").val("");
-		$("#Indeximg").next().text(label);
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: '파일용량이 1MB를 초과했습니다!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+			setTimeout(function() {
+				$("input[name="+inputName + "]").val("");
+				$("input[name="+inputName + "]").next().text(label);
+			}, 1);
 		return;
 	}
 	if(input == "Indeximg"){
@@ -701,8 +728,8 @@ $("input[type='file']").change(function(){
 					  showConfirmButton: false,
 					  timer: 1500
 					});
-				$("#Indeximg").val("");
-				$("#Indeximg").next().text(label);
+				$("input[name="+inputName + "]").val("");
+				$("input[name="+inputName + "]").next().text(label);
 				return;
 			}
 		}		
@@ -716,8 +743,10 @@ $("input[type='file']").change(function(){
 					  showConfirmButton: false,
 					  timer: 1500
 					});
-				$(repre).val("");
-				$(repre).next().text("");
+					setTimeout(function() {
+						$("input[name="+inputName + "]").val("");
+						$("input[name="+inputName + "]").next().text(label);
+					}, 1);
 				return;
 			}
 		}		
@@ -731,8 +760,8 @@ $("input[type='file']").change(function(){
 					  showConfirmButton: false,
 					  timer: 1500
 					});
-				$("#mainimg").val("");
-				$("#mainimg").next().text("");
+				$("input[name="+inputName + "]").val("");
+				$("input[name="+inputName + "]").next().text(label);
 				return;
 			}
 		}		
@@ -767,7 +796,7 @@ $("#register").click(function(){
 		}else{
 			var a = $(item).find("input[name='goodsName']").val();
 			var b = $(item).find("input[name='goodsIntroduce']").val();
-			var result = a.concat(",",b);
+			var result = a.concat("@^&",b);
 			infoList.push(result);
 		}
 	})
@@ -779,7 +808,7 @@ $("#register").click(function(){
 			}
 			var a = $(item).find("input[name='goodsOptionIntroduce']").val();
 			var b = $(item).find("input[name='goodsOptionPrice']").val();
-			var result = optionName.concat(",",a,",",b);
+			var result = optionName.concat("@^&",a,"@^&",b);
 			optionList.push(result);
 		})
 	})
@@ -798,12 +827,6 @@ $("#register").click(function(){
 		text = "상품 정보를 입력하세요!";
 	}else if(introduce == ""){
 		text = "상품 소개글을 입력하세요!";
-	}else if(!indeximg){
-			text = "목록 이미지를 선택 하세요!";
-	}else if(!repreImg1 && !repreImg2 && !repreImg3 && !repreImg4){
-		text = "대표 이미지를 하나 이상 선택 하세요!";
-	}else if(!mainImg){
-		text = "메인 노출 이미지를 선택 하세요!";
 	}else if(WriteContent == ""){
 		text = "상세 정보를 입력하세요!";
 	}else if(productState.length == 0){
@@ -818,14 +841,14 @@ $("#register").click(function(){
 		if(text == ""){
 			var formData = new FormData($("#GoodsForm")[0]);
 			formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
-			formData.append('optionList',optionList);
-			formData.append('infoList',infoList);
+			formData.append('optionList',optionList.join('$$%'));
+			formData.append('infoList',infoList.join('$$%'));
 			$.ajax({
-				url:"addGoods",
+				url:"ModifyGoods",
 				data: formData,
 				processData:false,
 				contentType:false,
-				type:'POST',
+				type:'POST',   
 				success:function(data){
 					if(data == "Gioverlap"){
 						Swal.fire({
@@ -843,6 +866,14 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});						
+					}else{
+						Swal.fire({
+							  position: 'top',
+							  type: 'success',
+							  title: '저장되었습니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});								
 					}
 				},
 				error:function(a,b,errMsg){
@@ -964,6 +995,35 @@ $("#introduce").keyup(function(){
 			  timer: 1500
 			});		
 	}
+})
+
+$(".delete").click(function(){
+	var label = $(this).prev().find("label");
+	var input = $(this).prev().find("input[type='file']");
+	var name = $(this).prev().find("input[type='file']").prop("name");
+	var godNum = "${god.godNum}";
+	input.val("");
+	label.text("");
+	$.ajax({
+		url:"deleteRepre",
+		data:{
+			name:name,
+			godNum:godNum
+		},
+		method:"post",
+		success:function(data){
+		
+		},
+		error:function(a,b,errMsg){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: '실패하였습니다.',
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+		}
+	})	
 })
 </script>
 

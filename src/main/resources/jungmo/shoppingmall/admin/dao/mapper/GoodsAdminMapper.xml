@@ -16,17 +16,18 @@
 	</select>
 	
 	<select id = "selectGoods" parameterType = "int" resultMap = "godMap">
-			select god_num,god_name,god_normalprice,god_sellingprice,god_stock,god_displaytype,god_regdate,god_viewpoint,godc_name,god_detailinfo,god_intro,god_memo,god_sellinglimit,god_listimageurl,god_mainimageurl
+			select god_num,god_name,god_normalprice,goods.godc_num,god_sellingprice,god_stock,god_displaytype,god_regdate,god_viewpoint,godc_name,god_detailinfo,god_intro,god_memo,god_sellinglimit,god_listimageurl,god_mainimageurl
 			from goods
 			join goods_categories
 			on (goods.godc_num = goods_categories.godc_num)
 			where god_num = #{godNum}
 	</select>
-	
+	 
 	<select id = "selectSubImg" parameterType = "int" resultType = "gsi">
-		select subimageurl subImageUrl,god_num godNum,imgnum,imgNum
+		select subimageurl subImageUrl,god_num godNum,imgnum imgNum
 		from goods_sub_images
 		where god_num = #{godNum}
+		order by imgnum
 	</select>
 	
 	<select id = "getGoodsSearch" parameterType = "page" resultMap = "godMap">
@@ -124,14 +125,52 @@
 		select * from dual
 	</insert> 
 	
+	<update id = "updateGoods" parameterType = "god">
+		update goods
+		set god_normalprice = #{godNormalPrice},god_sellingprice = #{godSellingPrice},
+		god_mainimageurl = #{godMainImageUrl},god_listimageurl = #{godListImageUrl},god_stock = #{godStock},
+		god_name = #{godName},god_displaytype = #{godDisplayType},god_regdate = sysdate,godc_num = #{godcNum},
+		god_memo = #{memo},god_detailinfo = #{godDetailInfo},god_intro = #{godIntroduce}
+		where god_num = #{godNum}
+	</update>
+	
 	<delete id = "deleteGoods" parameterType = "int">
 		delete from goods
 		where god_num = #{godNum}
+	</delete>
+	
+	<delete id = "deleteGoodsSub" parameterType = "int">
+		delete from goods_sub_images
+		where god_num = #{godNum}
+	</delete>
+	
+	<delete id = "removeGoodsSub" parameterType = "map">
+		delete from goods_sub_images
+		where god_num = #{godNum} and imgnum = #{imgNum}
+	</delete>
+	
+	<delete id = "deleteGoodsOption" parameterType = "int">
+		delete from goods_option
+		where god_num = #{godNum}
+	</delete>
+	
+	<delete id = "deleteGoodsIntroduce" parameterType = "int">
+		delete from intros
+		where god_num = #{godNum}
+	</delete>
+	
+	<delete id = "removeGoods" parameterType = "hashmap">
+		delete from goods
+		where god_num in
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach>
 	</delete>
 	 
 	<resultMap id = "godMap" type = "god">
 		<id property = "godNum" column = "god_num" />
 		<result property = "godName" column = "god_name" />
+		<result property = "godcNum" column = "godc_num" />
 		<result property = "godcName" column = "godc_name" />
 		<result property = "godDisplayType" column = "god_displaytype" />
 		<result property = "godSellingLimit" column = "god_sellinglimit" />

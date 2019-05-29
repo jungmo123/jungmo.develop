@@ -20,4 +20,10 @@ public interface GoodsAdminDao {
 	List<GoodsOption> selectGodc(@Param("godNum") String godNum,@Param("optName") String optName);
 	List<GoodsIntroduce> selectGodI(int godNum);
 	List<GoodsSubImage>selectSubImg(int godNum);
+	int deleteGoodsSub(int godNum);
+	int removeGoodsSub(@Param("godNum") String godNum,@Param("imgNum") String imgNum);
+	int deleteGoodsOption(int godNum);
+	int deleteGoodsIntroduce(int godNum);
+	int updateGoods(Goods god);
+	int removeGoods(HashMap<String,List<String>> map);
 }

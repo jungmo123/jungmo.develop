@@ -60,4 +60,28 @@ public class GoodsAdminServiceImpl implements GoodsAdminService{
 	public List<GoodsSubImage>selectSubImg(int godNum){
 		return gaDao.selectSubImg(godNum);
 	}
+	
+	public int deleteGoodsSub(int godNum){
+		return gaDao.deleteGoodsSub(godNum);
+	}
+	
+	public int removeGoodsSub(String godNum,String imgNum){
+		return gaDao.removeGoodsSub(godNum, imgNum);
+	}
+	
+	public int deleteGoodsOption(int godNum){
+		return gaDao.deleteGoodsOption(godNum);
+	}
+	
+	public int deleteGoodsIntroduce(int godNum){
+		return gaDao.deleteGoodsIntroduce(godNum);
+	}
+	
+	public int updateGoods(Goods god){
+		return gaDao.updateGoods(god);
+	}
+	
+	public int removeGoods(HashMap<String,List<String>> map){
+		return gaDao.removeGoods(map);
+	}
 }

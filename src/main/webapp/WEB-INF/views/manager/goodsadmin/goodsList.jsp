@@ -302,7 +302,7 @@
 							<c:forEach var = "goods" items = "${posts}" varStatus = "state">
 							<tr>
 								<td>
-									<input type = "checkbox" />
+									<input id = "${goods.godNum}" type = "checkbox" />
 								</td>
 								<td>
 									<span>${goods.godcName}</span>
@@ -383,6 +383,29 @@
 	
 	$(".modify").click(function(){
 		location.href = 'goodsModify' + $(this).prop("id");
+	})
+	
+	$("#delete").click(function(){
+		var input = $("input[type='checkbox']:checked");
+		var list = [];
+		$.each(input,function(index,item){
+			list[index] = $(item).prop("id");
+		})
+		var form = $("<form></form>");
+		form.attr({
+			action:"DeleteGoods",
+			method:"post",
+			style:"display:none"
+		})
+		var $input = $("<input></input>");
+		$input.attr({
+			type:"text",
+			name:"list"
+		})
+		$input.val(list);
+		form.append($input);
+		$("body").append(form);
+		form.submit();
 	})
 </script>
 

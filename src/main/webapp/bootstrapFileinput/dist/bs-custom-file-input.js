@@ -76,7 +76,7 @@
 
   function handleInputChange() {
     var label = this.parentNode.querySelector(Selector.CUSTOMFILELABEL);
-
+    console.log("변경");
     if (label) {
       var element = findFirstChildNode(label);
       var inputValue = getSelectedFiles(this);
