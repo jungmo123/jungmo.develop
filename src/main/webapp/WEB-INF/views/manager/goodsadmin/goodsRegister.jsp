@@ -797,6 +797,14 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});						
+					}else{
+						Swal.fire({
+							  position: 'top',
+							  type: 'success',
+							  title: '등록되었습니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
 					}
 				},
 				error:function(a,b,errMsg){

@@ -24,4 +24,20 @@ public class GoodsCategoriesServiceImpl implements GoodsCategoriesService{
 	public GoodsCategories getCategory(String godcNum){
 		return godcDao.getCategory(godcNum);
 	}
+	
+	public List<GoodsCategories> selectCategories(){
+		return godcDao.selectCategories();
+	}
+	
+	public int addCategory(GoodsCategories gc){
+		return godcDao.addCategory(gc);
+	}
+	
+	public int modifyCategory(GoodsCategories gc){
+		return godcDao.modifyCategory(gc);
+	}
+	
+	public int deleteCategory(int godcNum){
+		return godcDao.deleteCategory(godcNum);
+	}
 }

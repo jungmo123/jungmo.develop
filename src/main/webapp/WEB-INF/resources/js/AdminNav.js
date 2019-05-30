@@ -136,4 +136,7 @@ $(function() {
 	$("#categoryBox > button").click(function(){
 		$("#categoryTable").removeClass("none");
 	})
+	$("#categoryBox p > span").click(function(){
+		$("#categoryTable").removeClass("none");
+	})
 })

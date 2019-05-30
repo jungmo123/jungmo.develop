@@ -24,7 +24,7 @@
 								<li><a href="orderRefund">환불</a></li>
 							</ul>
 						</div>
-						<div class="btn-group drop is-current">
+						<div class="btn-group drop">
 							<button type="button" class="btn btn-default dropdown-toggle"
 								type="button" data-toggle="dropdown">게시판 관리</button>
 							<ul class="dropdown-menu">
@@ -63,14 +63,14 @@
 							<ul class="dropdown-menu">
 								<li><a href="goodsRegister">상품 등록</a></li>
 								<li><a href="goodsList">상품 목록</a></li>
-								<li><a href="categoryManagement">카테고리 관리</a></li></li>
+								<li><a href="categoryManagement">카테고리 관리</a></li>
 							</ul>
 						</div>
-						<div class="btn-group drop">
+						<div class="btn-group drop is-current">
 							<button type="button" class="btn btn-default dropdown-toggle"
 								type="button" data-toggle="dropdown">기본 정책 관리</button>
 							<ul class="dropdown-menu">
-								<li><a href="../POLICY/01.html">약관</a></li>
+								<li><a href="clause">약관</a></li>
 								<li><a href="../POLICY/02.html">정책</a></li>
 							</ul>
 						</div>

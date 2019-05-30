@@ -391,6 +391,9 @@
 	    -webkit-appearance: none;
 	    margin: 0;
 	}
+	#goodsTd > strong{
+		display:block;
+	}
 </style>
 <body>
 
@@ -482,8 +485,16 @@
 								</td>
 							</tr>
 							<tr>
-								<td>
+								<td id = "goodsTd">
 									<strong>상품 옵션</strong>
+									<strong>
+									<input id = "check" type = "radio" name = "optionCheck" value = "사용" />
+									<label for="check">사용</label>
+									</strong>
+									<strong>
+									<input id = "nocheck" type = "radio" name = "optionCheck" value = "미사용" />
+									<label for="nocheck">미사용</label>
+									</strong>
 								</td>
 								<td id = "option" colspan = "5">
 									<p>
@@ -663,6 +674,8 @@ $(document).ready(function () {
 	$("input[name='repreImg2']").next().text("${repreImageUrl2}");
 	$("input[name='repreImg3']").next().text("${repreImageUrl3}");
 	$("input[name='repreImg4']").next().text("${repreImageUrl4}");
+	$("#nocheck").prop("checked",true);
+	$("#nocheck").trigger("click");
 	});
 	
 CKEDITOR.replace('WriteContent',{
@@ -1025,6 +1038,19 @@ $(".delete").click(function(){
 		}
 	})	
 })
+
+$("input[name='optionCheck']").click(function(){
+	if($("input[name='optionCheck']:checked").val()=='사용'){
+		$("#option input").attr("disabled",false);
+		$("#option button").attr("disabled",false);
+		$("#option input").removeClass("readonly");
+	}else{
+		$("#option input").attr("disabled",true);
+		$("#option button").attr("disabled",true);
+		$("#option input").addClass("readonly");	
+	}
+})
+
 </script>
 
 </body>

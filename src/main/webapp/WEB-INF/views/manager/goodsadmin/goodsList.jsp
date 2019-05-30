@@ -307,7 +307,7 @@
 								<td>
 									<span>${goods.godcName}</span>
 									<br>
-									<a href = "../../USER/GOODS/02.html" target = "_blank">${goods.godName}</a>
+									<a>${goods.godName}</a>
 								</td>
 								<td>
 									<span><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</span>
@@ -386,26 +386,38 @@
 	})
 	
 	$("#delete").click(function(){
-		var input = $("input[type='checkbox']:checked");
-		var list = [];
-		$.each(input,function(index,item){
-			list[index] = $(item).prop("id");
-		})
-		var form = $("<form></form>");
-		form.attr({
-			action:"DeleteGoods",
-			method:"post",
-			style:"display:none"
-		})
-		var $input = $("<input></input>");
-		$input.attr({
-			type:"text",
-			name:"list"
-		})
-		$input.val(list);
-		form.append($input);
-		$("body").append(form);
-		form.submit();
+		Swal.fire({
+			  title: '삭제하시겠습니까?',
+			  type: 'info',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '네',
+			  cancelButtonText: '아니요'
+			}).then((result) => {
+			  if (result.value) {
+					var input = $("input[type='checkbox']:checked");
+					var list = [];
+					$.each(input,function(index,item){
+						list[index] = $(item).prop("id");
+					})
+					var form = $("<form></form>");
+					form.attr({
+						action:"DeleteGoods",
+						method:"post",
+						style:"display:none"
+					})
+					var $input = $("<input></input>");
+					$input.attr({
+						type:"text",
+						name:"list"
+					})
+					$input.val(list);
+					form.append($input);
+					$("body").append(form);
+					form.submit();
+			  }
+			})
 	})
 </script>
 

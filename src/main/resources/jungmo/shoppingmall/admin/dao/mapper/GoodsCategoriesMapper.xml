@@ -3,16 +3,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.boardadmin.dao.mapper.GoodsCategoriesMapper">
 	<select id = "getCategories" resultType = "godc">
-	 	select godc_num godcNum,godc_name godcName,godc_content godcContent
+	 	select godc_num godcNum,godc_name godcName,godc_content godcContent,godc_viewstate godcViewState
 	 	from goods_categories
 	 	where godc_viewstate = 'visible' or godc_viewstate = 'allsold'
 	</select>
 	<select id = "getCategory" parameterType = "string" resultType = "godc">
- 		select godc_num godcNum,godc_name godcName,godc_content godcContent
+ 		select godc_num godcNum,godc_name godcName,godc_content godcContent,godc_viewstate godcViewState
 	 	from goods_categories
 	 	where godc_num = #{godcNum}
 	</select>
 	
+	<select id = "selectCategories" resultType = "godc">
+	 	select godc_num godcNum,godc_name godcName,godc_content godcContent,godc_viewstate godcViewState
+	 	from goods_categories
+	 	order by godc_num
+	</select>
+	 
 	<update id = "newCategory" parameterType="map">
 		update goods_categories
 		set godc_content = #{content}
@@ -20,4 +26,20 @@
 			where godc_num = #{godcNum}
 		</if>
 	</update>
+	 
+	<update id = "modifyCategory" parameterType = "godc">
+		update goods_categories
+		set godc_name = #{godcName},godc_viewstate = #{godcViewState}
+		where godc_num = #{godcNum}
+	</update>
+	 
+	<insert id = "addCategory" parameterType = "godc">
+		insert into goods_categories
+		values (godc_seq.nextval,#{godcName},#{godcViewState},null)
+	</insert>
+	
+	<delete id = "deleteCategory" parameterType = "int">
+		delete from goods_categories
+		where godc_num = #{godcNum}
+	</delete>
 </mapper>

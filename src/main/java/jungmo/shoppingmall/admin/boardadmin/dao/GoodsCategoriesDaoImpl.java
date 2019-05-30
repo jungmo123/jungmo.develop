@@ -24,4 +24,20 @@ public class GoodsCategoriesDaoImpl implements GoodsCategoriesDao{
 	public GoodsCategories getCategory(String godcNum){
 		return godcMapper.getCategory(godcNum);
 	}
+	
+	public List<GoodsCategories> selectCategories(){
+		return godcMapper.selectCategories();
+	}
+	
+	public int addCategory(GoodsCategories gc){
+		return godcMapper.addCategory(gc);
+	}
+	
+	public int modifyCategory(GoodsCategories gc){
+		return godcMapper.modifyCategory(gc);
+	}
+	
+	public int deleteCategory(int godcNum){
+		return godcMapper.deleteCategory(godcNum);
+	}
 }

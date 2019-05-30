@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.service.*;
 import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.goodsadmin.service.*;
@@ -350,6 +351,7 @@ public class GoodsAdminController {
 		String productState = request.getParameter("productstate");
 		String optionList = request.getParameter("optionList");
 		String infoList = request.getParameter("infoList");
+		String optionCheck  = request.getParameter("optionCheck");
 		String indexFile = "";
 		String mainFile ="";
 		productInfo.trim();
@@ -497,38 +499,39 @@ public class GoodsAdminController {
 			gaService.deleteGoods(Integer.valueOf(godNum));
 			return "Gioverlap";
 		}
-		try{ 
-			System.out.println(optionList);
-			while(st1.hasMoreTokens()){
-				String str1 = st1.nextToken();
-				StringTokenizer str11= new StringTokenizer(str1,"@^&");
-				while(str11.hasMoreTokens()){
-					String str111 = str11.nextToken();
-					switch(k){
-					case 0:	ol.setGodNum(Integer.valueOf(godNum));
-								ol.setOptName(str111);
-								k++;
-								break;
-					case 1:ol.setOptContent(str111);
-								k++;
-								break;
-					case 2:ol.setOptPrice(str111);
-								k = 0;
-								optionArray.add(ol);
-								ol = new GoodsOption();
-								break;
-					}					
+		if(optionCheck.equals("사용")){
+			try{ 
+				while(st1.hasMoreTokens()){
+					String str1 = st1.nextToken();
+					StringTokenizer str11= new StringTokenizer(str1,"@^&");
+					while(str11.hasMoreTokens()){
+						String str111 = str11.nextToken();
+						switch(k){
+						case 0:	ol.setGodNum(Integer.valueOf(godNum));
+									ol.setOptName(str111);
+									k++;
+									break;
+						case 1:ol.setOptContent(str111);
+									k++;
+									break;
+						case 2:ol.setOptPrice(str111);
+									k = 0;
+									optionArray.add(ol);
+									ol = new GoodsOption();
+									break;
+						}					
+					}
 				}
-			}
-			for(int i = 0 ; i < optionArray.size() ; i++){
-				System.out.println(optionArray.get(i).getGodNum() + " " + optionArray.get(i).getOptName() + " " + optionArray.get(i).getOptPrice() + " " + optionArray.get(i).getOptContent());
-			}
-			if(!optionList.equals("")){
-				go.put("ol", optionArray);
-				gaService.insertGoodsOption(go);
-			}
-		}catch(Exception e){
-			return "Gooverlap";
+				for(int i = 0 ; i < optionArray.size() ; i++){
+					System.out.println(optionArray.get(i).getGodNum() + " " + optionArray.get(i).getOptName() + " " + optionArray.get(i).getOptPrice() + " " + optionArray.get(i).getOptContent());
+				}
+				if(!optionList.equals("")){
+					go.put("ol", optionArray);
+					gaService.insertGoodsOption(go);
+				}
+			}catch(Exception e){
+				return "Gooverlap";
+			}			
 		}
 		return "";
 	}
@@ -560,5 +563,44 @@ public class GoodsAdminController {
 		map.put("list", list);
 		gaService.removeGoods(map);
 		return "redirect:goodsList" + type+ index;
+	}
+	
+	
+	// 카테고리 관리
+	
+	@RequestMapping("/admin/categoryManagement")
+	public String categoryManagement(HttpServletRequest request,Model model){
+		model.addAttribute("categories",godcService.selectCategories());
+		return "manager/goodsadmin/goodsCategory";
+	}
+
+	@RequestMapping("/admin/createCategory")
+	@ResponseBody
+	public String createCategory(MultipartHttpServletRequest request){
+		String categoryName = request.getParameter("categoryName");
+		String displayType = request.getParameter("show");
+		godcService.addCategory(new GoodsCategories(categoryName,displayType));
+		return "";
+	}
+	
+	@RequestMapping("/admin/modifyCategory")
+	@ResponseBody
+	public String modifyCategory(MultipartHttpServletRequest request){
+		String categoryName = request.getParameter("categoryName");
+		String displayType = request.getParameter("show");
+		String godcNum = request.getParameter("categoryNum");
+		try{
+			godcService.modifyCategory(new GoodsCategories(Integer.valueOf(godcNum),categoryName,displayType));
+		}catch(Exception e){
+			return "overlap";
+		}
+		return "";
+	}
+	
+	@RequestMapping("/admin/deleteCategory")
+	@ResponseBody
+	public String deleteCategory(int categoryNum){
+		godcService.deleteCategory(categoryNum);
+		return "";
 	}
 }
