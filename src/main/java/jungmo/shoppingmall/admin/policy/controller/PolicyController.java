@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class PolicyController {
 	@Autowired private JoinService joinService;
+	private List<Integer> deleteArray;
 	
 	@RequestMapping("/admin/clause")
 	public String clause(){
+		deleteArray = new ArrayList<>();
 		return "manager/policy/clause";
 	}
 	
@@ -27,7 +29,10 @@ public class PolicyController {
 	@RequestMapping("/admin/deleteClause")
 	@ResponseBody
 	public String deleteClause(int clsNum){
-		System.out.println(clsNum);
+		deleteArray.add(clsNum);
+		for(int i = 0 ; i < deleteArray.size() ;i++){
+			System.out.println(deleteArray.get(i));
+		}
 		return "";
 	}
 }
