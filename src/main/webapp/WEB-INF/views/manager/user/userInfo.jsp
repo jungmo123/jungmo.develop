@@ -469,7 +469,7 @@
 							<td><strong>동의내역</strong></td>
 							<td>
 								<c:forEach var = "clause" items = "${clauses}" varStatus = "state">
-									<span><strong>&#124;&nbsp;</strong>${clause.clsTitle} : <strong>${clause.clscAgreement}</strong></span>
+									<span><strong>&#124;&nbsp;</strong>${clause.clsTitle} : <strong>${clause.clscAgreement}</strong></span><br>
 								</c:forEach>
 							</td>
 						</tr>

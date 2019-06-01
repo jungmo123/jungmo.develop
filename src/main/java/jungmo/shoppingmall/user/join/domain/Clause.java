@@ -5,6 +5,14 @@ public class Clause {
 	private String clsTitle;
 	private	String clsContent;
 	private String clsUsage;
+	
+	public Clause(){}
+
+	public Clause(String clsTitle, String clsContent, String clsUsage) {
+		this.clsTitle = clsTitle;
+		this.clsContent = clsContent;
+		this.clsUsage = clsUsage;
+	}
 
 	public int getClsNum() {
 		return clsNum;

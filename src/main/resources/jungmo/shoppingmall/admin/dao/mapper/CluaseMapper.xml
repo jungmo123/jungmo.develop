@@ -2,8 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.policy.dao.mapper.ClauseMapper">
-	<insert id = "insertClause">
+	<select id = "getDeliveryPolicy" resultType = "dp">
+		select dvp_num dvpNum,basic_fee basicFee,freedeliverymp freeDeliveryMp
+		from delivery_policies
+		where dvp_num = 1
+	</select>
+	
+	<select id = "getNoDeliveryArea" resultType = "nda">
+		select nda_num ndaNum,nda_postcode ndaPostCode,nda_street ndaStreet
+		from no_delivery_area
+	</select>
+	
+	<select id = "getPointPolicy" resultType = "pp">
+		select pnp_num pnpNum,joinpoint joinPoint,savepointpercent savePointPercent
+		from point_policies
+		where pnp_num = 1
+	</select>
+	
+	<select id = "getCommonPolicy" resultType = "cmp">
+		select cmp_num cmpNum,cmp_delivery_guide cmpDeliveryGuide,cmp_exchange_guide cmpExchangeGuide
+		from common_policies
+	</select>
+
+	<insert id = "insertClause" parameterType = "cls">
 		insert into clauses
-		values(clause_seq.nextval,null,null,null);
+		values(clause_seq.nextval,#{clsTitle},#{clsContent},#{clsUsage})
 	</insert>
+	
+	<insert id = "insertNda" parameterType = "hashmap">
+		insert all
+		<foreach item = "nda" collection = "ndaList" index = "index">
+			into no_delivery_area
+			values(#{index}+1,#{nda.ndaPostCode},#{nda.ndaStreet})
+		</foreach>
+		select 1 from dual
+	</insert>
+	
+	<delete id = "deleteClause" parameterType = "hashmap">
+		delete from clauses
+		where cls_num in
+		<foreach item = "del" collection = "delete" index = "index" open="(" separator="," close=")">
+			#{del}
+		</foreach>
+	</delete>
+	 
+	<delete id = "deleteNda">
+		delete from no_delivery_area
+	</delete>
+	
+	<update id = "updateClause" parameterType = "cls">
+		update clauses
+		set cls_title = #{clsTitle},cls_content = #{clsContent},cls_usage = #{clsUsage}
+		where cls_num = #{clsNum}
+	</update>
 </mapper>

@@ -606,8 +606,7 @@ CKEDITOR.replace('WriteContent',{
     toolbar: 'Full',
     uiColor: '#F2F5F7',
     height:'200px'
-}
-);
+});
 CKEDITOR.config.language = 'ko';
 
 $("input[type='file']").change(function(){
@@ -753,7 +752,7 @@ $("#register").click(function(){
 	}else if(introduce == ""){
 		text = "상품 소개글을 입력하세요!";
 	}else if(!indeximg){
-			text = "목록 이미지를 선택 하세요!";
+		text = "목록 이미지를 선택 하세요!";
 	}else if(!repreImg1 && !repreImg2 && !repreImg3 && !repreImg4){
 		text = "대표 이미지를 하나 이상 선택 하세요!";
 	}else if(!mainImg){

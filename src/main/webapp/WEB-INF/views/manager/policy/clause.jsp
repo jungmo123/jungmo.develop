@@ -59,7 +59,7 @@
 			</div>
 			<div id="submenu">
 				<a href="clause" class = "activeMenu"><span>약관</span></a> 
-				<a href="goodsList"><span>정책</span></a> 
+				<a href="policy"><span>정책</span></a> 
 			</div>
 		</div>
 		<div id="content">
@@ -71,12 +71,12 @@
 				</div>
 				<div id = "clauseDiv">
 					<p>
-						<button class = "btn btn-default add">약관 추가하기</button>
+						<button id = "addClause" class = "btn btn-default add">약관 추가하기</button>
 					</p>
 				</div>
 				<div id = "buttonGroup">
-					<button class = "btn btn-default">저장</button>
-					<button class = "btn btn-default">취소</button>
+					<button id = "save" class = "btn btn-default">저장</button>
+					<button id = "cancel" class = "btn btn-default">취소</button>
 				</div>
 			</div>
 		</div>
@@ -89,10 +89,9 @@
 			method:"post",
 			success:function(data){
 				$.each(data,function(index,item){
-					console.log(item);
 					var div1 = $("<div class = 'inputDiv'>");
 					var div2 = $("<div class = 'inputBox'>");
-					var form = $("<form id = 'registerForm' method='post'></form>");
+					var form = $("<form class = 'registerForm' method='post'></form>");
 					var input = $("<input type = 'number' name = 'clsNum' style='display:none'/>");
 					input.val(item.clsNum);
 					var input1 = $("<input class  ='form-control' type = 'text' name = 'title' />");
@@ -145,14 +144,112 @@
 		})		
 	})
 	$(document).on("click",".delete",function(){
-		var clsNum = $(this).parents("#registerForm").find("input[type='number']").val();
-		$.ajax({
+		var clsNum = $(this).parents(".registerForm").find("input[type='number']").val();
+		var form = $(this).parents(".registerForm");
+		if(clsNum == undefined){
+			clsNum = 0;
+		}
+ 		$.ajax({
 			url:"deleteClause",
 			data:{
 				clsNum:clsNum	
 			},
 			method:"post",
 			success:function(data){
+				form.remove();
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '실패하였습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+			}
+		}) 
+	})
+	
+	$("#addClause").click(function(){
+		var div1 = $("<div class = 'inputDiv'>");
+		var div2 = $("<div class = 'inputBox'>");
+		var form = $("<form class = 'registerForm' method='post'></form>");
+		var input1 = $("<input class  ='form-control' type = 'text' name = 'title' />");
+		var textarea = $("<textarea name = 'clauseContent'></textarea>");
+		var radio1 = $("<input type = 'radio' id ='agree' value = '사용'>");
+		var label1 = $("<label for  = 'agree'>사용함</label>");
+		var radio2 = $("<input type = 'radio' id ='reject' value = '사용하지않음'>");
+		var label2 = $("<label for  = 'reject'>사용하지 않음</label>");
+		var radio3 = $("<input type = 'radio' id ='necessariness' value = '필수'>");
+		var label3 = $("<label for  = 'necessariness'>필수 동의</label>");
+		var button = $("<button type = 'button' class = 'btn btn-default delete'>삭제</button>");
+		var name = "agree";
+		radio1.attr("name",name);
+		radio2.attr("name",name);
+		radio3.attr("name",name);
+		form.append(input1);
+		form.append(textarea);
+		form.append(textarea);
+		form.append(radio1);
+		form.append(label1);
+		form.append(radio2);
+		form.append(label2);
+		form.append(radio3);
+		form.append(label3);
+		form.append(button);
+		div2.append(form);
+		div1.append(div2);
+		$("#clauseDiv").append(div1);		
+	})
+	
+	$("#save").click(function(){
+		var form = $(".registerForm");
+		var array = [];
+		$.each(form,function(index,item){
+			var error = "";
+			var title = $(item).find("input[type='text']").val();
+			var content = $(item).find("textarea").val();
+			var radio = $(item).find("input[type='radio']:checked").val();
+			var clsNum = $(item).find("input[type='number']").val();
+			if(title == ""){
+				error = index+1 + "번째 약관의 제목을 입력하세요!";
+			}else if(content == ""){
+				error = index+1 + "번째 약관의 내용을 입력하세요!";
+			}else if(radio == undefined){
+				error = index+1 + "번째 약관의 사용 여부를 체크하세요!"
+			}
+			
+			if (clsNum == undefined) {
+				clsNum = "";
+			}
+			if(error != ""){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: error,
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;				
+			}
+			
+			var list = {
+					title:title,
+					content:content,
+					radio:radio,
+					clsNum:clsNum
+			}
+			array.push(list);
+		})
+		$.ajax({
+			url:"modifyClause",
+			data:JSON.stringify(array),
+			datatype:'json',
+			tranditional:true,
+			method:"post",
+			contentType:"application/json",
+			success:function(data){
+				console.log("성공");
 			},
 			error:function(a,b,errMsg){
 				Swal.fire({
