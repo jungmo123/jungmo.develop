@@ -40,4 +40,8 @@ public class EventServiceImpl implements EventService{
 	public int modifyEvent(Event event){
 		return eventDao.modifyEvent(event);
 	}
+	
+	public Event getEventContent(int eventNum){
+		return eventDao.getEventContent(eventNum);
+	}
 }

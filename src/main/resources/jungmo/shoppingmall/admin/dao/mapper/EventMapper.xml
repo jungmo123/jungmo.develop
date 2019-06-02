@@ -14,6 +14,12 @@
 			]]>
 	</select>
 	
+	<select id = "getEventContent" parameterType = "int" resultMap = "eventMap">
+		select event_content
+		from events
+		where event_num = #{eventNum}
+	</select>
+	 
 	<select id = "getEventSearch" parameterType = "page" resultMap = "eventMap">
 		  <![CDATA[
 		  select * from(

@@ -15,4 +15,7 @@ public interface ClauseDao {
 	CommonPolicy getCommonPolicy();
 	void insertNda(HashMap<String,List<NoDeliveryArea>> map);
 	void deleteNda();
+	void updateDp(DeliveryPolicy dp);
+	void updatePp(PointPolicy pp);
+	void updateCp(CommonPolicy cp);
 }

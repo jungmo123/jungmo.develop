@@ -9,7 +9,7 @@
 			<div id="navBar">
 				<div id="topmenu">
 					<span> <a href="../">이용자 화면 보기</a> <span>&#124;</span> <a
-						href="../INTRABOARD/01.html">사내 게시판</a> <span>&#124;</span> <a href="logout">로그아웃</a>
+						href="board">사내 게시판</a> <span>&#124;</span> <a href="logout">로그아웃</a>
 					</span>
 				</div>
 				<div id="conatiner">
@@ -71,7 +71,7 @@
 								type="button" data-toggle="dropdown">기본 정책 관리</button>
 							<ul class="dropdown-menu">
 								<li><a href="clause">약관</a></li>
-								<li><a href="../POLICY/02.html">정책</a></li>
+								<li><a href="policy">정책</a></li>
 							</ul>
 						</div>
 						<div class="nav-underline"></div>

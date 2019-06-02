@@ -11,8 +11,8 @@ import jungmo.shoppingmall.user.join.service.*;
 import net.sf.json.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.dao.*;
 import org.springframework.stereotype.*;
-import org.springframework.transaction.annotation.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
@@ -87,32 +87,19 @@ public class PolicyController {
 		return "/manager/policy/policy";
 	}
 	
-	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
+	@RequestMapping("/admin/getCp")
+	@ResponseBody
+	public CommonPolicy getCp(){
+		return clsService.getCommonPolicy();
+	}
+	
 	@RequestMapping("/admin/ModifyPolicy")
 	@ResponseBody
 	public String ModifyPolicy(MultipartHttpServletRequest request){
-		String basicFee = request.getParameter("basicFee");
-		String freeDeliveryMp = request.getParameter("freeDeliveryMp");
-		String ndaList = request.getParameter("ndaList");
-		HashMap<String,List<NoDeliveryArea>> map = new HashMap<>();
-		List<NoDeliveryArea> list = new ArrayList<>();
-		StringTokenizer st = new StringTokenizer(ndaList,",");
-		String joinP = request.getParameter("joinP");
-		String saveP = request.getParameter("saveP");
-		String delivery = request.getParameter("delivery").trim();
-		String service = request.getParameter("service").trim();
-		clsService.deleteNda();
-		if(!ndaList.equals("")){
-			StringTokenizer st1 = new StringTokenizer(ndaList,",");
-			while(st1.hasMoreElements()){
-				StringTokenizer st2 = new StringTokenizer(st1.nextToken(),"[ ]");
-				String postcode = st2.nextToken().trim();
-				String street = st2.nextToken().trim();
-				NoDeliveryArea nda = new NoDeliveryArea(postcode,street);
-				list.add(nda);
-			}
-			map.put("ndaList", list);
-			clsService.insertNda(map);
+		try{
+			clsService.modifyPolicy(request,clsService);
+		}catch(DuplicateKeyException e){
+			return "uk";
 		}
 		return "";
 	}

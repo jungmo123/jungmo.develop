@@ -13,4 +13,5 @@ public interface EventMapper {
 	int delEvent(int eventNum);
 	int addEvent(Event event);
 	int modifyEvent(Event event);
+	Event getEventContent(int eventNum);
 }

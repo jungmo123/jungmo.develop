@@ -23,7 +23,6 @@ body
 {
 	font-size: 13px;
 	line-height: 0.5;
-
 	/* Fix for missing scrollbars with RTL texts. (#10488) */
 	word-wrap: break-word;
 }

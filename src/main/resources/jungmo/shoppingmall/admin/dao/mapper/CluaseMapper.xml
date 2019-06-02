@@ -55,4 +55,22 @@
 		set cls_title = #{clsTitle},cls_content = #{clsContent},cls_usage = #{clsUsage}
 		where cls_num = #{clsNum}
 	</update>
+	
+	<update id = "updateDp" parameterType = "dp">
+		update delivery_policies
+		set basic_fee = #{basicFee},freedeliverymp = #{freeDeliveryMp}
+		where dvp_num = 1
+	</update>
+	
+	<update id = "updatePp" parameterType = "pp">
+		update point_policies
+		set joinpoint= #{joinPoint},savepointpercent = #{savePointPercent}
+		where pnp_num = 1
+	</update>
+	
+	<update id = "updateCp" parameterType = "cmp">
+		update common_policies
+		set cmp_delivery_guide = #{cmpDeliveryGuide},cmp_exchange_guide = #{cmpExchangeGuide}
+		where cmp_num = 1
+	</update>
 </mapper>

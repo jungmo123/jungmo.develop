@@ -28,7 +28,7 @@ public class PageServiceImpl implements PageService{
 		this.pageNumCnt = pageNumCnt;
 		this.page = page;
 		init();
-	}	
+	}
 	
 	public int getTotRowCnt(String type){
 		return pageDao.getTotRowCnt(type);
@@ -129,13 +129,9 @@ public class PageServiceImpl implements PageService{
 	
 	private void init(){
 		endPage = (int)(Math.ceil(page.getCurrentPage()/(double)pageNumCnt)*pageNumCnt);
-		
 		startPage = (endPage-pageNumCnt)+1;
-		
 		int lastEndPage = (int)(Math.ceil(totRowCnt/(double)page.getRowCnt()));
-		
 		if(endPage > lastEndPage) endPage = lastEndPage;
-		
 		prev = startPage ==1?false:true;
 		next = endPage*page.getRowCnt() >= totRowCnt?false:true;
 	}

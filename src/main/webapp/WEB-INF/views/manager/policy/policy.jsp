@@ -77,6 +77,11 @@
 	p span:first-child{
 		font-weight:bold;
 	}
+	p input[type='checkbox']{
+		margin:4px 2px 0;
+		position:relative;
+		top:2px;
+	}
 	.deliveryGuide{
 		margin-top:20px;
 	}
@@ -212,8 +217,7 @@
 						<div id = "AddressDiv">
 								<c:forEach var = "nda" items = "${nda}">
 									<p>
-										<input type = "checkbox" />
-										<span>[${nda.ndaPostCode}] ${nda.ndaStreet}</span>
+										<input type = "checkbox" /><span>[${nda.ndaPostCode}] ${nda.ndaStreet}</span>
 									</p>
 								</c:forEach>
 						</div>
@@ -275,11 +279,20 @@
 	});
 	CKEDITOR.config.language = 'ko';	
 	
-	var delivery = '${cmp.cmpDeliveryGuide}';
-	CKEDITOR.instances.deliveryInfo.setData(delivery);	
-	
-	var exchange = '${cmp.cmpExchangeGuide}';
-	CKEDITOR.instances.serviceInfo.setData(exchange);	
+	$(function(){
+ 		$.ajax({
+			url:"getCp",
+			method:"post",
+			success:function(data){
+				CKEDITOR.instances.deliveryInfo.setData(data.cmpDeliveryGuide);	
+				
+				CKEDITOR.instances.serviceInfo.setData(data.cmpExchangeGuide);	
+			},
+			error:function(a,b,errMsg){
+				console.log(errMsg);
+			}
+		})		
+	})
 
     function showPostcode() {
         new daum.Postcode({
@@ -428,7 +441,23 @@
 				contentType:false,
 				type:'POST',   
 				success:function(data){
-					console.log("성공");
+				if(data == ""){
+					Swal.fire({
+						  position: 'top',
+						  type: 'success',
+						  title: '저장되었습니다!',
+						  showConfirmButton: false,
+						  timer: 1500
+						});				
+				}else if(data == "uk"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '중복된 배송 불가지역입니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});						
+					}
 				},
 				error:function(a,b,errMsg){
 					Swal.fire({

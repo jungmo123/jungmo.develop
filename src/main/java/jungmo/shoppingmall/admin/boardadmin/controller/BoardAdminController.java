@@ -591,11 +591,17 @@ public class BoardAdminController {
 		System.out.println(eventType);
 	}	
 	
+	@RequestMapping("/admin/getEventContent")
+	@ResponseBody
+	public Event getEventContent(int eventNum){
+		return eventService.getEventContent(eventNum);
+	}
+	
 	@RequestMapping(value="/admin/eventSearch{idx}",method=RequestMethod.GET)
 	public String eventGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
 		eventSearch(request,model,idx);
 		return "manager/boardadmin/event";
-	}
+	}	
 	
 	@RequestMapping(value="/admin/eventSearch{idx}",method=RequestMethod.POST)
 	public String eventPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
@@ -698,16 +704,18 @@ public class BoardAdminController {
 			summary += value[0]+"<br>";
 			summary += value[1];
 		}
-		if(original != null && original != ""){
+		System.out.println(original);
+		System.out.println();
+		System.out.println();
+		if(original != null && !original.equals("")){
 			int eventNum = Integer.valueOf(request.getParameter("eventNum"));
-			if(file != null){
+			if(!file.getOriginalFilename().equals("")){
 				String fileName = file.getOriginalFilename();
 				fullname = "/upload" + "/" + id+today+fileName;
 				save(dir + "/" + id+today+fileName,file);
 				eventService.modifyEvent(new Event(eventNum,title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
 			}else{
-				fullname = original;
-				eventService.modifyEvent(new Event(eventNum,title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
+				eventService.modifyEvent(new Event(eventNum,title,summary,content,original,Integer.parseInt(view),sdate,edate));
 			}
 		}else{
 			String fileName = file.getOriginalFilename();
@@ -715,7 +723,7 @@ public class BoardAdminController {
 			save(dir + "/" + id+today+fileName,file);
 			eventService.addEvent(new Event(title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
 		} 			
-		return "redirect:event1";
+		return "redirect:EIDX";
 	}
 	
 	private void save(String fileFullName,MultipartFile uploadFile){

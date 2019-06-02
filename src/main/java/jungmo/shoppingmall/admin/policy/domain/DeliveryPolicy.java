@@ -6,9 +6,8 @@ public class DeliveryPolicy {
 	private int freeDeliveryMp;
 	
 	public DeliveryPolicy(){}
-	
-	public DeliveryPolicy(int dvpNum, int basicFee, int freeDeliveryMp) {
-		this.dvpNum = dvpNum;
+
+	public DeliveryPolicy(int basicFee, int freeDeliveryMp) {
 		this.basicFee = basicFee;
 		this.freeDeliveryMp = freeDeliveryMp;
 	}

@@ -47,4 +47,16 @@ public class ClauseDaoImpl implements ClauseDao{
 	public void deleteNda(){
 		clauseMapper.deleteNda();
 	}
+	
+	public void updateDp(DeliveryPolicy dp){
+		clauseMapper.updateDp(dp);
+	}
+	
+	public void updatePp(PointPolicy pp){
+		clauseMapper.updatePp(pp);
+	}
+	
+	public void updateCp(CommonPolicy cp){
+		clauseMapper.updateCp(cp);
+	}
 }

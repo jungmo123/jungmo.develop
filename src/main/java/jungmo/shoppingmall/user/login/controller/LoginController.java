@@ -2,17 +2,38 @@ package jungmo.shoppingmall.user.login.controller;
 
 import javax.servlet.http.*;
 
+import jungmo.shoppingmall.admin.boardadmin.service.*;
+import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.user.login.domain.*;
 import jungmo.shoppingmall.user.login.service.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 
 @Controller
 public class LoginController {
 	@Autowired private LoginService loginService;
+	@Autowired private PageService pageService;
+	@Autowired private PostsService posService;
+	@Autowired private BoardCategoriesService boscService;
+	private int index;
+	private String type;
+	
+	public void common(HttpServletRequest request,Model model,int board,String idx,int borNum,int poscNum){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx),borNum,poscNum);
+		PageService ps = new PageServiceImpl(10,myPage,pageService.getBoardTotRowCnt(borNum, poscNum));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",posService.getPosts(myPage));
+		model.addAttribute("type",String.valueOf(poscNum));
+		model.addAttribute("categories",boscService.getBC(board));
+		index = Integer.valueOf(idx);
+		type = "";
+	}
 	
 	@RequestMapping("/")
 	public String home(){
@@ -65,6 +86,17 @@ public class LoginController {
 	@RequestMapping("/admin/main")
 	public String adminHome(){
 		return "manager/main/adminMain";
+	}
+	
+	@RequestMapping("/admin/board")
+	public String bo(){
+		return "redirect:board1";
+	}
+	
+	@RequestMapping("/admin/board{idx}")
+	public String board(@PathVariable String idx,HttpServletRequest request,Model model){
+		common(request,model,65,idx,1,65);
+		return "manager/main/board";
 	}
 	
 	@RequestMapping("/admin/logout")

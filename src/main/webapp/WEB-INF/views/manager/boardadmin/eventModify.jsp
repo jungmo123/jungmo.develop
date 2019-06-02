@@ -230,7 +230,7 @@
 				<p id = "currentIdx">&#124; 게시판관리 > 이벤트 등록/수정하기</p>
 			</div>
 			<c:if test = "${event!=null}">
-			<form id = "modify" action = "addEvent" method = "post" enctype = "multipart/form-data">
+			<form id = "modify" action = "modifyEvent" method = "post" enctype = "multipart/form-data">
 				<input type = "text" name = "eventNum" value = "${event.eventNum}" style="display:none" />
 				<div id = "event">
 					<div id = "eventForm">
@@ -485,7 +485,6 @@ function injection(obj){
 			});
 		return false;
 	}
-	$("#WriteContent").val(CKEDITOR.instances.WriteContent.getData());
 	return true;	
 }
 

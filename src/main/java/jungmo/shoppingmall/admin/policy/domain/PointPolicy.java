@@ -7,8 +7,7 @@ public class PointPolicy {
 	
 	public PointPolicy(){}
 	
-	public PointPolicy(int pnpNum, int joinPoint, int savePointPercent) {
-		this.pnpNum = pnpNum;
+	public PointPolicy(int joinPoint, int savePointPercent) {
 		this.joinPoint = joinPoint;
 		this.savePointPercent = savePointPercent;
 	}
