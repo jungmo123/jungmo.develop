@@ -319,7 +319,7 @@
 							</div>
 							<div id = "buttonGroup">
 								<button type = "submit" class = "btn btn-default">작성 완료</button>
-								<button class = "btn btn-default">작성 취소</button>
+								<button type = "button" class = "btn btn-default" onclick="location.href='event'">작성 취소</button>
 							</div>
 						</div>				
 				</div>

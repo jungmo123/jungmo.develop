@@ -133,7 +133,7 @@
 				<p id = "menuName">Board Managament</p>
 				<p id = "currentIdx">&#124; 사내 게시판</p>
 			</div>
-			<form action = "communitySearch1" method = "post">
+			<form action = "boardSearch1" method = "post">
 			<div id = "searchBar">
 				<select id = "cmSearch" class = "form-control" name = "searchType">
 					<option value = "1">제목 + 내용</option>
@@ -174,45 +174,27 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<button id = "write" class = "btn btn-default" onclick = "location.href = '/shoppingmall/admin/communityWrite'">글쓰기</button>
+				<button id = "write" class = "btn btn-default" onclick = "location.href = '/shoppingmall/admin/boardWrite'">글쓰기</button>
 			</div>
- 			<div id = "pagination">
-				<div>
-					<ul class = "pagination">
-						<c:if test = "${type != 'Search'}">
-							<c:if test = "${pageMaker.prev}">
-								<li><a href = "community${type}I${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-							</c:if>
-							
-							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
-								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "community${type}I${idx}">${idx}</a>
-								</li>
-							</c:forEach>
-	
-							<c:if test = "${pageMaker.next}">
-								<li><a href = "community${type}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
-							</c:if>
-						</c:if>
-						
-						<c:if test = "${type == 'Search'}">
-							<c:if test = "${pageMaker.prev}">
-								<li><a href = "community${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-							</c:if>
-							
-							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
-								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "community${type}${idx}">${idx}</a>
-								</li>
-							</c:forEach>
-	
-							<c:if test = "${pageMaker.next}">
-								<li><a href = "community${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
-							</c:if>
-						</c:if>
-					</ul>
-				</div>		
-			</div>
+			 	<div id = "pagination">
+					<div>
+						<ul class = "pagination">
+								<c:if test = "${pageMaker.prev}">
+									<li><a href = "board${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+								</c:if>
+										
+								<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+									<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+										<a href = "board${type}${idx}">${idx}</a>
+									</li>
+								</c:forEach>
+				
+								<c:if test = "${pageMaker.next}">
+									<li><a href = "board${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+								</c:if>
+						</ul>
+					</div>		
+				</div>
 	</div>
 </div>
 </div>
@@ -221,19 +203,15 @@
 	$("table tr").click(function(){
 		console.log("클릭");
 		var result = new Array();
- 		var category = $("body .container:nth-child(1)").attr("id"); 
+ 		var category = 0;
 		var posNum = $(this).attr("id");
-		var poscNum = $(this).attr("class");
-		
-		if(category == 'Search'){
-			category = 0;
-		}
+		var poscNum = 65;
 		
 		result.push(category);   
 		result.push(poscNum);
 		result.push(posNum);
 		result = result.join('I');
-		location.href="/shoppingmall/admin/Cread" + result;
+		location.href="/shoppingmall/admin/boardRead" + result;
 	})
 </script>
 

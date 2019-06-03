@@ -112,15 +112,14 @@
 		<div id = "menu1">
 			<div class = "menuNav">
 				<i class="fas fa-user-cog"></i>
-				<span>&nbsp;{로그인 ID 표시}</span>
+				<strong>&nbsp;${admin}</strong><span>님 환영합니다!</span>
 			</div>
 			<div>
 				<span id = "vertical">&#124;&nbsp;</span><span>자주 이용 메뉴</span>
 			</div>
 			<div id = "circlegroup">
-				<button class = "circle" onclick = "location.href='../POLICY/01.html'">정책관리</button>
-				<button class = "circle" onclick = "location.href='../STATISTICS/01.html'">통계</button>
-				<button class = "circle" onclick = "location.href='../GOODSADMIN/01.html'">상품 등록</button>
+				<button class = "circle" onclick="location.href='clause'">정책관리</button>
+				<button class = "circle" onclick="location.href='goodsRegister'">상품 등록</button>
 			</div>
 			<input id = "logout" type = "button" class="form-control" value = "로그아웃">
 			<div id = "expired">
@@ -165,10 +164,6 @@
 				<div class = "panel-body">{00}건</div>
 			</div>
 			<div class = "panel panel-default">
-				<div class = "panel-heading">페이지 뷰</div>
-				<div class = "panel-body">{00}건</div>
-			</div>
-			<div class = "panel panel-default">
 				<div class = "panel-heading">주문 수</div>
 				<div class = "panel-body">{00}건</div>
 			</div>
@@ -176,25 +171,21 @@
 		<div id = "menu3">
 			<div class = "menuNav">
 				<i class="fas fa-clipboard-list"></i>
-				<span>미 처리 현황</span>
+				<span style = "font-size:20px">미 처리 현황</span>
 			</div>
 			<div id = "untreated">
 				<div class = "panel panel-default">
-					<div class = "panel-heading">회원탈퇴 수</div>
+					<div class = "panel-heading">교환/환불 신청</div>
 					<div class = "panel-body">{00}건</div>
 				</div>
 				<div class = "panel panel-default">
-					<div class = "panel-heading">상품 등록 수</div>
+					<div class = "panel-heading">1:1 문의</div>
 					<div class = "panel-body">{00}건</div>
 				</div>
 				<div class = "panel panel-default">
-					<div class = "panel-heading">페이지 뷰</div>
+					<div class = "panel-heading">상품 문의</div>
 					<div class = "panel-body">{00}건</div>
-				</div>
-				<div class = "panel panel-default">
-					<div class = "panel-heading">주문 수</div>
-					<div class = "panel-body">{00}건</div>
-				</div>			
+				</div>		
 			</div>
 		</div>
 	</div>

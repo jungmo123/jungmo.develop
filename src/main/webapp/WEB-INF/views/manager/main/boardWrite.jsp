@@ -61,14 +61,6 @@
 				<hr>
 			</div>
 			<div id="submenu">
-				<a href="styleshop"><span>스타일 숍 공지</span></a> 
-				<a href="cic" class="activeMenu"><span>고객센터 공지</span></a> 
-				<a href="community"><span>커뮤니티</span></a>
-				<a href="goodsQuestion"><span>상품 문의</span></a> 
-				<a href="oneTwoOne"><span>1:1문의</span></a> 
-				<a href="goodsReview"><span>상품평</span></a> >
-				<a href="event"><span>이벤트</span></a>
-				<a href="boardCategory"><span>게시판카테고리 관리</span></a>
 			</div>
 		</div>
 		<div id="content">
@@ -76,9 +68,9 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Board Managament</p>
-				<p id = "currentIdx">&#124; 게시판 관리 > 공지 사항 > 글쓰기</p>
+				<p id = "currentIdx">&#124; 사내 게시판 > 글쓰기</p>
 			</div>
-		<form id = "writeForm" action = "write" method = "post">
+		<form id = "writeForm" action = "Bwrite" method = "post">
 			<c:if test = "${idx!=null}">
 				<input type = "text" name = "posNum" value = "${idx}"  style = "display:none" />
 			</c:if>
@@ -98,7 +90,7 @@
 			</div>
 			<div id = "buttonGroup">
 				<button id = "submitButton" class = "btn btn-default">작성 완료</button>
-				<button type = "button" class = "btn btn-default" onclick="location.href='cic'">작성 취소</button>
+				<button class = "btn btn-default" onclick="location.href='/shoppingmall/admin/board'">작성 취소</button>
 			</div>
 		</form>
 	</div>

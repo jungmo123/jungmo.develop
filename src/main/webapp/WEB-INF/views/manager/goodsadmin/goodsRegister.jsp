@@ -590,7 +590,7 @@
 				</div>
 				<div id = "buttonGroup">
 					<button id = "register" type = "button" class = "btn btn-default">등록</button>
-					<button class = "btn btn-default">취소</button>
+					<button type = "button" class = "btn btn-default" onclick="location.href='main'">취소</button>
 				</div>
 			</form>
 		</div>

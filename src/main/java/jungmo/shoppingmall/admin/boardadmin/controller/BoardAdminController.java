@@ -91,7 +91,6 @@ public class BoardAdminController {
 		Page myPage = null;
 		myPage = new Page(Integer.parseInt(idx),borNum,poscNum,searchType,searchContent);
 		PageService ps = new PageServiceImpl(10,myPage,pageService.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent));
-		System.out.println(pageService.getBoardSearchTotRowCnt(borNum, poscNum, searchType, searchContent));
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("posts",posService.getSearchPost(myPage));
 		model.addAttribute("type","Search");
@@ -113,7 +112,6 @@ public class BoardAdminController {
 		if(posNum != null){
 			posService.updatePosts(Integer.parseInt(posNum), importance, title, content);
 		}else{
-			System.out.println(importance + " " + categorySelect + " " + content + " " + title + userId);
 			Posts pos = new Posts(borNum,Integer.parseInt(categorySelect),importance,title,content,userId);
 			posService.addNotice(pos);
 		}
@@ -197,7 +195,6 @@ public class BoardAdminController {
 	
 	@RequestMapping("/admin/cicSearch{idx}")
 	public String postcicSearch(@PathVariable String idx,Model model,HttpServletRequest request){
-		System.out.println(request.getParameter("searchCategory") + " " + request.getParameter("searchType") + " " + request.getParameter("searchContent"));
 		if(request.getParameter("searchCategory") != null){
 			category = Integer.parseInt(request.getParameter("searchCategory"));
 			searchType = Integer.parseInt(request.getParameter("searchType"));

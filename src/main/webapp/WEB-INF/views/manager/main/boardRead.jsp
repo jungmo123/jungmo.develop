@@ -141,11 +141,11 @@
 			</div>
 		</div>
 		<div id="content" class = "${post.posNum}">
-			<%@ include file = "../header/boardadminheader.jsp" %>
+			<%@ include file = "../header/orderheader.jsp" %>
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Board Managament</p>
-				<p id = "currentIdx">&#124; 커뮤니티 > 커뮤니티 목록 > 상세 보기</p>
+				<p id = "currentIdx">&#124; 사내 게시판 > 상세보기</p>
 			</div>
 		<div id = "titleDiv">
 			<hr>
@@ -195,10 +195,10 @@
 			<hr>
 		</div>
 		<div id = "footerDiv">
-			<a href = "community0I1" class = "btn btn-default left">목록 보기</a>
+			<a href = "board1" class = "btn btn-default left">목록 보기</a>
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
 			<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
-			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/cicWrite'">글쓰기</button>
+			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/boardWrite'">글쓰기</button>
 			<button id = "modify" class = "btn btn-default right">수정</button>
 			<button id = "delete" class = "btn btn-default right">삭제</button>
 		</div>
@@ -335,7 +335,7 @@
 				  timer: 1500
 				});
 		}else{
-			location.href="/shoppingmall/admin/cicRead${category}I${post.prec}I${post.preNum}";
+			location.href="/shoppingmall/admin/boardRead0I${post.prec}I${post.preNum}";
 		}
 	})
 	
@@ -349,7 +349,7 @@
 					  timer: 1500
 					});
 			}else{
-				location.href="/shoppingmall/admin/cicRead${category}I${post.nextc}I${post.nextNum}";
+				location.href="/shoppingmall/admin/boardRead0I${post.nextc}I${post.nextNum}";
 			}
 		})
 		
