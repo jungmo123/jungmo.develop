@@ -369,7 +369,7 @@
 				})			
 		})
 		$("#modify").click(function(){
-			location.href = "/shoppingmall/admin/cicModify"+idx;
+			location.href = "/shoppingmall/admin/boardModify"+idx;
 		})
 		$(document).on("click",".modify",function(event){
 			var cmtNum = $(this).parents(".cmtNum").attr("id");

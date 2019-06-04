@@ -178,7 +178,7 @@
 	<update id = "refundModify" parameterType = "hashmap">
 		update refunds
 		<foreach item="tp" collection = "type">
-			set ref_state = #{tp}
+			set ref_state = #{tp},ref_completedate = sysdate
 		</foreach>
 		where ord_num in 
 		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
@@ -213,7 +213,7 @@
 	<update id = "exchangeModify" parameterType = "hashmap">
 		update exchanges
 		<foreach item="tp" collection = "type">
-			set exc_state = #{tp}
+			set exc_state = #{tp},exc_completedate = sysdate
 		</foreach>
 		where ord_num in 
 		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">

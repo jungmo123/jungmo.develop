@@ -8,6 +8,83 @@
 		where user_id = #{userId} and user_pwd = #{userPwd}
 	</select>
 	
+	<select id = "getTodayJoin"  resultType="int">
+		select count(*)
+		from users
+		where to_char(user_joindate,'YYYY/MM/DD') = to_char((sysdate),'YYYY/MM/DD')
+	</select>
+	 
+	<select id = "getTodaySecede" resultType="int">
+		select count(*)
+		from secede_users
+		where to_char(scd_date,'YYYY/MM/DD') = to_char((sysdate),'yyyy/mm/dd')	
+	</select>
+	
+	<select id = "getTodayGoods" resultType="int">
+		select count(*)
+		from goods
+		where to_char(god_regdate,'YYYY/MM/DD') = to_char((sysdate),'yyyy/mm/dd')
+	</select>
+	
+	<select id = "getTodayOrders" resultType="int">
+		select count(*)
+		from orders
+		where to_char(ord_date,'YYYY/MM/DD') = to_char((sysdate),'yyyy/mm/dd')
+	</select>
+	
+	<select id = "getRE" resultType = "int">
+		select sum(a) from(
+		select count(*) a
+		from refunds
+		where ref_state = '처리전'
+		union all
+		select count(*)
+		from exchanges
+		where exc_state = '처리전')
+	</select>
+	
+	<select id = "getOto" resultType = "int">
+		select count(*)
+		from oto_questions
+		full outer join
+		oto_anser
+		on(oto_questions.otoq_num = oto_anser.otoq_num)
+		where otoa_content is null
+	</select>
+	
+	<select id = "getGodQnA" resultType = "int">
+		select count(*)
+		from goods_questions
+		full outer join
+		goods_anser
+		on(goods_questions.godq_num = goods_anser.godq_num)
+		where goda_content is null
+	</select>
+	
+	<select id = "selectBoard" resultMap = "posMap">
+	    select * from(
+			select rownum as rnum, x.* from(
+			    select pos_num,pos_importance,pos_title,pos_content,pos_writingdate,pos_viewcnt,user_id,bor_num,posc_num
+			    from posts
+			    where bor_num = 3 and posc_num = 65
+			    order by pos_num desc
+			    <![CDATA[
+				)x where rownum <= 5
+			)where rnum > 0
+			]]>
+	</select>
+	 
+	<select id = "getDday" resultType = "exp">
+		select exd_host hostDate,exd_host-to_date(to_char(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') hostDday,exd_domain domainDate,exd_domain-to_date(to_char(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') domainDday
+		from expirationdate
+		where exd_num = 1
+	</select>
+	
+	<select id = "getBanner" resultMap = "bnnMap">
+		select bnn_num,bnn_location,bnn_displaytype,bnn_explainment,bnn_imageurl,bnn_link,bnn_type
+		from banners
+	</select>
+	
 	<insert id = "addVisit" parameterType = "string">
 		insert into login_logs
 		values (#{userId},sysdate)
@@ -18,4 +95,38 @@
 		set user_latestdate = sysdate
 		where user_id = #{userId}
 	</update>
-</mapper> 
+	
+	<update id = "updateExpiration" parameterType = "map">
+		update expirationdate
+		set
+		<if test = 'exdNum==1'>
+			exd_host = to_date(#{exdDate},'YYYY-MM-DD')
+		</if>
+		<if test = 'exdNum==2'>
+			exd_domain = to_date(#{exdDate},'YYYY-MM-DD')
+		</if>
+		where exd_num = 1
+	</update>
+	
+	<resultMap id = "posMap" type = "pos">
+		<id property = "posNum" column = "pos_num" />
+		<result property = "posImportance" column = "pos_importance" />
+		<result property = "posTitle" column = "pos_title" />
+		<result property = "posContent" column = "pos_content" />
+		<result property = "posWritingDate" column = "pos_writingdate" />
+		<result property = "posViewCnt" column = "pos_viewcnt" />
+		<result property = "userId" column = "user_id" />
+		<result property = "borNum" column = "bor_num" />
+		<result property = "poscNum" column = "posc_num" />
+	</resultMap>
+	
+	<resultMap id = "bnnMap" type = "banner">
+		<id property = "bnnNum" column = "bnn_num" />
+		<result property = "bnnLocation" column = "bnn_location" />
+		<result property = "bnnDisplayType" column = "bnn_displaytype" />
+		<result property = "bnnExplainment" column = "bnn_explainment" />
+		<result property = "bnnImageUrl" column = "bnn_imageurl" />
+		<result property = "bnnLink" column = "bnn_link" />
+		<result property = "bnnType" column = "bnn_type" />
+	</resultMap>
+</mapper>

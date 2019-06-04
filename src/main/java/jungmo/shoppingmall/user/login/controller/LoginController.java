@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import jungmo.shoppingmall.admin.banner.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.service.*;
 import jungmo.shoppingmall.admin.order.domain.*;
@@ -88,7 +89,54 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/")
-	public String home(){
+	public String home(HttpServletRequest request,Model model){
+		List<Banner> top = new ArrayList<>();
+		List<Banner> main = new ArrayList<>();
+		List<Banner> left = new ArrayList<>();
+		List<Banner> right = new ArrayList<>();
+		Banner t = null;
+		Banner m= null;
+		Banner l= null;
+		Banner r = null;
+		List<Banner> banners = loginService.getBanner();
+		for(int i = 0 ; i < banners.size() ; i++){
+			Banner b = banners.get(i);
+			if(b.getBnnLocation().equals("top")){
+				top.add(b);
+			}else if(b.getBnnLocation().equals("main")){
+				main.add(b);
+			}else if(b.getBnnLocation().equals("left")){
+				left.add(b);
+			}else if(b.getBnnLocation().equals("right")){
+				right.add(b);
+			}
+		}
+		int n;
+		for(int i = 0 ; i < 4 ; i++){
+			switch(i){
+			case 0: if(top.size() != 0){
+							n = (int)(Math.random()*top.size());
+							t = top.get(n);				
+						}
+						break;
+			case 1:if(main.size() != 0){
+							n = (int)(Math.random()*main.size());
+							m = main.get(n);		
+						} 
+						break;
+			case 2: if(left.size() != 0){
+							n = (int)(Math.random()*left.size());
+							l = left.get(n);
+						} 
+						break;
+			case 3: if(right.size() != 0){
+							n = (int)(Math.random()*right.size());
+							r = right.get(n);
+						} 
+						break;
+			}
+		}
+		model.addAttribute("topBanner", t);
 		return "main";
 	}
 
@@ -139,6 +187,15 @@ public class LoginController {
 	public String adminHome(HttpServletRequest request,Model model){
 		String userId = (String)request.getSession().getAttribute("admin");
 		model.addAttribute("admin",userId);
+		model.addAttribute("joinCnt",loginService.getTodayJoin());
+		model.addAttribute("secedeCnt",loginService.getTodaySecede());
+		model.addAttribute("goodsCnt",loginService.getTodayGoods());
+		model.addAttribute("ordersCnt",loginService.getTodayOrders());
+		model.addAttribute("reCnt",loginService.getRE());
+		model.addAttribute("otoCnt",loginService.getOto());
+		model.addAttribute("qnaCnt",loginService.getGodQnA());
+		model.addAttribute("boards",loginService.selectBoard());
+		model.addAttribute("exp",loginService.getDday());
 		return "manager/main/adminMain";
 	}
 	
@@ -180,6 +237,29 @@ public class LoginController {
 	public String boardRead(@PathVariable String result,Model model,HttpServletRequest request){
 		read(model,result,3,request);
 		return "manager/main/boardRead";
+	}
+	
+	@RequestMapping("/admin/boardModify{idx}")
+	public String cicModify(@PathVariable String idx,Model model){
+		List<BoardCategories> board =  boscService.getBC(3);
+		model.addAttribute("categories",board);
+		model.addAttribute("idx",idx);
+		model.addAttribute("pos",posService.getPos(Integer.valueOf(idx)));
+		return "manager/main/boardWrite";
+	}
+	
+	@RequestMapping(value = "/admin/hostModify",method=RequestMethod.POST)
+	public String hostModify(HttpServletRequest request){
+		String date = request.getParameter("expiration");
+		loginService.updateExpiration(1, date);
+		return "redirect:main";
+	}
+	
+	@RequestMapping(value = "/admin/domainModify",method=RequestMethod.POST)
+	public String domainModify(HttpServletRequest request){
+		String date = request.getParameter("expiration");
+		loginService.updateExpiration(2, date);
+		return "redirect:main";
 	}
 	
 	@RequestMapping("/admin/logout")

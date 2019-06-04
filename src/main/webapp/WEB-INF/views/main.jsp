@@ -19,14 +19,38 @@
 	body{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+	#topbanner img{
+		width:800px;
+		height:100px;
+	}
+	#leftBanner{
+		float:left;
+		width:100px;
+		height:600px;
+		border:1px solid black;
+		position:relative;
+		bottom:600px;
+	}
+	#rightBanner{
+		float:right;
+		width:100px;
+		height:600px;
+		border:1px solid black;
+		position:relative;
+		bottom:600px;
+	}
 </style>
 </head>
 <body>
-
 	<div class = "container">
 		<div id = "header">
-			<div id = "banner">
-				배너1
+			<div id = "topbanner">
+				<c:if test = "${empty topBanner}">
+					<img src = "IMAGE/noSearchX.jpg">
+				</c:if>
+				<c:if test = "${!empty topBanner}">
+					<img src = "upload/${topBanner.bnnImageUrl}">
+				</c:if>
 			</div>
 			<div id = "title">
 				<strong>라라마켓</strong>
@@ -108,6 +132,12 @@
 				</div>
 			</div>
 		</div>
+		<div id = "left">
+			<div id = "leftBanner">
+			
+			</div>		
+		</div>
+		<div id = "middle">
 		<div id= "content">
 			<div id = "banner2">
 				{Banner Image}
@@ -610,6 +640,12 @@
 				</div>
 			</div>
 		</div>
+		</div>
+		<div id = "right">
+			<div id = "rightBanner">
+			
+			</div>		
+		</div>
 	</div>
 	
 	<div class = "container" id = "footerDiv">
@@ -654,6 +690,10 @@
 			</div>
 		</div>	
 	</div>
+
+<script type = "text/javascript">
+
+</script>
 
 </body>
 </html>

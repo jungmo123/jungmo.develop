@@ -215,7 +215,7 @@
 			<div class ="modal-content">
 				<div class = "modal-header">
 					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-					<h4 class = "modal-title">&#124;&nbsp;상품 문의 답변/수정하기</h4>
+					<h4 class = "modal-title">&#124;&nbsp;1:1문의 답변/수정하기</h4>
 					<hr>
 				</div>
 				<form id = "modifyForm" method = "post">

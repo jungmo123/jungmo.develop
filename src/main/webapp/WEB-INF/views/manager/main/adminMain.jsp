@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -118,6 +119,7 @@
 				<span id = "vertical">&#124;&nbsp;</span><span>자주 이용 메뉴</span>
 			</div>
 			<div id = "circlegroup">
+				<button class = "circle" onclick="location.href='orderList'">주문 관리</button>
 				<button class = "circle" onclick="location.href='clause'">정책관리</button>
 				<button class = "circle" onclick="location.href='goodsRegister'">상품 등록</button>
 			</div>
@@ -125,66 +127,67 @@
 			<div id = "expired">
 				<div class = "expire">
 					<div>
-						<p>호스팅 만료일</p>
-						<p>- 2023-09-01</p>
-						<p>- 000일 남음</p>					
+						<p><strong>호스팅 만료일</strong></p>
+						<p>- ${exp.hostDate}</p>
+						<p>- ${exp.hostDday}일 남음</p>			
 					</div>
 					<div>
-						<a href = "#"><span class = "glyphicon glyphicon-cog"></span></a>						
+						<a id = "host" data-toggle = "modal" data-target = "#otom"><span class = "glyphicon glyphicon-cog"></span></a>						
 					</div>
 				</div>
 				
 				<div class = "expire">
 					<div>
-						<p>도메인 만료일</p>
-						<p>- 2023-09-01</p>
-						<p>- 000일 남음</p>					
+						<p><strong>도메인 만료일</strong></p>
+						<p>- ${exp.domainDate}</p>
+						<p>- ${exp.domainDday}일 남음</p>					
 					</div>
 					<div>
-						<a href = "#"><span class = "glyphicon glyphicon-cog"></span></a>						
+						<a id = "domain" data-toggle = "modal" data-target = "#otom"><span class = "glyphicon glyphicon-cog"></span></a>						
 					</div>
 				</div>
 			</div>
 		</div>
 		<div id = "menu2">
 			<div class = "menuNav">
+				<jsp:useBean id="now" class="java.util.Date" />
 				<i class="fas fa-clipboard-list"></i>
-				<span>Toay 현황 {2023-09-28}</span>
+				<strong>Toay 현황</strong> <span>[<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />]</span>
 			</div>
 			<div class = "panel panel-default">
 				<div class = "panel-heading">회원 가입 수</div>
-				<div class = "panel-body">{00}명</div>
+				<div class = "panel-body">${joinCnt}건</div>
 			</div>
 			<div class = "panel panel-default">
 				<div class = "panel-heading">회원탈퇴 수</div>
-				<div class = "panel-body">{00}건</div>
+				<div class = "panel-body">${secedeCnt}건</div>
 			</div>
 			<div class = "panel panel-default">
 				<div class = "panel-heading">상품 등록 수</div>
-				<div class = "panel-body">{00}건</div>
+				<div class = "panel-body">${goodsCnt}건</div>
 			</div>
 			<div class = "panel panel-default">
 				<div class = "panel-heading">주문 수</div>
-				<div class = "panel-body">{00}건</div>
+				<div class = "panel-body">${ordersCnt}건</div>
 			</div>
 		</div>
 		<div id = "menu3">
 			<div class = "menuNav">
 				<i class="fas fa-clipboard-list"></i>
-				<span style = "font-size:20px">미 처리 현황</span>
+				<strong>미 처리 현황</strong>
 			</div>
 			<div id = "untreated">
 				<div class = "panel panel-default">
 					<div class = "panel-heading">교환/환불 신청</div>
-					<div class = "panel-body">{00}건</div>
+					<div class = "panel-body">${reCnt}건</div>
 				</div>
 				<div class = "panel panel-default">
 					<div class = "panel-heading">1:1 문의</div>
-					<div class = "panel-body">{00}건</div>
+					<div class = "panel-body">${otoCnt}건</div>
 				</div>
 				<div class = "panel panel-default">
 					<div class = "panel-heading">상품 문의</div>
-					<div class = "panel-body">{00}건</div>
+					<div class = "panel-body">${qnaCnt}건</div>
 				</div>		
 			</div>
 		</div>
@@ -193,73 +196,25 @@
 	<div id = "webc" class = "container">
 		<div class = "web1">
 			<div class = "webmenubar">
-				<span>&#124; 사내 게시판</span>
-				<span class = "view" onclick = "location.href ='../INTRABOARD/01.html'">[더 보기]</span>
+				<strong>&#124; 사내 게시판</strong>
+				<span class = "view" onclick = "location.href ='/shoppingmall/admin/board'">[더 보기]</span>
 			</div>
 			<div>
 				<table id = "web1table">
 					<tr>
-						<td>- [제목표기]</td>
-						<td>[작성관리자 ID 표기]</td>
-						<td>[작성일 표기]</td>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
 					</tr>
-					<tr>
-						<td>- 게시판 에이터 변경 요청</td>
-						<td>admin02</td>
-						<td>2013-01-01</td>
+					<c:forEach  var = "post" items= "${boards}" varStatus = "state">
+					<tr id = "${post.posNum}">
+						<td>${post.posTitle}</td>
+						<td>${post.userId}</td>
+						<td>${post.posWritingDate}</td>
 					</tr>
-					<tr>
-						<td>- admin 회원정보 수정 오류</td>
-						<td>admin03</td>
-						<td>2013-01-01</td>
-					</tr>
-					<tr>
-						<td>- 결제 지연 수정 요청</td>
-						<td>admin03</td>
-						<td>2013-01-01</td>
-					</tr>
-					<tr>
-						<td>- 택배사 추가 요청</td>
-						<td>admin04</td>
-						<td>2013-01-01</td>
-					</tr>
+					</c:forEach>
 				</table>
 			</div>
-		</div>
-		<div class = "web2">
-			<div class = "webmenubar">
-				<span>&#124; 사내 공지사항</span>
-				<span class = "view" onclick = "location.href ='../INTRABOARD/01.html'">[더 보기]</span>			
-			</div>
-			<div>
-				<table id = "web2table">
-					<tr>
-						<td>- [제목표기]</td>
-						<td>[작성관리자 ID 표기]</td>
-						<td>[작성일 표기]</td>
-					</tr>
-					<tr>
-						<td>- 게시판 에이터 변경 요청</td>
-						<td>admin02</td>
-						<td>2013-01-01</td>
-					</tr>
-					<tr>
-						<td>- admin 회원정보 수정 오류</td>
-						<td>admin03</td>
-						<td>2013-01-01</td>
-					</tr>
-					<tr>
-						<td>- 결제 지연 수정 요청</td>
-						<td>admin03</td>
-						<td>2013-01-01</td>
-					</tr>
-					<tr>
-						<td>- 택배사 추가 요청</td>
-						<td>admin04</td>
-						<td>2013-01-01</td>
-					</tr>
-				</table>
-			</div>			
 		</div>
 	</div>
 	
@@ -292,6 +247,54 @@
 			</div>
 		</div>	
 	</div>
+	
+	<div class = "modal fade" id  ="otom">
+		<div class = "modal-dialog modal-sm">
+			<div class ="modal-content">
+				<div class = "modal-header">
+					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+					<h4 class = "modal-title">&#124;&nbsp;만료일 설정</h4>
+					<hr>
+				</div>
+				<form id = "modifyForm" method = "post">
+				<div class = "modal-body">
+					<input id = "expiration" type = "date" name = "expiration" />
+				</div>
+				<div class ="modal-footer">
+					<button type = "submit" class = "btn btn-default">작성완료</button>
+					<button type = "button" class = "btn btn-default" data-dismiss = "modal">작성취소</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<script type = "text/javascript">
+	$("table tr").click(function(){
+		console.log("클릭");
+		var result = new Array();
+ 		var category = 0;
+		var posNum = $(this).attr("id");
+		var poscNum = 65;
+		
+		result.push(category);   
+		result.push(poscNum);
+		result.push(posNum);
+		result = result.join('I');
+		location.href="/shoppingmall/admin/boardRead" + result;
+	})
+	
+	$("#host").click(function(){
+		$("#modifyForm").attr({
+			action:"hostModify"
+		});
+	})
+	$("#domain").click(function(){
+		$("#modifyForm").attr({
+			action:"domainModify"
+		});
+	})
+</script>
 
 </body>
 </html>

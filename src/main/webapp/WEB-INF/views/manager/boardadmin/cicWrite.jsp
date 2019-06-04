@@ -66,7 +66,7 @@
 				<a href="community"><span>커뮤니티</span></a>
 				<a href="goodsQuestion"><span>상품 문의</span></a> 
 				<a href="oneTwoOne"><span>1:1문의</span></a> 
-				<a href="goodsReview"><span>상품평</span></a> >
+				<a href="goodsReview"><span>상품평</span></a>
 				<a href="event"><span>이벤트</span></a>
 				<a href="boardCategory"><span>게시판카테고리 관리</span></a>
 			</div>
