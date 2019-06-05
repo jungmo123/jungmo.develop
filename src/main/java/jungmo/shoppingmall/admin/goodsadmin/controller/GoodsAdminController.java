@@ -169,6 +169,7 @@ public class GoodsAdminController {
 				go.put("ol", optionArray);
 				gaService.insertGoodsOption(go);
 			}
+			gaService.insertGml(godNum, "상품 등록", userId);
 		}catch(Exception e){
 			gaService.deleteGoods(god.getGodNum());
 			return "Gooverlap";
@@ -332,6 +333,7 @@ public class GoodsAdminController {
 		model.addAttribute("repreImageUrl2",repreImageUrl2);
 		model.addAttribute("repreImageUrl3",repreImageUrl3);
 		model.addAttribute("repreImageUrl4",repreImageUrl4);
+		model.addAttribute("goodsManageLogs",gaService.selectGml(idx));
 		return "manager/goodsadmin/goodsModify";
 	}
 	
@@ -452,6 +454,7 @@ public class GoodsAdminController {
 		if(indexFile.equals("")){
 			indexFile = ListImageUrl;
 		}
+		gaService.insertGml(godNum, "상품 수정", userId);
 		gaService.deleteGoodsSub(Integer.valueOf(godNum));
 		Goods god = new Goods(Integer.valueOf(godNum),Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
 		gaService.updateGoods(god);

@@ -617,7 +617,8 @@
 					<div id = "ProductLog">
 						<strong>상품 이력 관리</strong>
 						<div>
-							<textarea readonly></textarea>				
+							<textarea readonly><c:forEach var = "gml" items = "${goodsManageLogs}">${gml.gmlContent} : <fmt:formatDate value = "${gml.gmlDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> | ${gml.userId}
+</c:forEach></textarea>				
 						</div>
 					</div>
 					<div id = "ProductMemo">

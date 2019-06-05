@@ -114,14 +114,14 @@ textarea{
 							<form id = "newForm" action = "newCategory" method = "post">
 							<table>
 								<tr>
-									<td><textarea id="newInput" onkeyup="chkword(this,100)"
+									<td><textarea id="newInput" onkeyup="chkword(this,200)"
 											placeholder="내용을 입력하세요"></textarea></td>
 								</tr>
 								<tr>
 									<td class="bottomTd"><label for="newInputCheck">모든카테고리에 동일하게 적용</label>
 									<input id="newInputCheck" type="checkbox"name="newInputCheck" />
 										<div class="remit">
-											<span id = "currentByte">0자</span> <strong>/100자</strong>
+											<span id = "currentByte">0자</span> <strong>/200자</strong>
 										</div>
 									</td>
 								</tr>
@@ -137,14 +137,14 @@ textarea{
 							<form id = "modifyForm" action = "modifyCategory" method = "post">
 							<table>
 								<tr>
-									<td><textarea id="modifyInput" onkeyup="chkword(this,100)"
+									<td><textarea id="modifyInput" onkeyup="chkword(this,200)"
 											placeholder="내용을 입력하세요"></textarea></td>
 								</tr>
 								<tr>
 									<td class="bottomTd"><label for="modifyInputCheck">모든카테고리에 동일하게 적용</label>
 									<input id="modifyInputCheck" type="checkbox"name="modifyInputCheck" />
 										<div class="remit">
-											<span id = "currentByte">0자</span> <strong>/100자</strong>
+											<span id = "currentByte">0자</span> <strong>/200자</strong>
 										</div>
 									</td>
 								</tr>
@@ -311,7 +311,7 @@ function chkword(obj, maxByte) {
 					num:num
 				},
 				success:function(data){
-					$("#modifyInput").val(data.godcContent)
+					$("#modifyInput").val(data.godcContent);
 				},
 				error:function(a,b,errMsg){
 					console.log(errMsg);

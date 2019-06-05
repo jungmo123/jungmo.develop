@@ -84,4 +84,12 @@ public class GoodsAdminServiceImpl implements GoodsAdminService{
 	public int removeGoods(HashMap<String,List<String>> map){
 		return gaDao.removeGoods(map);
 	}
+	
+	public int insertGml(String godNum,String gmlContent,String userId){
+		return gaDao.insertGml(godNum, gmlContent, userId);
+	}
+	
+	public List<GoodsManageLog> selectGml(String godNum){
+		return gaDao.selectGml(godNum);
+	}
 }

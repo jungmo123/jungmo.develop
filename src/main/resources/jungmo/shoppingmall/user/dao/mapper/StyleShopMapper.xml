@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.user.styleshop.dao.mapper.StyleShopMapper">
+	<select id = "getGoods" parameterType = "upage" resultMap = "godMap">
+	    select * from(
+			select rownum as rnum, x.* from(	
+				select god_num,god_name,god_sellingprice,god_listimageurl,god_intro
+				from goods
+				where godc_num = #{godcNum}
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<resultMap id = "godMap" type = "god">
+		<id property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godListImageUrl' column = "god_listimageurl" />
+		<result property = 'godIntroduce' column = "god_intro" />
+	</resultMap> 
+</mapper>

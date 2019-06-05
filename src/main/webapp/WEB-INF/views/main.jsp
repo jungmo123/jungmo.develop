@@ -14,7 +14,7 @@
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
 <style>
 	.container{
-		width:850px;
+		width:1280px;
 	}
 	body{
 		font-family: 'Noto Sans KR', sans-serif;
@@ -23,21 +23,42 @@
 		width:800px;
 		height:100px;
 	}
+	#leftBanner img,
+	#rightBanner img{
+		width:148px;
+		height:798px;
+	}
 	#leftBanner{
 		float:left;
-		width:100px;
-		height:600px;
+		width:150px;
+		height:800px;
 		border:1px solid black;
 		position:relative;
-		bottom:600px;
+		bottom:617px;
 	}
 	#rightBanner{
 		float:right;
-		width:100px;
-		height:600px;
+		width:150px;
+		height:800px;
 		border:1px solid black;
 		position:relative;
-		bottom:600px;
+		bottom:617px;
+	}
+	#left{
+		width:150px;
+		display:inline-block;
+	}
+	#right{
+		width:150px;
+		display:inline-block;
+	}
+	#middle{
+		display:inline-block;
+		width:820px;
+	}
+	.carousel-inner > .item >img {
+		width:70%;
+		margin:auto;
 	}
 </style>
 </head>
@@ -53,7 +74,7 @@
 				</c:if>
 			</div>
 			<div id = "title">
-				<strong>라라마켓</strong>
+				<a href = "/shoppingmall'"><strong>라라</strong><strong>마켓</strong></a>
 				<br>
 				<span>안 입는 옷을 판매하고, 새 옷으로 구매하세요!</span>
 				<div id = "searchBar">
@@ -63,7 +84,7 @@
 					<input type = "text" class = "form-control" name = "title" placeholder = "검색어를 입력하세요!"/>
 					<button type = "button" class = "btn btn-default" onclick = "location.href = '../SEARCH/01.html'">검색</button>
 				</div>
-				<div id = "nav">
+				<div id = "navi">
 					<c:if test = "${user==null}">
 						<div id = "loginBar">
 							<a href = "join01"><span>회원가입</span></a>
@@ -88,15 +109,13 @@
 							<a href = "logout"><span>로그아웃</span></a>
 						</div>
 					</c:if>
-					<div class = "btn-group btn-group-justified">
+					<div id = "navDiv" class = "btn-group btn-group-justified">
 						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">스타일 숍</button>
 							<ul class= "dropdown-menu">
-								<li><a href = "USER/GOODS/01.html">Outer</a></li>
-								<li><a href = "USER/GOODS/01.html">Top</a></li>
-								<li><a href = "USER/GOODS/01.html">Bottom</a></li>
-								<li><a href = "USER/GOODS/01.html">Skirt</a></li>
-								<li><a href = "USER/GOODS/01.html">Dress</a></li>
+								<c:forEach var = "gc" items = "${goodsCategories}">
+									<li><a href = "styleshop${gc.godcNum}I1IAll">${gc.godcName}</a></li>
+								</c:forEach>
 							</ul>
 						</div>				
 						<div class = "btn-group drop">
@@ -134,19 +153,54 @@
 		</div>
 		<div id = "left">
 			<div id = "leftBanner">
-			
+				<c:if test = "${empty leftBanner}">
+					<img src = "IMAGE/noSearchLR.jpg">
+				</c:if>
+				<c:if test = "${!empty leftBanner}">
+					<img src = "upload/${leftBanner.bnnImageUrl}">
+				</c:if>			
 			</div>		
 		</div>
 		<div id = "middle">
 		<div id= "content">
 			<div id = "banner2">
-				{Banner Image}
-				<div>
-					<span>●</span>
-					<span>○</span>
-					<span>○</span>
-					<span>○</span>
-					<span>○</span>
+				<div id = "myCarousel" class = "carousel slide" data-ride = "carousel">
+					<ol class = "carousel-indicators">
+						<c:forEach var = "main" items = "${mainBanner}" varStatus = "state">
+							<c:choose>
+								<c:when test = "${state.first}">
+									<li data-target = "#myCarousel" data-slide-to = "0" class = "active"></li>
+								</c:when>
+								<c:otherwise>
+									<li data-target = "#myCarousel" data-slide-to = "${state.index}"></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</ol>
+					
+					<div class = "carousel-inner">
+						<c:forEach var = "main" items = "${mainBanner}" varStatus = "state">
+							<c:choose>
+								<c:when test = "${state.first}">
+									<div class = "item active">
+										<img src = "upload/${main.bnnImageUrl}" alt = "a" width = "460" height = "345">
+									</div>	
+								</c:when>
+								<c:otherwise>
+								<div class = "item">
+									<img src = "upload/${main.bnnImageUrl}" alt = "b" width = "460" height = "345">
+								</div>
+								</c:otherwise>
+							</c:choose>												
+						</c:forEach>
+					</div>
+					
+					<a class = "left carousel-control" href = "#myCarousel" data-slide="prev">
+						<span class  = "glyphicon glyphicon-chevron-left"></span>
+					</a>
+					<a class = "right carousel-control" href = "#myCarousel" data-slide="next">
+						<span class  = "glyphicon glyphicon-chevron-right"></span>
+					</a>
 				</div>
 			</div>
 			<ul class = "nav nav-tabs">
@@ -643,7 +697,12 @@
 		</div>
 		<div id = "right">
 			<div id = "rightBanner">
-			
+				<c:if test = "${empty rightBanner}">
+					<img src = "IMAGE/noSearchLR.jpg">
+				</c:if>
+				<c:if test = "${!empty rightBanner}">
+					<img src = "upload/${rightBanner.bnnImageUrl}">
+				</c:if>			
 			</div>		
 		</div>
 	</div>

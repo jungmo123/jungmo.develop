@@ -26,4 +26,6 @@ public interface GoodsAdminDao {
 	int deleteGoodsIntroduce(int godNum);
 	int updateGoods(Goods god);
 	int removeGoods(HashMap<String,List<String>> map);
+	int insertGml(@Param("godNum") String godNum,@Param("gmlContent") String gmlContent,@Param("userId") String userId);
+	List<GoodsManageLog> selectGml(String godNum);
 }

@@ -87,6 +87,12 @@
 		from intros
 		where god_num = #{godNum}
 	</select>
+	  
+	<select id = "selectGml" parameterType = "string" resultType = "gml">
+		select gml_date gmlDate,user_id userId,gml_content gmlContent
+		from goods_manage_logs
+		where god_num = #{godNum}
+	</select>
 	
 	<insert id = "insertGoods" parameterType = "god">
 	 <selectKey keyProperty="godNum" resultType="int" order="BEFORE">  
@@ -123,7 +129,12 @@
 				values(#{list.godNum},#{list.itrName},#{list.itrContent})
 			</foreach>
 		select * from dual
-	</insert> 
+	</insert>
+	 
+	<insert id = "insertGml" parameterType = "map">
+		insert into goods_manage_logs
+		values(sysdate,#{userId},#{gmlContent},#{godNum})
+	</insert>
 	
 	<update id = "updateGoods" parameterType = "god">
 		update goods

@@ -84,4 +84,12 @@ public class GoodsAdminDaoImpl implements GoodsAdminDao{
 	public int removeGoods(HashMap<String,List<String>> map){
 		return gaMapper.removeGoods(map);
 	}
+	
+	public int insertGml(String godNum,String gmlContent,String userId){
+		return gaMapper.insertGml(godNum, gmlContent, userId);
+	}
+	
+	public List<GoodsManageLog> selectGml(String godNum){
+		return gaMapper.selectGml(godNum);
+	}
 }

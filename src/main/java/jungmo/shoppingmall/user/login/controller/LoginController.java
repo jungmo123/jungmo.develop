@@ -25,6 +25,7 @@ public class LoginController {
 	@Autowired private PostsService posService;
 	@Autowired private BoardCategoriesService boscService;
 	@Autowired private CommentService commentService;
+	@Autowired private GoodsCategoriesService gcService;
 	private int category;
 	private int searchType;
 	private String searchContent = "";
@@ -120,8 +121,7 @@ public class LoginController {
 						}
 						break;
 			case 1:if(main.size() != 0){
-							n = (int)(Math.random()*main.size());
-							m = main.get(n);		
+
 						} 
 						break;
 			case 2: if(left.size() != 0){
@@ -136,7 +136,12 @@ public class LoginController {
 						break;
 			}
 		}
+		List<GoodsCategories> gc = gcService.getCategories();
 		model.addAttribute("topBanner", t);
+		model.addAttribute("leftBanner", l);
+		model.addAttribute("rightBanner", r);
+		model.addAttribute("mainBanner", main);
+		model.addAttribute("goodsCategories",gc);
 		return "main";
 	}
 

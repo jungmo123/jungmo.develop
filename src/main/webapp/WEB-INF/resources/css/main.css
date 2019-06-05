@@ -8,7 +8,7 @@
 		margin-top:50px;
 		text-align:center;
 		position:relative;
-		left:10px;
+		left:160px;
 	}
 	#header #topbanner{
 		height:100px;
@@ -17,8 +17,12 @@
 	#header #title{
 		margin-top:30px;
 	}
-	#header #title > strong{
+	#header #title > a > strong{
 		font-size:30px;
+		color: #5D646E;
+	}
+	#header #title > a > strong:nth-child(2){
+		color: #FF6F43;
 	}
 	#searchBar{
 		text-align:center;
@@ -47,14 +51,20 @@
 		position:relative;
 		bottom:2px;	
 	}
-	#nav{
+	#navi{
 		margin-top:50px;
 	}
-	#nav #loginBar{
+	#navDiv .btn-group{
+		padding-bottom: 5px;
+	}
+	#navDiv .btn-group .dropdown-menu{
+		margin-top:0;
+	}
+	#navi > #loginBar{
 		float:right;
 		margin:0 10px 2px 0;
 	}
-	#nav #loginBar a{
+	#navi #loginBar a{
 		color:#878787;
 		margin:0 5px 0px 5px;
 		font-size:12px;
@@ -68,10 +78,9 @@
 		border:1px solid black;
 		position:relative;
 	}
-	#content #banner2 div{
-		position:absolute;
-		bottom:2px;
-		right:4px;
+	#content #banner2 div .item img{
+		width:820px;
+		height:248px;
 	}
 	#content #banner2 div span{
 		font-size:12px;
