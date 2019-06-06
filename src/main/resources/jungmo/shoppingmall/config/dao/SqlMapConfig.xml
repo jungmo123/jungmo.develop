@@ -50,5 +50,6 @@
 			<typeAlias alias = "pp" type = "jungmo.shoppingmall.admin.policy.domain.PointPolicy" />
 			<typeAlias alias = "cmp" type = "jungmo.shoppingmall.admin.policy.domain.CommonPolicy" />
 			<typeAlias alias = "upage" type = "jungmo.shoppingmall.user.styleshop.domain.Page" />
+			<typeAlias alias = "ugodr" type = "jungmo.shoppingmall.user.styleshop.domain.GoodsReview" />
 	</typeAliases>
 </configuration>

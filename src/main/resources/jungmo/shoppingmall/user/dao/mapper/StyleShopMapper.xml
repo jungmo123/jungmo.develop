@@ -8,6 +8,27 @@
 				select god_num,god_name,god_sellingprice,god_listimageurl,god_intro
 				from goods
 				where godc_num = #{godcNum}
+				<if test = 'type == "newest"'>
+					order by god_regdate desc
+				</if>
+				<if test = 'type =="rowprice"'>
+					order by god_sellingprice
+				</if>
+				<if test = 'type == "highprice"'>
+					order by god_sellingprice desc
+				</if>
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getGoodsReviews" parameterType = "upage" resultMap = "godrMap">
+	    select * from(
+			select rownum as rnum, x.* from(	
+				select god_num,user_id,godr_writingdate,satislevel,godr_content
+				from goods_reviews
+				where god_num = #{godNum}
 				<![CDATA[
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
@@ -21,4 +42,16 @@
 		<result property = 'godListImageUrl' column = "god_listimageurl" />
 		<result property = 'godIntroduce' column = "god_intro" />
 	</resultMap> 
+	
+	<resultMap id = "godrMap" type = "ugodr">
+		<id property = "godrNum" column = "godr_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "userId" column = "user_id" />
+		<result property = "godrWritingDate" column = "godr_writingdate" />
+		<result property = "satisLevel" column = "satislevel" />
+		<result property = "godrContent" column = "godr_content" />
+	</resultMap>
 </mapper>

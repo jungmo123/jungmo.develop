@@ -5,6 +5,7 @@ public class Page {
 	private int rowCnt;
 	private String godcNum;
 	private String type;
+	private String godNum;
 	
 	public Page(){
 		this(1,5);
@@ -56,5 +57,13 @@ public class Page {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getGodNum() {
+		return godNum;
+	}
+
+	public void setGodNum(String godNum) {
+		this.godNum = godNum;
 	}
 }

@@ -7,4 +7,10 @@
 		from goods
 		where godc_num = #{godcNum}
 	</select>
+	 
+	<select id = "getGodrTotRowCnt" parameterType="string" resultType = "int">
+		select count(god_num)
+		from goods_reviews
+		where god_num = #{godNum}
+	</select>
 </mapper>

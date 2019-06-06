@@ -31,16 +31,14 @@
 	#leftBanner{
 		float:left;
 		width:150px;
-		height:800px;
-		border:1px solid black;
+		height:803px;
 		position:relative;
 		bottom:617px;
 	}
 	#rightBanner{
 		float:right;
 		width:150px;
-		height:800px;
-		border:1px solid black;
+		height:803px;
 		position:relative;
 		bottom:617px;
 	}
@@ -60,11 +58,24 @@
 		width:70%;
 		margin:auto;
 	}
+	#Content{
+		width:1200px;
+	    position: relative;
+	    left: 35px;
+	}
+	#footerLogo span:nth-child(1),
+	#footerLogo small:nth-child(4){
+	color: #FF6F43;
+	}
+	#footerLogo span:nth-child(2),
+	#footerLogo small:nth-child(5){
+		color: #5D646E;
+	}
 </style>
 </head>
 <body>
 	<div class = "container">
-		<div id = "header">
+		<div id = "header" class = "center-block">
 			<div id = "topbanner">
 				<c:if test = "${empty topBanner}">
 					<img src = "IMAGE/noSearchX.jpg">
@@ -151,6 +162,7 @@
 				</div>
 			</div>
 		</div>
+		<div id = "Content" class = "center-block">
 		<div id = "left">
 			<div id = "leftBanner">
 				<c:if test = "${empty leftBanner}">
@@ -706,22 +718,23 @@
 			</div>		
 		</div>
 	</div>
+	</div>
 	
 	<div class = "container" id = "footerDiv">
-		<div id = "footer">
+		<div id = "footer" class = "center-block">
 			<div id = "footerNav">
 				<a href = "aboutUs01"><span>회사 소개</span></a>
 				<span>&nbsp;&#124;&nbsp;</span>
 				<a href = "#"><span>이용약관</span></a>
 				<span>&nbsp;&#124;&nbsp;</span>
-				<a href = "#"><span>개인정보처리방침</span></a>
+				<a href = "#"><strong>개인정보처리방침</strong></a>
 				<span>&nbsp;&#124;&nbsp;</span>
 				<a href = "../HELP/01.html"><span>고객센터</span></a>
 			</div>
 			<div id = "footerLogo">
 				<span>라라&nbsp;</span><span>마켓</span>
 				<br>
-				<small>LALA MARKET</small>
+				<small>LALA</small> <small>MARKET</small>
 			</div>
 			<div id = "footerContent">
 				<div id = "footerTop">

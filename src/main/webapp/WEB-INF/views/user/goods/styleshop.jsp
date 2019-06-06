@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -94,12 +95,13 @@
    #goods-list{
    width:800px;
    padding:10px;
+   overflow:hidden;
    }
-   #goods-list > #listOption{
-    margin:30px 13px 30px 0px;
-   	float:right;
+   #listOption{
+    margin:30px 105px 30px 0px;
+   	text-align:right;
    }
-   #goods-list > #listOption >a{
+   #listOption > a{
    	color:black;
    }
    #item-list{
@@ -116,12 +118,12 @@
    display:inline-block;
    width:180px;
    height:380px;
+   float:left;
    }
    .img{
    width:178px;
    height:250px;
    margin-bottom:20px;
-    border:1px solid black;
    }
    .text1{text-decoration:line-thorough;}
 	#section{
@@ -150,6 +152,10 @@
 		color:#878787;
 		margin-right:10px;
 	}
+	.img img{
+		width:176px;
+		height:248px;
+	}
 </style>
 <body>
 <div class="container">
@@ -163,194 +169,46 @@
 		<p>${godc.godcContent}</p>
      </div>
    </div>
-   <div class = "center-block" id="goods-list">
-   	<div id = "listOption">
-     <a href="#">최신순</a> | 
-     <a href="#">낮은 가격순</a> |
-     <a href="#">높은 가격순</a>
+   	 <c:if test = "${!empty goods}" >
+     <div id = "listOption" class = "center-block">
+	     <a href="styleshop${godc.godcNum}I1Inewest">최신순</a> | 
+	     <a href="styleshop${godc.godcNum}I1Irowprice">낮은 가격순</a> |
+	     <a href="styleshop${godc.godcNum}I1Ihighprice">높은 가격순</a>
      </div>
-     <div id="item-list">
-		<div class = "item" onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info1">
-			<p>{상품 가격 표기}</p>
-			<p>{상품명 표기}</p>
-			<p>{상품 특징 100자 (2줄)}</p>
-			<p>&nbsp; </p>
-			</div>
-		</div>
-		<div class = "item"onclick="location.href='02.html';">
-		<div class="img">
-			</div>
-			<div id="info2">
-			<p>15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>
-		</div>
-		<div class = "item" onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info3">
-			<p>15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info4">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
+   <div class = "center-block" id="goods-list">
+		<c:forEach var = "god" items = "${goods}">
+			<div class = "item">
+				<div class="img">
+					<a href = "goodsDetail${god.godNum}"><img src = "upload/${god.godListImageUrl}" /></a>
+				</div>
+				<div id="info5">
+				<p class="text1"><fmt:formatNumber value="${god.godSellingPrice}" pattern="#,###" />원</p>
+				<p>${god.godName}</p>
+				<p>${god.godIntroduce}</p>
+				</div>			
 			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-		<div class = "item"  onclick="location.href='02.html';">
-			<div class="img">
-			</div>
-			<div id="info5">
-			<p class="text1">15,000원</p>
-			<p>기모 티셔츠</p>
-			<p>깃털처럼 가벼운 것에 비해</p>
-			<p>최고의 보온 효과!</p>
-			</div>			
-		</div>
-			 <div id = "pagination">
-				<div>
-					<ul class = "pagination">
-							<c:if test = "${pageMaker.prev}">
-								<li><a href = "styleshop${godcNum}I${pageMaker.startPage-1}I${type}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-							</c:if>
-										
-							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
-								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "styleshop${godcNum}I${idx}I${type}">${idx}</a>
-								</li>
-							</c:forEach>
-				
-							<c:if test = "${pageMaker.next}">
-								<li><a href = "styleshop${godcNum}I${pageMaker.endPage+1}I${type}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
-							</c:if>
-					</ul>
-				</div>		
-			</div>
+		</c:forEach>
  	  </div>
-   </div>
+		<div id = "pagination">
+			<div>
+				<ul class = "pagination">
+					<c:if test = "${pageMaker.prev}">
+						<li><a href = "styleshop${godcNum}I${pageMaker.startPage-1}I${type}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+					</c:if>
+										
+					<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+						<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+							<a href = "styleshop${godcNum}I${idx}I${type}">${idx}</a>
+						</li>
+					</c:forEach>
+				
+					<c:if test = "${pageMaker.next}">
+						<li><a href = "styleshop${godcNum}I${pageMaker.endPage+1}I${type}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+					</c:if>
+			</ul>
+		</div>		
+	</div>
+</c:if>
 </div>     
 </body>
 </html>

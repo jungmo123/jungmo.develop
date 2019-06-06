@@ -2,7 +2,8 @@ package jungmo.shoppingmall.user.styleshop.service;
 
 import java.util.*;
 
-import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.user.styleshop.domain.GoodsReview;
+import jungmo.shoppingmall.admin.order.domain.Goods;
 import jungmo.shoppingmall.user.styleshop.dao.*;
 import jungmo.shoppingmall.user.styleshop.domain.Page;
 
@@ -15,5 +16,9 @@ public class StyleShopServiceImpl implements StyleShopService{
 	
 	public List<Goods> getGoods(Page page){
 		return ssDao.getGoods(page);
+	}
+	
+	public List<GoodsReview> getGoodsReviews(Page page){
+		return ssDao.getGoodsReviews(page);
 	}
 }

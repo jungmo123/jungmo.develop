@@ -12,4 +12,8 @@ public class UPageDaoImpl implements UPageDao{
 	public int getTotRowCnt(String godcNum){
 		return pageMapper.getTotRowCnt(godcNum);
 	}
+	
+	public int getGodrTotRowCnt(String godNum){
+		return pageMapper.getGodrTotRowCnt(godNum);
+	}
 }

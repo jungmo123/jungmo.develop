@@ -7,8 +7,6 @@
 		width:800px;
 		margin-top:50px;
 		text-align:center;
-		position:relative;
-		left:160px;
 	}
 	#header #topbanner{
 		height:100px;
@@ -19,10 +17,10 @@
 	}
 	#header #title > a > strong{
 		font-size:30px;
-		color: #5D646E;
+		color: #FF6F43;
 	}
 	#header #title > a > strong:nth-child(2){
-		color: #FF6F43;
+		color: #5D646E;
 	}
 	#searchBar{
 		text-align:center;

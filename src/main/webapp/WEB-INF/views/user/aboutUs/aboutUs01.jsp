@@ -6,7 +6,12 @@
 <head>
 <title>소개</title>
 <meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value="/css/main.css" />">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src = "<c:url value = "/js/Navigation.js" />"></script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
@@ -16,7 +21,7 @@
       width:1000px;
       margin-top:30px;
       }
-   .container > strong{
+   .container > #introduce >strong{
    		font-size:20px;
    }
    #nav{
@@ -67,52 +72,66 @@
    width:300px;
    float:left;
    }
-
-   #info2{
-   margin-left:180px;
-   }
    #nav #navContent div > .activeMenu{
    color:red !important;
    }
    img{
    width:180px;
    height:180px;
+   border-radius:10px;
    }
-   
+   #intro{
+   	overflow:hidden;
+   	text-align: initial;
+   	position:relative;
+   	left:150px;
+   }
+   #info2{
+   position:relative;
+   	left:150px;
+   }
+   #intro div{
+   	display:inline-block;
+   }
+   #introduce,
+   #info2{
+   	width:800px;
+   }
+   #introduce{
+   	margin-top:30px;
+     text-align:center;
+   }
+  	#introduce > strong:nth-child(1){
+		color: #FF6F43;
+	}
+	#introduce > strong:nth-child(2){
+		color: #5D646E;
+	}
 </style>
 </head>
 <body>
 <div class="container">
-    <div id = "nav">
-         <div id="navTitle">
-            <span>회사 소개</span>
-         </div>
-         <div id="navContent">
-            <div>
-               <a href = "aboutUs01" class = "activeMenu"><span>> 라라마켓</span></a>
-               <a href = "aboutUs02"><span onclick = "location.href = 'aboutUs02'">> 찾아오시는 길</span></a>
-               
-            </div>
-      </div>
-   </div>
-   
-   <strong>&#124;&nbsp;라라마켓을 소개합니다.</strong>
-   <hr>
-   <h3><strong>"세련된 스타일, 알뜰한 소비! 둘다 포기하지 마세요!"</strong></h3>
-
-     <div id="logo">
-     <img src = "<c:url value = "/IMAGE/shp.PNG" />">
-     </div>
-     <div id="info1">
-       <h5><strong>라라마켓이란?</strong></h5>
-       <br>
-       <p>유행에 따라가지 않는, </p>
-       <p>나만의 멋을 연출할 수 있는</p>
-       <p>옷들을 판매하는 곳입니다.</p>
+	<%@ include file = "../header/userheader.jsp" %>
+	<div id = "introduce" class = "center-block">
+   	 <strong>라라</strong><strong>마켓</strong><strong>을 소개합니다.</strong>
+   	 <hr>
+   	 <h3><strong>"세련된 스타일, 알뜰한 소비! 둘다 포기하지 마세요!"</strong></h3>
+     <div id = "intro">
+	     <div id="logo">
+	     <img src = "<c:url value = "/IMAGE/shp.PNG" />">
+	     </div>
+	     <div id="info1">
+	       <h5><strong>라라마켓이란?</strong></h5>
+	       <br>
+	       <p>유행에 따라가지 않는, </p>
+	       <p>나만의 멋을 연출할 수 있는</p>
+	       <p>옷들을 판매하는 곳입니다.</p>
+	     </div>
+	     </div>
      </div>
    </div>
    <div class = "container">
-	   <div id="info2">
+	   <div id="info2" class = "center-block">
 	      <h5><strong>스타일 숍에서 판매되는 옷들은?</strong></h5>
 	      <br>
 	      <p>스타일 숍에서 판매되는 옷은 모두 프랑스, 이탈리아에서 직수입한 고급 원단으로 제작했습니다. </p>
@@ -122,7 +141,7 @@
 	      <p>직접 생산하고 유통하여 불필요한 작업 단계를 줄였습니다. 저렴한 가격으로 상품을 구매해 보세요!</p>
 	      <br>
 	      <div>
-	        <button class = "btn btn-default" onclick="location.href='../GOODS/01.html'">스타일 숍 바로가기</button>
+	        <button class = "btn btn-default" onclick="location.href='styleshop1I1IAll'">스타일 숍 바로가기</button>
 	   </div>  
    </div>
 

@@ -1,14 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>찾아오시는 길</title>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ib2ojxbofb"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<title>찾아오시는 길</title>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ib2ojxbofb"></script>
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value="/css/main.css" />">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src = "<c:url value = "/js/Navigation.js" />"></script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
@@ -62,8 +67,8 @@
 		border:1px solid black;
 	}
 	#content > div:nth-child(4){
-		height:110px;
 		margin-top:30px;
+		overflow:hidden;
 	}
 	#content > div:nth-child(5){
 		width:700px;
@@ -98,7 +103,12 @@
 		float:left;
 	}
 	#content{
-		margin-left:180px;
+		margin-top:30px;
+		margin-left:210px;
+		width: 533px;
+	}
+	#content > strong{
+		font-size:20px;
 	}
 	#nav #navContent div > .activeMenu{
 		color:red !important;
@@ -108,19 +118,8 @@
 <body>
 
 	<div class="container">
-		<div id="nav">
-			<div id="navTitle">
-				<span>회사 소개</span>
-			</div>
-			<div id="navContent">
-				<div>
-					<a href="aboutUs01"><span onclick = "location.href = 'aboutUs01'"> > 라라마켓</span></a> 
-					<a href="aboutUs02" class = "activeMenu"><span>> 찾아오시는 길</span></a> 
-				</div>
-			</div>
-		</div>
-
-		<div id="content">
+		<%@ include file = "../header/userheader.jsp" %>
+		<div id="content" class = "center-block">
 			<strong>&#124;&nbsp;찾아 오시는길</strong>
 			<hr>
 			<div id="map" style="width:534px;height:418px;"></div>

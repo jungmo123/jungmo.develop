@@ -103,4 +103,8 @@ public class UPageServiceImpl implements UPageService{
 	public int getTotRowCnt(String godcNum){
 		return pageDao.getTotRowCnt(godcNum);
 	}
+	
+	public int getGodrTotRowCnt(String godNum){
+		return pageDao.getGodrTotRowCnt(godNum);
+	}
 }

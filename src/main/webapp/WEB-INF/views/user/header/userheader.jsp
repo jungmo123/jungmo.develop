@@ -47,7 +47,7 @@
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">스타일 숍</button>
 							<ul class= "dropdown-menu">
 								<c:forEach var = "gc" items = "${goodsCategories}">
-									<li><a href = "styleshop${gc.godcNum}">${gc.godcName}</a></li>
+									<li><a href = "styleshop${gc.godcNum}I1IAll">${gc.godcName}</a></li>
 								</c:forEach>
 							</ul>
 						</div>				
