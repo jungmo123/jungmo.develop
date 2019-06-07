@@ -2,11 +2,12 @@ package jungmo.shoppingmall.user.styleshop.dao;
 
 import java.util.*;
 
-import jungmo.shoppingmall.user.styleshop.domain.GoodsReview;
+import jungmo.shoppingmall.user.styleshop.domain.*;
 import jungmo.shoppingmall.admin.order.domain.Goods;
 import jungmo.shoppingmall.user.styleshop.dao.mapper.*;
 import jungmo.shoppingmall.user.styleshop.domain.Page;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -20,5 +21,13 @@ public class StyleShopDaoImpl implements StyleShopDao{
 	
 	public List<GoodsReview> getGoodsReviews(Page page){
 		return ssMapper.getGoodsReviews(page);
+	}
+	
+	public List<GoodsQnA> getGoodsQnA(Page page){
+		return ssMapper.getGoodsQnA(page);
+	}
+	
+	public 	void modifyGoodsReview(String godrNum,String godrContent,String satisLevel){
+		ssMapper.modifyGoodsReview(godrNum, godrContent, satisLevel);
 	}
 }

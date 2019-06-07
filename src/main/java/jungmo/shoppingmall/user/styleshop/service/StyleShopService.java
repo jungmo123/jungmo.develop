@@ -2,11 +2,18 @@ package jungmo.shoppingmall.user.styleshop.service;
 
 import java.util.*;
 
-import jungmo.shoppingmall.user.styleshop.domain.GoodsReview;
+import org.apache.ibatis.annotations.*;
+
+import jungmo.shoppingmall.user.styleshop.domain.*;
 import jungmo.shoppingmall.admin.order.domain.Goods;
 import jungmo.shoppingmall.user.styleshop.domain.Page;
 
 public interface StyleShopService {
 	List<Goods> getGoods(Page page);
 	List<GoodsReview> getGoodsReviews(Page page);
+	List<GoodsQnA> getGoodsQnA(Page page);
+	void modifyGoodsReview(
+			@Param("godrNum") String godrNum,
+			@Param("godrContent") String godrContent,
+			@Param("satisLevel") String satisLevel);
 }

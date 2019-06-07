@@ -12,7 +12,10 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
+<script src = "<c:url value = "/js/Goods.js" />"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <style>	
 	.container{
 		width:1010px;
@@ -183,15 +186,16 @@
 	}
 	.commentTr td:last-child div:nth-child(2) button{
 		padding:0;
-		width:50px;
-		height:25px;
+		width:35px;
+		height:20px;
+		margin-right:5px;
 	}
 	.commentTr p{
 		margin:0 0 3px;
 	}
 	#evaluationTable table{
 		border-top:1px solid grey;
-		border-bottom:1px solid grey;
+		border-bottom:1px solid #BABABA;
 	}
 	#evaluationTable table tr td:first-child{
 		width:50px;
@@ -224,14 +228,16 @@
 	#evaluationTable table tr:nth-child(3) .visible{
 		
 	}
-	#godrPagination{
+	#godrPagination,
+	#qnapagination{
 		margin-top:30px;
 		text-align:center;
 	}
 	.pagination li a{
 		border:0px;
 	}
-	#godrPagination > div > .pagination .active a{
+	#godrPagination > div > .pagination .active a,
+	#qnapagination > div > .pagination .active a{
 		background-color:#F2F5F7;
 		color:black;
 		font-weight:bold;
@@ -239,11 +245,13 @@
 	.pagination .active a:active{
 		background-color:grey;
 	}
-	#godrPagination .currentPage{
+	#godrPagination .currentPage,
+	#qnapagination .currentPage{
 		color:#727272 !important;
 		font-weight:bold;
 	}
-	#godrPagination a{
+	#godrPagination a,
+	#qnapagination a{
 		color:#878787;
 		margin-right:10px;
 	}
@@ -327,6 +335,7 @@
 	#orderitem table{
 		width:100%;
 		text-align:center;
+		border-bottom: 1px solid lightgrey;
 	}
 	#orderitem table tr:not(.commentBox){
 		border-top:1px solid #BABABA;
@@ -342,35 +351,41 @@
 	#orderitem table tr th:first-child{
 		width:60px;
 	}
-	#orderitem table tr:nth-child(2) td:nth-child(2),
-	#orderitem table tr:nth-child(4) td:nth-child(2),
-	#orderitem table tr:nth-child(3) td:nth-child(1),
-	#orderitem table tr:nth-child(5) td:nth-child(1){
+	#orderitem table tr:nth-child(3n+2) td:nth-child(2),
+	#orderitem table tr:nth-child(3n) td:nth-child(1){
 		text-align:left;
 	}
-	#DocumentOpen{
+	.DocumentOpen{
 		border-top:1px solid black !important;
 		border-bottom:1px solid grey;
 	}
-	#DocumentOpen td:nth-child(2){
+	.DocumentOpen td:nth-child(2){
 		height:200px;
 	}
-	#DocumentOpen td:nth-child(2) div{
+	.DocumentOpen td:nth-child(2) div,
+	.divv{
 		height:100px;
 		padding:10px;
 		text-align:left;
 	}
-	#DocumentOpen td:nth-child(2) > div:first-child{
+	.DocumentOpen td:nth-child(2) > div:first-child{
 		border-bottom:1px dotted grey;
 	}
-	#DocumentOpen td:nth-child(2) span{
-		margin-right:10px;
-	}
-	#DocumentOpen td:nth-child(2) button{
+	.DocumentOpen td:nth-child(2) button{
 		padding:0;
 		width:35px;
 		height:20px;
 		text-align:center;
+		margin-right:5px;
+		float:right;
+	}
+	.divv strong{
+		font-size:30px;
+		color:#FF6F43;
+		text-shadow:3px 10px 4px lightgrey;
+	}
+	.DocumentOpen td div > p{
+		display:inline-block;
 	}
 	#pagination{
 		margin-top:20px;
@@ -452,9 +467,6 @@
 	body .container:nth-child(2) > div:last-child{
 		margin-bottom:100px;
 	}
-	.modal-content{
-		width:350px !important;
-	}
 	#iconInfo{
 		display:inline-block;
 		width:80px;
@@ -465,24 +477,6 @@
 	#iconInfo i{
 		font-size:50px;
 	}
-	.modal-body{
-		height:110px;
-	}
-	.modal-body div:nth-child(2){
-		display:inline-block;
-		width:200px;
-		height:60px;
-		font-size:15px;
-		float:left;
-		position:relative;
-		top:25px;
-	}
-	.modal-footer{
-		text-align:center;
-	}
-	.modal-footer button{
-		width:100px;
-	}
 	input[type="number"]::-webkit-outer-spin-button,
 	input[type="number"]::-webkit-inner-spin-button {
 	    -webkit-appearance: none;
@@ -490,6 +484,114 @@
 	}
 	.pagination > li > a{
 		cursor:pointer;
+	}
+	#noReview{
+		height: 100px;
+	}
+	#noReview p{
+		margin:0px;
+	}
+	#noReview p > .glyphicon{
+		font-size:30px;
+	}
+	#noReview p span{
+		color:lightgrey;
+	}
+	#qnaTable tr th:nth-child(1){
+		width:60px;
+	}
+	#qnaTable tr th:nth-child(2){
+		width:471px;
+	}
+	#qnaTable tr th:nth-child(3){
+		width:109px;
+	}
+	#qnaTable tr th:nth-child(4){
+		width:182px;
+	}
+	#qnaTable tr th:nth-child(5){
+		width:158px;
+	}
+	.tableButton{
+	    border: 1px solid lightgrey;
+	    border-radius: 5px;
+	    background-color: white;
+	    font-weight: bold;	
+	}
+	div > strong{
+		color:#5D646E;
+	}
+	#content > strong{
+		font-size:24px;
+	}
+	.modal-footer{
+		border:0;
+		text-align:center;
+	}
+	#selectDiv{
+		padding:10px 10px 0px 10px;
+	}
+	#selectDiv span{
+		float:right;
+	}
+	#textBox{
+		display:inline-block;
+		width:565px;
+		padding:5px 10px 10px 10px
+	}
+	#textBox div:first-child{
+		height:30px;
+		background-color:#F2F5F7;
+		text-align:center;
+		border:1px solid grey;
+		border-bottom:0;
+	}
+	#textBox textarea{
+		width:545px;
+		height:150px;
+		resize:none;
+		border-color:grey;
+		border-top:0;
+	}
+	#grade{
+		width:568px;
+		height:100px;
+		padding:10px;
+	}
+	#grade > div{
+		width:548px;
+		height:70px;
+		border:1px solid grey;
+	}
+	#grade div > div{
+		display:inline-block;
+	}
+	#grade div > div:first-child{
+		width:50px;
+		float:left;
+		text-align:center;
+		position:relative;
+		top:25px;
+		margin-right:10px;
+	}
+	#grade div > div:last-child{
+		position:relative;
+		bottom:16px;
+		width:490px;
+		float:right;
+	}
+	#grade div > div:last-child p:first-child label{
+		margin-right:30px;
+	}
+	#grade div > div:last-child p:last-child label{
+		margin-right:104px;
+	}
+	p{
+		margin-bottom:3px;
+	}
+	#reference{
+		padding:10px;
+		line-height:25px;
 	}
 </style>
 </head>
@@ -645,7 +747,7 @@
 			<span>상품에 대한 최신 Q&A를 보실 수 있습니다.</span>
 			<a href = "#"><span>더 보기</span><span class = "glyphicon glyphicon-plus"></span></a>
 			<div id = "orderitem">
-				<table class = "br">				
+				<table id = "qnaTable" class = "br">				
 					<tr>
 						<th>
 							<span>번호</span>
@@ -663,115 +765,9 @@
 							<span>보기/닫기</span>
 						</th>
 					</tr>
-					<tr>
-						<td rowspan = "2">
-							<span class = "number">15</span>
-						</td>
-						<td>
-							<div>
-									<span class = "questContent">이용자 문의글 상단 00자씩 1줄 표기</span>
-							</div>
-						</td>
-						<td>
-							<div>
-								<span>{작성자ID}</span>
-							</div>
-						</td>
-						<td>
-							<div>
-							<span>{년,월,일,시}</span>
-							</div>
-						</td>
-						<td rowspan = "2">
-							<div>
-								<button><span>보기&nbsp;<span class = "glyphicon glyphicon-triangle-bottom"></span></span></button>
-							</div>
-						</td>
-						<tr>									
-							<td>
-								<div>
-									<span class = "questContent">답변 여부 : 답변 준비중입니다.신속하게 답변 드리겠습니다.</span>
-								</div>
-							</td>
-							<td>
-								<div>
-									<span>{작성자ID}</span>
-								</div>
-							</td>
-							<td>
-								<div>
-									<span>{년,월,일,시}</span>
-								</div>
-							</td>																
-						</tr>
-						<tr>
-							<td rowspan = "2">
-								<span class = "number">14</span>
-								</td>
-							<td>
-								<div>
-									<span class = "questContent">색상이 2가지 뿐인데요. 다른 색은 없는 것인가요?...</span>
-								</div>
-							</td>
-							<td>
-								<div>
-									<span>love01</span>
-								</div>
-							</td>
-							<td>
-								<div>
-									<span>2023-03-05<br>11:20:16</span>
-								</div>
-							</td>
-							<td rowspan = "2">
-								<div>
-									<button><span>보기&nbsp;<span class = "glyphicon glyphicon-triangle-bottom"></span></span></button>
-								</div>
-							</td>
-						</tr>
-						<tr>							
-							<td>
-								<div>
-									<span class = "questContent">월 말에 입고 예정입니다.상품 공금에 지연을 드려...</span>
-								</div>
-							</td>
-							<td>
-								<div>
-									<span>admin</span>
-								</div>
-							</td>
-							<td>
-								<div>
-									<span>2023-03-05<br>12:10:55</span>
-								</div>
-							</td>																
-						</tr>
-						<tr id = "DocumentOpen" class = "none">
-							<td>
-							</td>
-							<td  colspan ="4">
-								<div>
-									<span>Q{이용자 상품 문의 글}</span>
-									<button class = "btn btn-default">수정</button>
-									<button class = "btn btn-default">삭제</button>
-								</div>
-								<div>
-									<span>A{관리자에서 등록한 답변}</span>
-								</div>
-							</td>
-						</tr>
 				</table>
-				<div id = "pagination">
-					<div>
-						<a href = "#"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-						<a href = "#"  class = "currentPage">1</a>
-						<a href = "#">2</a>
-						<a href = "#">3</a>
-						<a href = "#">4</a>
-						<a href = "#">5</a>
-						<a href = "#" ><span class = "glyphicon glyphicon-chevron-right"></span></a>
-						<div id = "currentBar"></div>
-					</div>		
+				<div id = "qnapagination">
+		
 				</div>
 			</div>
 		</div>
@@ -890,242 +886,71 @@
 		</div>
 	</div>
 	
+		<div class = "modal fade" id = "godrModify">
+		<div class = "modal-dialog modal-md">
+			<div class = "modal-content">
+				<div class = "modal-header">
+					<button type = "button" class = "close" data-dismiss = "modal">X</button>
+					<strong>&#124;&nbsp;상품평 수정하기</strong>
+					<span>Write Review</span>
+				</div>
+				<div class = "modal-body">
+					<div id = "editor">
+						<div id = "textBox">
+							<div>
+								<input type = 'number' name = 'currentNum' style = 'display:none'>
+								<input type = 'number' name = 'godr' style = 'display:none'>
+								<textarea id = "GoodsReview" name = "GoodsReview"></textarea>
+							</div>
+						</div>						
+					</div>
+					<div id = "grade">
+						<div>
+							<div>
+								<span>평점</span>
+							</div>
+							<div>
+								<p>
+									<input type = 'radio' name = "grade" value = "5" />
+									<label for = "wellContent">매우 만족 ☆☆☆☆☆</label>
+									<input type = 'radio' name = "grade" value = "4" />
+									<label for = "content"> 만족 ☆☆☆☆</label>
+									<input type = 'radio' name = "grade" value = "3" />
+									<label for = "normal">보통 ☆☆☆</label>
+								</p>
+								<p>
+									<input type = 'radio' name = "grade" value = "2" />
+									<label for = "highlyUnsatisfactory">불만 ☆☆</label>
+									<input type = 'radio' name = "grade" value = "1 " />
+									<label for = "unsatisfactory"> 매우 불만 ☆</label>
+								</p>
+							</div>						
+						</div>
+					</div>
+					<div id = "reference">
+						<strong>※ 참고하세요!</strong>
+						<br>
+						<span>- 상품평은 상품당 1회만 작성 할 수 있습니다.</span>
+						<br>
+						<span>- 작성한 상품평은 [마이 페이지 > 상품평]에서 수정할 수 있습니다..</span>
+					</div>
+				</div>
+				<div class = "modal-footer">
+					<button id = "godrComplete" class = "btn btn-default"  data-dismiss = "modal">작성 완료</button>
+					<button class = "btn btn-default"  data-dismiss = "modal">작성 취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script type ="text/javascript">
-	var godNum = "${godNum}"
-	function getTimeStamp(date) {
-		  var d = date;
-		  var s =
-		    leadingZeros(d.getFullYear(), 4) + '-' +
-		    leadingZeros(d.getMonth() + 1, 2) + '-' +
-		    leadingZeros(d.getDate(), 2) + ' ' +
-
-		    leadingZeros(d.getHours(), 2) + ':' +
-		    leadingZeros(d.getMinutes(), 2) + ':' +
-		    leadingZeros(d.getSeconds(), 2);
-
-		  return s;
-		}
-
-		function leadingZeros(n, digits) {
-		  var zero = '';
-		  n = n.toString();
-
-		  if (n.length < digits) {
-		    for (i = 0; i < digits - n.length; i++)
-		      zero += '0';
-		  }
-		  return zero + n;
-		}
-		
-	function getGoodsReview(godNum,idx){
-		$.ajax({
-			url:"getGoodsReviews",
-			method:"post",
-			data: {
-				godNum:godNum,
-				idx:idx
-			},
-			success:function(data){
-				$("#godrTable").text("");
-				$("#godrPagination").text("");
-				var userId = data.userId;
-				var idx;
-				if(data.pageMaker.currentPage == 1){
-					idx = 1;
-				}else{
-					idx = (data.pageMaker.currentPage-1)*5+1;
-				}
-				$.each(data.godr,function(index,item){
-					var tr = $("<tr></tr>");
-					var td1 = $("<td></td>");
-					var span1 = $("<span class = 'number'></span>");
-					span1.text(idx);
-					td1.append(span1);
-					var td2 = $("<td></td>");
-					var div1 = $("<div></div>");
-					var span2 = $("<span></span>");
-					var d = new Date(item.godrWritingDate);
-					span2.text(getTimeStamp(d));
-					var span3 = $("<span>&nbsp;&#124;&nbsp;</span>");
-					var span4 = $("<span></span>");
-					span4.text(item.userId);
-					var br1 = $("<br>");
-					var p = $("<p style='margin: 5px 0 0px;'></p>");
-					var content = data.godr[index].godrContent;
-					content = content.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig,"").substring(0,40);
-					p.text(content);
-					div1.append(span2);
-					div1.append(span3);
-					div1.append(span4);
-					div1.append(br1);
-					div1.append(p);
-					td2.append(div1);
-					var td3 = $("<td></td>");
-					var div2 = $("<div></div>");
-					var satisLevel = "";
-					for(var i = 0 ; i < item.satisLevel ; i++){
-						satisLevel += "★";
-					}
-					var span5 = $("<span></span>");
-					span5.text(satisLevel);
-					div2.append(span5);
-					td3.append(div2);
-					var td4 = $("<td></td>");
-					var div3 = $("<div></div>");
-					var button1 = $("<button></button>");
-					button1.append("<span>보기&nbsp;<span class = 'glyphicon glyphicon-triangle-bottom'></span></span>");
-					div3.append(button1);
-					td4.append(div3);
-					tr.append(td1);
-					tr.append(td2);
-					tr.append(td3);
-					tr.append(td4);
-					$("#godrTable").append(tr);
-					
-					var tr2 = $("<tr class = 'commentTr none'></tr>");
-					var td5 = $("<td></td>");
-					var td6 = $("<td colspan = '3'></td>");
-					var div4 = $("<div></div>");
-					var div5 = $("<div></div>'");
-					var span6 = $(data.godr[index].godrContent);
-					div5.append(span6);
-					var div6 = $("<div></div>");
-					var button2;
-					var button3;
-					if(userId == item.userId){
-						button2 = $("<button class = 'btn btn-default'>수정</button>");
-						button3 = $("<button class = 'btn btn-default'>삭제</button>");
-					}
-					div6.append(button2);
-					div6.append(button3);
-					div4.append(div5);
-					div4.append(div6);
-					td6.append(div4);
-					tr2.append(td5);
-					tr2.append(td6);
-					$("#godrTable").append(tr2);
-					idx++;
-				})
-				var div = $("<div></div>");
-				var ul = $("<ul class = 'pagination'></ul>");
-				if(data.pageMaker.prev){
-					var li = $("<li></li>");
-					var a = $("<a></a>");
-					var span = $("<span class = 'glyphicon glyphicon-chevron-left'></span>");
-					a.attr({
-						id:data.pageMaker.startPage-1
-					});
-					a.append(span);
-					li.append(a);
-					ul.append(li);
-				}
-				for(i = data.pageMaker.startPage-1; i < data.pageMaker.endPage ; i++){
-					if(data.pageMaker.currentPage-1 == i){
-						var li = $("<li class = 'active'></li>");
-						var a = $("<a></a>");
-						a.attr({
-							id:i+1
-						});
-						a.text(i+1);
-						li.append(a);
-						ul.append(li);
-					}else{
-						var li = $("<li></li>");
-						var a = $("<a></a>");
-						a.attr({
-							id:i+1
-						});
-						a.text(i+1);
-						li.append(a);
-						ul.append(li);
-					}
-				}
-				if(data.pageMaker.next){
-					var li = $("<li></li>");
-					var a = $("<a></a>");
-					var span = $("<span class = 'glyphicon glyphicon-chevron-right'></span>");
-					a.attr({
-						id:data.pageMaker.endPage+1
-					});
-					a.append(span);
-					li.append(a);
-					ul.append(li);
-				}
-				div.append(ul);
-				$("#godrPagination").append(div);
-			},
-			error:function(a,b,errMsg){
-				Swal.fire({
-					  position: 'top',
-					  type: 'error',
-					  title: '실패',
-					  showConfirmButton: false,
-					  timer: 1500
-					});
-			}
-		})
-	}
-
-		$(function(){
-			var index = "0";
-			getGoodsReview(godNum,index);
-		})
-		
-		$(document).on("click",".pagination > li > a",function(){
-			var idx = $(this).prop("id");
-			
-			getGoodsReview(godNum,idx);
-		})
-		
-				$(document).on("click","#evaluationTable table tr button",function(){
-					var tr = $(this).parents("tr").next();
-					console.log(tr);
-					if($(this).hasClass("op") === true){
-						$(this).removeClass("op");
-						$(this).addClass("cl");
-						var first = $(this).find(":first-child");
-						first.text("보기 ");
-						var span = $("<span></span>");
-						span.addClass("glyphicon glyphicon-triangle-bottom")
-						first.append(span);
-						
-						tr.addClass("none");
-					}else{
-						$(this).removeClass("cl");
-						$(this).addClass("op");
-						var first = $(this).find(":first-child");
-						first.text("닫기 ");
-						var span = $("<span></span>");
-						span.addClass("glyphicon glyphicon-triangle-top")
-						first.append(span);
-
-						tr.removeClass("none");
-					}
-				});
-
-				$("#orderitem table tr:nth-child(4) td:nth-child(5) button").click(function(){
-					if($(this).hasClass("op") === true){
-						$(this).removeClass("op");
-						$(this).addClass("cl");
-						var first = $(this).find(":first-child");
-						first.text("보기 ");
-						var span = $("<span></span>");
-						span.addClass("glyphicon glyphicon-triangle-bottom")
-						first.append(span);
-						
-						$("#DocumentOpen").addClass("none");
-					}else{
-						$(this).removeClass("cl");
-						$(this).addClass("op");
-						var first = $(this).find(":first-child");
-						first.text("닫기 ");
-						var span = $("<span></span>");
-						span.addClass("glyphicon glyphicon-triangle-top")
-						first.append(span);
-
-						$("#DocumentOpen").removeClass("none");
-					}
-				})
+	CKEDITOR.replace('GoodsReview',{
+	    toolbar: 'Full',
+	    uiColor: '#F2F5F7',
+	    height:'200px'
+	});
+	CKEDITOR.config.language = 'ko';	
+		var godNum = "${godNum}"
 	</script>
 </body>
 </html>

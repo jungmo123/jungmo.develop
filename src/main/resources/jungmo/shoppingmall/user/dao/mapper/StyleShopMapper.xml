@@ -26,7 +26,7 @@
 	<select id = "getGoodsReviews" parameterType = "upage" resultMap = "godrMap">
 	    select * from(
 			select rownum as rnum, x.* from(	
-				select god_num,user_id,godr_writingdate,satislevel,godr_content
+				select godr_num,god_num,user_id,godr_writingdate,satislevel,godr_content
 				from goods_reviews
 				where god_num = #{godNum}
 				<![CDATA[
@@ -34,6 +34,26 @@
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
 	</select>
+	
+	<select id = "getGoodsQnA" parameterType = "upage" resultMap = "godqMap">
+	    select * from(
+			select rownum as rnum, x.* from(	
+				select goods_questions.godq_num,godq_content,godq_writingdate,goods_questions.user_id quser_id,god_num,goda_content,goda_writingdate,goods_anser.user_id auser_id
+				from goods_questions
+			    full outer join goods_anser
+			    on (goods_questions.godq_num = goods_anser.godq_num)
+			    where god_num = #{godNum}
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<update id = "modifyGoodsReview" parameterType = "map">
+		update goods_reviews
+		set satislevel = #{satisLevel},godr_content = #{godrContent}
+		where godr_num = #{godrNum}
+	</update>
 	
 	<resultMap id = "godMap" type = "god">
 		<id property = "godNum" column = "god_num" />
@@ -53,5 +73,16 @@
 		<result property = "godrWritingDate" column = "godr_writingdate" />
 		<result property = "satisLevel" column = "satislevel" />
 		<result property = "godrContent" column = "godr_content" />
+	</resultMap>
+	
+	<resultMap id = "godqMap" type = "qna">
+		<id property = "godqNum" column = "godq_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "godqContent" column = "godq_content" />
+		<result property = "godqWritingDate" column = "godq_writingdate" />
+		<result property = "godqUserId" column = "quser_id" />
+		<result property = "godaContent" column = "goda_content" />
+		<result property = "godaWritingDate" column = "goda_writingdate" />
+		<result property = "godaUserId" column = "auser_id" />
 	</resultMap>
 </mapper>

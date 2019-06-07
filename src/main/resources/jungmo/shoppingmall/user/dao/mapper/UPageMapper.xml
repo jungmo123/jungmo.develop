@@ -13,4 +13,10 @@
 		from goods_reviews
 		where god_num = #{godNum}
 	</select>
+
+	<select id = "getQnATotRowCnt" parameterType="string" resultType = "int">
+	    select count(*)
+		from goods_questions
+	    where god_num = #{godNum}
+	</select>
 </mapper>
