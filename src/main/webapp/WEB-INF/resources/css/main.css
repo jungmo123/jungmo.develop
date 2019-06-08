@@ -3,6 +3,11 @@
 	*{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+	a,
+	a:focus,
+	a:hover{
+		text-decoration:none !important;
+	}
 	#header{
 		width:800px;
 		margin-top:50px;

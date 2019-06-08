@@ -24,14 +24,12 @@
 		font-size:24px;
 	}
 	#productIntroduce{
-		height:500px;
-		position: relative;
-   		left: 100px;
+		height:650px;
 	}
 	#productImg{
 		display:inline-block;
-		width:390px;
-		height:390px;
+		width:510px;
+		height:470px;
 		float:left;
 	}
 	#productInfo{
@@ -39,21 +37,26 @@
 		width:360px;
 		height:390px;
 		float:left;
+		margin-left:10px;
 	}
 	#img{
-		width:380px;
-		height:380px;
-		border:1px solid grey;
+		width:502px;
+		height:468px;;
+		border:1px solid #BABABA;
 		margin:5px;
+	}
+	#mainIMG{
+		width:500px;
+		height:466px;
 	}
 	#thumbnail{
 		text-align:center;
 	}
 	#thumbnail div{
 		display:inline-block;
-		width:100px;
-		height:70px;
-		border:1px solid grey;
+		width:120px;
+		height:100px;
+		border:1px solid #BABABA;
 		margin:10px;
 	}
 	#productInfo{
@@ -82,33 +85,30 @@
 	#productTable tr:nth-child(2){
 		background-color:#F2F5F7;
 	}
-	#productTable tr:nth-child(5){
+	.optionFirst{
 		border-top:1px solid lightgrey;
 	}
-	#productTable tr:nth-child(6),
-	#productTable tr:nth-child(7),
-	#productTable tr:nth-child(8),
-	#productTable tr:nth-child(9)	{
+	.optionLast{
 		border-bottom:1px solid lightgrey;
 	}
-	#productTable tr:nth-child(7) td input[type='number']{
+	#productTable .goodsStockClass td input[type='number']{
 		width:40px;
 		height:15px;
 		text-align:center;
 	}
-	#productTable tr:nth-child(7) button{
+	#productTable .goodsStockClass button{
 		padding:0;
 		width:20px;
 		height:15px;
 		position:relative;
 		bottom:2px;
 	}
-	#productTable tr:nth-child(7) button:nth-child(2) span{
+	#productTable .goodsStockClass button:nth-child(2) span{
 		margin-left:0;
 		position:relative;
 		bottom:4px;
 	}
-	#productTable tr:nth-child(7) button:nth-child(3) span{
+	#productTable .goodsStockClass button:nth-child(3) span{
 		margin-left:0;
 		position:relative;
 		bottom:6px;
@@ -224,9 +224,6 @@
 	#evaluationTable table tr td:nth-child(2) > div:last-child > span{
 		font-size:12px;
 		color:#878787;
-	}
-	#evaluationTable table tr:nth-child(3) .visible{
-		
 	}
 	#godrPagination,
 	#qnapagination{
@@ -427,8 +424,6 @@
 	}
 	#inputBar > div > span{
 		float:right;
-		position:relative;
-		right:160px;
 	}
 	#deliveryInfo,
 	#sAr{
@@ -593,6 +588,59 @@
 		padding:10px;
 		line-height:25px;
 	}
+	#pim .modal-header{
+		border:0;
+	}
+	#pim .modal-body{
+		padding:0px 15px 0px 15px;
+	}
+	#pim .modal-body textarea{
+		resize: none;
+	}
+	#pim .modal-footer{
+		border:0;
+		text-align:center;
+	}
+	#pim .modal-title{
+		font-weight:bold;
+	}
+	#pim hr{
+		margin:5px;
+	}
+	#inputBar > div > #currentDiv{
+		height:0;
+		text-align:right;
+		position:relative;
+		bottom:20px;
+	}
+	#remitByte{
+		margin-right:150px;
+		margin-left:5px;
+	}
+	#productInquiry #moreQna,
+	#evaluation #moreReview{
+		background-color:lightgrey;
+		padding:5px;
+		border-radius:10px;
+		margin-right:45px;
+	}
+	#moreQna strong,
+	#moreReview strong{
+		margin-right:3px;
+		color:grey;
+	}
+	#moreQna span,
+	#moreReview span{
+		color:grey;
+	}
+	#productTable span{
+		font-size:12px;
+	}
+	#thumbnail div > img{
+		width:118px;
+		height:98px;
+		cursor:pointer;
+	}
 </style>
 </head>
 <body>
@@ -605,23 +653,19 @@
 				<div id = "productIntroduce">
 					<div id = "productImg">
 						<div id = "img">
-						
+							<img id = "mainIMG" src = "upload/${goods.godMainImageUrl}">
 						</div>
 						<div id = "thumbnail">
-							<div>
-								<span>{썸네일1}</span>
-							</div>
-							<div>
-								<span>{썸네일1}</span>
-							</div>
-							<div>
-								<span>{썸네일1}</span>
-							</div>
+							<c:forEach var = "img" items = "${subimages}">
+								<div>
+									<img class = "subImg" src = "upload/${img.subImageUrl}" />
+								</div>							
+							</c:forEach>
 						</div>
 					</div>
 					<div id = "productInfo">
 						<div>
-							<strong>{상품명}</strong>
+							<strong>${goods.godName}</strong>
 						</div>
 						<div>
 							<form>
@@ -631,56 +675,55 @@
 										<span>판매 가격 : </span>
 									</td>
 									<td>
-										<span>{가격}원</span>
+										<span><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</span>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<span>포인트 : </span>
+										<span>적립 포인트 : </span>
 									</td>
+									<c:set var = "point" value = "${goods.godSellingPrice/pointPolicy.savePointPercent}" />
+									<fmt:parseNumber var="p" value="${point}" integerOnly="true" />
 									<td>
-										<span>{적립 포인트} 포인트</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<span>{항목명 1} : </span>
-									</td>
-									<td>
-										<span>{내용}</span>
+										<span><fmt:formatNumber value="${p}" pattern="#,###" /> 포인트</span>
 									</td>
 								</tr>
-								<tr>
+								<c:forEach var = "intro" items = "${godi}">
+								<tr class = "introClass">
 									<td>
-										<span>{항목명 2} : </span>
+										<span>${intro.itrName}</span>
 									</td>
 									<td>
-										<span>{내용}</span>
+										<span>${intro.itrContent}</span>
 									</td>
 								</tr>
-								<tr>
+								</c:forEach>
+								<c:forEach var = "godo" items = "${godoList}" varStatus = "state">
+								<c:choose>
+									<c:when test ="${state.first}">
+										<tr class = "optionClass optionFirst">
+									</c:when>
+									<c:when test ="${state.last}">
+										<tr class = "optionClass optionLast">
+									</c:when>
+									<c:otherwise>
+										<tr class = "optionClass">
+									</c:otherwise>
+								</c:choose>
 									<td>
-										<span>{옵션 1} : </span>
+										<span>${godo.optName} : </span>
 									</td>
 									<td>
 										<select>
-											<option>{옵션1}을 선택해 주세요.</option>
-											<option>{옵션1}</option>
+												<option value = "0">옵션을 선택해주세요</option>
+											<c:forEach var = "option" items = "${godo.godoList}">
+												<option value = "${option.optContent}" class = "${option.optPrice}">${option.optContent}</option>
+											</c:forEach>
 										</select>
 									</td>
 								</tr>
-								<tr>
-									<td>
-										<span>{옵션 2} : </span>
-									</td>
-									<td>
-										<select>
-											<option>{옵션2}을 선택해 주세요.</option>
-											<option>{옵션2}</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
+								</c:forEach>
+								<tr class = "goodsStockClass">
 									<td>
 										<span>수량 : </span>
 									</td>
@@ -690,20 +733,28 @@
 										<button id = "minus" class = "btn btn-default"><span>-</span></button>
 									</td>
 								</tr>
-								<tr>
+								<tr class = "deliveryClass">
 									<td>
 										<span>배송비 : </span>
 									</td>
 									<td>
-										<span>{배송비}원</span>
+									<span>
+										<c:if test = "${goods.godSellingPrice>=deliveryPolicy.freeDeliveryMp}">
+											<c:set var = "delivery" value = "0" />
+										</c:if>
+										<c:if test = "${goods.godSellingPrice<deliveryPolicy.freeDeliveryMp}">
+											<c:set var = "delivery" value = "${deliveryPolicy.basicFee}" />
+										</c:if>
+										<fmt:formatNumber value="${delivery}" pattern="#,###" />
+										원&nbsp;&nbsp;[<fmt:formatNumber value="${deliveryPolicy.freeDeliveryMp}" pattern="#,###" />이상 구매시 배송비 무료]</span>
 									</td>
 								</tr>
-								<tr>
+								<tr class = "totalPriceClass">
 									<td>
 										<strong>총 결제 금액 : </strong>
 									</td>
 									<td>
-										<strong>{합계 금액}원</strong>
+										<strong><fmt:formatNumber value="${goods.godSellingPrice+delivery}" pattern="#,###" />원</strong>
 									</td>
 								</tr>
 							</table>
@@ -732,7 +783,7 @@
 		<div id = "evaluation">
 			<strong>&#124;&nbsp;상품평</strong>
 			<span>해당 상품에 대한 상품평을 보실 수 있습니다.</span>
-			<a href = "#"><span>더 보기</span><span class = "glyphicon glyphicon-plus"></span></a>
+			<a id = "moreReview" href = "#"><strong>더 보기</strong><span class = "glyphicon glyphicon-plus"></span></a>
 			<div id = "evaluationTable">
 				<table id = "godrTable" class = "br">				
 
@@ -745,7 +796,7 @@
 		<div id = "productInquiry">
 			<strong>&#124;&nbsp;상품 문의</strong>
 			<span>상품에 대한 최신 Q&A를 보실 수 있습니다.</span>
-			<a href = "#"><span>더 보기</span><span class = "glyphicon glyphicon-plus"></span></a>
+			<a id = "moreQna" href = "#"><strong>더 보기</strong><span class = "glyphicon glyphicon-plus"></span></a>
 			<div id = "orderitem">
 				<table id = "qnaTable" class = "br">				
 					<tr>
@@ -776,10 +827,12 @@
 			<span>(문의하신 내용 및 답변은 [마이 페이지 > 나의 상품 문의] 에서도 확인 가능합니다.)</span>
 			<div>
 				<div>
-					<textarea placeholder = "- 띄어쓰기를 포함하여 최대 1000자까지 작성할 수 있습니다.&#13;&#10;※ 욕설, 영업에 방해되는 글은 관리자에 의해 삭제됩니다."></textarea>
-					<button class = "btn btn-default">등록</button>
+					<textarea onkeyup="chkword(this,800)" placeholder = "- 띄어쓰기를 포함하여 최대 800자까지 작성할 수 있습니다.&#13;&#10;※ 욕설, 영업에 방해되는 글은 관리자에 의해 삭제됩니다."></textarea>
+					<button id = "godqRegister" class = "btn btn-default">등록</button>
 				</div>
-				<span>0자 / 1,000자</span>
+				<div id = "currentDiv">
+ 					<span id = "currentByte">0</span><strong id = "remitByte">/ 800자</strong>
+				</div>
 			</div>
 		</div>
 		<div id = "deliveryInfo">
@@ -943,6 +996,29 @@
 		</div>
 	</div>
 	
+	<div class = "modal fade" id  ="pim">
+		<div class = "modal-dialog modal-md">
+			<div class ="modal-content">
+				<div class = "modal-header">
+					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+					<h4 class = "modal-title">&#124;&nbsp;상품 문의 : 수정하기</h4>
+					<hr>
+				</div>
+				<form id = "modalForm">
+				<div class = "modal-body">
+					<textarea id = "godqContent" class = "form-control" cols = "20" rows = "6" name = "godqContent"></textarea>
+					<input id = "godqNum" type = "text"  name = "godq" style = "display:none"/>
+					<input id = "idx" type = "text" name = "idx" style = "display:none" />
+				</div>
+				<div class ="modal-footer">
+					<button id = "godqComplete" type = "button" class = "btn btn-default complete" data-dismiss = "modal">작성완료</button>
+					<button type = "button" class = "btn btn-default" data-dismiss = "modal">작성취소</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 	<script type ="text/javascript">
 	CKEDITOR.replace('GoodsReview',{
 	    toolbar: 'Full',
@@ -951,6 +1027,8 @@
 	});
 	CKEDITOR.config.language = 'ko';	
 		var godNum = "${godNum}"
+		var userId = "${user}"
+		var mainImageUrl;
 	</script>
 </body>
 </html>

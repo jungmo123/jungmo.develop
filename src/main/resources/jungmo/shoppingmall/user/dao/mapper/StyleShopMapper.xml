@@ -29,6 +29,7 @@
 				select godr_num,god_num,user_id,godr_writingdate,satislevel,godr_content
 				from goods_reviews
 				where god_num = #{godNum}
+				order by godr_num desc
 				<![CDATA[
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
@@ -43,6 +44,7 @@
 			    full outer join goods_anser
 			    on (goods_questions.godq_num = goods_anser.godq_num)
 			    where god_num = #{godNum}
+			    order by goods_questions.godq_num desc
 				<![CDATA[
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
@@ -55,12 +57,44 @@
 		where godr_num = #{godrNum}
 	</update>
 	
+	<update id = "modifyGoodsQuestion" parameterType = "map">
+		update goods_questions
+		set godq_content = #{godqContent}
+		where godq_num = #{godqNum}
+	</update>
+	
+	<delete id = "deleteGoodsQuestion" parameterType = "string">
+		delete from goods_questions
+		where godq_num = #{godqNum}
+	</delete>
+	
+	<delete id = "deleteGoodsReview" parameterType = "string">
+		delete from goods_reviews
+		where godr_num = #{godrNum}
+	</delete>
+	
+	<insert id = "insertGoodsQuestion" parameterType = "map">
+		insert into goods_questions
+		values(godq_seq.nextval,#{godqContent},sysdate,#{userId},#{godNum})
+	</insert>
+	
 	<resultMap id = "godMap" type = "god">
 		<id property = "godNum" column = "god_num" />
 		<result property = "godName" column = "god_name" />
+		<result property = "godcNum" column = "godc_num" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godDisplayType" column = "god_displaytype" />
+		<result property = "godSellingLimit" column = "god_sellinglimit" />
 		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godNormalPrice' column = "god_normalprice" />
 		<result property = 'godListImageUrl' column = "god_listimageurl" />
-		<result property = 'godIntroduce' column = "god_intro" />
+		<result property = 'godMainImageUrl' column = "god_mainimageurl" />
+		<result property = 'godViewPoint' column = "god_viewpoint" />
+		<result property = "godRegDate" column = "god_regdate" />
+		<result property = "godStock" column = "god_stock" />
+		<result property = "godIntroduce" column = "god_intro" />
+		<result property = "memo" column = "god_memo" />
+		<result property = "godDetailInfo" column = "god_detailinfo" />
 	</resultMap> 
 	
 	<resultMap id = "godrMap" type = "ugodr">

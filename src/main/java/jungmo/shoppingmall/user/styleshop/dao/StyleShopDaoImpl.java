@@ -27,7 +27,23 @@ public class StyleShopDaoImpl implements StyleShopDao{
 		return ssMapper.getGoodsQnA(page);
 	}
 	
-	public 	void modifyGoodsReview(String godrNum,String godrContent,String satisLevel){
+	public void modifyGoodsReview(String godrNum,String godrContent,String satisLevel){
 		ssMapper.modifyGoodsReview(godrNum, godrContent, satisLevel);
+	}
+	
+	public void modifyGoodsQuestion(String godqNum,String godqContent){
+		ssMapper.modifyGoodsQuestion(godqNum, godqContent);
+	}
+	
+	public void deleteGoodsQuestion(String godqNum){
+		ssMapper.deleteGoodsQuestion(godqNum);
+	}
+	
+	public 	void insertGoodsQuestion(String godNum,String godqContent,String userId){
+		ssMapper.insertGoodsQuestion(godNum, godqContent, userId);
+	}
+	
+	public void deleteGoodsReview(String godrNum){
+		ssMapper.deleteGoodsReview(godrNum);
 	}
 }

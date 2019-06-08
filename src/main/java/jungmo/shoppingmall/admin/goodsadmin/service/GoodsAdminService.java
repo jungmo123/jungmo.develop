@@ -18,6 +18,7 @@ public interface GoodsAdminService {
 	Goods selectGoods(int godNum);
 	List<GoodsOption> selectGodcList(int godNum);
 	List<GoodsOption> selectGodc(@Param("godNum") String godNum,@Param("optName") String optName);
+	List<GoodsOption> selectGodo(String godNum);
 	List<GoodsIntroduce> selectGodI(int godNum);
 	List<GoodsSubImage>selectSubImg(int godNum);
 	int deleteGoodsSub(int godNum);

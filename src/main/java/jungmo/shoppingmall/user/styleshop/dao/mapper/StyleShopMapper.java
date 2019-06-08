@@ -16,4 +16,13 @@ public interface StyleShopMapper {
 			@Param("godrNum") String godrNum,
 			@Param("godrContent") String godrContent,
 			@Param("satisLevel") String satisLevel);
+	void modifyGoodsQuestion(
+			@Param("godqNum") String godqNum,
+			@Param("godqContent") String godqContent);
+	void deleteGoodsQuestion(String godqNum);
+	void insertGoodsQuestion(
+			@Param("godNum") String godNum,
+			@Param("godqContent") String godqContent,
+			@Param("userId") String userId);
+	void deleteGoodsReview(String godrNum);
 }

@@ -53,6 +53,10 @@ public class GoodsAdminServiceImpl implements GoodsAdminService{
 		return gaDao.selectGodc(godNum, optName);
 	}
 	
+	public List<GoodsOption> selectGodo(String godNum){
+		return gaDao.selectGodo(godNum);
+	}
+	
 	public List<GoodsIntroduce> selectGodI(int godNum){
 		return gaDao.selectGodI(godNum);
 	}

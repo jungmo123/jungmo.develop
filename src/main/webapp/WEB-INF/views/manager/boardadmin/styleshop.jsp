@@ -121,7 +121,7 @@ textarea{
 									<td class="bottomTd"><label for="newInputCheck">모든카테고리에 동일하게 적용</label>
 									<input id="newInputCheck" type="checkbox"name="newInputCheck" />
 										<div class="remit">
-											<span id = "currentByte">0자</span> <strong>/200자</strong>
+											<span id = "currentByte">0</span> <strong>/200자</strong>
 										</div>
 									</td>
 								</tr>
@@ -144,7 +144,7 @@ textarea{
 									<td class="bottomTd"><label for="modifyInputCheck">모든카테고리에 동일하게 적용</label>
 									<input id="modifyInputCheck" type="checkbox"name="modifyInputCheck" />
 										<div class="remit">
-											<span id = "currentByte">0자</span> <strong>/200자</strong>
+											<span id = "currentByte">0</span> <strong>/200자</strong>
 										</div>
 									</td>
 								</tr>

@@ -587,7 +587,7 @@
 									<div>
 										<strong>메인 노출 이미지</strong>
 										<br>
-										<strong>651*556</strong>
+										<strong>500*466</strong>
 									</div>
 								</td>
 								<td>
@@ -766,11 +766,11 @@ $("input[type='file']").change(function(){
 		}		
 	}else if(input == "mainimg"){
 		img.onload = function(){
-			if(img.width != 651 || img.height != 556){
+			if(img.width != 500 || img.height != 466){
 				Swal.fire({
 					  position: 'top',
 					  type: 'error',
-					  title: '651*556 이하 이미지만 가능합니다',
+					  title: '500*466 이하 이미지만 가능합니다',
 					  showConfirmButton: false,
 					  timer: 1500
 					});

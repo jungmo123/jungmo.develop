@@ -8,6 +8,12 @@ public class GoodsOptionList {
 	private String optName;
 	private List<GoodsOption> godoList;
 	
+	public GoodsOptionList(){}
+	
+	public GoodsOptionList(boolean t){
+		godoList = new ArrayList<>();
+	}
+	
 	public String getOptName() {
 		return optName;
 	}

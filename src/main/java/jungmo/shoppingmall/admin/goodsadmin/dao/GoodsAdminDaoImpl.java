@@ -53,6 +53,10 @@ public class GoodsAdminDaoImpl implements GoodsAdminDao{
 		return gaMapper.selectGodc(godNum, optName);
 	}
 	
+	public List<GoodsOption> selectGodo(String godNum){
+		return gaMapper.selectGodo(godNum);
+	}
+	
 	public List<GoodsIntroduce> selectGodI(int godNum){
 		return gaMapper.selectGodI(godNum);
 	}

@@ -29,4 +29,20 @@ public class StyleShopServiceImpl implements StyleShopService{
 	public 	void modifyGoodsReview(String godrNum,String godrContent,String satisLevel){
 		ssDao.modifyGoodsReview(godrNum, godrContent, satisLevel);
 	}
+	
+	public void modifyGoodsQuestion(String godqNum,String godqContent){
+		ssDao.modifyGoodsQuestion(godqNum, godqContent);
+	}
+	
+	public void deleteGoodsQuestion(String godqNum){
+		ssDao.deleteGoodsQuestion(godqNum);
+	}
+	
+	public 	void insertGoodsQuestion(String godNum,String godqContent,String userId){
+		ssDao.insertGoodsQuestion(godNum, godqContent, userId);
+	}
+	
+	public void deleteGoodsReview(String godrNum){
+		ssDao.deleteGoodsReview(godrNum);
+	}
 }

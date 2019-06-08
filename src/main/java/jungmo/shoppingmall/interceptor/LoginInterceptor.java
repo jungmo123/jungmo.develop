@@ -19,6 +19,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			Object handler) throws Exception{
 			HttpSession session = request.getSession();
 			String user = (String)session.getAttribute("user");
+			request.setAttribute("user", user);
 			List<GoodsCategories> gc = gcService.getCategories();
 			request.setAttribute("goodsCategories", gc);
 			if(request.getRequestURI().equals("/shoppingmall/login")){

@@ -82,6 +82,12 @@
 		where god_num = #{godNum} and opt_name = #{optName}
 	</select>
 	 
+	<select id = "selectGodo" parameterType = "string" resultMap = "godoMap">
+		select opt_name,opt_content,opt_price
+		from goods_option
+		where god_num = #{godNum}
+	</select>
+	 
 	<select id= "selectGodI" parameterType = "int" resultType = "gi">
 		select itr_name itrName,itr_content itrContent
 		from intros
