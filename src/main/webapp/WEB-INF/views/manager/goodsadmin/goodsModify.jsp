@@ -654,6 +654,31 @@ var repreImageUrl2 = "${repreImageUrl2}";
 var repreImageUrl3 = "${repreImageUrl3}";
 var repreImageUrl4 = "${repreImageUrl4}";
 
+$(function(){
+	CKEDITOR.replace('WriteContent',{
+	    toolbar: 'Full',
+	    uiColor: '#F2F5F7',
+	    height:'200px',
+	});
+	CKEDITOR.config.language = 'ko';	
+	
+    CKEDITOR.on('dialogDefinition', function( ev ){
+        var dialogName = ev.data.name;
+        var dialogDefinition = ev.data.definition;
+      
+        switch (dialogName) {
+            case 'image': //Image Properties dialog
+                //dialogDefinition.removeContents('info');
+                dialogDefinition.removeContents('Link');
+                dialogDefinition.removeContents('advanced');
+                break;
+        }
+    });	
+    
+    var data = '${god.godDetailInfo}';
+    CKEDITOR.instances.WriteContent.setData(data);
+})
+
 $(document).ready(function () {
 	  bsCustomFileInput.init();
 	 var gi = $("#ProductState > input[type='radio']");
@@ -678,16 +703,6 @@ $(document).ready(function () {
 	$("#nocheck").prop("checked",true);
 	$("#nocheck").trigger("click");
 	});
-	
-CKEDITOR.replace('WriteContent',{
-    toolbar: 'Full',
-    uiColor: '#F2F5F7',
-    height:'200px'
-});
-CKEDITOR.config.language = 'ko';
-
-var data = '${god.godDetailInfo}';
-CKEDITOR.instances.WriteContent.setData(data);
 
 $("input[type='file']").change(function(){
 	var label = $(this).prev().val();
@@ -854,7 +869,9 @@ $("#register").click(function(){
 	}
 		if(text == ""){
 			var formData = new FormData($("#GoodsForm")[0]);
-			formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
+			var text = CKEDITOR.instances.WriteContent.getData();
+			text = text.replace(/(\n|\r\n)/g, '');
+			formData.append('WriteContent', text);
 			formData.append('optionList',optionList.join('$$%'));
 			formData.append('infoList',infoList.join('$$%'));
 			$.ajax({

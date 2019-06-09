@@ -22,6 +22,7 @@
 	<select id = "getCommonPolicy" resultType = "cmp">
 		select cmp_num cmpNum,cmp_delivery_guide cmpDeliveryGuide,cmp_exchange_guide cmpExchangeGuide
 		from common_policies
+		where cmp_num = 1
 	</select>
 
 	<insert id = "insertClause" parameterType = "cls">

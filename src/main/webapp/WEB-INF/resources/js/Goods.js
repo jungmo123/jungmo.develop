@@ -1,3 +1,21 @@
+function comma(num){
+    var len, point, str; 
+       
+    num = num + ""; 
+    point = num.length % 3 ;
+    len = num.length; 
+   
+    str = num.substring(0, point); 
+    while (point < len) { 
+        if (str != "") str += ","; 
+        str += num.substring(point, point + 3); 
+        point += 3; 
+    } 
+     
+    return str;
+ 
+}
+
 function chkword(obj, maxByte) {
 	 
     var strValue = obj.value;
@@ -804,6 +822,90 @@ function getTimeStamp(date) {
 					$("#mainIMG").attr("src",src);
 				})
 				
-				$(document).on("mouseleave",".subImg",function(){
-					$("#mainIMG").attr("src",mainImageUrl);
+				$(document).on("change",".optionSelect",function(){
+					var optionSelect = $(".optionSelect option:selected");
+					var godPrice = $("#godPrice").text();
+					var amount = $("input[name='amount']").val();
+					$.each(optionSelect,function(index,item){
+						var price = "";
+						if($(item).attr("class") == undefined){
+							price = "0";
+						}else{
+							price = $(item).attr("class");
+						}
+						godPrice = Number(godPrice)+Number(price);
+					})
+					var optionPrice = $(this).next();
+					var select = $(this).val();
+					var option = $(this).find("option");
+					$.each(option,function(index,item){
+						if($(item).val() == select){
+							if($(item).val() == "0"){
+								optionPrice.text("");
+							}else{
+								var money = comma($(item).attr("class"));
+								optionPrice.text(money + "원");
+							}
+						}
+					})
+					priceCalculrator(amount);
+				})
+				
+				function priceCalculrator(amount){
+					var optionSelect = $(".optionSelect option:selected");
+					var godPrice = $("#godPrice").text();
+					$.each(optionSelect,function(index,item){
+						var price = "";
+						if($(item).attr("class") == undefined){
+							price = "0";
+						}else{
+							price = $(item).attr("class");
+						}
+						godPrice = Number(godPrice)+Number(price);
+					})
+					godPrice = godPrice*amount;
+					if(godPrice >= dfm){
+						$("#deliveryPrice").html("무료");
+						godPrice = comma(godPrice);
+						$("#totalPrice").text(godPrice+"원");
+					}else{
+						$("#deliveryPrice").html(deliveryMsg);
+						godPrice = Number(godPrice)+Number(basicFee);
+						godPrice = comma(godPrice);
+						$("#totalPrice").text(godPrice+"원");
+					}
+				}
+				
+				$(document).on("click","#pluse",function(){
+					var amount = $("input[name='amount']").val();
+					amount++;
+					if(amount > godSellingLimit){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '최대 구매개수는' + godSellingLimit +  ' 개 입니다',
+							  showConfirmButton: false,
+							  timer: 1500
+							});						
+					}else{
+						$("input[name='amount']").val(amount);
+						priceCalculrator(amount);
+					}
+				})
+				
+				$(document).on("click","#minus",function(){
+					var amount = $("input[name='amount']").val();
+					amount--;
+					if(amount < 1){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '수량은 1개 이상이여야 합니다',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+					}else{
+						$("input[name='amount']").val(amount);
+						priceCalculrator(amount);
+					}
 				})

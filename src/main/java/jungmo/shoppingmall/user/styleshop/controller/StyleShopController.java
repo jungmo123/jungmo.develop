@@ -1,10 +1,6 @@
 package jungmo.shoppingmall.user.styleshop.controller;
 
-import java.io.*;
-import java.text.*;
 import java.util.*;
-
-import javax.servlet.http.*;
 
 import jungmo.shoppingmall.admin.boardadmin.service.*;
 import jungmo.shoppingmall.admin.goodsadmin.domain.*;
@@ -16,10 +12,31 @@ import jungmo.shoppingmall.user.styleshop.domain.Page;
 import jungmo.shoppingmall.user.styleshop.service.*;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.*;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+
+
+import com.google.gson.*;
 
 @Controller
 public class StyleShopController {
@@ -114,6 +131,7 @@ public class StyleShopController {
 		model.addAttribute("godoList",godoList);
 		model.addAttribute("pointPolicy", clauseService.getPointPolicy());
 		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
+		model.addAttribute("commonPolicy", clauseService.getCommonPolicy());
 		model.addAttribute("goods", godaService.selectGoods(Integer.valueOf(godNum)));
 		model.addAttribute("subimages",godaService.selectSubImg(Integer.valueOf(godNum)));
 		return "user/goods/goodsDetail";
@@ -194,54 +212,54 @@ public class StyleShopController {
 	}
 	
 	@RequestMapping(value="/uploadImage",method=RequestMethod.POST)
-	public void uploadImage(HttpServletRequest request,HttpServletResponse response,@RequestParam MultipartFile upload){
+	public String uploadImage(HttpServletRequest req, HttpServletResponse resp, 
+            MultipartHttpServletRequest multiFile) throws Exception{
+		JsonObject json = new JsonObject();
+		PrintWriter printWriter = null;
 		OutputStream out = null;
-        PrintWriter printWriter = null;
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
- 
-        try{
-        	String dir = request.getServletContext().getRealPath("/upload");
-        	System.out.println(dir);
-        	System.out.println(dir);
-        	System.out.println(dir);
-        	System.out.println(dir);
-        	System.out.println(dir);
-            String fileName = upload.getOriginalFilename();
-            byte[] bytes = upload.getBytes();
-            String uploadPath = dir +"/" + fileName;//저장경로
- 
-            out = new FileOutputStream(new File(uploadPath));
-            out.write(bytes);
-            String callback = request.getParameter("CKEditorFuncNum");
- 
-            printWriter = response.getWriter();
-            String fileUrl = "upload/"+ fileName;//url경로
-            System.out.println(fileUrl);
- 
-            printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
-                    + callback
-                    + ",'"
-                    + fileUrl
-                    + "','이미지를 업로드 하였습니다.'"
-                    + ")</script>");
-            printWriter.flush();
- 
-        }catch(IOException e){
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (printWriter != null) {
-                    printWriter.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
- 
-        return;
+		MultipartFile file = multiFile.getFile("upload");
+		if(file != null){
+			if(file.getSize() > 0 && StringUtils.isNotBlank(file.getName())){
+				if(file.getContentType().toLowerCase().startsWith("image/")){
+					try{
+						String fileName = file.getName();
+						System.out.println(fileName);
+						byte[] bytes = file.getBytes();
+						String uploadPath = req.getServletContext().getRealPath("/upload");
+						File uploadFile = new File(uploadPath);
+						if(!uploadFile.exists()){
+							uploadFile.mkdirs();
+						}
+						fileName = UUID.randomUUID().toString();
+						uploadPath = uploadPath + "/" + fileName;
+						out = new FileOutputStream(new File(uploadPath));
+                        out.write(bytes);
+                        
+                        printWriter = resp.getWriter();
+                        resp.setContentType("text/html");
+                        String fileUrl = req.getContextPath() + "/upload/" + fileName;
+                        
+                        // json 데이터로 등록
+                        // {"uploaded" : 1, "fileName" : "test.jpg", "url" : "/img/test.jpg"}
+                        // 이런 형태로 리턴이 나가야함.
+                        json.addProperty("uploaded", 1);
+                        json.addProperty("fileName", fileName);
+                        json.addProperty("url", fileUrl);
+                        
+                        printWriter.println(json);
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }finally{
+                        if(out != null){
+                            out.close();
+                        }
+                        if(printWriter != null){
+                            printWriter.close();
+                        }		
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

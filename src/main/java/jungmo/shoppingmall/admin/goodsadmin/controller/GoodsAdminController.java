@@ -354,6 +354,12 @@ public class GoodsAdminController {
 		String optionList = request.getParameter("optionList");
 		String infoList = request.getParameter("infoList");
 		String optionCheck  = request.getParameter("optionCheck");
+		System.out.println(optionCheck);
+		System.out.println(optionCheck);
+		System.out.println(optionCheck);
+		System.out.println(optionCheck);
+		System.out.println(optionCheck);
+		System.out.println(optionCheck);
 		String indexFile = "";
 		String mainFile ="";
 		productInfo.trim();
@@ -474,7 +480,6 @@ public class GoodsAdminController {
 		StringTokenizer st1 = new StringTokenizer(optionList,"$$%");
 		StringTokenizer st2 = new StringTokenizer(infoList,"$$%");
 		gaService.deleteGoodsIntroduce(Integer.valueOf(godNum));
-		gaService.deleteGoodsOption(Integer.valueOf(godNum));
 		try{ 
 			while(st2.hasMoreTokens()){
 				String str2 = st2.nextToken();
@@ -503,6 +508,7 @@ public class GoodsAdminController {
 			return "Gioverlap";
 		}
 		if(optionCheck.equals("사용")){
+			gaService.deleteGoodsOption(Integer.valueOf(godNum));
 			try{ 
 				while(st1.hasMoreTokens()){
 					String str1 = st1.nextToken();
@@ -524,9 +530,6 @@ public class GoodsAdminController {
 									break;
 						}					
 					}
-				}
-				for(int i = 0 ; i < optionArray.size() ; i++){
-					System.out.println(optionArray.get(i).getGodNum() + " " + optionArray.get(i).getOptName() + " " + optionArray.get(i).getOptPrice() + " " + optionArray.get(i).getOptContent());
 				}
 				if(!optionList.equals("")){
 					go.put("ol", optionArray);

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -98,20 +99,20 @@
 	}
 	#productTable .goodsStockClass button{
 		padding:0;
-		width:20px;
-		height:15px;
+		width:25px;
+		height:20px;
 		position:relative;
-		bottom:2px;
+		bottom:1px;
 	}
 	#productTable .goodsStockClass button:nth-child(2) span{
 		margin-left:0;
 		position:relative;
-		bottom:4px;
+		bottom:2px;
 	}
 	#productTable .goodsStockClass button:nth-child(3) span{
 		margin-left:0;
 		position:relative;
-		bottom:6px;
+		bottom:3px;
 	}
 	#buttonGroup{
 		margin-top:10px;
@@ -124,9 +125,7 @@
 	}
 	#detailInfo{
 		margin-top:10px;
-		width:980px;
-		height:500px;
-		border:1px solid grey;
+		text-align:center;
 	}
 	#evaluation{
 		margin-top:30px;
@@ -429,6 +428,11 @@
 	#sAr{
 		margin-top:50px;
 	}
+	#deliveryInfo > strong:nth-child(1),
+	#sAr > strong:nth-child(1){
+		position:relative;
+		bottom:10px;
+	}
 	#deliveryInfo div:nth-child(2){
 		margin-top:20px;
 		height:50px;
@@ -641,6 +645,10 @@
 		height:98px;
 		cursor:pointer;
 	}
+	.Optionprice{
+	    position: relative;
+	    bottom: 3px;	
+	}
 </style>
 </head>
 <body>
@@ -676,6 +684,7 @@
 									</td>
 									<td>
 										<span><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</span>
+										<span id = "godPrice" style='display:none'>${goods.godSellingPrice}</span>
 									</td>
 								</tr>
 								<tr>
@@ -700,6 +709,8 @@
 								</c:forEach>
 								<c:forEach var = "godo" items = "${godoList}" varStatus = "state">
 								<c:choose>
+								<c:when test = "${fn:length(godoList)>=2}">
+								<c:choose>
 									<c:when test ="${state.first}">
 										<tr class = "optionClass optionFirst">
 									</c:when>
@@ -714,14 +725,38 @@
 										<span>${godo.optName} : </span>
 									</td>
 									<td>
-										<select>
+										<select class = "optionSelect">
 												<option value = "0">옵션을 선택해주세요</option>
 											<c:forEach var = "option" items = "${godo.godoList}">
 												<option value = "${option.optContent}" class = "${option.optPrice}">${option.optContent}</option>
 											</c:forEach>
 										</select>
+										<span class = "Optionprice"></span>
 									</td>
 								</tr>
+								</c:when>
+								<c:when test = "${empty godoList[0].optName}">
+									<tr class = "optionClass">
+									
+									</tr>
+								</c:when>
+								<c:when test = "${not empty godoList[0].optName}">
+									<tr class = "optionClass optionFirst optionLast">
+									<td>
+										<span>${godo.optName} : </span>
+									</td>
+									<td>
+										<select class = "optionSelect">
+												<option value = "0">옵션을 선택해주세요</option>
+											<c:forEach var = "option" items = "${godo.godoList}">
+												<option value = "${option.optContent}" class = "${option.optPrice}">${option.optContent}</option>
+											</c:forEach>
+										</select>
+										<span class = "Optionprice"></span>
+									</td>									
+									</tr>
+								</c:when>
+								</c:choose>
 								</c:forEach>
 								<tr class = "goodsStockClass">
 									<td>
@@ -729,8 +764,8 @@
 									</td>
 									<td>
 										<input type = "number" name = "amount" value = "1"/>
-										<button id = "pluse" class = "btn btn-default"><span>+</span></button>
-										<button id = "minus" class = "btn btn-default"><span>-</span></button>
+										<button type = "button" id = "pluse" class = "btn btn-default"><span>+</span></button>
+										<button type = "button" id = "minus" class = "btn btn-default"><span>-</span></button>
 									</td>
 								</tr>
 								<tr class = "deliveryClass">
@@ -738,7 +773,7 @@
 										<span>배송비 : </span>
 									</td>
 									<td>
-									<span>
+									<span id = "deliveryPrice">
 										<c:if test = "${goods.godSellingPrice>=deliveryPolicy.freeDeliveryMp}">
 											<c:set var = "delivery" value = "0" />
 										</c:if>
@@ -754,7 +789,7 @@
 										<strong>총 결제 금액 : </strong>
 									</td>
 									<td>
-										<strong><fmt:formatNumber value="${goods.godSellingPrice+delivery}" pattern="#,###" />원</strong>
+										<strong id = "totalPrice"><fmt:formatNumber value="${goods.godSellingPrice+delivery}" pattern="#,###" />원</strong>
 									</td>
 								</tr>
 							</table>
@@ -778,7 +813,7 @@
 			<a href = "#sAr" class = "btn btn-default">교환 및 반품</a>
 		</div>	
 		<div id = "detailInfo">
-			
+			${goods.godDetailInfo}
 		</div>
 		<div id = "evaluation">
 			<strong>&#124;&nbsp;상품평</strong>
@@ -837,59 +872,12 @@
 		</div>
 		<div id = "deliveryInfo">
 			<strong>&#124;&nbsp;배송 안내</strong>
-			<div>
-				<span>{관리자에서 등록한 글 호출}</span>
-			</div>
-			<div>
-				<span>(등록 예)</span>
-				<br>
-				<strong>기본 배송료 : </strong>
-				<span>2,500원  (도서산간 지역 배송비 추가)</span>
-				<br>
-				<strong>무료 배송 : </strong>
-				<span>100,000원 이상 구매 시 (도서산간 지역 200,000원 이상 구매 시)</span>
-				<br>
-				<strong>상품배송</strong>
-				<br>
-				<span>&nbsp;- 결제 완료 후 1,2일 이내 도착</span>
-				<br>
-				<span>&nbsp;- 영업일 오후 3시 이전 주문 시 : 당일 발송</span>
-				<br>
-				<span>&nbsp;- 영업일 오후 3시 이후 주문 시 : 명일 발송</span>
-				<br>
-				<span>&nbsp;- 토,일 공휴일 주문 시 : 휴일 이후 영업일 첫날 발송</span>
-				<br>
-				<strong>※ 천재지변, 명절(설/추석)에는 택배사 배송 물량 폭주로 배송이 지연될 수 있으니 양해 부탁드립니다.</strong>
-			</div>
+			${commonPolicy.cmpDeliveryGuide}
 		</div>
 		<div id = "sAr">
 			<strong>&#124;&nbsp;교환 및 반품</strong>
-			<div>
-				<span>{관리자에서 등록한 글 호출}</span>
-			</div>
-			<div>
-				<span>(등록 예)</span>
-			</div>
-			<div>
-				<div>
-				
-				</div>
-				<div>
-					<span>교환 및 반품은 배송 완료 후 7일 이내까지 가능</span>
-					<br>
-					<span>&nbsp;- 제품 품질 이상,오 배송의 경우 교환 및 반품 비용은 회사에서 부담합니다.</span>
-					<br>
-					<span>&nbsp;- 고객님의 단순 변심의 경우 교환 및 반품 비용은 본인 부담입니다.</span>
-					<br>
-					<strong>※ 상품을 확인하기 위해 택배 박스의 포장은 제거할 수 있으나,내부 상품을 보호하는<br>
-					비밀을 제거할 경우 반품할 수 없습니다.내부 상품을 보호하는 비닐은 투명 비닐을<br>
-					사용했기 때문에 비닐을 제거하지 않아도 충분히 상품을 확인할 수 있습니다.</strong>			
-				</div>
-			</div>
+			${commonPolicy.cmpExchangeGuide}
 		</div>
-		<div>
-			<span>비닐 제거 시 반품/환불 불가!</span>
-		</div>		
 	</div>
 	
 	<div class = "modal fade" id  ="Alert">
@@ -1020,6 +1008,8 @@
 	</div>
 	
 	<script type ="text/javascript">
+	var length = "${fn:length(godoList)}"
+	console.log(length);
 	CKEDITOR.replace('GoodsReview',{
 	    toolbar: 'Full',
 	    uiColor: '#F2F5F7',
@@ -1029,6 +1019,10 @@
 		var godNum = "${godNum}"
 		var userId = "${user}"
 		var mainImageUrl;
+		var godSellingLimit = "${goods.godSellingLimit}"
+		var dfm = "${deliveryPolicy.freeDeliveryMp}"
+		var basicFee = "${deliveryPolicy.basicFee}"
+		var deliveryMsg = "<fmt:formatNumber value='${delivery}' pattern='#,###' />&nbsp;원&nbsp;&nbsp;[<fmt:formatNumber value='${deliveryPolicy.freeDeliveryMp}' pattern='#,###' />이상 구매시 배송비 무료]"
 	</script>
 </body>
 </html>

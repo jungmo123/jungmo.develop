@@ -325,7 +325,7 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 		margin-left: 10px;	
 	}
 	.view > div:nth-child(1) div:nth-child(3) p:nth-child(2) span:not(:nth-child(3)){
-		h+eight:40px;
+		height:40px;
 		line-height:40px;
 	}
 	div > div:nth-child(1) div:nth-child(3) p:nth-child(2) span,
@@ -509,7 +509,8 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 								<p><span>${godq.goods.godc.godcName} > ${godq.goods.godName}</span><button class="form-control">제품보기</button></p>
 								<p><span>Q.
 									<c:if test = "${fn:length(godq.godqContent) > 15}" >
-										${fn:substring(godq.godqContent,0,15)}...
+										<c:set var = "godqContent" value='${godq.godqContent.replaceAll("\\\<.*?\\\>"," ")}' />
+										${fn:substring(godqContent,0,15)}...
 									</c:if>
 									<c:if test = "${fn:length(godq.godqContent) < 15}" >
 										<c:out value='${godq.godqContent.replaceAll("\\\<.*?\\\>"," ")}' />

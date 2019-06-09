@@ -784,7 +784,9 @@ $("#register").click(function(){
 	}
 		if(text == ""){
 			var formData = new FormData($("#GoodsForm")[0]);
-			formData.append('WriteContent', CKEDITOR.instances.WriteContent.getData());
+			var text = CKEDITOR.instances.WriteContent.getData();
+			text = text.replace(/(\n|\r\n)/g, '');
+			formData.append('WriteContent', text);
 			formData.append('optionList',optionList.join('$$%'));
 			formData.append('infoList',infoList.join('$$%'));
 			$.ajax({
