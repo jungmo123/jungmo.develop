@@ -1,5 +1,7 @@
 package jungmo.shoppingmall.user.styleshop.controller;
 
+import java.io.*;
+import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -7,15 +9,17 @@ import javax.servlet.http.*;
 import jungmo.shoppingmall.admin.boardadmin.service.*;
 import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.goodsadmin.service.*;
-import jungmo.shoppingmall.admin.order.domain.GoodsOption;
+import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.policy.service.*;
 import jungmo.shoppingmall.user.styleshop.domain.*;
+import jungmo.shoppingmall.user.styleshop.domain.Page;
 import jungmo.shoppingmall.user.styleshop.service.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
 
 @Controller
 public class StyleShopController {
@@ -189,4 +193,55 @@ public class StyleShopController {
 		return map;
 	}
 	
+	@RequestMapping(value="/uploadImage",method=RequestMethod.POST)
+	public void uploadImage(HttpServletRequest request,HttpServletResponse response,@RequestParam MultipartFile upload){
+		OutputStream out = null;
+        PrintWriter printWriter = null;
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
+ 
+        try{
+        	String dir = request.getServletContext().getRealPath("/upload");
+        	System.out.println(dir);
+        	System.out.println(dir);
+        	System.out.println(dir);
+        	System.out.println(dir);
+        	System.out.println(dir);
+            String fileName = upload.getOriginalFilename();
+            byte[] bytes = upload.getBytes();
+            String uploadPath = dir +"/" + fileName;//저장경로
+ 
+            out = new FileOutputStream(new File(uploadPath));
+            out.write(bytes);
+            String callback = request.getParameter("CKEditorFuncNum");
+ 
+            printWriter = response.getWriter();
+            String fileUrl = "upload/"+ fileName;//url경로
+            System.out.println(fileUrl);
+ 
+            printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
+                    + callback
+                    + ",'"
+                    + fileUrl
+                    + "','이미지를 업로드 하였습니다.'"
+                    + ")</script>");
+            printWriter.flush();
+ 
+        }catch(IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (printWriter != null) {
+                    printWriter.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+ 
+        return;
+	}
 }

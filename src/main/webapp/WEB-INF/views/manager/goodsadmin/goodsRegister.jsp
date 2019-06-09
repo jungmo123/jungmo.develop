@@ -598,16 +598,30 @@
 </div>
 
 <script type = 'text/javascript'>
+$(function(){
+	CKEDITOR.replace('WriteContent',{
+	    toolbar: 'Full',
+	    uiColor: '#F2F5F7',
+	    height:'200px',
+	});
+	CKEDITOR.config.language = 'ko';	
+	
+    CKEDITOR.on('dialogDefinition', function( ev ){
+        var dialogName = ev.data.name;
+        var dialogDefinition = ev.data.definition;
+      
+        switch (dialogName) {
+            case 'image': //Image Properties dialog
+                //dialogDefinition.removeContents('info');
+                dialogDefinition.removeContents('Link');
+                dialogDefinition.removeContents('advanced');
+                break;
+        }
+    });	
+})
 $(document).ready(function () {
 	  bsCustomFileInput.init()
 	});
-	
-CKEDITOR.replace('WriteContent',{
-    toolbar: 'Full',
-    uiColor: '#F2F5F7',
-    height:'200px'
-});
-CKEDITOR.config.language = 'ko';
 
 $("input[type='file']").change(function(){
 	var ext = $(this).val().split(".").pop().toLowerCase();
