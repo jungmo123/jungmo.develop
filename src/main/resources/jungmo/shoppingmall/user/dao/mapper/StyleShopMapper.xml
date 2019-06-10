@@ -78,6 +78,20 @@
 		values(godq_seq.nextval,#{godqContent},sysdate,#{userId},#{godNum})
 	</insert>
 	
+	<insert id = "insertCarts" parameterType = "hashmap">
+		insert all
+		<foreach item = "list" collection = "cartList" index = "index">
+			into carts
+			<if test = "list.optionName != 'ept'">
+			values(carts_seq.nextval,#{list.userId},#{list.godNum},#{list.godAmount},#{list.optionName},#{list.optionContent},#{list.optionPrice})
+			</if>
+			<if test = "list.optionName == 'ept'">
+			values(carts_seq.nextval,#{list.userId},#{list.godNum},#{list.godAmount},#{list.optionName},null,null)
+			</if>
+		</foreach>
+		select 1 from dual
+	</insert>
+	
 	<resultMap id = "godMap" type = "god">
 		<id property = "godNum" column = "god_num" />
 		<result property = "godName" column = "god_name" />

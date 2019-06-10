@@ -723,6 +723,7 @@
 								</c:choose>
 									<td>
 										<span>${godo.optName} : </span>
+										<span class = 'optionName' style='display:none'>${godo.optName}</span>
 									</td>
 									<td>
 										<select class = "optionSelect">
@@ -780,8 +781,14 @@
 										<c:if test = "${goods.godSellingPrice<deliveryPolicy.freeDeliveryMp}">
 											<c:set var = "delivery" value = "${deliveryPolicy.basicFee}" />
 										</c:if>
-										<fmt:formatNumber value="${delivery}" pattern="#,###" />
-										원&nbsp;&nbsp;[<fmt:formatNumber value="${deliveryPolicy.freeDeliveryMp}" pattern="#,###" />이상 구매시 배송비 무료]</span>
+										<c:if test = "${delivery==0}">
+										무료&nbsp;&nbsp;[<fmt:formatNumber value="${deliveryPolicy.freeDeliveryMp}" pattern="#,###" />이상 구매시 배송비 무료]
+										</c:if>
+										<c:if test = "${delivery!=0}">
+<fmt:formatNumber value="${delivery}" pattern="#,###" />
+										원&nbsp;&nbsp;[<fmt:formatNumber value="${deliveryPolicy.freeDeliveryMp}" pattern="#,###" />이상 구매시 배송비 무료]										
+										</c:if>
+									</span>
 									</td>
 								</tr>
 								<tr class = "totalPriceClass">
@@ -795,8 +802,8 @@
 							</table>
 						</form>
 						<div id = "buttonGroup">
-							<button class = "btn btn-default">장바구니</button>
-							<button class = "btn btn-default">구매하기</button>
+							<button id = "cart" class = "btn btn-default">장바구니</button>
+							<button id = "buy" class = "btn btn-default">구매하기</button>
 						</div>
 					</div>
 				</div>
@@ -901,33 +908,8 @@
 			</div>
 		</div>
 	</div>
-
-	<div class = "modal fade" id  ="loginAlert">
-		<div class = "modal-dialog modal-sm">
-			<div class ="modal-content">
-				<div class = "modal-header">
-					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-					<h4 class = "modal-title">Comfirm 2-2</h4>
-				</div>
-				<div class = "modal-body">
-					<div id = "iconInfo">
-						<i class="fas fa-question-circle"></i>
-					</div>
-					<div>
-						<span>로그인 후 이용 가능합니다.</span>
-						<br>
-						<span>로그인 하시겠습니까?</span>
-					</div>
-				</div>
-				<div class ="modal-footer">
-					<button type = "button" class = "btn btn-default" data-dismiss = "modal"  onclick = "location.href = '../LOGIN/01.html'">예</button>
-					<button type = "button" class = "btn btn-default" data-dismiss = "modal">아니요</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	
-		<div class = "modal fade" id = "godrModify">
+	<div class = "modal fade" id = "godrModify">
 		<div class = "modal-dialog modal-md">
 			<div class = "modal-content">
 				<div class = "modal-header">
@@ -1022,7 +1004,8 @@
 		var godSellingLimit = "${goods.godSellingLimit}"
 		var dfm = "${deliveryPolicy.freeDeliveryMp}"
 		var basicFee = "${deliveryPolicy.basicFee}"
-		var deliveryMsg = "<fmt:formatNumber value='${delivery}' pattern='#,###' />&nbsp;원&nbsp;&nbsp;[<fmt:formatNumber value='${deliveryPolicy.freeDeliveryMp}' pattern='#,###' />이상 구매시 배송비 무료]"
+		var deliveryP = "<fmt:formatNumber value='${delivery}' pattern='#,###' />&nbsp;원&nbsp;&nbsp;"
+		var deliveryMsg = "[<fmt:formatNumber value='${deliveryPolicy.freeDeliveryMp}' pattern='#,###' />이상 구매시 배송비 무료]"
 	</script>
 </body>
 </html>

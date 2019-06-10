@@ -45,4 +45,8 @@ public class StyleShopServiceImpl implements StyleShopService{
 	public void deleteGoodsReview(String godrNum){
 		ssDao.deleteGoodsReview(godrNum);
 	}
+	
+	public void insertCarts(HashMap<String,List<Carts>> map){
+		ssDao.insertCarts(map);
+	}
 }

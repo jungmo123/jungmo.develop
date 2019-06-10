@@ -25,4 +25,5 @@ public interface StyleShopService {
 			@Param("godqContent") String godqContent,
 			@Param("userId") String userId);
 	void deleteGoodsReview(String godrNum);
+	void insertCarts(HashMap<String,List<Carts>> map);
 }

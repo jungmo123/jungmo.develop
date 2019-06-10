@@ -865,11 +865,11 @@ function getTimeStamp(date) {
 					})
 					godPrice = godPrice*amount;
 					if(godPrice >= dfm){
-						$("#deliveryPrice").html("무료");
+						$("#deliveryPrice").html("무료&nbsp;&nbsp;"+deliveryMsg);
 						godPrice = comma(godPrice);
 						$("#totalPrice").text(godPrice+"원");
 					}else{
-						$("#deliveryPrice").html(deliveryMsg);
+						$("#deliveryPrice").html(deliveryP + deliveryMsg);
 						godPrice = Number(godPrice)+Number(basicFee);
 						godPrice = comma(godPrice);
 						$("#totalPrice").text(godPrice+"원");
@@ -883,7 +883,7 @@ function getTimeStamp(date) {
 						Swal.fire({
 							  position: 'top',
 							  type: 'error',
-							  title: '최대 구매개수는' + godSellingLimit +  ' 개 입니다',
+							  title: '최대 구매개수는 ' + godSellingLimit +  '개 입니다',
 							  showConfirmButton: false,
 							  timer: 1500
 							});						
@@ -907,5 +907,85 @@ function getTimeStamp(date) {
 					}else{
 						$("input[name='amount']").val(amount);
 						priceCalculrator(amount);
+					}
+				})
+				
+				$(document).on("click","#cart",function(){
+					var godAmount = $("input[name='amount']").val();
+					if(userId == ""){
+						Swal.fire({
+							  title: '로그인을 해야 작성할수 있습니다.로그인 하시겠습니까?',
+							  type: 'info',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: '네',
+							  cancelButtonText: '아니요'
+							}).then((result) => {
+							  if (result.value) {
+								window.location.href = "/shoppingmall/login";
+							  }
+							})						
+					}else{
+						var optionSelect = $(".optionSelect option:selected");
+						var optionList = [];
+						$.each(optionSelect,function(index,item){
+							if($(item).val()=="0"){
+								Swal.fire({
+									  position: 'top',
+									  type: 'error',
+									  title: '옵션을 선택해주세요!',
+									  showConfirmButton: false,
+									  timer: 1500
+									});	
+							}else{
+								var optionName = $(item).parents("td").prev().find(".optionName").text();
+								var optionContent = $(item).val();
+								var optionPrice = $(item).attr("class");
+								var list = {
+										userId:userId,
+										godNum:godNum,
+										godAmount:godAmount,
+										optionName:optionName,
+										optionContent:optionContent,
+										optionPrice:optionPrice
+								}
+								optionList.push(list);
+							}
+						})
+						if(optionList == ""){
+							var optionName = "";
+							var optionContent = "";
+							var optionPrice = "";
+							var list = {
+									userId:userId,
+									godNum:godNum,
+									godAmount:godAmount,
+									optionName:optionName,
+									optionContent:optionContent,
+									optionPrice:optionPrice
+							}
+							optionList.push(list);
+						}
+						$.ajax({
+							url:"addCarts",
+							data:JSON.stringify(optionList),
+							datatype:'json',
+							tranditional:true,
+							method:"post",
+							contentType:"application/json",
+							success:function(data){
+								console.log("성공");
+							},
+							error:function(a,b,errMsg){
+								Swal.fire({
+									  position: 'top',
+									  type: 'error',
+									  title: '모든 값을 입력해주세요.',
+									  showConfirmButton: false,
+									  timer: 1500
+									});
+							}
+						})
 					}
 				})

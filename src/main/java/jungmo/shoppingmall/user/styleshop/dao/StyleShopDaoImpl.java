@@ -46,4 +46,8 @@ public class StyleShopDaoImpl implements StyleShopDao{
 	public void deleteGoodsReview(String godrNum){
 		ssMapper.deleteGoodsReview(godrNum);
 	}
+	
+	public void insertCarts(HashMap<String,List<Carts>> map){
+		ssMapper.insertCarts(map);
+	}
 }

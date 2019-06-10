@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.*;
 
 import jungmo.shoppingmall.user.styleshop.domain.*;
 import jungmo.shoppingmall.admin.order.domain.Goods;
+import jungmo.shoppingmall.admin.policy.domain.*;
 import jungmo.shoppingmall.user.styleshop.domain.Page;
 
 public interface StyleShopMapper {
@@ -25,4 +26,5 @@ public interface StyleShopMapper {
 			@Param("godqContent") String godqContent,
 			@Param("userId") String userId);
 	void deleteGoodsReview(String godrNum);
+	void insertCarts(HashMap<String,List<Carts>> map);
 }

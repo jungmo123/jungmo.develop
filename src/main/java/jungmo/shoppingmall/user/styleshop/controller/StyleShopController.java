@@ -7,9 +7,11 @@ import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.goodsadmin.service.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.policy.service.*;
+import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.styleshop.domain.*;
 import jungmo.shoppingmall.user.styleshop.domain.Page;
 import jungmo.shoppingmall.user.styleshop.service.*;
+import net.sf.json.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.ui.*;
@@ -20,19 +22,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+
+
+
+
 
 
 
@@ -262,4 +266,32 @@ public class StyleShopController {
 		}
 		return null;
 	}
+	
+	@RequestMapping("/addCarts")
+	@ResponseBody
+	public String addCarts(HttpServletRequest request,@RequestBody String param) throws Exception{
+		List<Map<String,String>> result = new ArrayList<>();
+		result = JSONArray.fromObject(param);	
+		HashMap<String,List<Carts>> map = new HashMap<>();
+		List<Carts> carts = new ArrayList<>();
+		for(int i = 0 ; i < result.size() ;i++){
+			Map<String,String> list = result.get(i);
+			String userId = list.get("userId");
+			String godNum = list.get("godNum");
+			String godAmount = list.get("godAmount");
+			String optionName = list.get("optionName");
+			String optionContent = list.get("optionContent");
+			String optionPrice = list.get("optionPrice");
+			if(optionName.equals("")){
+				optionName = "ept";
+				optionContent = "ept";
+				optionPrice = "ept";			
+			}
+			Carts cart = new Carts(userId,godNum,godAmount,optionName,optionContent,optionPrice);
+			carts.add(cart);
+		}
+		map.put("cartList", carts);
+		ssService.insertCarts(map);
+		return "";
+	}	
 }
