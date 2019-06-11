@@ -5,6 +5,7 @@ import java.util.*;
 import jungmo.shoppingmall.admin.order.dao.mapper.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -12,15 +13,19 @@ import org.springframework.stereotype.*;
 public class PostDaoImpl implements PostDao{
 	@Autowired private PostMapper postMapper;
 	
-	public List<Post> getPosts(Page page){
+	public List<PurchaseList> getPosts(Page page){
 		return postMapper.getPosts(page);
 	}
 	
-	public List<Post> getDatePosts(Page page){
+	public 	List<GoodsOption> getGodo(String ordNum,String godNum,String purNum){
+		return postMapper.getGodo(ordNum, godNum, purNum);
+	}
+	
+	public List<PurchaseList> getDatePosts(Page page){
 		return postMapper.getDatePosts(page);
 	}
 	
-	public List<Post> getCancelPosts(Page page){
+	public List<OrderCancel> getCancelPosts(Page page){
 		return postMapper.getCancelPosts(page);
 	}
 	

@@ -870,7 +870,6 @@ function getTimeStamp(date) {
 						$("#totalPrice").text(godPrice+"원");
 					}else{
 						$("#deliveryPrice").html(deliveryP + deliveryMsg);
-						godPrice = Number(godPrice)+Number(basicFee);
 						godPrice = comma(godPrice);
 						$("#totalPrice").text(godPrice+"원");
 					}
@@ -975,7 +974,13 @@ function getTimeStamp(date) {
 							method:"post",
 							contentType:"application/json",
 							success:function(data){
-								console.log("성공");
+								Swal.fire({
+									  position: 'top',
+									  type: 'success',
+									  title: '상품을 장바구니에 담았습니다!',
+									  showConfirmButton: false,
+									  timer: 1500
+									});
 							},
 							error:function(a,b,errMsg){
 								Swal.fire({

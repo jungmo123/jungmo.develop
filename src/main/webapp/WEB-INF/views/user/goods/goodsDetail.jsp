@@ -793,10 +793,10 @@
 								</tr>
 								<tr class = "totalPriceClass">
 									<td>
-										<strong>총 결제 금액 : </strong>
+										<strong>총 합계 금액 : </strong>
 									</td>
 									<td>
-										<strong id = "totalPrice"><fmt:formatNumber value="${goods.godSellingPrice+delivery}" pattern="#,###" />원</strong>
+										<strong id = "totalPrice"><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</strong>
 									</td>
 								</tr>
 							</table>

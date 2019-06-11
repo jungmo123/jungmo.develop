@@ -12,10 +12,6 @@ import org.springframework.stereotype.*;
 public class OrderServiceImpl implements OrderService{
 	@Autowired private OrderDao orderDao;
 	
-	public List<Purchase> getOrders(){
-		return orderDao.getOrders();
-	}
-	
 	public int dvModify(HashMap<String,List<String>> map){
 		return orderDao.dvModify(map);
 	}
@@ -24,7 +20,7 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.addMlc(map);
 	}
 	
-	public Purchase getPurchase(String ordNum){
+	public PurchaseList getPurchase(String ordNum){
 		return orderDao.getPurchase(ordNum);
 	}
 	
@@ -40,16 +36,8 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostcode, userStreet, userDetailArea, memo);
 	}
 	
-	public List<OrderCancel> getOrderCancels(){
-		return orderDao.getOrderCancels();
-	}
-	
 	public int addOrdercancel(String ordNum){
 		return orderDao.addOrdercancel(ordNum);
-	}
-	
-	public OrderCancel getOrderCancel(String ordNum){
-		return orderDao.getOrderCancel(ordNum);
 	}
 	
 	public int deleteOrdercancel(String ordNum){

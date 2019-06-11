@@ -2,12 +2,18 @@ package jungmo.shoppingmall.admin.order.dao;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
+
 import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface PostDao {
-	List<Post> getPosts(Page page);
-	List<Post> getDatePosts(Page page);
-	List<Post> getCancelPosts(Page page);
+	List<PurchaseList> getPosts(Page page);
+	List<GoodsOption> getGodo(
+			@Param("ordNum") String ordNum,
+			@Param("godNum") String godNum,
+			@Param("purNum") String purNum);
+	List<PurchaseList> getDatePosts(Page page);
+	List<OrderCancel> getCancelPosts(Page page);
 	List<Post> getCancelDatePosts(Page page);
 	List<Post> getRefundPosts(Page page);
 	List<Post> getRefundDatePosts(Page page);

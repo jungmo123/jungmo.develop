@@ -83,10 +83,10 @@
 		<foreach item = "list" collection = "cartList" index = "index">
 			into carts
 			<if test = "list.optionName != 'ept'">
-			values(carts_seq.nextval,#{list.userId},#{list.godNum},#{list.godAmount},#{list.optionName},#{list.optionContent},#{list.optionPrice})
+			values(carts_seq.nextval,#{list.userId},#{list.godNum},#{list.godAmount},#{list.optionName},#{list.optionContent},#{list.optionPrice},#{index}+1)
 			</if>
 			<if test = "list.optionName == 'ept'">
-			values(carts_seq.nextval,#{list.userId},#{list.godNum},#{list.godAmount},#{list.optionName},null,null)
+			values(carts_seq.nextval,#{list.userId},#{list.godNum},#{list.godAmount},null,null,null,#{index}+1)
 			</if>
 		</foreach>
 		select 1 from dual

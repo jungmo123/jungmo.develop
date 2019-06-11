@@ -4,17 +4,9 @@ import java.util.*;
 
 public class Purchase {
 	private String ordNum;
+	private String purNum;
 	private Order order;
-	private List<Goods> goods;
-	private List<GoodsOption> goodsOption;
-
-	public List<GoodsOption> getGoodsOption() {
-		return goodsOption;
-	}
-
-	public void setGoodsOption(List<GoodsOption> goodsOption) {
-		this.goodsOption = goodsOption;
-	}
+	private List<GoodsList> goods;
 
 	public String getOrdNum() {
 		return ordNum;
@@ -24,13 +16,6 @@ public class Purchase {
 		this.ordNum = ordNum;
 	}
 
-	public List<Goods> getGoods() {
-		return goods;
-	}
-	public void setGoods(List<Goods> goods) {
-		this.goods = goods;
-	}
-
 	public Order getOrder() {
 		return order;
 	}
@@ -38,4 +23,21 @@ public class Purchase {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+
+	public String getPurNum() {
+		return purNum;
+	}
+
+	public void setPurNum(String purNum) {
+		this.purNum = purNum;
+	}
+
+	public List<GoodsList> getGoods() {
+		return goods;
+	}
+
+	public void setGoods(List<GoodsList> goods) {
+		this.goods = goods;
+	}
+
 }

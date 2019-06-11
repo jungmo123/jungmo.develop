@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.PostMapper">
-	<select id = "getPosts" parameterType = "page" resultType = "post">
+	<select id = "getPosts" parameterType = "page" resultMap = "purListMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from orders
+		          select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name
+		          from orders
+		          join users
+		          on (orders.user_id = users.user_id)
 		   ]]>
 		   		<where>
 		   			<if test = "type != null and type.equals('All')">
@@ -33,12 +35,16 @@
 			]]>
 	</select>
 	
-	<select id = "getCancelPosts" parameterType = "page" resultType = "post">
+	<select id = "getCancelPosts" parameterType = "page" resultMap = "ocMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from order_cancels
+				select order_cancels.ord_num,ord_date,odc_date,USINGPOINT,odc_type,PAYMENTMETHOD,users.user_id
+				from order_cancels
+				join orders
+				on (order_cancels.ord_num = orders.ord_num)
+				join users
+				on (orders.user_id = users.user_id)
 		   ]]>
 		   		<where>
 		   			<if test = "type != null and type.equals('One')">
@@ -99,12 +105,14 @@
 			]]>
 	</select>
 
-	<select id = "getDatePosts" parameterType = "page" resultType = "post">
+	<select id = "getDatePosts" parameterType = "page" resultMap = "purListMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from orders
+		        select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name
+		        from orders
+		        join users
+		        on (orders.user_id = users.user_id)
 				where ord_date > #{date1} and
 				ord_date < #{date2} and
 				ord_num like '%' || #{ordNum} || '%'
@@ -159,4 +167,64 @@
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
 	</select>
+	
+	<select id = "getGodList" resultMap = "godListMap">
+		select purchases.god_num,ord_num,pur_num,god_name,god_sellingprice,god_amount
+		from purchases join goods
+		on (purchases.god_num = goods.god_num)
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getGodo" parameterType = "map" resultMap = "godoMap">
+		select ord_num,god_num,pur_num,opt_name,opt_content,opt_price
+		from purchase_option
+		where ord_num = #{ordNum} and pur_num = #{purNum} and god_num = #{godNum}
+		order by ord_num
+	</select>
+	
+	<resultMap id = "purListMap" type = "purlist">
+		<id property = "ordNum" column = "ord_num" />
+		<result property = "usingPoint" column = "usingpoint" />
+		<result property = "ordType" column = "ord_type" />
+		<result property = "ordDate" column = "ord_date" />
+		<result property = "userId" column = "user_id" /> 
+		<result property = "userName" column = "user_name" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
+	</resultMap>
+	
+	<resultMap id = "godListMap" type = "godl">
+		<id property = "godNum" column = "god_num" />
+		<id property = "ordNum" column = "ord_num" />
+		<result property = "purNum" column = "pur_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godAmount" column = "god_amount" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godListImageUrl' column = "god_listimageurl" />	
+	</resultMap>
+	
+	<resultMap id = "godoMap" type = "godo">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "purNum" column = "pur_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "optName" column = "opt_name" />
+		<result property = "optContent" column = "opt_content" />
+		<result property = "optPrice" column = "opt_price" />
+	</resultMap>
+
+	<resultMap id = "ocMap" type = "oc">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "ordDate" column = "ord_date" />
+		<result property = "odcDate" column = "odc_date" />
+		<result property = "odcType" column = "odc_type" />
+		<result property = "usingPoint" column = "usingpoint" />
+		<result property = "paymentMethod" column = "paymentmethod" />
+		<association property="user" resultMap = "getUser" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
+	</resultMap> 
+	
+	<resultMap id = "getUser" type = "user">
+		<result property = "userId" column = "user_id" />
+		<result property = "userName" column = "user_name" />
+		<result property = "userPhone" column = "user_phone" />
+	</resultMap>
 </mapper>

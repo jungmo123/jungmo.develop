@@ -10,6 +10,7 @@ import javax.servlet.http.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.admin.user.domain.PurchaseList;
 import jungmo.shoppingmall.admin.user.service.*;
 import jungmo.shoppingmall.user.login.domain.*;
 

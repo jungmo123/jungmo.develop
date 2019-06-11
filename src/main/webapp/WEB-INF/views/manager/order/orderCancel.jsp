@@ -246,9 +246,7 @@
 						<th>결제 금액</th>
 						<th>처리 상태</th>
 					</tr>
-						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
 								<c:forEach  var = "oc" items= "${ordercancel}" varStatus = "state">
-										<c:if test = "${post.postNum==oc.ordNum}">
 										<c:set var = "totalprice" value = "0" />
 										<tr>								
 										<td><input type ="checkbox" name = "${oc.ordNum}" /></td>
@@ -264,10 +262,8 @@
 										<td>${oc.paymentMethod}</td>
 										<c:set var = "total" value = "0" />
 										<c:forEach var = "god" items = "${oc.goods}" varStatus = "state">
-											<c:forEach  var = "option" items= "${oc.goodsOption}" varStatus = "state">
-												<c:if test = "${option.ordNum == oc.ordNum && option.godNum == god.godNum}" >
+											<c:forEach  var = "option" items= "${god.godoList}" varStatus = "state">
 													<c:set var = "total" value = "${(total + option.optPrice)}" />
-												</c:if>
 											</c:forEach>
 											<c:set var = "totalprice" value = "${((totalprice+(total+god.godSellingPrice)*god.godAmount))}" />
 											<c:set var = "total" value = "0" />
@@ -281,9 +277,7 @@
 										<c:set var = "total" value = "0" />						
 										<td>${oc.odcType}</td>
 										</tr>				
-										</c:if>
-								</c:forEach>
-						</c:forEach>					
+								</c:forEach>			
 				</table>
 			</div>
 			</form>

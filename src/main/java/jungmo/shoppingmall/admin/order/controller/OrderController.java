@@ -50,8 +50,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),Type);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getTotRowCnt(Type));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getPosts(myPage));
-		List<Purchase> purchases = orderService.getOrders();
+		List<PurchaseList> purchases = postService.getPosts(myPage);
+		for(int i = 0 ; i < purchases.size() ; i++){
+			PurchaseList go = purchases.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("purchases",purchases);
 		model.addAttribute("type",Type);
 		model.addAttribute("delivery",orderService.getDv(1));
@@ -62,8 +72,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),Type);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getCancelTotRowCnt(Type));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getCancelPosts(myPage));
-		List<OrderCancel> ordercancel = orderService.getOrderCancels();
+		List<OrderCancel> ordercancel = postService.getCancelPosts(myPage);
+				for(int i = 0 ; i < ordercancel.size() ; i++){
+					OrderCancel go = ordercancel.get(i);
+					List<GoodsList> gl = go.getGoods();
+					String ordNum = go.getOrdNum();
+					for(int j = 0 ; j < gl.size() ; j++){
+						GoodsList g = gl.get(j);
+						String godNum = String.valueOf(g.getGodNum());
+						String purNum =  String.valueOf(g.getPurNum());
+						g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+					}
+				}		
 		model.addAttribute("ordercancel",ordercancel);
 		model.addAttribute("type",Type);
 	}
@@ -96,8 +116,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),5,date1,date2,search);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getDateTotRowCnt(myPage));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getDatePosts(myPage));
-		List<Purchase> purchases = orderService.getOrders();
+		List<PurchaseList> purchases = postService.getDatePosts(myPage);
+		for(int i = 0 ; i < purchases.size() ; i++){
+			PurchaseList go = purchases.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("purchases",purchases);
 		model.addAttribute("type",type);	
 		model.addAttribute("delivery",orderService.getDv(1));
@@ -110,9 +140,9 @@ public class OrderController {
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getCancelDateTotRowCnt(myPage));
 		model.addAttribute("pageMaker",ps);
 		model.addAttribute("posts",postService.getCancelDatePosts(myPage));
-		List<OrderCancel> ordercancel = orderService.getOrderCancels();
-		model.addAttribute("ordercancel",ordercancel);
-		model.addAttribute("type",type);
+		//List<OrderCancel> ordercancel = orderService.getOrderCancels();
+		//model.addAttribute("ordercancel",ordercancel);
+		//model.addAttribute("type",type);
 	}
 	
 	public void refunddate(HttpServletRequest request,Model model,String idx){
@@ -223,8 +253,18 @@ public class OrderController {
 		myPage = new Page(1,5,date1,date2,search);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getDateTotRowCnt(myPage));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getDatePosts(myPage));
-		List<Purchase> purchases = orderService.getOrders();
+		List<PurchaseList> purchases = postService.getDatePosts(myPage);
+		for(int i = 0 ; i < purchases.size() ; i++){
+			PurchaseList go = purchases.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("purchases",purchases);
 		model.addAttribute("type",type);
 
@@ -311,18 +351,16 @@ public class OrderController {
 	
 	@RequestMapping("/admin/orderDetail{idx}")
 	public String searchList(@PathVariable String idx,Model model){
-		Purchase p = orderService.getPurchase(idx);
-		List<Integer> godNums = new ArrayList<>();
-		List<Goods> goods = p.getGoods();
-		for(int i = 0 ; i < goods.size() ;i++){
-			godNums.add(goods.get(i).getGodNum());
-		}
-		HashMap<String,List<Integer>> option = new HashMap<>();
-		option.put("list", godNums);
-		model.addAttribute("purchase",orderService.getPurchase(idx));
-		for(int i = 0 ; i < orderService.getPurchase(idx).getGoodsOption().size() ; i++){
-			System.out.println(orderService.getPurchase(idx).getGoodsOption().get(i).getOptName());
-		}
+		PurchaseList purchase = orderService.getPurchase(idx);
+			List<GoodsList> gl = purchase.getGoods();
+			String ordNum = purchase.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}	
+		model.addAttribute("purchase",purchase);
 		model.addAttribute("savePoint",orderService.getSm(1));
 		model.addAttribute("delivery",orderService.getDv(1));
 		return "manager/order/orderDetail";
@@ -340,7 +378,7 @@ public class OrderController {
 		tp.add(ordType);
 		option.put("list", ls);
 		option.put("type", tp);
-		if(ordType.equals("주문취소")){
+/*		if(ordType.equals("주문취소")){
 			if(orderService.getOrderCancel(ordNum) != null){
 				data = false;
 			}else{
@@ -353,7 +391,7 @@ public class OrderController {
 				orderService.deleteOrdercancel(ordNum);
 				orderService.addMlc(option);
 			}			
-		}
+		}*/
 		orderService.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostCode, userStreet, userDetailArea, memo);
 		return data;
 	}

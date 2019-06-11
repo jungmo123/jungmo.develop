@@ -4,6 +4,7 @@ import java.util.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.admin.user.domain.PurchaseList;
 import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
 

@@ -11,8 +11,7 @@ public class OrderCancel {
 	private Date odcDate;
 	private String paymentMethod;
 	private String odcType;
-	private List<Goods> goods;
-	private List<GoodsOption> goodsOption;
+	private List<GoodsList> goods;
 	private String usingPoint;
 	private User user;
 	
@@ -25,9 +24,6 @@ public class OrderCancel {
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
-	public List<Goods> getGoods() {
-		return goods;
-	}
 	public User getUser() {
 		return user;
 	}
@@ -39,9 +35,6 @@ public class OrderCancel {
 	}
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
-	}
-	public void setGoods(List<Goods> goods) {
-		this.goods = goods;
 	}
 	public void setUser(User user) {
 		this.user = user;
@@ -64,10 +57,10 @@ public class OrderCancel {
 	public void setUsingPoint(String usingPoint) {
 		this.usingPoint = usingPoint;
 	}
-	public List<GoodsOption> getGoodsOption() {
-		return goodsOption;
+	public List<GoodsList> getGoods() {
+		return goods;
 	}
-	public void setGoodsOption(List<GoodsOption> goodsOption) {
-		this.goodsOption = goodsOption;
+	public void setGoods(List<GoodsList> goods) {
+		this.goods = goods;
 	}
 }

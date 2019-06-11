@@ -8,6 +8,7 @@ import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
+import jungmo.shoppingmall.admin.user.domain.PurchaseList;
 
 public interface UserService {
 	List<User> getUsers(Page page);

@@ -364,10 +364,10 @@
 				<div id = "orderBox">
 					<div id = "firstLine">
 						<div>
-							<b>주문일 : </b><span><fmt:formatDate value = "${purchase.order.ordDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></span>					
+							<b>주문일 : </b><span><fmt:formatDate value = "${purchase.ordDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></span>					
 						</div>
 						<div>
-							<b>주문고객 : </b><span>${purchase.order.user.userName} (${purchase.order.user.userId})</span>
+							<b>주문고객 : </b><span>${purchase.userName} (${purchase.userId})</span>
 						</div>
 						<div>
 							<b>주문번호 : </b><span>${purchase.ordNum}</span>
@@ -401,22 +401,18 @@
 								<div>
 									<strong class = "itemName">상품명</strong>
 									<span>${product.godName}</span>
-									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
-									<c:if test = "${product.godNum == option.godNum}">
+									<c:forEach  var = "option" items= "${product.godoList}" varStatus = "state">
 									<br>
 									<strong class = "itemName">${option.optName}</strong>
 									<span>${option.optContent}</span>
-									</c:if>
 									</c:forEach>						
 								</div>
 								<div>
 									<span>${product.godSellingPrice}원</span>
-									<c:forEach  var = "option" items= "${purchase.goodsOption}" varStatus = "state">
-									<c:if test = "${product.godNum == option.godNum}">
+									<c:forEach  var = "option" items= "${product.godoList}" varStatus = "state">
 									<br>
 									<c:set var = "total" value = "${(total + option.optPrice)}" />
 									<span>${option.optPrice}원</span>
-									</c:if>
 									</c:forEach>					
 							</div>						
 						</td>
@@ -449,14 +445,14 @@
 								<table class = "buyerInfo2">
 									<tr>
 										<td class = "buy1">이름</td>
-										<td class = "buy2"><input type = "text"  name = "name" value = "${purchase.order.user.userName}" readonly /></td>
+										<td class = "buy2"><input type = "text"  name = "name" value = "${purchase.userName}" readonly /></td>
 									</tr>
 									<tr>
 										<td class = "buy1">휴대폰 번호</td>
 										<td class = "buy2 phone">
-											<input type = "tel"  name = "phone1" value = "${fn:split(purchase.order.user.userPhone,'-')[0]}" readonly />&#45;
-											<input type = "tel"  name = "phone2" value = "${fn:split(purchase.order.user.userPhone,'-')[1]}" readonly />&#45;
-											<input type = "tel"  name = "phone3" value = "${fn:split(purchase.order.user.userPhone,'-')[2]}" readonly />
+											<input type = "tel"  name = "phone1" value = "${fn:split(purchase.userPhone,'-')[0]}" readonly />&#45;
+											<input type = "tel"  name = "phone2" value = "${fn:split(purchase.userPhone,'-')[1]}" readonly />&#45;
+											<input type = "tel"  name = "phone3" value = "${fn:split(purchase.userPhone,'-')[2]}" readonly />
 										</td>
 									</tr>
 								</table>
@@ -474,18 +470,18 @@
 					<table class = "buyerInfo2">
 						<tr>
 							<td class = "buy1">이름</td>
-							<td class = "buy2"><input id = "userName" type = "text"  name = "userName" value = "${purchase.order.recipientName}"/></td>
+							<td class = "buy2"><input id = "userName" type = "text"  name = "userName" value = "${purchase.recipientName}"/></td>
 						</tr>
 						<tr>
 							<td class = "buy1">주소</td>
 							<td class = "buy2 address">
 								<div>
-									<input id = "userPostcode" type = "text" name = "userPostcode" value = "${purchase.order.shaPostCode}"  disabled/>
+									<input id = "userPostcode" type = "text" name = "userPostcode" value = "${purchase.shaPostCode}"  disabled/>
 									<a id = "addressBtn" class="btn btn-default" onclick="showPostcode()">우편번호 검색</a>
 								</div>
 								<div>
-									<input id = "userStreet" type = "text" name = "userStreet"  value = "${purchase.order.shaStreet}"  disabled />
-									<input id = "userDetailArea" type = "text" name = "userDetailArea"  value = "${purchase.order.shaDetailArea}"  />							
+									<input id = "userStreet" type = "text" name = "userStreet"  value = "${purchase.shaStreet}"  disabled />
+									<input id = "userDetailArea" type = "text" name = "userDetailArea"  value = "${purchase.shaDetailArea}"  />							
 								</div>
 							</td>
 						</tr>
@@ -493,19 +489,19 @@
 							<td class = "buy1">휴대폰 번호</td>
 							<td class = "buy2 phone">
 							<div>
-								<input id = "phone1" type = "tel"  name = "phone1" value = "${fn:split(purchase.order.recipientPhone,'-')[0]}"  />
+								<input id = "phone1" type = "tel"  name = "phone1" value = "${fn:split(purchase.recipientPhone,'-')[0]}"  />
 							</div>
 							<div>
 								<span>-</span>
 							</div>
 							<div>
-								<input id = "phone2" type = "tel"  name = "phone2" value = "${fn:split(purchase.order.recipientPhone,'-')[1]}"  />
+								<input id = "phone2" type = "tel"  name = "phone2" value = "${fn:split(purchase.recipientPhone,'-')[1]}"  />
 							</div>
 							<div>
 								<span>-</span>
 							</div>
 							<div>
-								<input id = "phone3" type = "tel"  name = "phone3" value = "${fn:split(purchase.order.recipientPhone,'-')[2]}"  />
+								<input id = "phone3" type = "tel"  name = "phone3" value = "${fn:split(purchase.recipientPhone,'-')[2]}"  />
 							</div>
 							</td>
 						</tr>
@@ -513,7 +509,7 @@
 							<td class = "buy1">배송 요청사항</td>
 							<td class = "buy2">
 								<div>
-									<input id = "deilveryRequest" type = "text" name = "deilveryRequest" value = "${purchase.order.deliveryRequest}" onkeyup="chkword(this,100)" />						
+									<input id = "deilveryRequest" type = "text" name = "deilveryRequest" value = "${purchase.deliveryRequest}" onkeyup="chkword(this,100)" />						
 								</div>
 								<div class = "right">
 									<span id = "currentByte">0자 </span><b> /100자</b>	
@@ -543,8 +539,8 @@
 									</td>
 									<td>
 										<strong>
-											${purchase.order.usingPoint}원
-											<c:set var = "usingPoint" value = "${purchase.order.usingPoint}" />
+											${purchase.usingPoint}원
+											<c:set var = "usingPoint" value = "${purchase.usingPoint}" />
 										</strong>
 									</td>
 								</tr>
@@ -577,7 +573,7 @@
 										<strong>결제 방법</strong>
 									</td>
 									<td>
-										<strong>${purchase.order.paymentMethod}</strong>
+										<strong>${purchase.paymentMethod}</strong>
 									</td>
 								</tr>
 							</table>
@@ -588,11 +584,11 @@
 							<textarea cols = "44" rows = "8" readonly>
 결제요청 결과
 
-결과 코드 : ${purchase.order.ordResultCode}
+결과 코드 : ${purchase.ordResultCode}
 
-결과 내용 : ${purchase.order.ordResultContent}
+결과 내용 : ${purchase.ordResultContent}
 
-결제 방법 : ${purchase.order.paymentMethod}
+결제 방법 : ${purchase.paymentMethod}
 							</textarea>
 						</div>
 					</div>
@@ -605,13 +601,13 @@
 						<div class = "divLeft">
 							<strong>관리 이력</strong>
 							<div class = "br"></div>
-							<textarea cols = "44" rows = "6" readonly><c:forEach  var = "mlc" items= "${purchase.order.mlc}" varStatus = "state"><fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
+							<textarea cols = "44" rows = "6" readonly><c:forEach  var = "mlc" items= "${purchase.mlc}" varStatus = "state"><fmt:formatDate value = "${mlc.mlcDate}" pattern = "YYYY-MM-dd HH:mm:ss" /> : ${mlc.mlcContent}
 </c:forEach></textarea>		
 						</div>
 						<div class = "divRight">
 							<strong>상담 메모</strong>
 							<div class = "br"></div>
-							<textarea id = "memo" name = "memo" cols = "44" rows = "6">${purchase.order.memoContent}</textarea>		
+							<textarea id = "memo" name = "memo" cols = "44" rows = "6">${purchase.memoContent}</textarea>		
 						</div>				
 					</div>			
 				</td>
@@ -800,7 +796,7 @@ $(function(){
     $(function(){
 	var select = $("#deliveryForm > div:nth-child(1) > select option");
 	$.each(select,function(index,item){
-			var type = "${purchase.order.ordType}";
+			var type = "${purchase.ordType}";
 			if($(item).text() == type){
 				$(item).prop("selected",true);
 			}

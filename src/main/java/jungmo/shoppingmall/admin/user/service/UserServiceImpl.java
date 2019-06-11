@@ -10,6 +10,7 @@ import jungmo.shoppingmall.admin.user.dao.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.join.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
+import jungmo.shoppingmall.admin.user.domain.PurchaseList;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.*;

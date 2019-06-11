@@ -3,6 +3,7 @@ package jungmo.shoppingmall.admin.order.domain;
 
 public class GoodsOption {
 	private String ordNum;
+	private String purNum;
 	private int godNum;
 	private String optName;
 	private String optContent;
@@ -47,5 +48,11 @@ public class GoodsOption {
 	}
 	public void setOptPrice(String optPrice) {
 		this.optPrice = optPrice;
+	}
+	public String getPurNum() {
+		return purNum;
+	}
+	public void setPurNum(String purNum) {
+		this.purNum = purNum;
 	}
 }

@@ -2,18 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper">
-	<select id = "getOrders" resultMap = "purMap">
-      select purchases.ord_num,purchases.god_num,ord_type,ord_date,god_amount,god_name,USINGPOINT,god_sellingprice,users.user_id,user_name
-      from purchases join goods
-      on (purchases.god_num = goods.god_num)
-      join orders
-      on (purchases.ord_num = orders.ord_num)
-      join users
-      on (orders.user_id = users.user_id)
-      where ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
-      order by purchases.ord_num
-	</select>
-	
 	<select id = "getOrderCancels" resultMap = "ocMap">
 		select order_cancels.ord_num,purchases.god_num,ord_date,ord_date,odc_date,USINGPOINT,odc_type,PAYMENTMETHOD,users.user_id
 		from order_cancels join purchases
@@ -55,21 +43,19 @@
 	</select>
 	 
 	<select id = "getPurchase" parameterType="string" resultMap = "purchaseMap">
-    	select purchases.ord_num,purchases.god_num,god_amount,god_name,god_sellingprice,god_listimageurl,ord_type,ord_date,users.user_id,user_name,user_phone,sha_postcode,sha_street,sha_detailarea,recipient_name,
-		recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,USINGPOINT,PAYMENTMETHOD,memo_content
-		from purchases join orders
-		on (purchases.ord_num = orders.ord_num)
-		join goods
-        on (purchases.god_num = goods.god_num)
-		join users
-		on (orders.user_id = users.user_id)
-   		where purchases.ord_num = #{ord_num}
+          select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name,user_phone,sha_postcode,sha_street,sha_detailarea,recipient_name,
+          recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,PAYMENTMETHOD,memo_content
+          from orders
+          join users
+          on (orders.user_id = users.user_id)
+          where ord_num = #{ordNum}
+          order by ord_num
 	</select> 
 	
 	<select id = "getGodo" parameterType = "java.util.Map" resultMap = "godoMap">
-		select ord_num,god_num,opt_name,opt_content,opt_price
+		select ord_num,god_num,pur_num,opt_name,opt_content,opt_price
 		from purchase_option
-		where ord_num = #{ordNum}
+		where ord_num = #{ordNum} and pur_num = #{purNum} and god_num = #{godNum}
 		order by ord_num
 	</select>
 	
@@ -107,6 +93,13 @@
 	<select id = "getExchangeImage" parameterType = "string" resultType = "exci">
 		select ord_num ordNum,exc_imageurl exchangeImageUrl
 		from exchange_images
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getGodList" resultMap = "godListMap">
+		select purchases.god_num,ord_num,pur_num,god_name,god_sellingprice,god_amount,god_listimageurl
+		from purchases join goods
+		on (purchases.god_num = goods.god_num)
 		where ord_num = #{ordNum}
 	</select>
 	
@@ -266,10 +259,22 @@
 	 
 	<resultMap id = "purMap" type = "pur">
 		<id property = "ordNum" column = "ord_num" />
+		<result property = "purNum" column = "pur_num" />
 		<association property = "order" resultMap = "getOrder" />
-		<collection property = "goods" columnPrefix = "god_" resultMap="godMap" />
-		<collection property = "goodsOption" column = "ord_num" select = "getGodo" />
+		<association property = "goods" columnPrefix = "god_" resultMap="godMap" />
+		<collection property = "goodsOption" column = "{purNum=pur_num,ordNum=ord_num}" select = "getGodo" />
 	</resultMap>
+	
+	<resultMap id = "godListMap" type = "godl">
+		<id property = "godNum" column = "god_num" />
+		<id property = "ordNum" column = "ord_num" />
+		<result property = "purNum" column = "pur_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godAmount" column = "god_amount" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godListImageUrl' column = "god_listimageurl" />
+		<collection property = "godoList" column = "{purNum=pur_num,ordNum=ord_num,godNum=god_num}" select = "getGodo" />		
+	</resultMap> 	
 	
 	<resultMap id = "godMap" type = "god">
 		<id property = "godNum" column = "num" />
@@ -304,15 +309,31 @@
 		<result property = "userPhone" column = "user_phone" />
 	</resultMap>
 	
-	<resultMap id = "purchaseMap" type = "pur">
+	<resultMap id = "purchaseMap" type = "purlist">
 		<id property = "ordNum" column = "ord_num" />
-		<association property = "order" resultMap = "getOrder" />
-		<collection property = "goods" columnPrefix = "god_" resultMap="godMap" />
-		<collection property = "goodsOption" column = "ord_num" select = "getGodo" />
+		<result property = "usingPoint" column = "usingpoint" />
+		<result property = "ordType" column = "ord_type" />
+		<result property = "ordDate" column = "ord_date" />
+		<result property = "shaPostCode" column = "sha_postcode" />
+		<result property = "shaStreet" column = "sha_street" />
+		<result property = "shaDetailArea" column = "sha_detailArea" />
+		<result property = "recipientName" column = "recipient_name" />
+		<result property = "recipientPhone" column = "recipient_phone"/>
+		<result property = "deliveryRequest" column = "deliveryRequest" />
+		<result property = "ordResultCode" column = "ord_resultcode" />
+		<result property = "ordResultContent" column = "ord_resultcontent" />
+		<result property = "paymentMethod" column = "paymentmethod" />
+		<result property = "memoContent" column = "memo_content" />
+		<result property = "userId" column = "user_id" /> 
+		<result property = "userName" column = "user_name" />
+		<result property = "userPhone" column = "user_phone" />
+		<collection property = "mlc" column = "ord_num" select = "getMlc" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 	</resultMap>
 	 
 	<resultMap id = "godoMap" type = "godo">
 		<result property = "ordNum" column = "ord_num" />
+		<result property = "purNum" column = "pur_num" />
 		<result property = "godNum" column = "god_num" />
 		<result property = "optName" column = "opt_name" />
 		<result property = "optContent" column = "opt_content" />
@@ -327,8 +348,7 @@
 		<result property = "usingPoint" column = "usingpoint" />
 		<result property = "paymentMethod" column = "paymentmethod" />
 		<association property="user" resultMap = "getUser" />
-		<collection property="goods" column="ord_num" select = "getGoods" />
-		<collection property="goodsOption" column = "ord_num" select = "getGodo" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 	</resultMap>
 	 
 	<resultMap id = "refMap" type = "ref">
