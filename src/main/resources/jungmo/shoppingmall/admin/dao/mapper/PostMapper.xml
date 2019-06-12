@@ -61,12 +61,18 @@
 			]]>
 	</select>
 
-	<select id = "getRefundPosts" parameterType = "page" resultType = "post">
+	<select id = "getRefundPosts" parameterType = "page" resultMap = "refMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from refunds
+				select refunds.ord_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
+				from refunds
+				join orders
+				on (refunds.ord_num = orders.ord_num)
+				join users
+				on (orders.user_id = users.user_id)
+				join reasons
+				on (refunds.ref_reason = reasons.rea_code)
 		   ]]>
 		   		<where>
 		   			<if test = "type != null and type.equals('One')">
@@ -83,12 +89,18 @@
 			]]>
 	</select>
 	
-	<select id = "getExchangePosts" parameterType = "page" resultType = "post">
+	<select id = "getExchangePosts" parameterType = "page" resultMap = "excMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from exchanges
+				select exchanges.ord_num,exc_requestdate,exc_reason,rea_name,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
+				from exchanges
+				join orders
+				on (exchanges.ord_num = orders.ord_num)
+				join users
+				on (orders.user_id = users.user_id)
+				join reasons
+				on (exchanges.exc_reason = reasons.rea_code)
 		   ]]>
 		   		<where>
 		   			<if test = "type != null and type.equals('One')">
@@ -99,7 +111,7 @@
 		   			</if>
 		   		</where>
 		   <![CDATA[
-		  		order by ord_num
+		  		order by exchanges.ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
@@ -123,46 +135,62 @@
 			]]>
 	</select>
 	
-	<select id = "getCancelDatePosts" parameterType = "page" resultType = "post">
+	<select id = "getCancelDatePosts" parameterType = "page" resultMap = "ocMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from order_cancels
+				select order_cancels.ord_num,ord_date,odc_date,USINGPOINT,odc_type,PAYMENTMETHOD,users.user_id
+				from order_cancels
+				join orders
+				on (order_cancels.ord_num = orders.ord_num)
+				join users
+				on (orders.user_id = users.user_id)
 				where odc_date > #{date1} and
 				odc_date < #{date2} and
-				ord_num like '%' || #{ordNum} || '%'
-		  		order by ord_num
+				order_cancels.ord_num like '%' || #{ordNum} || '%'
+		  		order by order_cancels.ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
 	</select>
 	 
-	<select id = "getRefundDatePosts" parameterType = "page" resultType = "post">
+	<select id = "getRefundDatePosts" parameterType = "page" resultMap = "refMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from refunds
+				select refunds.ord_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
+				from refunds
+				join orders
+				on (refunds.ord_num = orders.ord_num)
+				join users
+				on (orders.user_id = users.user_id)
+				join reasons
+				on (refunds.ref_reason = reasons.rea_code)
 				where ref_requestdate > #{date1} and
 				ref_requestdate < #{date2} and
-				ord_num like '%' || #{ordNum} || '%'
-		  		order by ord_num
+				refunds.ord_num like '%' || #{ordNum} || '%'
+		  		order by refunds.ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
 	</select>
 	
-	<select id = "getExchangeDatePosts" parameterType = "page" resultType = "post">
+	<select id = "getExchangeDatePosts" parameterType = "page" resultMap = "excMap">
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		  		select ord_num postNum
-		  		from exchanges
+				select exchanges.ord_num,exc_requestdate,exc_reason,rea_name,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
+				from exchanges
+				join orders
+				on (exchanges.ord_num = orders.ord_num)
+				join users
+				on (orders.user_id = users.user_id)
+				join reasons
+				on (exchanges.exc_reason = reasons.rea_code)
 				where exc_requestdate > #{date1} and
 				exc_requestdate < #{date2} and
-				ord_num like '%' || #{ordNum} || '%'
-		  		order by ord_num
+				exchanges.ord_num like '%' || #{ordNum} || '%'
+		  		order by exchanges.ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
@@ -180,6 +208,18 @@
 		from purchase_option
 		where ord_num = #{ordNum} and pur_num = #{purNum} and god_num = #{godNum}
 		order by ord_num
+	</select>
+	
+	<select id = "getRefundImage" parameterType = "string" resultType = "refi">
+		select ord_num ordNum,ref_imageurl refundImageUrl
+		from refund_images
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getExchangeImage" parameterType = "string" resultType = "exci">
+		select ord_num ordNum,exc_imageurl exchangeImageUrl
+		from exchange_images
+		where ord_num = #{ordNum}
 	</select>
 	
 	<resultMap id = "purListMap" type = "purlist">
@@ -226,5 +266,33 @@
 		<result property = "userId" column = "user_id" />
 		<result property = "userName" column = "user_name" />
 		<result property = "userPhone" column = "user_phone" />
+	</resultMap>
+	
+	<resultMap id = "refMap" type = "ref">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "refRequestDate" column = "ref_requestdate" />
+		<result property = "refReason" column = "ref_reason" />
+		<result property = "reaName" column = "rea_name" />
+		<result property = "refContent" column = "ref_content" />
+		<result property = "refState" column = "ref_state" />
+		<result property = "refMemo" column = "ref_memo" />
+		<result property = "refCompleteDate" column = "ref_completedate" />
+		<association property="user" resultMap = "getUser" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
+		<collection property = "images" column = "ord_num" select = "getRefundImage" />
+	</resultMap>
+	
+	<resultMap id = "excMap" type = "exc">
+		<result property = "ordNum" column = "ord_num" />
+		<result property = "excRequestDate" column = "exc_requestdate" />
+		<result property = "excReason" column = "exc_reason" />
+		<result property = "reaName" column = "rea_name" />
+		<result property = "excContent" column = "exc_content" />
+		<result property = "excState" column = "exc_state" />
+		<result property = "excMemo" column = "exc_memo" />
+		<result property = "excCompleteDate" column = "exc_completedate" />
+		<association property="user" resultMap = "getUser" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
+		<collection property = "images" column = "ord_num" select = "getExchangeImage" />
 	</resultMap>
 </mapper>

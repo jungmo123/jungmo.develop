@@ -52,12 +52,12 @@ public class OrderDaoImpl implements OrderDao{
 		return orderMapper.cancelModify(map);
 	}
 	
-	public List<Refund> getOrderRefund(){
-		return orderMapper.getOrderRefund();
+	public Refund getOrderRefund(String ordNum){
+		return orderMapper.getOrderRefund(ordNum);
 	}
 	
-	public List<Exchange> getOrderExchange(){
-		return orderMapper.getOrderExchange();
+	public Exchange getOrderExchange(String ordNum){
+		return orderMapper.getOrderExchange(ordNum);
 	}
 	
 	public int refundModify(HashMap<String,List<String>> map){

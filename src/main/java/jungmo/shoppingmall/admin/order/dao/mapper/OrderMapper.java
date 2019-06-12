@@ -33,8 +33,8 @@ public interface OrderMapper {
 	ManageLogCategories getMlc(String ordNum);
 	OrderCancel getOrderCancel(String ordNum);
 	List<Goods> getGoods(String ordNum);
-	List<Refund> getOrderRefund();
-	List<Exchange> getOrderExchange();
+	Refund getOrderRefund(String ordNum);
+	Exchange getOrderExchange(String ordNum);
 	int refundDetailModify(
 			@Param("ordNum") String ordNum,
 			@Param("content") String content,

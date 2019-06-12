@@ -244,9 +244,7 @@
 						<th>이름</th>
 						<th>처리 상태</th>
 					</tr>
-						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
 								<c:forEach  var = "exc" items= "${exchange}" varStatus = "state">
-										<c:if test = "${post.postNum==exc.ordNum}">
 										<c:set var = "totalprice" value = "0" />
 										<tr>								
 										<td><input type ="checkbox" name = "${exc.ordNum}" /></td>
@@ -260,10 +258,7 @@
 										<td>${exc.user.userId}</td>
 										<td>${exc.user.userName}</td>												
 										<td>${exc.excState}</td>
-										</tr>				
-										</c:if>
-								</c:forEach>
-						</c:forEach>					
+								</c:forEach>				
 				</table>
 			</div>
 			</form>

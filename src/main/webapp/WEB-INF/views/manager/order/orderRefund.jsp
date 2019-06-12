@@ -244,9 +244,7 @@
 						<th>이름</th>
 						<th>처리 상태</th>
 					</tr>
-						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
 								<c:forEach  var = "ref" items= "${refund}" varStatus = "state">
-										<c:if test = "${post.postNum==ref.ordNum}">
 										<c:set var = "totalprice" value = "0" />
 										<tr>								
 										<td><input type ="checkbox" name = "${ref.ordNum}" /></td>
@@ -261,9 +259,7 @@
 										<td>${ref.user.userName}</td>												
 										<td>${ref.refState}</td>
 										</tr>				
-										</c:if>
-								</c:forEach>
-						</c:forEach>					
+								</c:forEach>		
 				</table>
 			</div>
 			</form>

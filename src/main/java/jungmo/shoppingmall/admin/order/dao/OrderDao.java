@@ -16,12 +16,13 @@ public interface OrderDao {
 	int addOrdercancel(String ordNum);
 	int deleteOrdercancel(String ordNum);
 	int cancelModify(HashMap<String,List<String>> map);
-	List<Refund> getOrderRefund();
-	List<Exchange> getOrderExchange();
+	Refund getOrderRefund(String ordNum);
+	Exchange getOrderExchange(String ordNum);
 	int refundDetailModify(String ordNum,String content,String state,String memo);
 	int exchangeDetailModify(String ordNum,String content,String state,String memo);
 	int deleteRefund(String ordNum);
 	int deleteExchange(String ordNum);
 	int deleteRefundImage(String ordNum);
 	int deleteExchangeImage(String ordNum);
+	OrderCancel getOrderCancel(String ordNum);
 }

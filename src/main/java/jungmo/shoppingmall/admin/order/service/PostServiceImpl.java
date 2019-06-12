@@ -28,23 +28,23 @@ public class PostServiceImpl implements PostService{
 		return postDao.getCancelPosts(page);
 	}
 	
-	public List<Post> getCancelDatePosts(Page page){
+	public List<OrderCancel> getCancelDatePosts(Page page){
 		return postDao.getCancelDatePosts(page);
 	}
 	
-	public List<Post> getRefundPosts(Page page){
+	public List<Refund> getRefundPosts(Page page){
 		return postDao.getRefundPosts(page);
 	}
 	
-	public List<Post> getRefundDatePosts(Page page){
+	public List<Refund> getRefundDatePosts(Page page){
 		return postDao.getRefundDatePosts(page);
 	}
 	
-	public List<Post> getExchangePosts(Page page){
+	public List<Exchange> getExchangePosts(Page page){
 		return postDao.getExchangePosts(page);
 	}
 	
-	public List<Post> getExchangeDatePosts(Page page){
+	public List<Exchange> getExchangeDatePosts(Page page){
 		return postDao.getExchangeDatePosts(page);
 	}
 }

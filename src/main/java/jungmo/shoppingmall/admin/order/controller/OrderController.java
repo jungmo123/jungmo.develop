@@ -93,8 +93,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),Type);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getRefundTotRowCnt(Type));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getRefundPosts(myPage));
-		List<Refund> refund = orderService.getOrderRefund();
+		List<Refund> refund = postService.getRefundPosts(myPage);
+		for(int i = 0 ; i < refund.size() ; i++){
+			Refund go = refund.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("refund",refund);
 		model.addAttribute("type",Type);
 	}
@@ -104,8 +114,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),Type);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getExchangeTotRowCnt(Type));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getExchangePosts(myPage));
-		List<Exchange> exchange = orderService.getOrderExchange();
+		List<Exchange> exchange = postService.getExchangePosts(myPage);
+		for(int i = 0 ; i < exchange.size() ; i++){
+			Exchange go = exchange.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("exchange",exchange);
 		model.addAttribute("type",Type);
 	}
@@ -139,10 +159,20 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),5,date1,date2,cancel);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getCancelDateTotRowCnt(myPage));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getCancelDatePosts(myPage));
-		//List<OrderCancel> ordercancel = orderService.getOrderCancels();
-		//model.addAttribute("ordercancel",ordercancel);
-		//model.addAttribute("type",type);
+		List<OrderCancel> ordercancel = postService.getCancelDatePosts(myPage);
+		for(int i = 0 ; i < ordercancel.size() ; i++){
+			OrderCancel go = ordercancel.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}	
+		model.addAttribute("ordercancel",ordercancel);
+		model.addAttribute("type",type);
 	}
 	
 	public void refunddate(HttpServletRequest request,Model model,String idx){
@@ -151,8 +181,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),5,date1,date2,refund);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getRefundDateTotRowCnt(myPage));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getRefundDatePosts(myPage));
-		List<Refund> refund = orderService.getOrderRefund();
+		List<Refund> refund = postService.getRefundDatePosts(myPage);
+		for(int i = 0 ; i < refund.size() ; i++){
+			Refund go = refund.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("refund",refund);
 		model.addAttribute("type",type);
 	}
@@ -163,8 +203,18 @@ public class OrderController {
 		myPage = new Page(Integer.parseInt(idx),5,date1,date2,exchange);
 		PageService ps = new PageServiceImpl(5,myPage,pageService.getExchangeDateTotRowCnt(myPage));
 		model.addAttribute("pageMaker",ps);
-		model.addAttribute("posts",postService.getExchangeDatePosts(myPage));
-		List<Exchange> exchange = orderService.getOrderExchange();
+		List<Exchange> exchange = postService.getExchangeDatePosts(myPage);
+		for(int i = 0 ; i < exchange.size() ; i++){
+			Exchange go = exchange.get(i);
+			List<GoodsList> gl = go.getGoods();
+			String ordNum = go.getOrdNum();
+			for(int j = 0 ; j < gl.size() ; j++){
+				GoodsList g = gl.get(j);
+				String godNum = String.valueOf(g.getGodNum());
+				String purNum =  String.valueOf(g.getPurNum());
+				g.setGodoList(postService.getGodo(ordNum, godNum, purNum));
+			}
+		}
 		model.addAttribute("exchange",exchange);
 		model.addAttribute("type",type);
 	}
@@ -318,8 +368,6 @@ public class OrderController {
 			date2 = date3;
 		}
 		exchange = request.getParameter("Exchangesearch");
-		
-		
 		exchangedate(request,model,"1");
 
 		return "manager/order/orderExchange";
@@ -378,7 +426,7 @@ public class OrderController {
 		tp.add(ordType);
 		option.put("list", ls);
 		option.put("type", tp);
-/*		if(ordType.equals("주문취소")){
+		if(ordType.equals("주문취소")){
 			if(orderService.getOrderCancel(ordNum) != null){
 				data = false;
 			}else{
@@ -391,7 +439,7 @@ public class OrderController {
 				orderService.deleteOrdercancel(ordNum);
 				orderService.addMlc(option);
 			}			
-		}*/
+		}
 		orderService.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostCode, userStreet, userDetailArea, memo);
 		return data;
 	}
@@ -501,27 +549,15 @@ public class OrderController {
 	
 	@RequestMapping("/admin/ExchangeDetail{idx}")
 	public String exchangeDetail(@PathVariable String idx,HttpServletRequest request,Model model){
-		List<Exchange> exchange = orderService.getOrderExchange();
-		Exchange exc = null;
-		for(int i = 0; i < exchange.size() ; i++){
-			if(exchange.get(i).getOrdNum().equals(idx)){
-				exc = exchange.get(i);
-			}
-		}
-		model.addAttribute("exchange",exc);
+		Exchange exchange = orderService.getOrderExchange(idx);
+		model.addAttribute("exchange",exchange);
 		return "/manager/order/orderExchangeDetail";
 	}
 	
 	@RequestMapping("/admin/RefundDetail{idx}")
 	public String refundDetail(@PathVariable String idx,HttpServletRequest request,Model model){
-		List<Refund> refund = orderService.getOrderRefund();
-		Refund ref = null;
-		for(int i = 0; i < refund.size() ; i++){
-			if(refund.get(i).getOrdNum().equals(idx)){
-				ref = refund.get(i);
-			}
-		}
-		model.addAttribute("refund",ref);
+		Refund refund = orderService.getOrderRefund(idx);
+		model.addAttribute("refund",refund);
 		return "/manager/order/orderRefundDetail";
 	}
 	

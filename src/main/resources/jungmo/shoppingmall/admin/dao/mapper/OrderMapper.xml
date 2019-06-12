@@ -2,38 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper">
-	<select id = "getOrderCancels" resultMap = "ocMap">
-		select order_cancels.ord_num,purchases.god_num,ord_date,ord_date,odc_date,USINGPOINT,odc_type,PAYMENTMETHOD,users.user_id
-		from order_cancels join purchases
-		on (order_cancels.ord_num = purchases.ord_num)
-		join orders
-		on (order_cancels.ord_num = orders.ord_num)
-		join users
-		on (orders.user_id = users.user_id)
-	</select> 
-	 
-	<select id = "getOrderRefund" resultMap = "refMap">
-		select refunds.ord_num,purchases.god_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
-		from refunds join purchases
-		on (refunds.ord_num = purchases.ord_num)
+	<select id = "getOrderRefund" parameterType = "string" resultMap = "refMap">
+		select refunds.ord_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
+		from refunds
 		join orders
 		on (refunds.ord_num = orders.ord_num)
 		join users
 		on (orders.user_id = users.user_id)
 		join reasons
 		on (refunds.ref_reason = reasons.rea_code)
+   		where refunds.ord_num = #{ordNum}
 	</select>
 	
 	<select id = "getOrderExchange" resultMap = "excMap">
-		select exchanges.ord_num,purchases.god_num,exc_requestdate,exc_reason,rea_name,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
-		from exchanges join purchases
-		on (exchanges.ord_num = purchases.ord_num)
-		join orders
-		on (exchanges.ord_num = orders.ord_num)
-		join users
-		on (orders.user_id = users.user_id)
-		join reasons
-		on (exchanges.exc_reason = reasons.rea_code)
+			select exchanges.ord_num,exc_requestdate,exc_reason,rea_name,exc_content,exc_completeDate,exc_memo,users.user_id,user_name,user_phone,exc_state
+			from exchanges
+			join orders
+			on (exchanges.ord_num = orders.ord_num)
+			join users
+			on (orders.user_id = users.user_id)
+			join reasons
+			on (exchanges.exc_reason = reasons.rea_code)
+			where exchanges.ord_num = #{ordNum}
 	</select>
 	
 	<select id = "getOrderCancel" parameterType = "string" resultType = "oc">
@@ -256,14 +246,6 @@
 		delete from exchange_images
 		where ord_num = #{ordNum}
 	</delete>
-	 
-	<resultMap id = "purMap" type = "pur">
-		<id property = "ordNum" column = "ord_num" />
-		<result property = "purNum" column = "pur_num" />
-		<association property = "order" resultMap = "getOrder" />
-		<association property = "goods" columnPrefix = "god_" resultMap="godMap" />
-		<collection property = "goodsOption" column = "{purNum=pur_num,ordNum=ord_num}" select = "getGodo" />
-	</resultMap>
 	
 	<resultMap id = "godListMap" type = "godl">
 		<id property = "godNum" column = "god_num" />
@@ -339,17 +321,6 @@
 		<result property = "optContent" column = "opt_content" />
 		<result property = "optPrice" column = "opt_price" />
 	</resultMap>
-	  
-	<resultMap id = "ocMap" type = "oc">
-		<result property = "ordNum" column = "ord_num" />
-		<result property = "ordDate" column = "ord_date" />
-		<result property = "odcDate" column = "odc_date" />
-		<result property = "odcType" column = "odc_type" />
-		<result property = "usingPoint" column = "usingpoint" />
-		<result property = "paymentMethod" column = "paymentmethod" />
-		<association property="user" resultMap = "getUser" />
-		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
-	</resultMap>
 	 
 	<resultMap id = "refMap" type = "ref">
 		<result property = "ordNum" column = "ord_num" />
@@ -361,8 +332,7 @@
 		<result property = "refMemo" column = "ref_memo" />
 		<result property = "refCompleteDate" column = "ref_completedate" />
 		<association property="user" resultMap = "getUser" />
-		<collection property="goods" column="ord_num" select = "getGoods" />
-		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 		<collection property = "images" column = "ord_num" select = "getRefundImage" />
 	</resultMap>
 	 
@@ -376,8 +346,7 @@
 		<result property = "excMemo" column = "exc_memo" />
 		<result property = "excCompleteDate" column = "exc_completedate" />
 		<association property="user" resultMap = "getUser" />
-		<collection property="goods" column="ord_num" select = "getGoods" />
-		<collection property="goodsOption" column = "{godNum=god_num,ordNum=ord_num}" select = "getGodo" />
+		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 		<collection property = "images" column = "ord_num" select = "getExchangeImage" />
 	</resultMap>
 	 

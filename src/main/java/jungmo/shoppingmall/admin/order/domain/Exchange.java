@@ -14,8 +14,7 @@ public class Exchange {
 	private String excState;
 	private String excCompleteDate;
 	private String excMemo;
-	private List<Goods> goods;
-	private List<GoodsOption> goodsOption;
+	private List<GoodsList> goods;
 	private User user;
 	private List<ExchangeImage> images;
 	
@@ -40,12 +39,6 @@ public class Exchange {
 	public String getExcState() {
 		return excState;
 	}
-	public List<Goods> getGoods() {
-		return goods;
-	}
-	public List<GoodsOption> getGoodsOption() {
-		return goodsOption;
-	}
 	public User getUser() {
 		return user;
 	}
@@ -67,12 +60,6 @@ public class Exchange {
 	public void setExcState(String excState) {
 		this.excState = excState;
 	}
-	public void setGoods(List<Goods> goods) {
-		this.goods = goods;
-	}
-	public void setGoodsOption(List<GoodsOption> goodsOption) {
-		this.goodsOption = goodsOption;
-	}
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -90,5 +77,11 @@ public class Exchange {
 	}
 	public void setExcMemo(String excMemo) {
 		this.excMemo = excMemo;
+	}
+	public List<GoodsList> getGoods() {
+		return goods;
+	}
+	public void setGoods(List<GoodsList> goods) {
+		this.goods = goods;
 	}
 }

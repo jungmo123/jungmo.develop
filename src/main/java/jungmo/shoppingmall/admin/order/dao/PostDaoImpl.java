@@ -29,23 +29,23 @@ public class PostDaoImpl implements PostDao{
 		return postMapper.getCancelPosts(page);
 	}
 	
-	public List<Post> getCancelDatePosts(Page page){
+	public List<OrderCancel> getCancelDatePosts(Page page){
 		return postMapper.getCancelDatePosts(page);
 	}
 	
-	public List<Post> getRefundPosts(Page page){
+	public List<Refund> getRefundPosts(Page page){
 		return postMapper.getRefundPosts(page);
 	}
 	
-	public List<Post> getRefundDatePosts(Page page){
+	public List<Refund> getRefundDatePosts(Page page){
 		return postMapper.getRefundDatePosts(page);
 	}
 	
-	public List<Post> getExchangePosts(Page page){
+	public List<Exchange> getExchangePosts(Page page){
 		return postMapper.getExchangePosts(page);
 	}
 	
-	public List<Post> getExchangeDatePosts(Page page){
+	public List<Exchange> getExchangeDatePosts(Page page){
 		return postMapper.getExchangeDatePosts(page);
 	}
 }

@@ -48,8 +48,8 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.cancelModify(map);
 	}
 	
-	public List<Refund> getOrderRefund(){
-		return orderDao.getOrderRefund();
+	public Refund getOrderRefund(String ordNum){
+		return orderDao.getOrderRefund(ordNum);
 	}
 	
 	public int refundModify(HashMap<String,List<String>> map){
@@ -60,8 +60,8 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.exchangeModify(map);
 	}
 	
-	public List<Exchange> getOrderExchange(){
-		return orderDao.getOrderExchange();
+	public Exchange getOrderExchange(String ordNum){
+		return orderDao.getOrderExchange(ordNum);
 	}
 	
 	public int refundDetailModify(String ordNum,String content,String state,String memo){
@@ -86,5 +86,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	public int deleteExchangeImage(String ordNum){
 		return orderDao.deleteExchangeImage(ordNum);
+	}
+	
+	public OrderCancel getOrderCancel(String ordNum){
+		return orderDao.getOrderCancel(ordNum);
 	}
 }

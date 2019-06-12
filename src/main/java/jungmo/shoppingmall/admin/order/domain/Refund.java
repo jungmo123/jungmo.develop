@@ -14,8 +14,7 @@ public class Refund {
 	private String refState;
 	private String refCompleteDate;
 	private String refMemo;
-	private List<Goods> goods;
-	private List<GoodsOption> goodsOption;
+	private List<GoodsList> goods;
 	private User user;
 	private List<RefundImage> images;
 	
@@ -40,12 +39,6 @@ public class Refund {
 	public String getRefState() {
 		return refState;
 	}
-	public List<Goods> getGoods() {
-		return goods;
-	}
-	public List<GoodsOption> getGoodsOption() {
-		return goodsOption;
-	}
 	public User getUser() {
 		return user;
 	}
@@ -63,12 +56,6 @@ public class Refund {
 	}
 	public void setRefState(String refState) {
 		this.refState = refState;
-	}
-	public void setGoods(List<Goods> goods) {
-		this.goods = goods;
-	}
-	public void setGoodsOption(List<GoodsOption> goodsOption) {
-		this.goodsOption = goodsOption;
 	}
 	public void setUser(User user) {
 		this.user = user;
@@ -90,5 +77,11 @@ public class Refund {
 	}
 	public void setRefMemo(String refMemo) {
 		this.refMemo = refMemo;
+	}
+	public List<GoodsList> getGoods() {
+		return goods;
+	}
+	public void setGoods(List<GoodsList> goods) {
+		this.goods = goods;
 	}
 }
