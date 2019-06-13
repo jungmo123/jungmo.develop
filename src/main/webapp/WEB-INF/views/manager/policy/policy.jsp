@@ -174,7 +174,7 @@
 			</div>
 			<div>
 				<span> <i class="far fa-edit"></i>
-				</span> <span>상품 관리</span>
+				</span> <span>기본 정책 관리</span>
 				<hr>
 			</div>
 			<div id="submenu">

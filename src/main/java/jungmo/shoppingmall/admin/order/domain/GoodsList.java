@@ -58,6 +58,8 @@ public class GoodsList {
 		this.godc = godc;
 		this.godoList = godoList;
 	}
+	
+	
 
 	public int getOrdNum() {
 		return ordNum;

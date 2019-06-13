@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id = "selectGoods" parameterType = "int" resultMap = "godMap">
-			select god_num,god_name,god_normalprice,goods.godc_num,god_sellingprice,god_stock,god_displaytype,god_regdate,god_viewpoint,godc_name,god_detailinfo,god_intro,god_memo,god_sellinglimit,god_listimageurl,god_mainimageurl
+			select god_num,god_name,god_normalprice,goods.godc_num,godc_name,god_sellingprice,god_stock,god_displaytype,god_regdate,god_viewpoint,godc_name,god_detailinfo,god_intro,god_memo,god_sellinglimit,god_listimageurl,god_mainimageurl
 			from goods
 			join goods_categories
 			on (goods.godc_num = goods_categories.godc_num)

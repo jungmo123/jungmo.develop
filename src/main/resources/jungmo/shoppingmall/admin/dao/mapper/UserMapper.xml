@@ -548,16 +548,16 @@
 				end) as totalprice
 				,visitcnt,user_mailagreement,user_level,user_email from(
 				select b.user_joindate,b.user_name,b.user_id,b.ord_num,b.god_num,b.god_amount*(b.god_sellingprice+nvl(a.price,'0')) as price,visitcnt,user_mailagreement,b.usingpoint,freedeliverymp,basic_fee,b.user_level,b.user_email from(
-				(select orders.user_id,purchase_option.ord_num,purchase_option.god_num,sum(opt_price) price
+				(select orders.user_id,pur_num,purchase_option.ord_num,purchase_option.god_num,sum(opt_price) price
 				from purchase_option
         		full outer join orders
         		on (purchase_option.ord_num = orders.ord_num)
 				full outer join users
 				on (orders.user_id = users.user_id)
-        		group by orders.user_id,purchase_option.ord_num,purchase_option.god_num
+        		group by orders.user_id,purchase_option.ord_num,purchase_option.god_num,pur_num
         		having orders.user_id is not null and purchase_option.god_num is not null) a
 				full outer join
-				(select users.user_id,purchases.god_num,purchases.ord_num,god_sellingprice,user_email,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
+				(select users.user_id,purchases.god_num,pur_num,purchases.ord_num,god_sellingprice,user_email,god_amount,usingpoint,user_joindate,user_name,user_level,count(distinct loglog_date) as visitcnt,user_mailagreement,freedeliverymp,basic_fee
 				from users
 				full outer join orders
 				on (orders.user_id = users.user_id)
@@ -571,9 +571,9 @@
 				on (pnp_num = 1)
 				join delivery_policies
 				on (dvp_num = 1)
-				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level,user_email
+				group by users.user_id,user_name,user_level,user_mailagreement,user_joindate,user_state,god_sellingprice,god_amount,purchases.god_num,purchases.ord_num,usingpoint,freedeliverymp,basic_fee,user_level,user_email,pur_num
 				having user_state = '가입') b
-				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num))
+				on a.user_id = b.user_id and a.ord_num = b.ord_num and a.god_num = b.god_num and a.pur_num = b.pur_num))
 				group by user_joindate,user_name,user_id,ord_num,visitcnt,user_mailagreement,usingpoint,freedeliverymp,basic_fee,user_level,user_email
 				having user_id is not null)
 				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level,user_email

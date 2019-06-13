@@ -1000,6 +1000,10 @@
 	CKEDITOR.config.language = 'ko';	
 		var godNum = "${godNum}"
 		var userId = "${user}"
+		var godName = "${goods.godName}"
+		var godcName = "${goods.godcName}"
+		var godSellingPrice = "${goods.godSellingPrice}"
+		var godListImageUrl = "${goods.godListImageUrl}"
 		var mainImageUrl;
 		var godSellingLimit = "${goods.godSellingLimit}"
 		var dfm = "${deliveryPolicy.freeDeliveryMp}"

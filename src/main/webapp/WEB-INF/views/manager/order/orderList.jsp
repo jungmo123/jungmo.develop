@@ -294,7 +294,7 @@
 										<c:if test = "${totalprice-usingPoint < delivery.freedeliveryMp}" >
 											<c:set var = "dvPrice" value = "${delivery.basicFee}" />
 										</c:if>										
-										<td><c:out value = "${(totalprice+dvPrice)-usingPoint}원" /></td>
+										<td><fmt:formatNumber value="${(totalprice+dvPrice)-usingPoint}" pattern="#,###" />원</td>
 										<c:set var = "total" value = "0" />
 										</tr>						
 								</c:forEach>

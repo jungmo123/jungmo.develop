@@ -304,7 +304,7 @@
 			</div>
 			<div>
 				<span> <i class="far fa-edit"></i>
-				</span> <span>게시판 관리</span>
+				</span> <span>회원 관리</span>
 				<hr>
 			</div>
 			<div id="submenu">
