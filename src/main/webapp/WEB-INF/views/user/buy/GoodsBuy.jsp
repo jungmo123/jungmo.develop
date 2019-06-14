@@ -17,6 +17,7 @@
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
 	#content1{
 		margin-top:50px;
@@ -270,7 +271,6 @@
 </style>
 </head>
 <body>
-
 	<div class="container">
 		<%@ include file = "../header/userheader.jsp" %>
 		<div id="content1" class = "center-block">
@@ -355,6 +355,7 @@
 			</div>
 			<strong>&#124;&nbsp;배송 정보</strong>
 			<div id = "deliveryInfo" class = "center-block">
+				<form id = "registerForm">
 				<table>
 					<tr>
 						<td>
@@ -373,11 +374,13 @@
 						<td>
 							<div>
 								<input type = "text" id = "userPostcode" name = "userPostcode" readonly/>
-								<button class = "btn btn-default" onclick="showPostcode()">우편번호 검색</button>
+								<button type = "button" class = "btn btn-default" onclick="showPostcode()">우편번호 검색</button>
 							</div>
 							<div>
 								<input type = "text" id = "userStreet" name = "userStreet" readonly/>
-								<input type = "text" id = "userDetailArea" name = "userDetailArea" />
+								<input type = "text" id = "userDetailArea" name = "userDetailArea" onkeyup="chkword(this,40,3)"/>
+							<span id = "addressLength">0</span>
+							<span>/20자</span>
 							</div>
 						</td>
 					</tr>
@@ -386,11 +389,11 @@
 							<span>휴대폰</span>
 						</td>
 						<td>
-							<input type = "number" id = "phone1" name = "phone1" />
+							<input type = "number" id = "phone1" name = "phone1" onkeyup="phoneCheck(this)" />
 							<span>-</span>
-							<input type = "number" id = "phone2" name = "phone2" />
+							<input type = "number" id = "phone2" name = "phone2" onkeyup="phoneCheck(this)" />
 							<span>-</span>
-							<input type = "number" id = "phone3" name = "phone3" />
+							<input type = "number" id = "phone3" name = "phone3" onkeyup="phoneCheck(this)" />
 						</td>
 					</tr>
 					<tr>
@@ -399,7 +402,7 @@
 						</td>
 						<td>
 							<div>
-								<textarea id = "request" onkeyup="chkword(this,200,2)"></textarea>
+								<textarea id = "request" name = "request" onkeyup="chkword(this,200,2)"></textarea>
 							</div>
 							<div>
 								<span id = "requestLength">0</span>
@@ -408,6 +411,7 @@
 						</td>
 					</tr>
 				</table>
+				</form>
 			</div>
 		</div>
 		<div id="content3" class = "center-block">
@@ -428,7 +432,7 @@
 						</td>
 						<td>
 							<span id = "minusSpan">-</span>
-							<input type = "number" name = "point" />
+							<input type = "number" id = "point" name = "point" />
 							<button id = "usingPoint" class = "btn btn-default">적용</button>
 							<span>※ 포인트는 100포인트 단위로 사용가능합니다.</span>
 						</td>
@@ -464,28 +468,66 @@
 						<td>
 							<input type = "radio" id = "card" name = "payment">
 							<label for = "card">카드결제</label>
-							<input type = "radio" id = "account" name = "payment">
+							<input type = "radio" id = "trans" name = "payment">
 							<label for = "account">계좌이체</label>
 						</td>
 					</tr>
 				</table>
 				<div id = "buttonGroup">
 					<button id = "payment" class = "btn btn-default">결제하기</button>
-					<button class = "btn btn-default" onclick = "location.href = '../MAIN/02.html'">취소</button>			
+					<button id = "cancel" class = "btn btn-default">취소</button>			
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<script type = "text/javascript">
+	var IMP = window.IMP; // 생략가능
+	IMP.init('imp57728894'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 	var postCode = new Array();
+	var ordNum = "";
 	var point = "";
 	var userPoint = "${userPoint}"
+	var total = "${totalprice}"
+	var godName = "${buys[0].godName}"
+	var godLength = "${(fn:length(buys)-1)}";
 	$(function(){
 		<c:forEach items="${nda}" var="item">
 		postCode.push("${item.ndaPostCode}");
 		</c:forEach>
+		
+		if(godLength != "0"){
+			godName = godName + " 외 " + godLength + "건";
+		}
+		
+		$.ajax({
+			url:"getOrderNum",
+			type:'post',
+			success:function(data){
+				ordNum = data;
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '실패하였습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+			}
+		})
 	})
+	function leadingZeros(n, digits) {
+	  var zero = '';
+	  n = n.toString();
+	
+	  if (n.length < digits) {
+	    for (i = 0; i < digits - n.length; i++)
+	      zero += '0';
+	  }
+	  return zero + n;
+	}
+	
 	function comma(num){
 	    var len, point, str; 
 	       
@@ -502,7 +544,30 @@
 	     
 	    return str;
 	 
-	}	
+	}
+	
+	function phoneCheck(id){
+		var id = $(id).prop("id");
+		if(id == "phone1"){
+			var phone1 = $("#phone1").val();
+			if(phone1.length > 3){
+				phone1 = phone1.substr(0, 3);
+				$("#phone1").val(phone1);
+			}
+		}else if(id == "phone2"){
+			var phone2 = $("#phone2").val();
+			if(phone2.length > 4){
+				phone2 = phone2.substr(0, 4);
+				$("#phone2").val(phone2);
+			}
+		}else{
+			var phone3 = $("#phone3").val();
+			if(phone3.length > 4){
+				phone3 = phone3.substr(0, 4);
+				$("#phone3").val(phone3);
+			}			
+		}
+	}
 	
     function showPostcode() {
         new daum.Postcode({
@@ -581,6 +646,8 @@
 	    	current = $("#nameLength");
 	    }else if(cur == 2){
 	    	current = $("#requestLength");
+	    }else{
+	    	current = $("#addressLength");
 	    }
 	    if(strValue == ""){
 	    	$(current).text("0");
@@ -619,7 +686,6 @@
 	
 	$("#usingPoint").click(function(){
 		point = $(this).prev().val();
-		console.log(userPoint);
 		var totalprice = "${totalprice}"
 		if(point%100 != 0){
 			Swal.fire({
@@ -629,6 +695,7 @@
 				  showConfirmButton: false,
 				  timer: 1500
 				});
+			total = totalprice;
 			totalprice = comma(totalprice);
 			$("#totalPrice").text(totalprice +"원")
 			$(this).prev().val("");
@@ -642,11 +709,13 @@
 				  showConfirmButton: false,
 				  timer: 1500
 				});
+			total = totalprice;
 			totalprice = comma(totalprice);
 			$("#totalPrice").text(totalprice +"원")
 			$(this).prev().val("");
 			return;
 		}
+		total = totalprice-point;
 		totalprice = comma(totalprice-point);
 		$("#totalPrice").text(totalprice +"원")
 		Swal.fire({
@@ -673,8 +742,137 @@
 	})
 	
 	$("#payment").click(function(){
+ 		var success;
+ 		var name = $("#name").val();
+		var postCode = $("#userPostcode").val();
+		var street = $("#userStreet").val();
+		var detailArea = $("#userDetailArea").val();
+		var phone1 = $("#phone1").val();
+		var phone2 = $("#phone2").val();
+		var phone3 = $("#phone3").val();
+		var request = $("#request").val();
+		var payment = $("input[name='payment']:checked").length;
+		var pay = $("input[name='payment']:checked").prop("id");
 		var text = "";
+		if(name == ""){
+			text = "이름을 입력해주세요!";
+		}else if(postCode ==""){
+			text = "주소를 입력하세요!";
+		}else if(detailArea ==""){
+			text = "상세 주소를 입력하세요!";
+		}else if(phone1.length != "3" || phone2.length < 3 || phone3.length < 3 ){
+			text = "휴대폰 번호를 제대로 입력하세요!";
+		}else if(phone2.length > 4 || phone3.length > 4){
+			text = "휴대폰 번호를 제대로 입력하세요!";
+		}else if(payment == "0"){
+			text = "결제 방법을 선택하세요!";
+		}
+		if(point == ""){
+			point = "0";
+		}
 		
+ 		if(text != ""){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: text,
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+			return;
+		} 
+		
+			
+		var d = new Date();
+	    var day = leadingZeros(d.getFullYear(), 4) +
+	    leadingZeros(d.getMonth() + 1, 2) +
+	    leadingZeros(d.getDate(), 2) +
+
+	    leadingZeros(d.getHours(), 2) +
+	    leadingZeros(d.getMinutes(), 2) +
+	    leadingZeros(d.getSeconds(), 2) +
+	    ordNum;
+	    
+/* 		IMP.request_pay({
+		    pg : 'inicis', // version 1.1.0부터 지원.
+		    pay_method : pay,
+		    merchant_uid : day,
+		    name : godName,
+		    amount : "1",
+		    buyer_email : 'endia1@daum.net',
+		    buyer_name : '성정모',
+		    buyer_tel : '010-4644-9858',
+		    buyer_addr : '서울특별시 강남구 삼성동',
+		    buyer_postcode : '123-456',
+		}, function(rsp) {
+		    if ( rsp.success ) {
+		        success = true;
+		    } else {
+		        var msg = '결제에 실패하였습니다.';
+		        msg += '에러내용 : ' + rsp.error_msg;
+		        success = false;
+		    }
+		    if(success == true){
+		    	*/
+				var formData = new FormData($("#registerForm")[0]);
+				formData.append('usingPoint',point);
+				formData.append('payment',pay);
+				formData.append('ordNum',day);
+				$.ajax({
+					url:"createOrder",
+					data: formData,
+					processData:false,
+					contentType:false,
+					type:'POST',   
+					success:function(data){
+						console.log(data);
+						 if(data == "error"){
+								Swal.fire({
+									  position: 'top',
+									  type: 'error',
+									  title: '오류가 발생했습니다.',
+									  showConfirmButton: false,
+									  timer: 1500
+									});							
+							}else{
+					    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
+					    	var input = $("<input name = 'ordNum'></input>");
+					    	input.val(data);
+					    	form.append(input);
+					    	$("body").append(form);
+					    	form.submit();							
+						}
+					},
+					error:function(a,b,errMsg){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '오류가 발생했습니다.',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+					}
+				})
+/* 		    }else{
+		    	 alert(msg);
+		    }
+		}); */
+	})
+	
+	$("#cancel").click(function(){	
+		Swal.fire({
+			  title: '주문을 취소하시겠습니까?',
+			  type: 'info',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '네',
+			  cancelButtonText: '아니요'
+			}).then((result) => {
+			  if (result.value) {
+				window.location.href = "/shoppingmall/";
+			  }
+			})
 	})
 	</script>
 

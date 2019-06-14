@@ -19,6 +19,16 @@ public class GoodsOption {
 		this.optPrice = optPrice;
 	}
 
+	public GoodsOption(String ordNum, String purNum, int godNum,
+			String optName, String optContent, String optPrice) {
+		this.ordNum = ordNum;
+		this.purNum = purNum;
+		this.godNum = godNum;
+		this.optName = optName;
+		this.optContent = optContent;
+		this.optPrice = optPrice;
+	}
+
 	public String getOrdNum() {
 		return ordNum;
 	}

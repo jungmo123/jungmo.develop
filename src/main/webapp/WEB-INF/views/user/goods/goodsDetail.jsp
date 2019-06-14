@@ -991,7 +991,6 @@
 	
 	<script type ="text/javascript">
 	var length = "${fn:length(godoList)}"
-	console.log(length);
 	CKEDITOR.replace('GoodsReview',{
 	    toolbar: 'Full',
 	    uiColor: '#F2F5F7',

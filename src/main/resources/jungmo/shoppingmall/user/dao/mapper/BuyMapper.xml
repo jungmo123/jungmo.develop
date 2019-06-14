@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.user.buy.dao.mapper.BuyMapper">
+	<select id = "getOrderNum" resultType = "int">
+		select order_seq.nextval
+		from dual
+	</select>
+	
+	<insert id = "createOrder" parameterType = "order">
+		insert into orders
+		values(#{orderNum},'배송준비중',sysdate,#{shaPostCode},#{shaStreet},#{shaDetailArea},#{recipientName},#{recipientPhone},#{deliveryRequest},23,'결제성공',#{usingPoint},#{paymentMethod},null,#{userId})
+	</insert>
+	
+	<insert id = "createPurchase" parameterType = "pur">
+		insert into purchases
+		values(#{ordNum},#{godNum},#{godAmount},#{purNum})
+	</insert>
+	
+	<insert id = "createPurchaseOption" parameterType = "hashmap">
+		insert all
+		<foreach item = "ls" collection = "godo">
+			into purchase_option
+			values(#{ls.ordNum},#{ls.godNum},#{ls.optName},#{ls.optContent},#{ls.optPrice},#{ls.purNum})			
+		</foreach>
+		select 1 from dual
+	</insert>
+	
+	<insert id = "insertPointLogs" parameterType = "polg">
+		insert into point_logs
+		values(#{userid},sysdate,#{polgContent},#{polgChange})
+	</insert>
+</mapper>

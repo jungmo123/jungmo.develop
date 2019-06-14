@@ -4,6 +4,7 @@ import java.util.*;
 
 public class PointLogs {
 	private List<String> userId;
+	private String userid;
 	private Date polgDate;
 	private String polgContent;
 	private int polgChange;
@@ -12,6 +13,13 @@ public class PointLogs {
 
 	public PointLogs(List<String> userId, String polgContent, int polgChange) {
 		this.userId = userId;
+		this.polgContent = polgContent;
+		this.polgChange = polgChange;
+	}
+
+	public PointLogs(String userid,String polgContent,
+			int polgChange) {
+		this.userid = userid;
 		this.polgContent = polgContent;
 		this.polgChange = polgChange;
 	}
@@ -42,5 +50,13 @@ public class PointLogs {
 
 	public void setUserId(List<String> userId) {
 		this.userId = userId;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 }

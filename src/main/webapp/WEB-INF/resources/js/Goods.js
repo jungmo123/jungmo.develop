@@ -911,6 +911,7 @@ function getTimeStamp(date) {
 				
 				$(document).on("click","#cart",function(){
 					var godAmount = $("input[name='amount']").val();
+					var optionCheck = "ok";
 					if(userId == ""){
 						Swal.fire({
 							  title: '로그인을 해야 장바구니에\n 저장 할 수 있습니다.\n로그인 하시겠습니까?',
@@ -936,7 +937,8 @@ function getTimeStamp(date) {
 									  title: '옵션을 선택해주세요!',
 									  showConfirmButton: false,
 									  timer: 1500
-									});	
+									});
+								optionCheck = "no";
 							}else{
 								var optionName = $(item).parents("td").prev().find(".optionName").text();
 								var optionContent = $(item).val();
@@ -965,6 +967,9 @@ function getTimeStamp(date) {
 									optionPrice:optionPrice
 							}
 							optionList.push(list);
+						}
+						if(optionCheck == "no"){
+							return;
 						}
 						$.ajax({
 							url:"addCarts",
@@ -997,6 +1002,7 @@ function getTimeStamp(date) {
 				
 				$(document).on("click","#buy",function(){
 					var godAmount = $("input[name='amount']").val();
+					var optionCheck = "ok";
 					if(userId == ""){
 						Swal.fire({
 							  title: '로그인을 해야 구매 할 수 있습니다.로그인 하시겠습니까?',
@@ -1022,7 +1028,8 @@ function getTimeStamp(date) {
 									  title: '옵션을 선택해주세요!',
 									  showConfirmButton: false,
 									  timer: 1500
-									});	
+									});
+								optionCheck = "no";
 							}else{
 								var optionName = $(item).parents("td").prev().find(".optionName").text();
 								var optionContent = $(item).val();
@@ -1059,6 +1066,9 @@ function getTimeStamp(date) {
 									optionPrice:optionPrice
 							}
 							optionList.push(list);
+						}
+						if(optionCheck == "no"){
+							return;
 						}
 						$.ajax({
 							url:"addBuy",

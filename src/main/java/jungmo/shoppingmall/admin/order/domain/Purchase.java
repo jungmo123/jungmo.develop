@@ -4,9 +4,21 @@ import java.util.*;
 
 public class Purchase {
 	private String ordNum;
+	private String godNum;
 	private String purNum;
+	private String godAmount;
 	private Order order;
 	private List<GoodsList> goods;
+	
+	public Purchase(){}
+
+	public Purchase(String ordNum, String godNum, String purNum,
+			String godAmount) {
+		this.ordNum = ordNum;
+		this.godNum = godNum;
+		this.purNum = purNum;
+		this.godAmount = godAmount;
+	}
 
 	public String getOrdNum() {
 		return ordNum;
@@ -40,4 +52,19 @@ public class Purchase {
 		this.goods = goods;
 	}
 
+	public String getGodNum() {
+		return godNum;
+	}
+
+	public String getGodAmount() {
+		return godAmount;
+	}
+
+	public void setGodNum(String godNum) {
+		this.godNum = godNum;
+	}
+
+	public void setGodAmount(String godAmount) {
+		this.godAmount = godAmount;
+	}
 }

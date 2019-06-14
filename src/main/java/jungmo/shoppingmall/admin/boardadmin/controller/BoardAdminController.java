@@ -701,9 +701,6 @@ public class BoardAdminController {
 			summary += value[0]+"<br>";
 			summary += value[1];
 		}
-		System.out.println(original);
-		System.out.println();
-		System.out.println();
 		if(original != null && !original.equals("")){
 			int eventNum = Integer.valueOf(request.getParameter("eventNum"));
 			if(!file.getOriginalFilename().equals("")){

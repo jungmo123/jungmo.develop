@@ -5,22 +5,29 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.domain.PurchaseList;
+import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.policy.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.admin.user.service.*;
 import jungmo.shoppingmall.user.buy.domain.*;
+import jungmo.shoppingmall.user.buy.service.*;
 import jungmo.shoppingmall.user.login.domain.*;
 import net.sf.json.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.dao.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
 
 @Controller
 public class BuyController {
 	@Autowired private ClauseService clauseService;
 	@Autowired private UserService userService;
+	@Autowired private BuyService buyService;
+	@Autowired private OrderService orderService;
 	private List<BuyList> buyList;
 	
 	@RequestMapping("/addBuy")
@@ -73,5 +80,31 @@ public class BuyController {
 		model.addAttribute("nda",clauseService.getNoDeliveryArea());
 		model.addAttribute("user", user);
 		return "user/buy/GoodsBuy";
+	}
+	
+	@RequestMapping(value = "/GoodsBuyResult",method=RequestMethod.POST)
+	public String GoodsBuyResult(HttpServletRequest request,Model model){
+		String ordNum = request.getParameter("ordNum");
+		PurchaseList p = orderService.getPurchase(ordNum);
+		model.addAttribute("purchase", p);
+		model.addAttribute("pointPolicy", clauseService.getPointPolicy());
+		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
+		return "user/buy/GoodsBuyResult";
+	}
+	
+	@RequestMapping("/getOrderNum")
+	@ResponseBody
+	public int getOrderNum(HttpServletRequest request){
+		return buyService.getOrderNum();
+	}
+	
+	@RequestMapping("/createOrder")
+	@ResponseBody
+	public String createOrder(MultipartHttpServletRequest request){
+		try{
+			return buyService.insertOrder(request,buyService, buyList);
+		}catch(DuplicateKeyException e){
+			return "error";
+		}
 	}
 }

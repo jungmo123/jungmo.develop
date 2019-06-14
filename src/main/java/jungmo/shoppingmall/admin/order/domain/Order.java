@@ -7,6 +7,7 @@ import jungmo.shoppingmall.user.login.domain.*;
 
 public class Order {
 	private int ordNum;
+	private String orderNum;
 	private String ordType;
 	private Date ordDate;
 	private String shaPostCode;
@@ -20,8 +21,26 @@ public class Order {
 	private int usingPoint;
 	private String paymentMethod;
 	private String memoContent;
+	private String userId;
 	private User user;
 	private List<ManageLogCategories> mlc;
+	
+	public Order(){}
+
+	public Order(String orderNum, String shaPostCode, String shaStreet,
+			String shaDetailArea, String recipientName, String recipientPhone,
+			String deliveryRequest, int usingPoint, String paymentMethod,String userId) {
+		this.orderNum = orderNum;
+		this.shaPostCode = shaPostCode;
+		this.shaStreet = shaStreet;
+		this.shaDetailArea = shaDetailArea;
+		this.recipientName = recipientName;
+		this.recipientPhone = recipientPhone;
+		this.deliveryRequest = deliveryRequest;
+		this.usingPoint = usingPoint;
+		this.paymentMethod = paymentMethod;
+		this.userId = userId;
+	}
 	
 	public int getOrdNum() {
 		return ordNum;
@@ -118,5 +137,17 @@ public class Order {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getOrderNum() {
+		return orderNum;
+	}
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
 	}
 }
