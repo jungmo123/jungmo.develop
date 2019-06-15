@@ -18,6 +18,23 @@
 			]]>
 	</select>
 	
+	<select id = "selectGodr" parameterType = "page" resultMap = "godrMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+				select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+				from goods_reviews
+				join goods
+				on (goods_reviews.god_num = goods.god_num)
+				join goods_categories
+				on (goods.godc_num = goods_categories.godc_num)
+				where goods.godc_num = #{godcNum}
+		  		order by godr_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
 	<select id = "getGodrSearch" parameterType = "page" resultMap = "godrMap">
 		  <![CDATA[
 		  select * from(

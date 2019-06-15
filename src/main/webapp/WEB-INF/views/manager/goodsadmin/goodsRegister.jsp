@@ -812,6 +812,14 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});						
+					}else if(data == "nameoverlap"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '중복된 상품명 입니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});								
 					}else{
 						Swal.fire({
 							  position: 'top',

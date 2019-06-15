@@ -653,6 +653,7 @@ var repreImageUrl1 = "${repreImageUrl1}";
 var repreImageUrl2 = "${repreImageUrl2}";
 var repreImageUrl3 = "${repreImageUrl3}";
 var repreImageUrl4 = "${repreImageUrl4}";
+var Array = [];
 
 $(function(){
 	CKEDITOR.replace('WriteContent',{
@@ -707,6 +708,9 @@ $(document).ready(function () {
 $("input[type='file']").change(function(){
 	var label = $(this).prev().val();
 	var inputName = $(this).prop("name");
+	$.each(Array,function(index,item){
+		
+	})
 	var ext = $(this).val().split(".").pop().toLowerCase();
 	var file = this.files[0];
 	var _URL = window.URL || window.webkitURL;
@@ -897,6 +901,14 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});						
+					}else if(data == "nameoverlap"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '중복된 상품명 입니다!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});								
 					}else{
 						Swal.fire({
 							  position: 'top',

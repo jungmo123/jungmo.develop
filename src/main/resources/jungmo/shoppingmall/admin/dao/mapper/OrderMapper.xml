@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.admin.order.dao.mapper.OrderMapper">
+	<select id = "getGod" parameterType = "string" resultMap = "godMap">
+		select god_name,god_num
+		from goods
+		where god_name = #{godName}
+	</select> 
+	
 	<select id = "getOrderRefund" parameterType = "string" resultMap = "refMap">
 		select refunds.ord_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
 		from refunds
@@ -259,11 +265,11 @@
 	</resultMap> 	
 	
 	<resultMap id = "godMap" type = "god">
-		<id property = "godNum" column = "num" />
-		<result property = "godName" column = "name" />
-		<result property = "godAmount" column = "amount" />
-		<result property = "godSellingPrice" column = "sellingprice" />
-		<result property = 'godListImageUrl' column = "listimageurl" />
+		<id property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godAmount" column = "god_amount" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godListImageUrl' column = "god_listimageurl" />
 	</resultMap> 
 	 
 	<resultMap id = "getOrder" type = "order">

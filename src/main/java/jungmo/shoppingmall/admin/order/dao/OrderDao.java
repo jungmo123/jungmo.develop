@@ -5,6 +5,7 @@ import java.util.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface OrderDao {
+	Goods getGod(String godName);
 	int dvModify(HashMap<String,List<String>> map);
 	int addMlc(HashMap<String,List<String>> map);
 	int refundModify(HashMap<String,List<String>> map);

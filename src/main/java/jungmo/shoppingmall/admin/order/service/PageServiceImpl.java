@@ -91,6 +91,10 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getGodrTotRowCnt();
 	}
 	
+	public int selectGodrTotRowCnt(String godcNum){
+		return pageDao.selectGodrTotRowCnt(godcNum);
+	}
+	
 	public int getGodrSearchTotRowCnt(@Param("godcNum") int godcNum,@Param("godrContent") String godrContent){
 		return pageDao.getGodrSearchTotRowCnt(godcNum, godrContent);
 	}

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.*;
 
 @Controller
 public class GoodsAdminController {
+	@Autowired private OrderService orderService;
 	@Autowired private GoodsCategoriesService godcService;
 	@Autowired private GoodsAdminService gaService;
 	@Autowired private PageService pageService;
@@ -73,6 +74,12 @@ public class GoodsAdminController {
 		List<String> repreFiles = new ArrayList<String>();
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
+		Goods god = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
+		try{
+		gaService.insertGoods(god);
+		}catch(Exception e){
+			return "nameoverlap";
+		}
 		String today = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
 		String dir = request.getServletContext().getRealPath("/upload");
 		String fullName = "";
@@ -98,8 +105,6 @@ public class GoodsAdminController {
 				repreFiles.add(files.get(i));
 			}
 		}
-		Goods god = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
-		gaService.insertGoods(god);
 		String godNum = String.valueOf(god.getGodNum());
 		List<String> num = new ArrayList<>();
 		num.add(godNum);
@@ -354,16 +359,16 @@ public class GoodsAdminController {
 		String optionList = request.getParameter("optionList");
 		String infoList = request.getParameter("infoList");
 		String optionCheck  = request.getParameter("optionCheck");
-		System.out.println(optionCheck);
-		System.out.println(optionCheck);
-		System.out.println(optionCheck);
-		System.out.println(optionCheck);
-		System.out.println(optionCheck);
-		System.out.println(optionCheck);
 		String indexFile = "";
 		String mainFile ="";
 		productInfo.trim();
 		String userId = (String)request.getSession().getAttribute("admin");
+		Goods god = orderService.getGod(godName);
+		if(god != null){
+			if(god.getGodNum() != Integer.valueOf(godNum)){
+				return "nameoverlap";
+			}
+		}
 		List<String> files = new ArrayList<String>();
 		List<String> repreFiles = new ArrayList<String>();
 		Calendar calendar = Calendar.getInstance();
@@ -460,10 +465,10 @@ public class GoodsAdminController {
 		if(indexFile.equals("")){
 			indexFile = ListImageUrl;
 		}
+		Goods goods = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
+		gaService.updateGoods(goods);
 		gaService.insertGml(godNum, "상품 수정", userId);
 		gaService.deleteGoodsSub(Integer.valueOf(godNum));
-		Goods god = new Goods(Integer.valueOf(godNum),Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
-		gaService.updateGoods(god);
 		List<String> num = new ArrayList<>();
 		num.add(godNum);
 		HashMap<String,List<String>> godSub = new HashMap<>();

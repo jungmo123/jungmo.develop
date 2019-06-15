@@ -12,6 +12,9 @@ import org.springframework.stereotype.*;
 public class OrderDaoImpl implements OrderDao{
 	@Autowired private OrderMapper orderMapper;
 	
+	public Goods getGod(String godName){
+		return orderMapper.getGod(godName);
+	}
 	
 	public int dvModify(HashMap<String,List<String>> map){
 		return orderMapper.dvModify(map);

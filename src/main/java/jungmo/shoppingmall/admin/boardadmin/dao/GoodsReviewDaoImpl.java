@@ -18,6 +18,10 @@ public class GoodsReviewDaoImpl implements GoodsReviewDao{
 		return godrMapper.getGodr(page);
 	}
 	
+	public List<GoodsReview> selectGodr(Page page){
+		return godrMapper.selectGodr(page);
+	}
+	
 	public List<GoodsReview> getGodrSearch(Page page){
 		return godrMapper.getGodrSearch(page);
 	}

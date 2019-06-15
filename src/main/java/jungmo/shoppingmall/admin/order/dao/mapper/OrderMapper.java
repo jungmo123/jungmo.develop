@@ -7,6 +7,7 @@ import jungmo.shoppingmall.admin.order.domain.*;
 import org.apache.ibatis.annotations.*;
 
 public interface OrderMapper {
+	Goods getGod(String godName);
 	int dvModify(HashMap<String,List<String>> map);
 	int addMlc(HashMap<String,List<String>> map);
 	int cancelModify(HashMap<String,List<String>> map);

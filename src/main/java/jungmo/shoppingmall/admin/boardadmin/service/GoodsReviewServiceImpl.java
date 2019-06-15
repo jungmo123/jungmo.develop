@@ -18,6 +18,10 @@ public class GoodsReviewServiceImpl implements GoodsReviewService{
 		return godrDao.getGodr(page);
 	}
 	
+	public List<GoodsReview> selectGodr(Page page){
+		return godrDao.selectGodr(page);
+	}
+	
 	public List<GoodsReview> getGodrSearch(Page page){
 		return godrDao.getGodrSearch(page);
 	}

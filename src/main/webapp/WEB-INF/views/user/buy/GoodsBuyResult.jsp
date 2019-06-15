@@ -24,6 +24,7 @@
 	}
 	#content{
 		width:800px;
+		margin-bottom: 100px;
 	}
 	#styleShop{
 		margin-bottom:10px;
@@ -293,9 +294,9 @@
 			</div>
 			<div id = "buttonGroup">
 				<button class = "btn btn-default">주문내역/배송조회 확인</button>
-				<button class = "btn btn-default">쇼핑 계속하기</button>
-				<button class = "btn btn-default">메인으로 가기</button>
-				<button class = "btn btn-default">로그아웃</button>
+				<button class = "btn btn-default" onclick = "location.href='/shoppingmall/styleshop1I1IAll'">쇼핑 계속하기</button>
+				<button class = "btn btn-default" onclick = "location.href='/shoppingmall/'">메인으로 가기</button>
+				<button class = "btn btn-default" onclick = "location.href='/shoppingmall/logout'">로그아웃</button>
 			</div>
 		</div>
 	</div>

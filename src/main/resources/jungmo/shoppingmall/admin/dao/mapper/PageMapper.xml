@@ -133,6 +133,14 @@
 		select count(godr_num)
 		from goods_reviews
 	</select>
+	
+	<select id = "selectGodrTotRowCnt" parameterType = "string" resultType = "int">
+		select count(godr_num)
+		from goods_reviews
+		join goods
+		on (goods_reviews.god_num = goods.god_num)
+		where godc_num = #{godcNum}
+	</select>
  
 	<select id = "getGodrSearchTotRowCnt"  parameterType="map" resultType = "int">
 		<if test = "godcNum == 0">

@@ -61,7 +61,9 @@
 						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">상품평</button>
 							<ul class= "dropdown-menu">
-								<li><a href = "USER/REVIEWS/01.html">상품평</a></li>
+								<c:forEach var = "gc" items = "${goodsCategories}">
+									<li><a href = "goodsReview${gc.godcNum}I1">${gc.godcName}</a></li>
+								</c:forEach>
 							</ul>
 						</div>
 						<div class = "btn-group drop">

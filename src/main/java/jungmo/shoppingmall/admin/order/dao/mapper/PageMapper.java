@@ -23,6 +23,7 @@ public interface PageMapper {
 	int getOtoqTotRowCnt();
 	int getOtoqSearchTotRowCnt(@Param("otoqType") String otoqType,@Param("otoqContent") String otoqContent);
 	int getGodrTotRowCnt();
+	int selectGodrTotRowCnt(String godcNum);
 	int getGodrSearchTotRowCnt(@Param("godcNum") int godcNum,@Param("godrContent") String godrContent);
 	int getEventTotRowCnt();
 	int getEventSearchTotRowCnt(String eventContent);
