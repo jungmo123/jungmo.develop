@@ -465,7 +465,7 @@ public class GoodsAdminController {
 		if(indexFile.equals("")){
 			indexFile = ListImageUrl;
 		}
-		Goods goods = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
+		Goods goods = new Goods(Integer.valueOf(godNum),Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
 		gaService.updateGoods(goods);
 		gaService.insertGml(godNum, "상품 수정", userId);
 		gaService.deleteGoodsSub(Integer.valueOf(godNum));

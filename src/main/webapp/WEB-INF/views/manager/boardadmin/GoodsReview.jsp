@@ -156,6 +156,9 @@
 		margin-top:10px;
 		border-top:1px solid #F2F5F7;
 	}
+	#cke_49{
+		display:none;
+	}
 </style>
 <body>
 
@@ -210,18 +213,18 @@
 						<div>
 							<p>${godr.godrNum}</p>
 							<div>
-								<img src = "..${godr.godListImageUrl}"/>
+								<img src = "../upload/${godr.godListImageUrl}"/>
 							</div>
 							<div>
-								<p><span>${godr.godcName} > ${godr.godName}</span><button class="form-control">제품보기</button></p>
+								<p><span>${godr.godcName} > ${godr.godName}</span><button class="form-control" onclick = "location.href = '../goodsDetail${godr.godNum}'">제품보기</button></p>
 								<p><span>
 									<c:forEach begin = "1" end = "${godr.satisLevel}" step = "1">★</c:forEach>
 								</span></p>
 								<p>
-									<c:if test = "${fn:length(godr.godrContent) > 15}" >
+									<c:if test = '${fn:length((godr.godrContent).replaceAll("\\\<.*?\\\>"," ")) > 15}' >
 										<c:out value='${fn:substring((godr.godrContent).replaceAll("\\\<.*?\\\>"," "),0,15)}' />...
 									</c:if>
-									<c:if test = "${fn:length(godr.godrContent) < 15}" >
+									<c:if test = '${fn:length((godr.godrContent).replaceAll("\\\<.*?\\\>"," ")) < 15}' >
 										<c:out value='${godr.godrContent.replaceAll("\\\<.*?\\\>","")}' />
 									</c:if>
 								<p>
@@ -320,6 +323,13 @@ var modifyForm = function(godqNum,action){
 		 name:"idx"
 	 })
 	 idx.val("${pageMaker.page.currentPage}");
+	 if($(".rv").length == 1){
+		 if($(form).prop("action") == 'http://localhost/shoppingmall/admin/godrDelete'){
+			 if($(idx).val() != 1){
+				 $(idx).val($(idx).val()-1);
+			 }
+		 }
+	 }
 	 form.append(num);
 	 form.append(type);
 	 form.append(idx);
@@ -338,6 +348,7 @@ var modifyForm = function(godqNum,action){
     		action:"godrModify"
     	})
     	$("#godrNum").val($(this).parents(".rv").find(".view > div > p").text());
+    	CKEDITOR.instances.WriteContent.setData($($(this).parents(".review").find("div")[0]).html());
     	$("#godrType").val("${type}");
     })
 

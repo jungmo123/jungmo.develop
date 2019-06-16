@@ -63,6 +63,12 @@
 		where godq_num = #{godqNum}
 	</update>
 	
+	<update id = "addGoodsViewCnt" parameterType = "string">
+		update goods
+		set god_viewpoint = god_viewpoint+1
+		where god_num = #{godNum}
+	</update>
+	
 	<delete id = "deleteGoodsQuestion" parameterType = "string">
 		delete from goods_questions
 		where godq_num = #{godqNum}

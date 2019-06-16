@@ -54,5 +54,6 @@
 			<typeAlias alias = "upage" type = "jungmo.shoppingmall.user.styleshop.domain.Page" />
 			<typeAlias alias = "ugodr" type = "jungmo.shoppingmall.user.styleshop.domain.GoodsReview" />
 			<typeAlias alias = "qna" type = "jungmo.shoppingmall.user.styleshop.domain.GoodsQnA" />
+			<typeAlias alias = "rg" type = "jungmo.shoppingmall.user.review.domain.ReviewGoods" />
 	</typeAliases>
 </configuration>

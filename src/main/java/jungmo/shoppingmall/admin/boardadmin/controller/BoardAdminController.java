@@ -559,7 +559,6 @@ public class BoardAdminController {
 		if(request.getParameter("godrType") != ""){
 			Type = request.getParameter("godrType");
 		}
-		System.out.println(Num);
 		godrService.deleteGodr(Integer.parseInt(Num));
 		return "redirect:goodsReview" + Type + idx;		
 	}

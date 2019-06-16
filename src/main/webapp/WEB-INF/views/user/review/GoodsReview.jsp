@@ -17,40 +17,29 @@
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <style>
-#content{
-	width:900px;
-}
-
-#searchBar {
-	display: inline-block;
-	width: 780px;
-	text-align: center;
-	margin-top: 10px;
-}
-
-#searchBar span {
-	font-size: 16px;
-	font-weight: bold;
-	margin-right: 20px;
-}
-
-input[type="text"] {
-	display: inline;
-	width: 250px;
-}
-
-select {
-	display: inline !important;
-	width: 130px !important;
-	position: relative;
-	top: 1px;
-}
-
-#searchBar .btn {
-	width: 100px;
-	position: relative;
-	bottom: 2px;
-}
+	#content{
+		width:900px;
+	}
+	#searchBar {
+		display: inline-block;
+		width: 780px;
+		text-align: center;
+		margin-top: 10px;
+	}
+	#searchBar span {
+		font-size: 16px;
+		font-weight: bold;
+		margin-right: 20px;
+	}
+	input[type="text"] {
+		display: inline;
+		width: 250px;
+	}
+	#searchBar .btn {
+		width: 100px;
+		position: relative;
+		bottom: 2px;
+	}
 	#pagination{
 		margin-top:30px;
 		text-align:center;
@@ -190,7 +179,6 @@ select {
 		height:30px;
 		background-color:#F2F5F7;
 		text-align:center;
-		border:1px solid grey;
 		border-bottom:0;
 	}
 	#textBox textarea{
@@ -245,6 +233,13 @@ select {
 	    position: relative;
 	    top: 46px;	
 	}
+	#cke_53,
+	#cke_117{
+		display:none;
+	}
+	textarea{
+		resize:none;
+	}
 </style>
 </head>
 <body>
@@ -255,11 +250,16 @@ select {
 			<strong>&#124;&nbsp;상품평</strong>
 			<hr>
 			<div id="searchBar">
-				<select class="form-control">
-					<option>카테고리 전체</option>
-				</select> <input type="text" class="form-control" name="title"
-					placeholder="상품명을 입력해 주세요." />
-				<button type="button" class="btn btn-default">검색</button>
+				<form action = "goodsReviewSearch1" method = "post">
+				<select class="form-control" name = "godcNum">
+					<option value = "0">카테고리 전체</option>
+					<c:forEach var = "godc" items = "${category}">
+						<option value = "${godc.godcNum}">${godc.godcName}</option>
+					</c:forEach>
+				</select> <input type="text" class="form-control" name="godName"
+					placeholder="상품명을 선택해 주세요." />
+				<button class="btn btn-default">검색</button>
+				</form>
 			</div>
 			<hr>
 				<div	id = "product">
@@ -269,18 +269,18 @@ select {
 							<div>
 								<p>${godr.godrNum}</p>
 								<div>
-									<img src = "..${godr.godListImageUrl}"/>
+									<img src = "upload/${godr.godListImageUrl}"/>
 								</div>
 								<div>
-									<p><span>${godr.godcName} > ${godr.godName}</span><button class="form-control">제품보기</button></p>
+									<p><span>${godr.godcName} > ${godr.godName}</span><button class="form-control" onclick = "location.href = 'goodsDetail${godr.godNum}'">제품보기</button></p>
 									<p><span>
 										<c:forEach begin = "1" end = "${godr.satisLevel}" step = "1">★</c:forEach>
 									</span></p>
 									<p>
-										<c:if test = "${fn:length(godr.godrContent) > 15}" >
+										<c:if test = '${fn:length((godr.godrContent).replaceAll("\\\<.*?\\\>"," ")) > 15}' >
 											<c:out value='${fn:substring((godr.godrContent).replaceAll("\\\<.*?\\\>"," "),0,15)}' />...
 										</c:if>
-										<c:if test = "${fn:length(godr.godrContent) < 15}" >
+										<c:if test = '${fn:length((godr.godrContent).replaceAll("\\\<.*?\\\>"," ")) < 15}' >
 											<c:out value='${godr.godrContent.replaceAll("\\\<.*?\\\>","")}' />
 										</c:if>
 									<p>
@@ -299,17 +299,22 @@ select {
 					</div>
 					<div class = "review none">
 						<div>${godr.godrContent}</div>
+						<c:if test = "${userId == godr.userId}">
 						<div>
 							<button class = "godrModify" class = "btn btn-default" data-toggle = "modal" data-target = "#godrm">수정</button>
 							<button class = "godrDelete" class = "btn btn-default">삭제</button>
 						</div>
+						</c:if>
 					</div>
 				</div>
 				</c:forEach>
+				<c:if test = "${userId != '' }">
 				<div id = "addButton">
 					<button id = "button" class = "btn btn-default" type="button"
 					 data-toggle = "modal" data-target = "#myModal">상품평 작성하기</button>				
 				</div>
+				</c:if>
+					<c:if test = "${type ==  ''}">
 				 	<div id = "pagination">
 						<div>
 							<ul class = "pagination">
@@ -319,16 +324,38 @@ select {
 									
 									<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 										<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-											<a href = "goodsReview${type}${type}${godcNum}I${idx}">${idx}</a>
+											<a href = "goodsReview${type}${godcNum}I${idx}">${idx}</a>
 										</li>
 									</c:forEach>
 					
 									<c:if test = "${pageMaker.next}">
-										<li><a href = "goodsReview${type}${type}${godcNum}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+										<li><a href = "goodsReview${type}${godcNum}I${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 									</c:if>
 								</ul>
 							</div>		
 						</div>
+						</c:if>
+					<c:if test = "${type !=  ''}">
+				 	<div id = "pagination">
+						<div>
+							<ul class = "pagination">
+									<c:if test = "${pageMaker.prev}">
+										<li><a href = "goodsReview${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+									</c:if>
+									
+									<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+										<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+											<a href = "goodsReview${type}${idx}">${idx}</a>
+										</li>
+									</c:forEach>
+					
+									<c:if test = "${pageMaker.next}">
+										<li><a href = "goodsReview${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+									</c:if>
+								</ul>
+							</div>		
+						</div>
+						</c:if>
 				</div>
 				</div>
 			</div>
@@ -342,18 +369,19 @@ select {
 					<span>Write Review</span>
 				</div>
 				<div class = "modal-body">
+					<form id = "addRv" action = "addRv" method = "post">
 					<div id = "selectDiv">
-						<select>
-							<option>구매한 상품을 입력하세요.</option>
+						<select id = "selectGoods">
+							<option value = "0">구매한 상품을 입력하세요.</option>
+							<c:forEach var = "rv" items = "${rvList}">
+								<option id = "${rv.godcNum}" value = "${rv.godNum}">${rv.godName}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div id = "editor">
 						<div id = "textBox">
 							<div>
-								<span>에디터(editor)기능 노출</span>
-							</div>
-							<div>
-								<textarea></textarea>
+								<textarea id = "GoodsReview" name = "GoodsReview"></textarea>
 							</div>
 						</div>						
 					</div>
@@ -385,13 +413,14 @@ select {
 						<br>
 						<span>- 상품평은 상품당 1회만 작성 할 수 있습니다.</span>
 						<br>
-						<span>- 상품평이 작성된 상품,구매한지 1개월 지난 상품은 상품평을 작성할 수 없습니다.</span>
+						<span>- 상품평이 작성된 상품,구매한지 30일이 지난 상품은 상품평을 작성할 수 없습니다.</span>
 						<br>
 						<span>- 작성한 상품평은 [마이 페이지 > 상품평]에서 수정할 수 있습니다..</span>
 					</div>
+					</form>
 				</div>
 				<div class = "modal-footer">
-					<button class = "btn btn-default"  data-dismiss = "modal">작성 완료</button>
+					<button id = "Rvc" class = "btn btn-default">작성 완료</button>
 					<button class = "btn btn-default"  data-dismiss = "modal">작성 취소</button>
 				</div>
 			</div>
@@ -408,7 +437,7 @@ select {
 				</div>
 				<form id = "modifyForm" method = "post">
 					<div class = "modal-body">
-						<textarea id = "WriteContent" class = "form-control" name = "WriteContent" style="width:660px; height:275px;"></textarea>
+						<textarea id = "WriteContent" class = "form-control" name = "WriteContent" style="height:275px;"></textarea>
 						<input id = "godrNum" type = "text"  name = "godrNum" style = "display:none"/>
 						<input id = "godrType" type = "text" name = "godrType"  style = "display:none"/>
 						<input id = "idx" type = "text" name = "idx" value = "${pageMaker.page.currentPage}" style = "display:none" />
@@ -423,6 +452,23 @@ select {
 	</div>
 	
 <script type = "text/javascript">
+var userId = "${userId}"
+$(function(){
+	CKEDITOR.replace('GoodsReview',{
+	    toolbar: 'Full',
+	    uiColor: '#F2F5F7',
+	    height:'200px',
+	});
+	CKEDITOR.config.language = 'ko';	
+	
+	CKEDITOR.replace('WriteContent',{
+	    toolbar: 'Full',
+	    uiColor: '#F2F5F7',
+	    height:'200px',
+	});
+	CKEDITOR.config.language = 'ko';	
+})
+
 var modifyForm = function(godqNum,action){
 	 var form = $("<form></form>");
 	 form.attr({
@@ -447,18 +493,19 @@ var modifyForm = function(godqNum,action){
 		 name:"idx"
 	 })
 	 idx.val("${pageMaker.page.currentPage}");
-	 form.append(num);
+	 if($(".rv").length == 1){
+		 if($(form).prop("action") == 'http://localhost/shoppingmall/godrDelete'){
+			 if($(idx).val() != 1){
+				 $(idx).val($(idx).val()-1);
+			 }
+		 }
+	 }
+ 	 form.append(num);
 	 form.append(type);
 	 form.append(idx);
 	 $("body").append(form);
 	 form.submit();
 }
-
-	CKEDITOR.replace('WriteContent',{
-	        toolbar: 'Full',
-	        uiColor: '#F2F5F7',
-	    }
-	);
 	
     $(".godrModify").click(function(){
     	$("#modifyForm").attr({
@@ -466,6 +513,7 @@ var modifyForm = function(godqNum,action){
     	})
     	$("#godrNum").val($(this).parents(".rv").find(".view > div > p").text());
     	$("#godrType").val("${type}");
+    	CKEDITOR.instances.WriteContent.setData($($(this).parents(".review").find("div")[0]).html());
     })
 
 	$(".godrDelete").click(function(){
@@ -510,6 +558,65 @@ var modifyForm = function(godqNum,action){
 		$(this).find(".glyphicon").addClass("glyphicon-triangle-bottom");
 		$(this).parents(".rv").find(".review").addClass("none");
 })
+
+	$("#Rvc").click(function(){
+		var text = "";
+		var select = $("#selectGoods").val();
+		var content = CKEDITOR.instances.GoodsReview.getData();
+		var grade = $("input[name='grade']:checked").val();
+		var option = $("#selectGoods option");
+		var godcNum;
+		
+		$.each(option,function(index,item){
+			if($(item).val() == select){
+				godcNum = $(item).prop("id");
+			}
+		})
+
+		if(select == "0"){
+			text = "구매한 상품을 선택해주세요!"
+		}else if(content == ""){
+			text = "상품평을 작성해주세요!"
+		}else if(grade == undefined){
+			text = "평점을 선택해주세요!"
+		}
+		
+		if(text != ""){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: text,
+				  showConfirmButton: false,
+				  timer: 1500
+				});			
+		}else{
+			var text = content;
+			text = text.replace(/(\n|\r\n)/g, '');
+			$.ajax({
+				url:"addRv",
+				data: {
+					select:select,
+					content:text,
+					grade:grade,
+					godcNum:godcNum,
+					userId:userId
+				},
+				method:'post',
+				success:function(data){
+					location.href = data;
+				},
+				error:function(a,b,errMsg){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: '실패하였습니다.',
+						  showConfirmButton: false,
+						  timer: 1500
+						});
+				}
+			})	
+		}
+	})
 </script>
 	
 </body>

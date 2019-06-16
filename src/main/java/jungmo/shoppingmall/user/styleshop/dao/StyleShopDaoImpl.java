@@ -50,4 +50,8 @@ public class StyleShopDaoImpl implements StyleShopDao{
 	public void insertCarts(HashMap<String,List<Carts>> map){
 		ssMapper.insertCarts(map);
 	}
+	
+	public int addGoodsViewCnt(String godNum){
+		return ssMapper.addGoodsViewCnt(godNum);
+	}
 }

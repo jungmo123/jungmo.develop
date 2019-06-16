@@ -653,7 +653,6 @@ var repreImageUrl1 = "${repreImageUrl1}";
 var repreImageUrl2 = "${repreImageUrl2}";
 var repreImageUrl3 = "${repreImageUrl3}";
 var repreImageUrl4 = "${repreImageUrl4}";
-var Array = [];
 
 $(function(){
 	CKEDITOR.replace('WriteContent',{
@@ -668,8 +667,7 @@ $(function(){
         var dialogDefinition = ev.data.definition;
       
         switch (dialogName) {
-            case 'image': //Image Properties dialog
-                //dialogDefinition.removeContents('info');
+            case 'image':
                 dialogDefinition.removeContents('Link');
                 dialogDefinition.removeContents('advanced');
                 break;
@@ -817,7 +815,8 @@ $("#register").click(function(){
 	var repreImg3 = $("input[name='repreImg3']").val();
 	var repreImg4 = $("input[name='repreImg4']").val();
 	var mainImg = $("#mainimg").val();
-	var WriteContent = CKEDITOR.instances.WriteContent.getData();
+	
+ 	var WriteContent = CKEDITOR.instances.WriteContent.getData();
 	var productState = $("#ProductState").find("input[type='radio']:checked");
 	var infoList = [];
 	var optionList = [];

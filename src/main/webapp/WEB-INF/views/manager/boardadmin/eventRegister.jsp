@@ -194,6 +194,9 @@
 	#buttonGroup button{
 		margin:5px;
 	}
+	#cke_49{
+		display:none;
+	}
 </style>
 </head>
 <body>

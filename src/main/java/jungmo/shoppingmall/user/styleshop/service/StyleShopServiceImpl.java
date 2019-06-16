@@ -49,4 +49,8 @@ public class StyleShopServiceImpl implements StyleShopService{
 	public void insertCarts(HashMap<String,List<Carts>> map){
 		ssDao.insertCarts(map);
 	}
+	
+	public int addGoodsViewCnt(String godNum){
+		return ssDao.addGoodsViewCnt(godNum);
+	}
 }

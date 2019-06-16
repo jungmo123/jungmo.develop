@@ -71,6 +71,12 @@
 		where event_num = #{eventNum}
 	</update>
 	
+	<update id = "addEventViewCnt" parameterType = "int">
+		update events
+		set event_viewcnt = event_viewcnt+1
+		where event_num = #{eventNum}
+	</update>
+	
 	<resultMap id = "eventMap" type = "event">
 		<id property = "eventNum" column = "event_num" />
 		<result property = "eventTitle" column = "event_title" />

@@ -147,13 +147,13 @@
 						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">이벤트</button>
 							<ul class= "dropdown-menu">
-								<li><a href = "USER/EVENT/01.html">진행 중인 이벤트</a></li>
+								<li><a href = "event">진행 중인 이벤트</a></li>
 							</ul>
 						</div>
 						<div class = "btn-group drop">
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">고객센터</button>
 							<ul class= "dropdown-menu">
-								<li><a href = "USER/HELP/01.html">공지사항</a></li>
+								<li><a href = "notice">공지사항</a></li>
 								<li><a href = "USER/HELP/03.html">커뮤니티</a></li>
 								<li><a href = "USER/HELP/06.html">자주 하는 질문</a></li>
 								<li><a href = "USER/HELP/07.html">상품 문의</a></li>

@@ -44,4 +44,8 @@ public class EventServiceImpl implements EventService{
 	public Event getEventContent(int eventNum){
 		return eventDao.getEventContent(eventNum);
 	}
+	
+	public int addEventViewCnt(int eventNum){
+		return eventDao.addEventViewCnt(eventNum);
+	}
 }

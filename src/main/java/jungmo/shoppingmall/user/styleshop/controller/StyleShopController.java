@@ -138,6 +138,7 @@ public class StyleShopController {
 		model.addAttribute("commonPolicy", clauseService.getCommonPolicy());
 		model.addAttribute("goods", godaService.selectGoods(Integer.valueOf(godNum)));
 		model.addAttribute("subimages",godaService.selectSubImg(Integer.valueOf(godNum)));
+		ssService.addGoodsViewCnt(godNum);
 		return "user/goods/goodsDetail";
 	}
 	
@@ -227,7 +228,6 @@ public class StyleShopController {
 				if(file.getContentType().toLowerCase().startsWith("image/")){
 					try{
 						String fileName = file.getName();
-						System.out.println(fileName);
 						byte[] bytes = file.getBytes();
 						String uploadPath = req.getServletContext().getRealPath("/upload");
 						File uploadFile = new File(uploadPath);

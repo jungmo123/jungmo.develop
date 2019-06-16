@@ -161,6 +161,10 @@
 	    -webkit-appearance: none;
 	    margin: 0;
 	}
+	#cke_53,
+	#cke_118{
+		display:none;
+	}
 </style>
 <body>
 

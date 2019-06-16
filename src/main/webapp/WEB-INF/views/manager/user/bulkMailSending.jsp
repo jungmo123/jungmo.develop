@@ -288,6 +288,9 @@
     #table tr th{
     	font-size:12px;
     }
+   	#cke_49{
+		display:none;
+	}
 </style>
 </head>
 <body>

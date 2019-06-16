@@ -111,6 +111,9 @@
 		text-align:center;
 		line-height:30px;
 	}
+	#cke_49{
+		display:none;
+	}
 </style>
 </head>
 <body>

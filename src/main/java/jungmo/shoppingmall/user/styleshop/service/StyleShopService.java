@@ -26,4 +26,5 @@ public interface StyleShopService {
 			@Param("userId") String userId);
 	void deleteGoodsReview(String godrNum);
 	void insertCarts(HashMap<String,List<Carts>> map);
+	int addGoodsViewCnt(String godNum);
 }
