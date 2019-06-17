@@ -120,103 +120,47 @@
 	a{
 		color:black;
 	}
-	#searchBar{
-		text-align:center;
-		margin-top:10px;
-	}
-	input[type="text"]{
-		display:inline;
-		width:250px;
-	}
-	select{
-		display:inline !important;
-		width:130px !important;
-	}
-	#searchBar .btn{
-		width:100px;
-		position:relative;
-		bottom:2px;
-	}
-	.table-hover{
-		margin-top:10px;
-		margin-bottom:10px;
-	}
-	table tr th,
-	table tr td:nth-child(1){
-		text-align:center;
-	}
-	#table tr:nth-child(1) th {
-    border-top: 1px solid #878787;
-    border-bottom:0;
-	}
-	table tr{
-		border:1px solid #F2F5F7;
-		cursor:pointer;
-	}
-	table tr th{
-		background-color:#F2F5F7;
-	}
-	tbody tr:last-child{
-		border-bottom:1px solid #878787;
-	}
-	table tr td:nth-child(1){
-		width:90px;
-	}
-	table tr td:nth-child(2){
-		width:380px;
-	}
-	table tr td:nth-child(3){
-		width:120px;
-		text-align:right;
-		padding-right:20px;
-	}
-	#write{
-		float:right;
-		width:80px;
-	}
-	#pagination{
-		margin-top:30px;
-		text-align:center;
-	}
-	#pagination .currentPage{
-		color:#727272 !important;
-		font-weight:bold;
-	}
-	#pagination a{
-		color:#878787;
-		margin-right:10px;
-	}
-	#tableDiv{
-		display: inline-block;
-		width:800px;
-		margin-left:30px;
-	}
 	#counselor{
 		width:200px;
 		height:100px;
 	}
-	#pagination{
-		margin-top:30px;
-		text-align:center;
+	#noticeRead{
+		display: inline-block;
+		width:800px;
+		margin-left:30px;
 	}
-	.pagination li a{
-		border:0px;
-	}
-	#pagination > div > .pagination .active a{
-		background-color:#F2F5F7;
-		color:black;
+	#Dtitle,#DuserId,#Dposc{
 		font-weight:bold;
+		position:relative;
+		left:15px;
 	}
-	.pagination .active a:active{
-		background-color:grey;
-	}
-	#pagination .currentPage{
-		color:#727272 !important;
-		font-weight:bold;
-	}
-	#pagination a{
+	#Dposc{
 		color:#878787;
-		margin-right:10px;
+	}
+	#Ddate{
+		float:right;
+	}
+	#contentDiv{
+		line-height:25px;
+		padding:40px;
+		margin-bottom:50px;
+	}
+	#contentDiv hr{
+		width:780px !important;
+		position:relative;
+		right:10px;
+	}
+	#footerDiv{
+		float:right;
+	}
+	button{
+		width:80px;
+	}
+	#AllContent hr{
+		width:100%;
+		height:2px;
+		margin:10px;
+		border-color:grey;
 	}
 </style>
 </head>
@@ -274,93 +218,60 @@
 				</div>	
 			</div>
 		</div>
-		<div id = "tableDiv">
+		<div id="noticeRead">
 			<strong>&#124;&nbsp;공지사항</strong>
+			<div id = "titleDiv">
+				<hr>
+				<span id = "Dposc">${post.poscName} &#124; </span>
+				<span id = "Dtitle">${post.posTitle}</span>
+				<span id = "Ddate"><fmt:formatDate value = "${post.posWritingDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></span>
+			</div>
 			<hr>
-			<form id = "searchForm" action = "noticeSearch1" method = "post">
-			<div id = "searchBar">
-				<select id = "cicCategory" class = "form-control" name = "searchCategory">
-					<option value = "0">카테고리 선택</option>
-					<c:forEach var = "noticeCategory" items = "${categories}" varStatus = "state">
-						<option value = "${noticeCategory.poscNum}">${noticeCategory.poscName}</option>
-					</c:forEach> 
-				</select>
-				<select id = "cicSearch" class = "form-control" name = "searchType">
-					<option value = "1">제목 + 내용</option>
-				</select>
-				<input id = "searchContent" type = "text" name = "searchContent" class = "form-control" />
-				<button class = "btn btn-default">검색</button>
-			</div>
 			<div>
-				<table id = "table" class = "table table-hover">
-					<thead>
-						<tr>
-							<th>번호</th>
-							<th>제목</th>
-							<th>작성일</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach  var = "post" items= "${posts}" varStatus = "state">
-						<tr id = "${post.posNum}" class = "${post.poscNum}">
-							<td>
-								<c:choose>
-								<c:when test = "${post.posImportance=='Y'}">
-									<span class = "badge">중요</span>
-								</c:when>
-								<c:otherwise>
-									<span>${post.posNum}</span>
-								</c:otherwise>
-								</c:choose>
-							</td>
-							<td>${post.posTitle}</td>
-							<td><fmt:formatDate value = "${post.posWritingDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></td>
-						</tr> 
-						</c:forEach>
-					</tbody>
-				</table>
+				<span id = "DuserId">${post.userId}</span>
 			</div>
-		</form>
-			<div id = "pagination">
-				<div>
-					<ul class = "pagination">
-							<c:if test = "${pageMaker.prev}">
-								<li><a href = "notice${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-							</c:if>
-							
-							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
-								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "notice${type}${idx}">${idx}</a>
-								</li>
-							</c:forEach>
-	
-							<c:if test = "${pageMaker.next}">
-								<li><a href = "notice${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
-							</c:if>
-					</ul>
-				</div>		
+			<div id = "contentDiv">
+				${post.posContent}
+			</div>
+			<hr>
+			<div id = "footerDiv">
+				<a href = "notice" class = "btn btn-default left">목록 보기</a>
+				<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
+				<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
 			</div>
 		</div>
 	</div>
 	</div>
 	
 <script type = "text/javascript">
-$("table tr").click(function(){
-	var result = new Array();
-	var category = $("body .container:nth-child(1)").attr("id"); 
-	var posNum = $(this).attr("id");
-	var poscNum = $(this).attr("class");
-	
-	if(category == 'Search'){
-		category = 0;
+var idx = ${post.posNum};
+$("#pre").click(function(){
+	if("${post.preNum}"==0){
+		Swal.fire({
+			  position: 'top',
+			  type: 'warning',
+			  title: '이전글이 없습니다!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+	}else{
+		location.href="/shoppingmall/noticeRead${category}I${post.prec}I${post.preNum}";
 	}
-	
-	result.push(category);   
-	result.push(poscNum);
-	result.push(posNum);
-	result = result.join('I');
-	location.href="/shoppingmall/noticeRead" + result;
 })
+
+	$("#next").click(function(){
+		if("${post.nextNum}"==0){
+			Swal.fire({
+				  position: 'top',
+				  type: 'warning',
+				  title: '다음글이 없습니다!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+		}else{
+			location.href="/shoppingmall/noticeRead${category}I${post.nextc}I${post.nextNum}";
+		}
+	})
 </script>
 
 </body>

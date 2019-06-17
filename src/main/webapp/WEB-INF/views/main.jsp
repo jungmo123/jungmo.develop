@@ -154,8 +154,7 @@
 							<button type = "button" class = "btn btn-default dropdown-toggle" type = "button" data-toggle="dropdown">고객센터</button>
 							<ul class= "dropdown-menu">
 								<li><a href = "notice">공지사항</a></li>
-								<li><a href = "USER/HELP/03.html">커뮤니티</a></li>
-								<li><a href = "USER/HELP/06.html">자주 하는 질문</a></li>
+								<li><a href = "community">커뮤니티</a></li>
 								<li><a href = "USER/HELP/07.html">상품 문의</a></li>
 								<li><a href = "USER/HELP/08.html">아이디/비밀번호 찾기</a></li>
 							</ul>

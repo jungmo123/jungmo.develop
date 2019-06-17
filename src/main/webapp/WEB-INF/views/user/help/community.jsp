@@ -167,8 +167,13 @@
 	}
 	table tr td:nth-child(3){
 		width:120px;
-		text-align:right;
-		padding-right:20px;
+	}
+	table tr td:nth-child(4){
+		width:150px;
+	}
+	table tr td:nth-child(5){
+		width:60px;
+		text-align:center;
 	}
 	#write{
 		float:right;
@@ -244,8 +249,8 @@
 				</div>
 			<div id="navContent">
 				<div>
-					<a href="notice" class = "activeMenu"><span>> 공지사항</span></a>
-					<a href="community"><span>> 커뮤니티</span></a> 
+					<a href="notice"><span>> 공지사항</span></a>
+					<a href="community" class = "activeMenu"><span>> 커뮤니티</span></a> 
 					<a href=""><span onclick = "location.href = '06.html'">> 자주 하는 질문</span></a>
 					<a href=""><span onclick = "location.href = '07.html'">> 상품 문의</span></a>
 					<a href=""><span onclick = "location.href = '08.html'">> 아이디 찾기</span></a> 
@@ -275,21 +280,21 @@
 			</div>
 		</div>
 		<div id = "tableDiv">
-			<strong>&#124;&nbsp;공지사항</strong>
+			<strong>&#124;&nbsp;커뮤니티</strong>
 			<hr>
-			<form id = "searchForm" action = "noticeSearch1" method = "post">
+			<form id = "searchForm" action = "communitySearch1" method = "post">
 			<div id = "searchBar">
-				<select id = "cicCategory" class = "form-control" name = "searchCategory">
+				<select id = "searchCategory" class = "form-control" name = "searchCategory">
 					<option value = "0">카테고리 선택</option>
-					<c:forEach var = "noticeCategory" items = "${categories}" varStatus = "state">
-						<option value = "${noticeCategory.poscNum}">${noticeCategory.poscName}</option>
+					<c:forEach var = "cmCategory" items = "${categories}" varStatus = "state">
+						<option value = "${cmCategory.poscNum}">${cmCategory.poscName}</option>
 					</c:forEach> 
 				</select>
-				<select id = "cicSearch" class = "form-control" name = "searchType">
+				<select id = "cmSearch" class = "form-control" name = "searchType">
 					<option value = "1">제목 + 내용</option>
 				</select>
-				<input id = "searchContent" type = "text" name = "searchContent" class = "form-control" />
-				<button class = "btn btn-default">검색</button>
+				<input type = "text" class = "form-control" name = "searchContent" />
+				<button type = "submit" class = "btn btn-default">검색</button>
 			</div>
 			<div>
 				<table id = "table" class = "table table-hover">
@@ -297,7 +302,9 @@
 						<tr>
 							<th>번호</th>
 							<th>제목</th>
+							<th>작성자</th>
 							<th>작성일</th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -314,28 +321,33 @@
 								</c:choose>
 							</td>
 							<td>${post.posTitle}</td>
+							<td>${post.userId}</td>
 							<td><fmt:formatDate value = "${post.posWritingDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></td>
+							<td>${post.posViewCnt}</td>
 						</tr> 
 						</c:forEach>
 					</tbody>
 				</table>
+				<c:if test = "${null ne user}">
+				<button type = "button" id = "write" class = "btn btn-default" onclick = "location.href = '/shoppingmall/communityWrite'">글쓰기</button>
+				</c:if>
 			</div>
 		</form>
 			<div id = "pagination">
 				<div>
 					<ul class = "pagination">
 							<c:if test = "${pageMaker.prev}">
-								<li><a href = "notice${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+								<li><a href = "community${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
 							</c:if>
 							
 							<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
 								<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-									<a href = "notice${type}${idx}">${idx}</a>
+									<a href = "community${type}${idx}">${idx}</a>
 								</li>
 							</c:forEach>
 	
 							<c:if test = "${pageMaker.next}">
-								<li><a href = "notice${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+								<li><a href = "community${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
 							</c:if>
 					</ul>
 				</div>		
@@ -359,7 +371,7 @@ $("table tr").click(function(){
 	result.push(poscNum);
 	result.push(posNum);
 	result = result.join('I');
-	location.href="/shoppingmall/noticeRead" + result;
+	location.href="/shoppingmall/communityRead" + result;
 })
 </script>
 
