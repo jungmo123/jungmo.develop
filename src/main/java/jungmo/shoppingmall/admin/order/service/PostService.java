@@ -8,6 +8,7 @@ import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface PostService {
 	List<PurchaseList> getPosts(Page page);
+	List<PurchaseList> getOrders(Page page);
 	List<GoodsOption> getGodo(
 			@Param("ordNum") String ordNum,
 			@Param("godNum") String godNum,

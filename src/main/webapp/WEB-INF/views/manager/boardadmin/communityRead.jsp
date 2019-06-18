@@ -169,7 +169,7 @@
 		</div>
 		<div id = "commentDiv">
 			<hr>
-			<strong>작성된 댓글 (${fn:length(comments)}개)</strong>
+			<strong id = "commentLength">작성된 댓글 (${fn:length(comments)}개)</strong>
 			<button id = "writeComment"  class = "btn btn-default">작성</button>
 			<button id = "writeCancel" class = "btn btn-default">취소</button>
 			<hr id = "HR">
@@ -441,6 +441,8 @@
 							},
 							success:function(data){
 								getComment();
+								commentLength = Number(commentLength)-1;
+								$("#commentLength").html("작성된 댓글 (" + commentLength + "개)");
 							},
 							error:function(a,b,errMsg){
 								Swal.fire({
@@ -481,6 +483,8 @@
 				success:function(data){
 						getComment();
 						$("#writeArea div textarea").val("");
+						commentLength = Number(commentLength)+1;
+						$("#commentLength").html("작성된 댓글 (" + commentLength + "개)");
 				},
 				error:function(a,b,errMsg){
 					Swal.fire({

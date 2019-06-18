@@ -54,7 +54,7 @@
 	}
 	#nav{
 		width:160px;
-		height:210px;
+		height:200px;
 		border:1px solid grey;
 		float:left;
 	}
@@ -74,8 +74,7 @@
 		padding:5px;
 	}
 	#nav #navContent div{
-		margin-bottom:20px;
-		line-height:25px;
+		line-height:30px;
 	}
 	#nav #navContent div > a{
 		display:block;
@@ -258,10 +257,8 @@
 				<div>
 					<a href="notice"><span>> 공지사항</span></a>
 					<a href="community" class = "activeMenu"><span>> 커뮤니티</span></a> 
-					<a href=""><span onclick = "location.href = '06.html'">> 자주 하는 질문</span></a>
-					<a href=""><span onclick = "location.href = '07.html'">> 상품 문의</span></a>
-					<a href=""><span onclick = "location.href = '08.html'">> 아이디 찾기</span></a> 
-					<a href=""><span onclick = "location.href = '09.html'">> 비밀번호 찾기</span></a>
+					<a href="idSearch"><span>> 아이디 찾기</span></a> 
+					<a href="pwdSearch"><span>> 비밀번호 찾기</span></a>
 				</div>
 			</div>
 			</div>
@@ -303,7 +300,7 @@
 		</div>
 		<div id = "commentDiv">
 			<hr>
-			<strong>작성된 댓글 (${fn:length(comments)}개)</strong>
+			<strong id = "commentLength">작성된 댓글 (${fn:length(comments)}개)</strong>
 			<button id = "writeComment"  class = "btn btn-default">작성</button>
 			<button id = "writeCancel" class = "btn btn-default">취소</button>
 			<hr id = "HR">
@@ -351,6 +348,7 @@
 
 <script type = "text/javascript">
 	var userId = "${user}"
+	var commentLength = "${fn:length(comments)}"
 	var getComment = function(){
 		var posNum = "${post.posNum}"
 			$.ajax({
@@ -510,12 +508,12 @@
 				  cancelButtonText: '아니요'
 				}).then((result) => {
 				  if (result.value) {
-					window.location.href = "/shoppingmall/admin/cicDelete"+idx;
+					window.location.href = "/shoppingmall/communityDelete"+idx;
 				  }
 				})			
 		})
 		$("#modify").click(function(){
-			location.href = "/shoppingmall/admin/cicModify"+idx;
+			location.href = "/shoppingmall/communityModify"+idx;
 		})
 		$(document).on("click",".modify",function(event){
 			var cmtNum = $(this).parents(".cmtNum").attr("id");
@@ -580,6 +578,8 @@
 							},
 							success:function(data){
 								getComment();
+								commentLength = Number(commentLength)-1;
+								$("#commentLength").html("작성된 댓글 (" + commentLength + "개)");
 							},
 							error:function(a,b,errMsg){
 								Swal.fire({
@@ -621,6 +621,8 @@
 					success:function(data){
 							getComment();
 							$("#writeArea div textarea").val("");
+							commentLength = Number(commentLength)+1;
+							$("#commentLength").html("작성된 댓글 (" + commentLength + "개)");
 					},
 					error:function(a,b,errMsg){
 						Swal.fire({

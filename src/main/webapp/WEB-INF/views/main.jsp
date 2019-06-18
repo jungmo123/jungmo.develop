@@ -115,7 +115,7 @@
 							<span>&#124;</span>
 							<a href = "../MYPAGE/BOARD/01.html"><span>1:1 문의</span></a>
 							<span>&#124;</span>
-							<a href = "../MYPAGE/SHOPPING/01.html"><span>마이 페이지</span></a>
+							<a href = "orderHistory"><span>마이 페이지</span></a>
 							<span>&#124;</span>
 							<a href = "logout"><span>로그아웃</span></a>
 						</div>
@@ -155,8 +155,8 @@
 							<ul class= "dropdown-menu">
 								<li><a href = "notice">공지사항</a></li>
 								<li><a href = "community">커뮤니티</a></li>
-								<li><a href = "USER/HELP/07.html">상품 문의</a></li>
-								<li><a href = "USER/HELP/08.html">아이디/비밀번호 찾기</a></li>
+								<li><a href = "idSearch">아이디 찾기</a></li>
+								<li><a href = "pwdSearch">비밀번호 찾기</a></li>
 							</ul>
 						</div>
 					</div>					

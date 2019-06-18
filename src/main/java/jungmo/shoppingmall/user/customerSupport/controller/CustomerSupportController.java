@@ -8,7 +8,12 @@ import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.service.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
+import jungmo.shoppingmall.user.customerSupport.domain.*;
+import jungmo.shoppingmall.user.customerSupport.service.*;
+import net.nurigo.java_sdk.api.*;
+import net.nurigo.java_sdk.exceptions.*;
 
+import org.json.simple.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -20,14 +25,19 @@ public class CustomerSupportController {
 	@Autowired private PostsService posService;
 	@Autowired private PageService pageService;
 	@Autowired private CommentService commentService;
+	@Autowired private GoodsQuestionService godqService;
+	@Autowired private CsService csService;
 	private String noticeType;
 	private String communityType;
+	private String communityIdx;
 	private int noticeCategory;
 	private int noticeSearchType;
 	private String noticeSearchContent;
 	private int communityCategory;
 	private int communitySearchType;
 	private String communitySearchContent;
+	private String godqType;
+	private String godqSearch;
 	
 	public void common(HttpServletRequest request,Model model,String idx,int borNum,int poscNum){
 		Page myPage = null;
@@ -93,6 +103,25 @@ public class CustomerSupportController {
 		}
 	}
 	
+	public void godq(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodqTotRowCnt());
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("godq",godqService.getGodq(myPage));
+	}
+
+	public void godqSearch(HttpServletRequest request,Model model,String idx){
+		Page myPage = null;
+		myPage = new Page(Integer.parseInt(idx));
+		myPage.setGodqContent(godqSearch);
+		myPage.setGodqType(godqType);
+		PageService ps = new PageServiceImpl(5,myPage,pageService.getGodqSearchTotRowCnt(godqType,godqSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("godq",godqService.getGodqSearch(myPage));
+		model.addAttribute("type","Search");
+	}	
+	
 	// 공지사항
 	
 	@RequestMapping("/notice")
@@ -136,6 +165,7 @@ public class CustomerSupportController {
 	public String community(@PathVariable String idx,HttpServletRequest request,Model model){
 		common(request,model,idx,2,0);
 		communityType = "";
+		communityIdx = idx;
 		return "user/help/community";
 	}
 	
@@ -148,6 +178,7 @@ public class CustomerSupportController {
 		}
 		search(request,model,idx,2,communityCategory,communitySearchType,communitySearchContent);
 		communityType = "Search";
+		communityIdx = idx;
 		return	"user/help/community";
 	}
 	
@@ -170,12 +201,28 @@ public class CustomerSupportController {
 		return "redirect:community1";
 	}
 	
+	@RequestMapping("/communityModify{idx}")
+	public String communityModify(@PathVariable String idx,Model model){
+		List<BoardCategories> board =  boscService.getBC(2);
+		model.addAttribute("categories",board);
+		model.addAttribute("idx",idx);
+		model.addAttribute("pos",posService.getPos(Integer.valueOf(idx)));
+		return "user/help/communityWrite";
+	}
+	
+	@RequestMapping("/communityDelete{idx}")
+	public String communityDelete(@PathVariable String idx){
+		posService.deletePosts(Integer.valueOf(idx));
+		return "redirect:community" + communityType + communityIdx;
+	}
+	
 	@RequestMapping("/getComment")
 	@ResponseBody
 	public List<Comment> getComment(String posNum){
 		List<Comment> comments = commentService.getComments(Integer.parseInt(posNum));
 		return comments;
 	}
+	
 	
 	@RequestMapping("/comemntAdd")
 	@ResponseBody
@@ -200,5 +247,41 @@ public class CustomerSupportController {
 		commentService.deleteComment(Integer.parseInt(cmtNum));
 		boolean data = true;
 		return data;
+	}
+
+	// 아이디 비밀번호 찾기
+	@RequestMapping("/idSearch")
+	public String idCheck(HttpServletRequest request,Model model){
+		model.addAttribute("type","id");
+		return "user/help/idPwdCheck";
+	}
+	
+	@RequestMapping("/pwdSearch")
+	public String pwdCheck(HttpServletRequest request,Model model){
+		model.addAttribute("type","pwd");
+		return "user/help/idPwdCheck";
+	}
+
+	@RequestMapping("/searchPwd")
+	@ResponseBody
+	public String searchPwd(String id,String name,String email){
+		Customer cs = csService.getPwd(new Customer(name,id,email));
+		String result = "";
+		String uuid = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거해 주었다. 
+	    uuid = uuid.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌.
+		if(cs != null){
+			csService.updatePwd(new Customer(id,uuid,1));
+			result = "yes";
+			csService.mailSend(email, "라라마켓 비밀번호 찾기",uuid);
+		}else{
+			result = "no";
+		}
+		return result;
+	}
+	
+	@RequestMapping("/searchId")
+	@ResponseBody
+	public List<Customer> searchId(String name,String email){
+		return csService.getId(new Customer(name,email));
 	}
 }

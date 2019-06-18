@@ -34,6 +34,10 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getTotRowCnt(type);
 	}
 	
+	public int getMyTotRowCnt(String userId){
+		return pageDao.getMyTotRowCnt(userId);
+	}
+	
 	public int getDateTotRowCnt(Page page){
 		return pageDao.getDateTotRowCnt(page);
 	}

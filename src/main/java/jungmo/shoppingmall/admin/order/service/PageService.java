@@ -13,6 +13,7 @@ public interface PageService {
 	int getStartPage();
 	int getEndPage();
 	int getTotRowCnt(String type);
+	int getMyTotRowCnt(String userId);
 	int getDateTotRowCnt(Page page);
 	int getCancelTotRowCnt(String type);
 	int getCancelDateTotRowCnt(Page page);

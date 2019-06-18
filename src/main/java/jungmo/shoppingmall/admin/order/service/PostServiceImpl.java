@@ -16,6 +16,10 @@ public class PostServiceImpl implements PostService{
 		return postDao.getPosts(page);
 	}
 	
+	public List<PurchaseList> getOrders(Page page){
+		return postDao.getOrders(page);
+	}
+	
 	public 	List<GoodsOption> getGodo(String ordNum,String godNum,String purNum){
 		return postDao.getGodo(ordNum, godNum, purNum);
 	}

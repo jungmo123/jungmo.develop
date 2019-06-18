@@ -17,6 +17,10 @@ public class PostDaoImpl implements PostDao{
 		return postMapper.getPosts(page);
 	}
 	
+	public List<PurchaseList> getOrders(Page page){
+		return postMapper.getOrders(page);
+	}
+	
 	public 	List<GoodsOption> getGodo(String ordNum,String godNum,String purNum){
 		return postMapper.getGodo(ordNum, godNum, purNum);
 	}

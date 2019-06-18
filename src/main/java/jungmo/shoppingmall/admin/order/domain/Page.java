@@ -36,6 +36,7 @@ public class Page {
 	private String userState;
 	private String category;
 	private String displayType;
+	private String userId;
 	
 	public Page(){
 		this(1,5);
@@ -387,5 +388,29 @@ public class Page {
 	}
 	public void setUserState(String userState) {
 		this.userState = userState;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public String getDisplayType() {
+		return displayType;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setDisplayType(String displayType) {
+		this.displayType = displayType;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

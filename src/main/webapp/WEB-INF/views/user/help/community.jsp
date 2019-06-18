@@ -16,7 +16,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-<style>	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
+<style>	
+	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
@@ -54,7 +55,7 @@
 	}
 	#nav{
 		width:160px;
-		height:210px;
+		height:200px;
 		border:1px solid grey;
 		float:left;
 	}
@@ -74,8 +75,7 @@
 		padding:5px;
 	}
 	#nav #navContent div{
-		margin-bottom:20px;
-		line-height:25px;
+		line-height:30px;
 	}
 	#nav #navContent div > a{
 		display:block;
@@ -251,10 +251,8 @@
 				<div>
 					<a href="notice"><span>> 공지사항</span></a>
 					<a href="community" class = "activeMenu"><span>> 커뮤니티</span></a> 
-					<a href=""><span onclick = "location.href = '06.html'">> 자주 하는 질문</span></a>
-					<a href=""><span onclick = "location.href = '07.html'">> 상품 문의</span></a>
-					<a href=""><span onclick = "location.href = '08.html'">> 아이디 찾기</span></a> 
-					<a href=""><span onclick = "location.href = '09.html'">> 비밀번호 찾기</span></a>
+					<a href="idSearch"><span>> 아이디 찾기</span></a> 
+					<a href="pwdSearch"><span>> 비밀번호 찾기</span></a>
 				</div>
 			</div>
 			</div>

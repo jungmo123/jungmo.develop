@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.*;
 
 public interface PageMapper {
 	int getTotRowCnt(String type);
+	int getMyTotRowCnt(String userId);
 	int getDateTotRowCnt(Page page);
 	int getCancelTotRowCnt(String type);
 	int getCancelDateTotRowCnt(Page page);

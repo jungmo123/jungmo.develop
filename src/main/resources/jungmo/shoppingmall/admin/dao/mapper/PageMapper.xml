@@ -24,6 +24,12 @@
 		</where>
 	</select>
 	
+	<select id = "getMyTotRowCnt" parameterType="string" resultType = "int">
+		select count(distinct ord_num)
+		from orders
+		where user_id = #{userId} and ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
+	</select>
+	
 	<select id = "getCancelTotRowCnt" parameterType="string" resultType = "int">
 		select count(distinct ord_num)
 		from order_cancels
