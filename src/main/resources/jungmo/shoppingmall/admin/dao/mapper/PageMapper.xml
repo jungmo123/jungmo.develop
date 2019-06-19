@@ -27,7 +27,7 @@
 	<select id = "getMyTotRowCnt" parameterType="string" resultType = "int">
 		select count(distinct ord_num)
 		from orders
-		where user_id = #{userId} and ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
+		where user_id = #{userId}
 	</select>
 	
 	<select id = "getCancelTotRowCnt" parameterType="string" resultType = "int">
@@ -183,6 +183,16 @@
 		ord_num like '%' || #{ordNum} || '%'
 		and ord_type != '교환' and ord_type != '환불' and ord_type != '주문취소'
 		order by ord_num
+	]]>
+	</select>
+	
+	<select id = "getMyDateTotRowCnt" parameterType= "page" resultType = "int">
+	<![CDATA[	
+		select count(distinct ord_num)
+		from orders
+		where ord_date > to_date(#{sdate},'YYYY-MM-DD HH24:MI:SS') and
+		ord_date < to_date(#{edate},'YYYY-MM-DD HH24:MI:SS')
+		and user_id = #{userId}
 	]]>
 	</select>
 	

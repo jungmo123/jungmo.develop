@@ -9,7 +9,7 @@
 	
 	<insert id = "createOrder" parameterType = "order">
 		insert into orders
-		values(#{orderNum},'배송준비중',sysdate,#{shaPostCode},#{shaStreet},#{shaDetailArea},#{recipientName},#{recipientPhone},#{deliveryRequest},23,'결제성공',#{usingPoint},#{paymentMethod},null,#{userId})
+		values(#{orderNum},'배송준비중',sysdate,#{shaPostCode},#{shaStreet},#{shaDetailArea},#{recipientName},#{recipientPhone},#{deliveryRequest},23,'결제성공',#{usingPoint},#{paymentMethod},null,#{userId},'623138369076')
 	</insert>
 	
 	<insert id = "createPurchase" parameterType = "pur">

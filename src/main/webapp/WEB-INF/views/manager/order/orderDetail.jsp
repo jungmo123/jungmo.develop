@@ -356,7 +356,12 @@
 				<div>
 					<span id="tekbeCompnayName">택배회사명: </span>
 					<select id="tekbeCompnayList" class = "form-control" name="tekbeCompnayList"></select>
+					<c:if test = "${purchase.ordType != '배송준비중' }">
+					<input id = "dvNumber" class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력" value = "${purchase.invoiceNumber}">
+					</c:if>
+					<c:if test = "${purchase.ordType == '배송준비중' }">
 					<input id = "dvNumber" class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력">
+					</c:if>
 					<button id = "search" class = "form-control">배송 조회</button> 
 					<button id = "odcancel" class = "form-control">주문 취소하기</button>		
 				</div>
@@ -394,7 +399,7 @@
 							</td>
 							<td>
 								<div class = "image">
-									<img src = "<c:url value = "${product.godListImageUrl}" />">
+									<img src = "../upload/${product.godListImageUrl}">
 								</div>
 							</td>
 							<td class = "item">
@@ -675,6 +680,9 @@
 		</div>
 	</div>
 <script type = "text/javascript">
+var ordType = "${purchase.ordType}"
+var invoice = "${purchase.invoiceNumber}"
+var ordNum = "${purchase.ordNum}"
 function showPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -724,7 +732,7 @@ function showPostcode() {
 }
 
 $(function(){
-	var myKey = "CNNwgI5GMTrF5mVZFy5M2g"; // sweet tracker에서 발급받은 자신의 키 넣는다.
+	var myKey = "7AcD6E0ePa57zoyXEUW0AQ"; // sweet tracker에서 발급받은 자신의 키 넣는다.
 	
 		// 택배사 목록 조회 company-api
         $.ajax({
@@ -923,12 +931,19 @@ function chkword(obj, maxByte) {
 		});
 		
 	var submit = function(title,Type){
-		$.ajax({
+		var invoiceNum;
+		var odState = $("#odState").val();
+		if(odState == '배송준비중'){
+			invoiceNum = "";
+		}else{
+			invoiceNum = $("#dvNumber").val();
+		}
+ 		$.ajax({
 			url:"modifyOrder",
 			method:"post",
 			data: {
 				ordType:Type,
-				ordNum:$("#firstLine div:nth-child(3) span").text(),
+				ordNum:ordNum,
 				deliveryRequest:$("#deilveryRequest").val(),
 				userName:$("#userName").val(),
 				userPostCode:$("#userPostcode").val(),
@@ -937,7 +952,8 @@ function chkword(obj, maxByte) {
 				phone1:$("#phone1").val(),
 				phone2:$("#phone2").val(),
 				phone3:$("#phone3").val(),
-				memo:$("#memo").val()
+				memo:$("#memo").val(),
+				invoiceNum:invoiceNum
 			},
 			success:function(data){
 				if(data == true){

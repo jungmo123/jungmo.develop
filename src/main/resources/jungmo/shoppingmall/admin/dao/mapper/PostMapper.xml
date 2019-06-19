@@ -43,7 +43,7 @@
 		        from orders
 		        join users
 		        on (orders.user_id = users.user_id)
-		        where orders.user_id = #{userId} and ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
+		        where orders.user_id = #{userId}
 		  		order by ord_num
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
@@ -150,6 +150,23 @@
 			]]>
 	</select>
 	
+	<select id = "getMyDatePosts" parameterType = "page" resultMap = "purListMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		        select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name
+		        from orders
+		        join users
+		        on (orders.user_id = users.user_id)
+				where ord_date > to_date(#{sdate},'YYYY-MM-DD HH24:MI:SS') and
+				ord_date < to_date(#{edate},'YYYY-MM-DD HH24:MI:SS') and
+				orders.user_id = #{userId}
+		  		order by ord_num
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
 	<select id = "getCancelDatePosts" parameterType = "page" resultMap = "ocMap">
 		  <![CDATA[
 		  select * from(
@@ -212,7 +229,7 @@
 	</select>
 	
 	<select id = "getGodList" resultMap = "godListMap">
-		select purchases.god_num,ord_num,pur_num,god_name,god_sellingprice,god_amount
+		select purchases.god_num,ord_num,pur_num,god_name,god_sellingprice,god_amount,god_listimageurl
 		from purchases join goods
 		on (purchases.god_num = goods.god_num)
 		where ord_num = #{ordNum}

@@ -416,7 +416,7 @@ public class OrderController {
 	
 	@RequestMapping(value="/admin/modifyOrder",method=RequestMethod.POST)
 	@ResponseBody
-	public boolean modifyOrder(String ordNum,String deliveryRequest,String userName,String userPostCode,String userStreet,String userDetailArea,String phone1,String phone2,String phone3,String memo,String ordType){
+	public boolean modifyOrder(String ordNum,String deliveryRequest,String userName,String userPostCode,String userStreet,String userDetailArea,String phone1,String phone2,String phone3,String memo,String ordType,String invoiceNum){
 		String phone = phone1 + "-" + phone2 + "-" + phone3;
 		boolean data = true;
 		HashMap<String,List<String>> option = new HashMap<>();
@@ -438,9 +438,11 @@ public class OrderController {
 			if(orderService.getOrderCancel(ordNum) != null){
 				orderService.deleteOrdercancel(ordNum);
 				orderService.addMlc(option);
-			}			
+			}else{
+				orderService.addMlc(option);
+			}
 		}
-		orderService.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostCode, userStreet, userDetailArea, memo);
+		orderService.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostCode, userStreet, userDetailArea,memo);
 		return data;
 	}
 	

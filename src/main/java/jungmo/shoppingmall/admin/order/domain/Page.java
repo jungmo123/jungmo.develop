@@ -48,7 +48,15 @@ public class Page {
 		this.godrContent = godrContent;
 		this.rowCnt = rowCnt;
 	}
-	
+
+	public Page(int currentPage, int rowCnt, String sdate, String edate,String userId) {
+		this.currentPage = currentPage;
+		this.rowCnt = rowCnt;
+		this.sdate = sdate;
+		this.edate = edate; 
+		this.userId = userId;
+	}
+
 	public Page(int currentPage,String title, String searchBar, String sdate, String edate,
 			String userLevel, String minPrice, String maxPrice,
 			String minSaved, String maxSaved, String email) {

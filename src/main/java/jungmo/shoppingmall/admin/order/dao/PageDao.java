@@ -10,6 +10,7 @@ public interface PageDao {
 	int getTotRowCnt(String type);
 	int getMyTotRowCnt(String userId);
 	int getDateTotRowCnt(Page page);
+	int getMyDateTotRowCnt(Page page);
 	int getCancelTotRowCnt(String type);
 	int getCancelDateTotRowCnt(Page page);
 	int getRefundTotRowCnt(String type);

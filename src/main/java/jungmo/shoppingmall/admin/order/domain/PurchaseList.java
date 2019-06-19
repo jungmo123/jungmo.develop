@@ -23,6 +23,7 @@ public class PurchaseList {
 	private String userId;
 	private String userName;
 	private String userPhone;
+	private String invoiceNumber;
 	private List<ManageLogCategories> mlc;
 	private List<GoodsList> goods;
 	
@@ -145,5 +146,11 @@ public class PurchaseList {
 	}
 	public void setUserPhone(String userPhone) {
 		this.userPhone = userPhone;
+	}
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
 	}
 }

@@ -91,7 +91,7 @@
 	#obTitle div span{
 		margin:0px 10px 0px 10px;
 	}
-	#obTitle > div:first-child button{
+	#obTitle form > div:first-child button{
 		width:80px;
 		height:30px;
 		padding:0;
@@ -155,14 +155,14 @@
 	#obContent > div > div:last-child hr{
 		margin:5px;
 	}
-	#obContent > div > div:last-child > div >  span > .btn:nth-child(3){
+	#obContent > div > div:last-child > div >  span > .btn:nth-child(1){
 		width:90px;
 		height:25px;
 		padding:0px;
 		font-size:12px;
 		font-weight:bold;
 	}
-	#obContent > div > div:last-child > div >  span > .btn:nth-child(4){
+	#obContent > div > div:last-child > div >  span > .btn:nth-child(2){
 		width:60px;
 		height:25px;
 		padding:0px;
@@ -175,7 +175,6 @@
 	.imageBox{
 		width:90px;
 		height:110px;
-		border:1px solid grey;
 		display:inline-block;
 		float:left;
 		margin-top:6px;
@@ -184,25 +183,26 @@
 		display:inline-block;
 		width:400px;
 		float:left;
-		margin:4px 0 0 10px;
+		margin:10px 0 0 10px;
 	}
 	.pAd{
 		width:220px;
 		height:120px;
 		display:inline-block;
 		float:left;
+		margin-top:6px;
 	}
 	.pAd > div{
 		display:inline-block;
-		width:100px;
-		height:120px;
+		width:90px;
+		height:110px;
 		border:1px solid grey;
 		float:left;
 		margin-right:5px;
 		text-align:center;
 	}
 	.pAd > div > div{
-		height:60px;
+		height:55px;
 	}
 	.pAd > div > div:first-child{
 		background-color:#F2F5F7;
@@ -218,18 +218,6 @@
 		padding:0;
 		font-size:12px;
 		font-weight:bold;
-	}
-	#pagination{
-		margin:30px 0px 30px 0px;
-		text-align:center;
-	}
-	#pagination .currentPage{
-		color:#727272 !important;
-		font-weight:bold;
-	}
-	#pagination a{
-		color:#878787;
-		margin-right:10px;
 	}
 	<!--modal시작-->
 	.modal-content{
@@ -259,6 +247,42 @@
 	}
 	.modal-footer{
 		text-align:center;
+	}
+	#pagination{
+		margin-top:30px;
+		text-align:center;
+	}
+	.pagination li a{
+		border:0px;
+	}
+	#pagination > div > .pagination .active a{
+		background-color:#F2F5F7;
+		color:black;
+		font-weight:bold;
+	}
+	.pagination .active a:active{
+		background-color:grey;
+	}
+	#pagination .currentPage{
+		color:#727272 !important;
+		font-weight:bold;
+	}
+	#pagination a{
+		color:#878787;
+		margin-right:10px;
+	}
+	img{
+		width:90px;
+		height:110px;
+	}
+	#obContent  #noOrder{
+		border:0px;
+		text-align:center;
+		margin-top:50px
+	}
+	#obContent  #noOrder p span{
+		font-size:35px;
+		color:#BABABA;
 	}
 </style>
 </head>
@@ -302,23 +326,25 @@
 		<div id = "orderBreakdown">
 			<hr>
 			<div id = "obTitle">
+				<form id = "dateForm" action = "orderHistorySearch1" method = "post">
 				<div>
 					<span>주문 기간</span>
-					<div id = "input1">
-						<input type="date" name="dateofbirth" class="dateInput">
-					</div>
+						<div id = "input1">
+							<input type="date" name="date1" class="dateInput">
+						</div>
 					<span>~</span>
-					<div id = "input2">
-						<input type="date" name="dateofbirth" class="dateInput">	
-					</div>
+						<div id = "input2">
+							<input type="date" name="date2" class="dateInput">	
+						</div>
 					<button class = "btn btn-default">조회</button>	
 				</div>
-				<div>
-					<button class = "btn btn-default">당일</button>
-					<button class = "btn btn-default">1주일</button>
-					<button class = "btn btn-default">3주일</button>
-					<button class = "btn btn-default">1개월</button>
-					<button class = "btn btn-default">3개월</button>
+				</form>
+				<div id = "buttons">
+					<button id = "sysdate" class = "btn btn-default">당일</button>
+					<button id = "1week" class = "btn btn-default">1주일</button>
+					<button id = "3week" class = "btn btn-default">3주일</button>
+					<button id = "1month" class = "btn btn-default">1개월</button>
+					<button id = "3month"  class = "btn btn-default">3개월</button>
 				</div>
 				<div>
 					<span> 최근 1년 이내 주문 내역만 조회할 수 있습니다.</span>
@@ -326,15 +352,13 @@
 			</div>
 			<hr>
 			<div id = "obContent">
+				<c:if test = "${purchases != null}">
+				<c:forEach var = "order" items = "${purchases}">
+				<c:set var = "totalprice" value = "0" /> 
 				<div>
-					<div>
-						<span>10. </span>
-					</div>
 					<div>
 						<div>
 							<span>
-								<span><strong>주문일시</strong> 2023-01-01 12:15:15</span>
-								<span><strong>주문번호</strong> 1454460561166</span>
 								<button class = "btn btn-default" onclick="location.href='02.html'">주문 상세 내역</button>
 								<button class = "btn btn-default" onclick="location.href='03.html'">주문 취소</button>
 							</span>							
@@ -342,135 +366,43 @@
 						<hr>
 						<div>
 							<div class = "imageBox">
-							
+								<img src = "upload/${order.goods[0].godListImageUrl}">
 							</div>
 							<div class = "itemInfo">
 								<p>
-									<strong>[{구매 Shop > 카테고리명}]</strong>
+									<span>${order.goods[0].godName}
+											<c:if test = "${(fn:length(order.goods)-1) != 0}">
+												외 ${fn:length(order.goods)-1}건
+											</c:if>
+									 </span>
 								</p>
 								<p>
-									<span>{상품명}</span>
+									<span><strong>주문번호 :</strong>${order.ordNum}</span>
 								</p>
 								<p>
-									<span>{옵션명} : {선택한 옵션}</span>
-								</p>
-								<p>
-									<span>{옵션명} : {선택한 옵션}</span>
+									<span><strong>주문일시 :</strong><fmt:formatDate value = "${order.ordDate}" pattern = "YYYY-MM-dd HH:mm:ss" /></span>
 								</p>
 							</div>
 							<div class = "pAd">
+								<c:set var = "total" value = "0" />
+								<c:forEach var = "god" items = "${order.goods}" varStatus = "state">
+									<c:forEach  var = "option" items= "${god.godoList}" varStatus = "state">
+										<c:set var = "total" value = "${(total + option.optPrice)}" />
+									</c:forEach>
+									<c:set var = "totalprice" value = "${((totalprice+(total+god.godSellingPrice)*god.godAmount))}" />
+									<c:set var = "total" value = "0" />
+								</c:forEach>
+								<c:set var = "usingPoint" value = "${order.usingPoint}" />
+								<c:set var = "dvPrice" value = "0" />
+								<c:if test = "${totalprice-usingPoint < delivery.freedeliveryMp}" >
+									<c:set var = "dvPrice" value = "${delivery.basicFee}" />
+								</c:if>		
 								<div>
 									<div>
 										<strong>금액</strong>
 									</div>
 									<div>
-										<span>{결제금액}원</span>
-									</div>
-								</div>
-								<div>
-									<div>
-										<strong>주문/배송</strong>
-									</div>
-									<div>
-										<span>{주문/배송상태}</span>
-									</div>								
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div>
-						<span>09. </span>
-					</div>
-					<div>
-						<div>
-							<span>
-								<span><strong>주문일시</strong> 2023-01-01 12:15:15</span>
-								<span><strong>주문번호</strong> 1454460561166</span>
-								<button class = "btn btn-default" onclick="location.href='02.html'">주문 상세 내역</button>
-								<button class = "btn btn-default" onclick="location.href='03.html'">주문 취소</button>
-							</span>							
-						</div>				
-						<hr>
-						<div>
-							<div class = "imageBox">
-							
-							</div>
-							<div class = "itemInfo">
-								<p>
-									<strong>[스타일 숍 > Top]</strong>
-								</p>
-								<p>
-									<span>자수 실크 린넨 브라우스</span>
-								</p>
-								<p>
-									<span>디자인 : C형</span>
-								</p>
-								<p>
-									<span>색상 : 블랙</span>
-								</p>
-							</div>
-							<div class = "pAd">
-								<div>
-									<div>
-										<strong>금액</strong>
-									</div>
-									<div>
-										<span>12,000원</span>
-									</div>
-								</div>
-								<div>
-									<div>
-										<strong>주문/배송</strong>
-									</div>
-									<div>
-										<span>주문 확인 전</span>
-									</div>								
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div>
-						<span>08. </span>
-					</div>
-					<div>
-						<div>
-							<span>
-								<span><strong>주문일시</strong> 2023-01-01 12:15:15</span>
-								<span><strong>주문번호</strong> 1454460561166</span>
-								<button class = "btn btn-default" onclick="location.href='02.html'">주문 상세 내역</button>
-								<button class = "btn btn-default" onclick="location.href='03.html'">주문 취소</button>
-							</span>							
-						</div>				
-						<hr>
-						<div>
-							<div class = "imageBox">
-							
-							</div>
-							<div class = "itemInfo">
-								<p>
-									<strong>[스타일 숍 > Top]</strong>
-								</p>
-								<p>
-									<span>자수 실크 린넨 브라우스</span>
-								</p>
-								<p>
-									<span>디자인 : C형</span>
-								</p>
-								<p>
-									<span>색상 : 블랙</span>
-								</p>
-							</div>
-							<div class = "pAd">
-								<div>
-									<div>
-										<strong>금액</strong>
-									</div>
-									<div>
-										<span>12,000원</span>
+										<span><fmt:formatNumber value="${(totalprice+dvPrice)-usingPoint}" pattern="#,###" />원</span>
 									</div>
 								</div>
 								<div>
@@ -479,31 +411,55 @@
 									</div>
 									<div>
 										<span>
-											<button class = "btn btn-default"
-											data-toggle = "modal" data-target = "#mySmallModal">배송중</button>
+											<c:choose>
+												<c:when test = "${order.ordType eq '배송중'}">
+													<button class = "btn btn-default" data-toggle = "modal" data-target = "#mySmallModal">배송중</button>
+												</c:when>
+												<c:when test = "${order.ordType eq '배송완료'}">
+													<button class = "btn btn-default" data-toggle = "modal" data-target = "#mySmallModal">배송완료</button>
+												</c:when>
+												<c:otherwise>
+													${order.ordType}
+												</c:otherwise>
+											</c:choose>
 										</span>
 									</div>								
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>					
+				</c:forEach>
+				</c:if>
+				<c:if test = "${empty purchases}">
+					<div id = "noOrder">
+						<p><span class = 'glyphicon glyphicon-info-sign'></span></p>
+						<p><span>검색 결과가 없습니다</span></p>
+					</div>
+				</c:if>
 			</div>
-			<div id = "pagination">
+ 			<div id = "pagination">
 				<div>
-					<a href = "#"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-					<a href = "#"  class = "currentPage">1</a>
-					<a href = "#">2</a>
-					<a href = "#">3</a>
-					<a href = "#">4</a>
-					<a href = "#">5</a>
-					<a href = "#" ><span class = "glyphicon glyphicon-chevron-right"></span></a>
-					<div id = "currentBar"></div>
+					<ul class = "pagination">
+						<c:if test = "${pageMaker.prev}">
+							<li><a href = "orderHistory${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
+						</c:if>
+						
+						<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
+							<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
+								<a href = "orderHistory${type}${idx}">${idx}</a>
+							</li>
+						</c:forEach>
+
+						<c:if test = "${pageMaker.next}">
+							<li><a href = "orderHistory${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
+						</c:if>
+					</ul>
 				</div>		
 			</div>
 		</div>
 	</div>
-	</div>
+</div>
 </div>
 	
 		<div class = "modal fade" id  ="mySmallModal">
@@ -585,5 +541,32 @@
 			</div>
 		</div>
 	</div>
+	
+<script type = "text/javascript">
+$("#dateForm").submit(function(e){
+	if($("#dateForm #input1 input").val()=="" || $("#dateForm #input2 input").val()==""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'warning',
+			  title: '날짜를 입력하세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		return false;
+	}
+})
+
+$("#buttons button").click(function(){
+	var period = $(this).prop("id");
+	var form = $("<form action = 'orderHistorySearch1' method = 'post' style = 'display:none'></form>");
+	var input = $("<input type = 'text' name = 'period'></input>");
+	input.val(period);
+	form.append(input);
+	$("body").append(form);
+	form.submit();
+})
+
+</script>	
+	
 </body>
 </html>

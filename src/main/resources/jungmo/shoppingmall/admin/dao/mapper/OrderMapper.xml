@@ -40,7 +40,7 @@
 	 
 	<select id = "getPurchase" parameterType="string" resultMap = "purchaseMap">
           select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name,user_phone,sha_postcode,sha_street,sha_detailarea,recipient_name,
-          recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,PAYMENTMETHOD,memo_content
+          recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,PAYMENTMETHOD,memo_content,invoicenumber
           from orders
           join users
           on (orders.user_id = users.user_id)
@@ -315,6 +315,7 @@
 		<result property = "userId" column = "user_id" /> 
 		<result property = "userName" column = "user_name" />
 		<result property = "userPhone" column = "user_phone" />
+		<result property = "invoiceNumber" column = "invoicenumber" />
 		<collection property = "mlc" column = "ord_num" select = "getMlc" />
 		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 	</resultMap>

@@ -25,6 +25,10 @@ public class PageDaoImpl implements PageDao{
 		return pageMapper.getDateTotRowCnt(page);
 	}
 	
+	public int getMyDateTotRowCnt(Page page){
+		return pageMapper.getMyDateTotRowCnt(page);
+	}
+	
 	public int getCancelTotRowCnt(String type){
 		return pageMapper.getCancelTotRowCnt(type);
 	}

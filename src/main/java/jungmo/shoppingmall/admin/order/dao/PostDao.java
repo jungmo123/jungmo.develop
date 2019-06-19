@@ -14,6 +14,7 @@ public interface PostDao {
 			@Param("godNum") String godNum,
 			@Param("purNum") String purNum);
 	List<PurchaseList> getDatePosts(Page page);
+	List<PurchaseList> getMyDatePosts(Page page);
 	List<OrderCancel> getCancelPosts(Page page);
 	List<OrderCancel> getCancelDatePosts(Page page);
 	List<Refund> getRefundPosts(Page page);

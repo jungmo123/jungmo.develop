@@ -42,6 +42,10 @@ public class PageServiceImpl implements PageService{
 		return pageDao.getDateTotRowCnt(page);
 	}
 	
+	public int getMyDateTotRowCnt(Page page){
+		return pageDao.getMyDateTotRowCnt(page);
+	}
+	
 	public int getCancelTotRowCnt(String type){
 		return pageDao.getCancelTotRowCnt(type);
 	}

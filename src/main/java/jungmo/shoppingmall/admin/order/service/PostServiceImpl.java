@@ -28,6 +28,10 @@ public class PostServiceImpl implements PostService{
 		return postDao.getDatePosts(page);
 	}
 	
+	public List<PurchaseList> getMyDatePosts(Page page){
+		return postDao.getMyDatePosts(page);
+	}
+	
 	public List<OrderCancel> getCancelPosts(Page page){
 		return postDao.getCancelPosts(page);
 	}

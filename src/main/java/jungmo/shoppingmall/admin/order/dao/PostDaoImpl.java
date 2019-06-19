@@ -29,6 +29,10 @@ public class PostDaoImpl implements PostDao{
 		return postMapper.getDatePosts(page);
 	}
 	
+	public List<PurchaseList> getMyDatePosts(Page page){
+		return postMapper.getMyDatePosts(page);
+	}
+	
 	public List<OrderCancel> getCancelPosts(Page page){
 		return postMapper.getCancelPosts(page);
 	}
