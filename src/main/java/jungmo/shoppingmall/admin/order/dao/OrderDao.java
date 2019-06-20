@@ -2,6 +2,8 @@ package jungmo.shoppingmall.admin.order.dao;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
+
 import jungmo.shoppingmall.admin.order.domain.*;
 
 public interface OrderDao {
@@ -13,7 +15,7 @@ public interface OrderDao {
 	PurchaseList getPurchase(String ordNum);
 	SavedMoney getSm(int pnpNum);
 	Delivery getDv(int dvpNum);
-	int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo);
+	int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo,String invoiceNumber,String tcode,String tname);
 	int addOrdercancel(String ordNum);
 	int deleteOrdercancel(String ordNum);
 	int cancelModify(HashMap<String,List<String>> map);

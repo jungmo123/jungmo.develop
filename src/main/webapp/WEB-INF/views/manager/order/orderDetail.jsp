@@ -347,6 +347,7 @@
 				<div>
 					<b>주문 처리 상태</b>
 					<select id = "odState" class = "form-control">
+						<option>결제완료</option>
 						<option>배송준비중</option>
 						<option>배송중</option>
 						<option>배송완료</option>
@@ -356,10 +357,10 @@
 				<div>
 					<span id="tekbeCompnayName">택배회사명: </span>
 					<select id="tekbeCompnayList" class = "form-control" name="tekbeCompnayList"></select>
-					<c:if test = "${purchase.ordType != '배송준비중' }">
+					<c:if test = "${purchase.ordType != '배송준비중' && purchase.ordType != '결제완료' }">
 					<input id = "dvNumber" class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력" value = "${purchase.invoiceNumber}">
 					</c:if>
-					<c:if test = "${purchase.ordType == '배송준비중' }">
+					<c:if test = "${purchase.ordType == '배송준비중' || purchase.ordType == '결제완료' }">
 					<input id = "dvNumber" class = "form-control" type = "text" name = "deliveryNumber" placeholder = "운송장번호 입력">
 					</c:if>
 					<button id = "search" class = "form-control">배송 조회</button> 
@@ -752,6 +753,13 @@ $(function(){
 	            			myData += ('<option value='+value.Code+'>'+ value.Name + '</option>');        				
             		});
             		$("#tekbeCompnayList").html(myData);
+            		var tcode = $("#tekbeCompnayList option");
+            		$.each(tcode,function(index,item){
+            			var type = "${purchase.tcode}";
+            			if($(item).val() == type){
+            				$(item).prop("selected",true);
+            			}
+            		})
             }
         });
 
@@ -760,6 +768,7 @@ $(function(){
         	var t_code = $('#tekbeCompnayList option:selected').attr('value');
         	var t_invoice = $('#dvNumber').val();
         	var name = $("#tekbeCompnayList option:selected").text();
+        	console.log(name);
             $.ajax({
                 type:"GET",
                 dataType : "json",
@@ -802,15 +811,14 @@ $(function(){
 });
 
     $(function(){
-	var select = $("#deliveryForm > div:nth-child(1) > select option");
-	$.each(select,function(index,item){
-			var type = "${purchase.ordType}";
-			if($(item).text() == type){
-				$(item).prop("selected",true);
-			}
-	})
-	$("#deilveryRequest").trigger("keyup");
-    })
+		var select = $("#deliveryForm > div:nth-child(1) > select option");
+		$.each(select,function(index,item){
+				var type = "${purchase.ordType}";
+				if($(item).text() == type){
+					$(item).prop("selected",true);
+				}
+		})
+   	})
 
 function chkword(obj, maxByte) {
 	 
@@ -932,11 +940,25 @@ function chkword(obj, maxByte) {
 		
 	var submit = function(title,Type){
 		var invoiceNum;
+		var tname;
 		var odState = $("#odState").val();
-		if(odState == '배송준비중'){
+		var tcode = $('#tekbeCompnayList option:selected').attr('value');
+		if(odState == '배송준비중' || odState == '결제완료' || odState == '주문취소'){
 			invoiceNum = "";
+			tname = "";
 		}else{
 			invoiceNum = $("#dvNumber").val();
+			tname = $("#tekbeCompnayList option:selected").text();
+			if(invoiceNum == ""){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: "운송장번호를 입력해주세요!",
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;
+			}
 		}
  		$.ajax({
 			url:"modifyOrder",
@@ -953,7 +975,9 @@ function chkword(obj, maxByte) {
 				phone2:$("#phone2").val(),
 				phone3:$("#phone3").val(),
 				memo:$("#memo").val(),
-				invoiceNum:invoiceNum
+				invoiceNum:invoiceNum,
+				tcode:tcode,
+				tname:tname
 			},
 			success:function(data){
 				if(data == true){

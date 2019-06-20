@@ -248,6 +248,8 @@
 			</div>
 			<div id = "orderState">
 				<span>&#124; 주문상태</span>
+				<a href = "orderListZero1">결제 완료</a>
+				<span  class = "Y">&#124;</span>
 				<a href = "orderListOne1">배송 준비 중</a>
 				<span  class = "Y">&#124;</span>
 				<a href = "orderListTwo1">배송 중</a>
@@ -303,6 +305,7 @@
 			<div id = "listOption">
 				<span>선택한 항목</span>
 				<select name = "dvState" class = "form-control">
+					<option>결제완료</option>
 					<option>배송준비중</option>
 					<option>배송중</option>
 					<option>배송완료</option>
@@ -340,10 +343,26 @@
 			var check = $("#orderList table tr td input:checkbox:checked");
 			var list = [];
 			var select = $("#listOption select option:selected").val();
-			console.log(select);
+			var bl = true;
 			$(check).each(function(index,element){
+				var ordType = $($(element).parents("tr").find("td")[2]).text();
+				if((select == '배송중' || select == '배송완료') && (ordType == '배송준비중' || ordType == '결제완료')){
+					bl = false;
+					return;
+				}
 				list.push($(element).attr("name"));
 			})
+			if(bl == false){
+				e.preventDefault();
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '결제완료나 배송준비중은\n운송장번호를 입력해줘야하므로\n각각 수정해야합니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;
+			}			
 			var $input = $("<input></input>");
 			$input.attr({
 				"type":"text",

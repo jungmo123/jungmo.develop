@@ -233,7 +233,7 @@ public class OrderController {
 	public String orderRefund(){
 		return "redirect:orderRefundOne1";
 	}
-	
+	 
 	@RequestMapping("/admin/orderExchange")
 	public String orderExchange(){
 		return "redirect:orderExchangeOne1";
@@ -242,6 +242,12 @@ public class OrderController {
 	@RequestMapping("/admin/orderListAll{idx}")
 	public String listIdx(@PathVariable String idx,HttpServletRequest request,Model model){
 			common(request,model,idx,"All");
+			return "manager/order/orderList";
+	}
+	
+	@RequestMapping("/admin/orderListZero{idx}")
+	public String dvTypeZero(@PathVariable String idx,HttpServletRequest request,Model model){
+			common(request,model,idx,"Zero");
 			return "manager/order/orderList";
 	}
 	
@@ -416,7 +422,7 @@ public class OrderController {
 	
 	@RequestMapping(value="/admin/modifyOrder",method=RequestMethod.POST)
 	@ResponseBody
-	public boolean modifyOrder(String ordNum,String deliveryRequest,String userName,String userPostCode,String userStreet,String userDetailArea,String phone1,String phone2,String phone3,String memo,String ordType,String invoiceNum){
+	public boolean modifyOrder(String ordNum,String deliveryRequest,String userName,String userPostCode,String userStreet,String userDetailArea,String phone1,String phone2,String phone3,String memo,String ordType,String invoiceNum,String tcode,String tname){
 		String phone = phone1 + "-" + phone2 + "-" + phone3;
 		boolean data = true;
 		HashMap<String,List<String>> option = new HashMap<>();
@@ -426,6 +432,10 @@ public class OrderController {
 		tp.add(ordType);
 		option.put("list", ls);
 		option.put("type", tp);
+		if(invoiceNum.equals("")){
+			tcode = "";
+			tname = "";
+		}
 		if(ordType.equals("주문취소")){
 			if(orderService.getOrderCancel(ordNum) != null){
 				data = false;
@@ -442,7 +452,7 @@ public class OrderController {
 				orderService.addMlc(option);
 			}
 		}
-		orderService.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostCode, userStreet, userDetailArea,memo);
+		orderService.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostCode, userStreet, userDetailArea,memo,invoiceNum,tcode,tname);
 		return data;
 	}
 	

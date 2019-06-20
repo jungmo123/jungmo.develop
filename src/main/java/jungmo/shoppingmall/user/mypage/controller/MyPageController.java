@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
+import jungmo.shoppingmall.admin.policy.service.*;
 import jungmo.shoppingmall.user.mypage.service.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -21,6 +22,7 @@ public class MyPageController {
 	@Autowired private PostService postService;
 	@Autowired private OrderService orderService;
 	@Autowired private MyPageService mypageService;
+	@Autowired private ClauseService clauseService;
 	private Date date1;
 	private Date date2;
 	private Date date3;
@@ -140,5 +142,14 @@ public class MyPageController {
 		model.addAttribute("type","Search");
 
 		return "user/mypage/shopping/orderHistory";
+	}
+	
+	@RequestMapping(value = "/orderHistoryDetail{idx}",method=RequestMethod.POST)
+	public String orderHistorySearch(@PathVariable String idx,HttpServletRequest request,Model model){
+		PurchaseList p = orderService.getPurchase(idx);
+		model.addAttribute("purchase", p);
+		model.addAttribute("pointPolicy", clauseService.getPointPolicy());
+		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
+		return "user/mypage/shopping/orderHistoryDetail";
 	}
 }

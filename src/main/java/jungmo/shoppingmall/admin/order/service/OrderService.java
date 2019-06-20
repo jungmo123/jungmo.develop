@@ -11,7 +11,7 @@ public interface OrderService {
 	PurchaseList getPurchase(String ordNum);
 	SavedMoney getSm(int pnpNum);
 	Delivery getDv(int dvpNum);
-	int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo);
+	int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo,String invoiceNumber,String tcode,String tname);
 	int refundModify(HashMap<String,List<String>> map);
 	int exchangeModify(HashMap<String,List<String>> map);
 	int addOrdercancel(String ordNum);

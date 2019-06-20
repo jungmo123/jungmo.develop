@@ -26,7 +26,10 @@ public interface OrderMapper {
 			@Param("postCode") String userPostcode,
 			@Param("street") String userStreet,
 			@Param("detailArea") String userDetailArea,
-			@Param("memo") String memo);
+			@Param("memo") String memo,
+			@Param("invoiceNumber") String invoiceNumber,
+			@Param("tcode") String tcode,
+			@Param("tname") String tname);
 	PurchaseList getPurchase(String ordNum);
 	GoodsOption getGodo(String ordNum,int godNum);
 	SavedMoney getSm(int pnpNum);

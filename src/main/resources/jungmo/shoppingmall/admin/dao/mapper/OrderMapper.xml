@@ -40,7 +40,7 @@
 	 
 	<select id = "getPurchase" parameterType="string" resultMap = "purchaseMap">
           select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name,user_phone,sha_postcode,sha_street,sha_detailarea,recipient_name,
-          recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,PAYMENTMETHOD,memo_content,invoicenumber
+          recipient_phone,DELIVERYREQUEST,ord_resultcode,ord_resultcontent,PAYMENTMETHOD,memo_content,invoicenumber,tcode,tname
           from orders
           join users
           on (orders.user_id = users.user_id)
@@ -93,15 +93,23 @@
 	</select>
 	
 	<select id = "getGodList" resultMap = "godListMap">
-		select purchases.god_num,ord_num,pur_num,god_name,god_sellingprice,god_amount,god_listimageurl
+		select purchases.god_num,ord_num,pur_num,god_name,god_sellingprice,god_amount,god_listimageurl,godc_name
 		from purchases join goods
 		on (purchases.god_num = goods.god_num)
+		join goods_categories
+		on (goods.godc_num = goods_categories.godc_num)
 		where ord_num = #{ordNum}
 	</select>
 	
 	<update id = "addMlc" parameterType = "hashmap">
       insert all
       <foreach item = "tp" collection = "type">
+      	<if test = 'tp == "결제완료"'>
+      		<foreach item = "ls" collection = "list">
+      		into manage_log_categories
+		    values (sysdate,#{ls},'결제완료로 변경')     		
+      		</foreach>
+      	</if>
       	<if test = 'tp == "배송준비중"'>
       		<foreach item = "ls" collection = "list">
       		into manage_log_categories
@@ -145,7 +153,12 @@
 	<update id = "dvModify" parameterType = "hashmap">
 		update orders
 		<foreach item="tp" collection = "type">
-			set ord_type = #{tp}
+			<if test = 'tp == "결제완료" || tp == "배송준비중" || tp == "주문취소"'>
+				set ord_type = #{tp},invoicenumber = null
+			</if>
+			<if test = 'tp == "배송중" || tp == "배송완료"'>
+				set ord_type = #{tp}
+			</if>
 		</foreach>
 		where ord_num in 
 		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
@@ -219,7 +232,10 @@
 			RECIPIENT_NAME = #{userName},
 			RECIPIENT_PHONE = #{phone},
 			MEMO_CONTENT = #{memo},
-			ord_type = #{ordType}
+			ord_type = #{ordType},
+			invoicenumber = #{invoiceNumber},
+			tcode = #{tcode},
+			tname = #{tname}
 		where ord_num = #{ordNum}
 	</update>
 	
@@ -258,6 +274,7 @@
 		<id property = "ordNum" column = "ord_num" />
 		<result property = "purNum" column = "pur_num" />
 		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
 		<result property = "godAmount" column = "god_amount" />
 		<result property = "godSellingPrice" column = "god_sellingprice" />
 		<result property = 'godListImageUrl' column = "god_listimageurl" />
@@ -316,6 +333,8 @@
 		<result property = "userName" column = "user_name" />
 		<result property = "userPhone" column = "user_phone" />
 		<result property = "invoiceNumber" column = "invoicenumber" />
+		<result property = "tcode" column = "tcode" />
+		<result property = "tname" column = "tname" />
 		<collection property = "mlc" column = "ord_num" select = "getMlc" />
 		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 	</resultMap>

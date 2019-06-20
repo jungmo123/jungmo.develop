@@ -6,7 +6,7 @@
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		          select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name
+		          select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name,tcode
 		          from orders
 		          join users
 		          on (orders.user_id = users.user_id)
@@ -14,6 +14,9 @@
 		   		<where>
 		   			<if test = "type != null and type.equals('All')">
 		   				ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
+		   			</if>
+		   			<if test = "type != null and type.equals('Zero')">
+		   				ord_type = '결제완료'
 		   			</if>
 		   			<if test = "type != null and type.equals('One')">
 		   				ord_type = '배송준비중'
@@ -39,7 +42,7 @@
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		        select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name
+		        select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name,invoicenumber,tcode,tname
 		        from orders
 		        join users
 		        on (orders.user_id = users.user_id)
@@ -154,7 +157,7 @@
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(
-		        select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name
+		        select ord_num,usingpoint,ord_type,ord_date,orders.user_id,user_name,invoicenumber,tcode,tname
 		        from orders
 		        join users
 		        on (orders.user_id = users.user_id)
@@ -261,6 +264,9 @@
 		<result property = "ordDate" column = "ord_date" />
 		<result property = "userId" column = "user_id" /> 
 		<result property = "userName" column = "user_name" />
+		<result property = "invoiceNumber" column = "invoicenumber" />
+		<result property = "tcode" column = "tcode" />
+		<result property = "tname" column = "tname" />
 		<collection property = "goods" column = "{ordNum=ord_num}" select="getGodList" />
 	</resultMap>
 	

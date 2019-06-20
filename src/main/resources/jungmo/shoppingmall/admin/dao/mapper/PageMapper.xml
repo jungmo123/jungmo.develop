@@ -9,6 +9,9 @@
 			<if test = "_parameter != null and _parameter.equals('All')">
 				ord_type != '주문취소' and ord_type != '환불' and ord_type != '교환'
 			</if>
+			<if test = "_parameter != null and _parameter.equals('Zero')">
+				ord_type = '결제완료'
+			</if>
 			<if test = "_parameter != null and _parameter.equals('One')">
 				ord_type = '배송준비중'
 			</if>

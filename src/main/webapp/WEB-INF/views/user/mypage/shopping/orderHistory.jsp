@@ -230,20 +230,27 @@
 	#state > div{
 		padding:10px;
 	}
-	table{
+	.modal-body table{
 		width:440px;
 	}
-	table tr th,
-	table tr td{
+	.modal-body table tr th,
+	.modal-body table tr td{
 		text-align:center;
 		height:22px;
 	}
-	table thead tr{
+	.modal-body table thead tr{
 		background-color:#F2F5F7;
 	}
-	table tr td,
-	table tr th{
+	.modal-body table tr td,
+	.modal-body table tr th{
 		border:1px solid grey;
+	}
+	.modal-footer{
+		text-align:center;
+	}
+	.modal-footer button{
+		width:100px;
+		padding:0;
 	}
 	.modal-footer{
 		text-align:center;
@@ -355,12 +362,12 @@
 				<c:if test = "${purchases != null}">
 				<c:forEach var = "order" items = "${purchases}">
 				<c:set var = "totalprice" value = "0" /> 
-				<div>
+				<div id = "${order.ordNum}" class = "ContentBox">
 					<div>
 						<div>
 							<span>
-								<button class = "btn btn-default" onclick="location.href='02.html'">주문 상세 내역</button>
-								<button class = "btn btn-default" onclick="location.href='03.html'">주문 취소</button>
+								<button class = "btn btn-default detail">주문 상세 내역</button>
+								<button class = "btn btn-default cacel">주문 취소</button>
 							</span>							
 						</div>				
 						<hr>
@@ -411,12 +418,24 @@
 									</div>
 									<div>
 										<span>
+											<c:if test = "${order.invoiceNumber eq null}">
+												<c:set var = "invoiceNum" value = "0" />
+												<c:set var = "tcode" value = "0" />
+												<c:set var = "tname" value = "0" />
+											</c:if>
+											<c:if test = "${order.invoiceNumber ne null}">
+												<c:set var = "invoiceNum" value = "${order.invoiceNumber}" />
+												<c:set var = "tcode" value = "${order.tcode}" />
+												<c:set var = "tname" value = "${order.tname}" />
+											</c:if>
 											<c:choose>
 												<c:when test = "${order.ordType eq '배송중'}">
-													<button class = "btn btn-default" data-toggle = "modal" data-target = "#mySmallModal">배송중</button>
+													<button id = "${invoiceNum}" class = "btn btn-default search" >배송중</button>
+													<span id = "${tname}" style='display:none'>${tcode}</span>
 												</c:when>
 												<c:when test = "${order.ordType eq '배송완료'}">
-													<button class = "btn btn-default" data-toggle = "modal" data-target = "#mySmallModal">배송완료</button>
+													<button id = "${invoiceNum}" class = "btn btn-default search" >배송완료</button>
+													<span id = "${tname}" style='display:none'>${tcode}</span>
 												</c:when>
 												<c:otherwise>
 													${order.ordType}
@@ -462,7 +481,7 @@
 </div>
 </div>
 	
-		<div class = "modal fade" id  ="mySmallModal">
+	<div class = "modal fade" id  ="mySmallModal">
 		<div class = "modal-dialog">
 			<div class ="modal-content">
 				<div class = "modal-body">
@@ -475,15 +494,11 @@
 									<tr>
 										<th>택배사</th>
 										<th>송장번호</th>
-										<th>대표번호</th>
+										<th>보내는사람</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td>{택배사명 표기}</td>
-										<td>{송장번호 표기}</td>
-										<td>{대표번호 표기}</td>
-									</tr>
+								<tbody id = "dvInfo">
+
 								</tbody>
 							</table>
 						</div>
@@ -498,38 +513,10 @@
 										<th>송장위치</th>
 										<th>배송상태</th>
 										<th>연락처</th>
-										<th>기타정보</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td>2023-07-15 13:54</td>
-										<td>이천터미널</td>
-										<td>집하</td>
-										<td>1588-0123</td>
-										<td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
-									<tr>
-										<td></td><td></td><td></td><td></td><td></td>
-									</tr>
+								<tbody id = "dvData">
+									
 								</tbody>
 							</table>
 						</div>
@@ -543,6 +530,54 @@
 	</div>
 	
 <script type = "text/javascript">
+$(function(){
+	var myKey = "7AcD6E0ePa57zoyXEUW0AQ"; // sweet tracker에서 발급받은 자신의 키 넣는다.
+		// 배송정보와 배송추적 tracking-api
+        $(".search").click(function() {
+        	var t_code = $(this).next().text();
+        	var t_invoice = $(this).prop("id");
+        	var name = $(this).next().prop("id");
+            $.ajax({
+                type:"GET",
+                dataType : "json",
+                url:"http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key="+myKey+"&t_code="+t_code+"&t_invoice="+t_invoice,
+                success:function(data){
+                	var myInvoiceData = "";
+                	if(data.status == false){
+                		myInvoiceData += ('<p>'+data.msg+'<p>');
+                	}else{
+	            		myInvoiceData += ('<tr>');            	  				
+	            		myInvoiceData += ('<td>'+name+'</td>');     				               				
+	            		myInvoiceData += ('<td>'+data.invoiceNo+'</td>');     				        	 				
+	            		myInvoiceData += ('<td>'+data.senderName+'</td>');     				
+	            		myInvoiceData += ('</tr>');      		
+                	}
+        			
+                	
+                	$("#dvInfo").html(myInvoiceData)
+                	
+                	var trackingDetails = data.trackingDetails;
+                	
+                	
+            		var myTracking="";
+            		
+            		$.each(trackingDetails,function(key,value) {
+	            		myTracking += ('<tr>');            	
+            			myTracking += ('<td>'+value.timeString+'</td>');
+            			myTracking += ('<td>'+value.where+'</td>');
+            			myTracking += ('<td>'+value.kind+'</td>');
+            			myTracking += ('<td>'+value.telno+'</td>');     				
+	            		myTracking += ('</tr>');        			            	
+            		});
+            		
+            		$("#dvData").html(myTracking);
+                	
+            		$("#mySmallModal").modal();
+                }
+            });
+        });		
+});
+
 $("#dateForm").submit(function(e){
 	if($("#dateForm #input1 input").val()=="" || $("#dateForm #input2 input").val()==""){
 		Swal.fire({
@@ -562,6 +597,17 @@ $("#buttons button").click(function(){
 	var input = $("<input type = 'text' name = 'period'></input>");
 	input.val(period);
 	form.append(input);
+	$("body").append(form);
+	form.submit();
+})
+
+$(".detail").click(function(){
+	var ordNum = $(this).parents(".ContentBox").prop("id");
+	var form = $("<form style = 'display:none'></form>");
+	form.attr({
+		action:"orderHistoryDetail"+ordNum,
+		method:"post"
+	})
 	$("body").append(form);
 	form.submit();
 })

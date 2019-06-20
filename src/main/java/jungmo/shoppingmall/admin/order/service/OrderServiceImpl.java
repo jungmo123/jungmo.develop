@@ -36,8 +36,8 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.getDv(dvpNum);
 	}
 	
-	public int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo){
-		return orderDao.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostcode, userStreet, userDetailArea, memo);
+	public int modifyOrder(String ordType,String ordNum,String deliveryRequest,String userName,String phone,String userPostcode,String userStreet,String userDetailArea,String memo,String invoiceNumber,String tcode,String tname){
+		return orderDao.modifyOrder(ordType,ordNum,deliveryRequest,userName, phone, userPostcode, userStreet, userDetailArea, memo,invoiceNumber,tcode,tname);
 	}
 	
 	public int addOrdercancel(String ordNum){

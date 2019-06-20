@@ -24,6 +24,8 @@ public class PurchaseList {
 	private String userName;
 	private String userPhone;
 	private String invoiceNumber;
+	private String tcode;
+	private String tname;
 	private List<ManageLogCategories> mlc;
 	private List<GoodsList> goods;
 	
@@ -152,5 +154,17 @@ public class PurchaseList {
 	}
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
+	}
+	public String getTcode() {
+		return tcode;
+	}
+	public void setTcode(String tcode) {
+		this.tcode = tcode;
+	}
+	public String getTname() {
+		return tname;
+	}
+	public void setTname(String tname) {
+		this.tname = tname;
 	}
 }
