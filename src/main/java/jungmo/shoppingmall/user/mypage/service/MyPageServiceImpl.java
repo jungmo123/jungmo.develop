@@ -3,10 +3,15 @@ package jungmo.shoppingmall.user.mypage.service;
 import java.text.*;
 import java.util.*;
 
+import jungmo.shoppingmall.admin.order.service.*;
+
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @Service
 public class MyPageServiceImpl implements MyPageService{
+	@Autowired private OrderService orderService;
 	
 	public String sdate(){
 		Date from = new Date();
@@ -70,5 +75,20 @@ public class MyPageServiceImpl implements MyPageService{
 		String to = transFormat.format(calculatedDate);
 		to += " 00:00:00";
 		return to;
+	}
+	
+	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
+	public String updateOrderCancel(String ordNum){
+		orderService.modifyOrdType(ordNum, "주문취소");
+		List<String> ls = new ArrayList<>();
+		List<String> tp = new ArrayList<>();
+		HashMap<String,List<String>> option = new HashMap<>();
+		ls.add(ordNum);
+		tp.add("주문취소");
+		option.put("list",ls);
+		option.put("type", tp);
+		orderService.addMlc(option);
+		orderService.addOrdercancel(ordNum);	
+		return "";
 	}
 }

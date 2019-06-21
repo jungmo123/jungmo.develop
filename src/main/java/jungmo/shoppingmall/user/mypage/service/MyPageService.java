@@ -1,5 +1,7 @@
 package jungmo.shoppingmall.user.mypage.service;
 
+import jungmo.shoppingmall.admin.order.service.*;
+
 public interface MyPageService {
 	String sdate();
 	String edate();
@@ -7,4 +9,5 @@ public interface MyPageService {
 	String week3();
 	String month1();
 	String month3();
+	String updateOrderCancel(String ordNum);
 }

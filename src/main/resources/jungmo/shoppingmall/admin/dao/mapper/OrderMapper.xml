@@ -148,7 +148,13 @@
       	</if>
       </foreach>
      select * from dual
-	</update> 
+	</update>
+	
+	<update id = "modifyOrdType" parameterType = "map">
+		update orders
+		set ord_type = #{ordType}
+		where ord_num = #{ordNum}
+	</update>
 	  
 	<update id = "dvModify" parameterType = "hashmap">
 		update orders
@@ -236,6 +242,17 @@
 			invoicenumber = #{invoiceNumber},
 			tcode = #{tcode},
 			tname = #{tname}
+		where ord_num = #{ordNum}
+	</update>
+	
+	<update id = "modifyDi" parameterType = "map">
+		update orders
+		set sha_postcode = #{postCode},
+		sha_street = #{street},
+		sha_detailarea = #{detailArea},
+		DELIVERYREQUEST = #{deliveryRequest},
+		RECIPIENT_NAME = #{userName},
+		RECIPIENT_PHONE = #{phone}			
 		where ord_num = #{ordNum}
 	</update>
 	

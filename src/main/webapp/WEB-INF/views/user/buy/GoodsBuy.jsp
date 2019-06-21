@@ -741,6 +741,20 @@
 		}
 	})
 	
+	$("input[type='number']").keyup(function(){
+		var point = $(this).val();
+		if(point < 0){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: '음수는 입력할 수 없습니다!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+			$(this).val("");
+		}
+	})
+	
 	$("#payment").click(function(){
  		var success;
  		var name = $("#name").val();

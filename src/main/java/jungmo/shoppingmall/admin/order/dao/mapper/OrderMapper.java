@@ -53,4 +53,13 @@ public interface OrderMapper {
 	int deleteExchange(String ordNum);
 	int deleteRefundImage(String ordNum);
 	int deleteExchangeImage(String ordNum);
+	int modifyDi(
+			@Param("ordNum") String ordNum,
+			@Param("postCode") String postCode,
+			@Param("street") String street,
+			@Param("detailArea") String detailArea,
+			@Param("deliveryRequest") String deliveryRequest,
+			@Param("userName") String userName,
+			@Param("phone") String phone);
+	int modifyOrdType(@Param("ordNum") String ordNum,@Param("ordType") String ordType);
 }

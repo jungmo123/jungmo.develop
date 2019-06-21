@@ -95,4 +95,12 @@ public class OrderServiceImpl implements OrderService{
 	public OrderCancel getOrderCancel(String ordNum){
 		return orderDao.getOrderCancel(ordNum);
 	}
+	
+	public int modifyDi(String ordNum,String postCode,String street,String detailArea,String deliveryRequest,String userName,String phone){
+		return orderDao.modifyDi(ordNum, postCode, street, detailArea, deliveryRequest, userName, phone);
+	}
+	
+	public int modifyOrdType(String ordNum,String ordType){
+		return orderDao.modifyOrdType(ordNum, ordType);
+	}
 }

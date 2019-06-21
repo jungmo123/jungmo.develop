@@ -12,9 +12,11 @@ import jungmo.shoppingmall.admin.policy.service.*;
 import jungmo.shoppingmall.user.mypage.service.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.dao.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
 
 @Controller
 public class MyPageController {
@@ -150,6 +152,47 @@ public class MyPageController {
 		model.addAttribute("purchase", p);
 		model.addAttribute("pointPolicy", clauseService.getPointPolicy());
 		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
+		model.addAttribute("nda",clauseService.getNoDeliveryArea());
 		return "user/mypage/shopping/orderHistoryDetail";
+	}
+	
+	@RequestMapping("/modifyDI")
+	@ResponseBody
+	public PurchaseList modifyDI(MultipartHttpServletRequest request){
+		String ordNum = request.getParameter("ordNum");
+		String userName = request.getParameter("name");
+		String userPostCode = request.getParameter("userPostcode");
+		String userStreet = request.getParameter("userStreet");
+		String userDetailArea = request.getParameter("userDetailArea");
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone3 = request.getParameter("phone3");
+		String phone = phone1 + "-" + phone2 + "-" + phone3;
+		String userRequest = request.getParameter("request");
+		orderService.modifyDi(ordNum, userPostCode, userStreet, userDetailArea, userRequest, userName, phone);
+		PurchaseList p = orderService.getPurchase(ordNum);
+		return p;
+	}
+	
+	@RequestMapping("/insertOrderCancel")
+	@ResponseBody
+	public String insertOrderCancel(String ordNum){
+		try{
+			return mypageService.updateOrderCancel(ordNum);
+		}catch(Exception e){
+			return "error";
+		}
+	}
+	
+	
+	@RequestMapping(value ="/refundAndExchange{idx}",method=RequestMethod.POST)
+	public String refundAndExchange(@PathVariable String idx,HttpServletRequest request,Model model){
+		String type = request.getParameter("type");
+		String ordName = request.getParameter("ordName");
+		model.addAttribute("ordName", ordName);
+		if(type.equals("modify")){
+			
+		}
+		return "user/mypage/shopping/refundAndExchange";
 	}
 }

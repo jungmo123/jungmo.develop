@@ -95,4 +95,12 @@ public class OrderDaoImpl implements OrderDao{
 	public int deleteExchangeImage(String ordNum){
 		return orderMapper.deleteExchangeImage(ordNum);
 	}
+	
+	public int modifyDi(String ordNum,String postCode,String street,String detailArea,String deliveryRequest,String userName,String phone){
+		return orderMapper.modifyDi(ordNum, postCode, street, detailArea, deliveryRequest, userName, phone);
+	}
+	
+	public int modifyOrdType(String ordNum,String ordType){
+		return orderMapper.modifyOrdType(ordNum, ordType);
+	}
 }
