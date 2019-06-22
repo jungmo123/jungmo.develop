@@ -15,19 +15,45 @@
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-<script src="bootstrapFileinput/dist/bs-custom-file-input.js"></script>
+<script src="../bootstrapFileinput/dist/bs-custom-file-input.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
+	body{
+	    font-size: 14px;
+	    line-height: 1.42857143;
+	    color: #333;	
+	}
+	body .container .form-control{
+		font-size:14px;
+	}
+	body .container .btn{
+		border-color: #ccc;
+	}
 	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+	.container #title .btn-group-justified{
+		 display: table;
+	}
+	.container #title .btn-group-justified button{
+		 font-size:14px;
+	}
+	.container #title .btn-group-justified ul li{
+		 font-size:14px;
+		 width:160px;
+	}
+	.container #title .dropdown-toggle::after{
+		display:none;
+	}
 	.container{
 		width:1200px;
+		max-width:1200px;
 		margin-top:30px;
 	}
+	.contai
 	#content > strong{
 		font-size:20px;
 	}
@@ -117,12 +143,21 @@
 		height:130px;
 		resize:none;
 	}
-	input[type='text']{
-		width:500px;
-		margin-left:10px;
-	}
 	#buttonGroup button{
 		float:right;
+		font-size:14px;
+	}
+	.custom-file-label::after{
+	    content: "찾아보기";
+	}
+	.custom-file-label{
+		font-size:12px;
+	}
+	.custom-file{
+	    display: inline-block;
+	    width: 500px;
+	    padding: 0 !important;
+	    margin: 5px 0px 5px 10px;
 	}
 </style>
 </head>
@@ -165,6 +200,7 @@
 				<strong>&#124;&nbsp;교환 환불 신청</strong>
 				<div id="sAr">
 					<hr>
+					<form id = "registerForm" action = "addRe" method = "post">
 					<div id = "sArContent">
 						<table id = "firstTable">
 							<tr>
@@ -182,10 +218,10 @@
 								<td>
 									<div>
 										<span>
-											<input type="radio" name="sArSelect" id="swap" class="custom-control-input">
-											<label class="custom-control-label" for="swap">교환</label>
-											<input type="radio" name="sArSelect" id="rebate" class="custom-control-input">
-											<label class="custom-control-label" for="rebate">환불</label>								
+											<input type="radio" name="sArSelect" id="exchange"  value = "exchange">
+											<label  for="swap">교환</label>
+											<input type="radio" name="sArSelect" id="refund" value = "refund">
+											<label  for="rebate">환불</label>								
 										</span>
 									</div>															
 								</td>												
@@ -196,16 +232,10 @@
 								</td>
 								<td>
 									<span>
-										<input type="radio" name="reason" id="change" class="custom-control-input">
-										<label class="custom-control-label" for="change">색상/사이즈 변경</label>
-										<input type="radio" name="reason" id=ungrounded class="custom-control-input">
-										<label class="custom-control-label" for="ungrounded">단숨 변심</label>	
-										<input type="radio" name="reason" id="break" class="custom-control-input">
-										<label class="custom-control-label" for="break">제품 파손</label>
-										<input type="radio" name="reason" id="wrongDelivery" class="custom-control-input">
-										<label class="custom-control-label" for="wrongDelivery">오배송</label>	
-										<input type="radio" name="reason" id="theRest" class="custom-control-input">
-										<label class="custom-control-label" for="theRest">기타</label>	
+										<c:forEach var = "reason" items = "${reasons}">
+										<input type="radio" name="reason" value = "${reason.reaCode}">
+										<label for="change">${reason.reaName}</label>										
+										</c:forEach>
 									</span>
 								</td>
 							</tr>
@@ -214,7 +244,7 @@
 									<strong>내용작성</strong>
 								</td>
 								<td>
-									<textarea placeholder = "구체적인 내용을 입력해주세요.&#13;&#10;변경할 색상과 사이즈를 작성해주세요"></textarea>
+									<textarea id = "detailReason" name = "content" placeholder = "구체적인 내용을 입력해주세요.&#13;&#10;변경할 색상과 사이즈를 작성해주세요"></textarea>
 								</td>
 							</tr>
 							<tr>
@@ -224,17 +254,17 @@
 								<td>
 									<div class = "custom-file">
 										<input id = "check" type = "text" style = "display:none"/>
-										<input id = "repreImg" type = "file" name = "img1" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "img1" class = "custom-file-input" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 									<div class = "custom-file">
 										<input id = "check" type = "text" style = "display:none"/>
-										<input id = "repreImg" type = "file" name = "img2" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "img2" class = "custom-file-input" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 									<div class = "custom-file">
 										<input id = "check" type = "text" style = "display:none"/>
-										<input id = "repreImg" type = "file" name = "img3" class = "custom-file-input repreImg" />
+										<input id = "repreImg" type = "file" name = "img3" class = "custom-file-input" />
 										<label class="custom-file-label" for="inputGroupFile01"></label>
 									</div>
 								</td>
@@ -244,20 +274,235 @@
 									<strong>배송비 결제</strong>
 								</td>
 								<td>
-									<span>{배송비}원</span><br>
-									<span>※ 교환/환불 사유가 '사이즈 색상 변경','단숨 변심'의 경우 배송비를 고객님께서
+									<span><fmt:formatNumber value="${deliveryPolicy.basicFee}" pattern="#,###" />원</span><br>
+									<span>※ 교환/환불 사유가 '사이즈 색상 변경','단순 변심'의 경우 배송비를 고객님께서
 									부담하셔야 하므로,<br>&nbsp;&nbsp;&nbsp;<strong>[교환/환불 신청하기]</strong>클릭 시 배송비 결제가 진행됩니다.</span>
 								</td>
 							</tr>
 						</table>				
 					</div>
+					</form>
 					<div id = "buttonGroup">
-						<button class = "btn btn-default" onclick="location.href='02.html'">신청하기</button>
+						<button id = "complete" class = "btn btn-default">신청하기</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script type = "text/javascript">
+	var IMP = window.IMP;
+	IMP.init('imp57728894');
+	var ordNum = "${ordNum}"
+	var deliveryFee = "${deliveryPolicy.basicFee}"
+	
+		function leadingZeros(n, digits) {
+		  var zero = '';
+		  n = n.toString();
+		
+		  if (n.length < digits) {
+		    for (i = 0; i < digits - n.length; i++)
+		      zero += '0';
+		  }
+		  return zero + n;
+		}
+	
+	$(document).ready(function () {
+		  bsCustomFileInput.init()
+		});	
+	
+	$("input[type='file']").change(function(){
+		var label = $(this).prev().val();
+		var inputName = $(this).prop("name");
+		$.each(Array,function(index,item){
+			
+		})
+		var ext = $(this).val().split(".").pop().toLowerCase();
+		var file = this.files[0];
+		var _URL = window.URL || window.webkitURL;
+		var img = new Image();
+		var input = $(this).prop("id");
+		var name = $(this).prop("name");
+		var repre = "input[name='" + name + "']";
+		
+		img.src = _URL.createObjectURL(file);
+		if($.inArray(ext,["gif","jpg","jpeg","png"]) == -1){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: '이미지 파일(gif,jpg,jpeg,png)\n만 업로드 가능합니다!',
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+				setTimeout(function() {
+					$("input[name="+inputName + "]").val("");
+					$("input[name="+inputName + "]").next().text(label);
+				}, 1);
+				return;
+		}
+		
+		var fileSize = this.files[0].size;
+		var maxSize = 1024 * 1024 * 10;
+		if(fileSize > maxSize){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '파일용량이 10MB를 초과했습니다!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				setTimeout(function() {
+					$("input[name="+inputName + "]").val("");
+					$("input[name="+inputName + "]").next().text(label);
+				}, 1);
+			return;
+		}
+	})
+	
+	$("#complete").click(function(){
+		var rx = $("input[name='sArSelect']:checked");
+		var reason = $("input[name='reason']:checked");
+		var content = $("#detailReason").val();
+		var text = "";
+		
+		if(rx.length == 0){
+			text = "교환/환불을 선택해주세요!";
+		}else if(reason.length == 0){
+			text = "사유를 선택해주세요!";
+		}else if(content == ""){
+			text = "구체적인 내용을 작성해주세요!"
+		}
+		
+		var d = new Date();
+	    var day = leadingZeros(d.getFullYear(), 4) +
+	    leadingZeros(d.getMonth() + 1, 2) +
+	    leadingZeros(d.getDate(), 2) +
+
+	    leadingZeros(d.getHours(), 2) +
+	    leadingZeros(d.getMinutes(), 2) +
+	    leadingZeros(d.getSeconds(), 2)
+	    var id = rx.val() + day;
+	    
+	    if(reason.val() != 1 && reason.val() != 2){
+	    	id = "";
+	    }
+		
+		if(text != ""){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: text,
+				  showConfirmButton: false,
+				  timer: 1500
+				});
+			return;
+		}else{
+				var formData = new FormData($("#registerForm")[0]);
+				formData.append('ordNum', ordNum);
+				formData.append('rePayNum', id);
+				$.ajax({
+					url:"addRe",
+					data: formData,
+					processData:false,
+					contentType:false,
+					type:'POST',
+					success:function(data){
+						if(data == 'error'){
+							Swal.fire({
+								  position: 'top',
+								  type: 'error',
+								  title: '오류가 발생했습니다.',
+								  showConfirmButton: false,
+								  timer: 1500
+								});						
+						}else{
+							if(reason.val() == 1 || reason.val() == 2){
+								IMP.request_pay({
+								    pg : 'inicis', // version 1.1.0부터 지원.
+								    pay_method : "card",
+								    merchant_uid : id,
+								    name : "배송비",
+								    amount : "1",
+								    buyer_email : 'endia1@daum.net',
+								    buyer_name : '성정모',
+								    buyer_tel : '010-4644-9858',
+								    buyer_addr : '서울특별시 강남구 삼성동',
+								    buyer_postcode : '123-456',
+								}, function(rsp) {
+								    if ( rsp.success ) {
+								        success = true;
+								    } else {
+								        var msg = '결제에 실패하였습니다.';
+								        msg += '에러내용 : ' + rsp.error_msg;
+								        success = false;
+								    }
+								    if(success == true){
+										Swal.fire({
+											  position: 'top',
+											  type: 'success',
+											  title: '신청이 완료되었습니다!',
+											  showConfirmButton: false,
+											  timer: 1500
+											});
+										setTimeout(function() {
+											  location.href = "/shoppingmall/mypage/orderHistory";
+											}, 1600);
+								    }else{
+								    	$.ajax({
+								    		url:"deleteRe",
+								    		data:{
+								    			ordNum:ordNum,
+								    			rx:rx.val()
+								    		},
+								    		success:function(data){
+												Swal.fire({
+													  position: 'top',
+													  type: 'error',
+													  title: msg,
+													  showConfirmButton: false,
+													  timer: 3500
+													});		
+								    		},
+											error:function(a,b,errMsg){
+												Swal.fire({
+													  position: 'top',
+													  type: 'error',
+													  title: errMsg,
+													  showConfirmButton: false,
+													  timer: 3500
+													});		
+											}
+								    	})
+							    }
+							});							
+							}else{
+								Swal.fire({
+									  position: 'top',
+									  type: 'success',
+									  title: '신청이 완료되었습니다!',
+									  showConfirmButton: false,
+									  timer: 1500
+									});
+								setTimeout(function() {
+									  location.href = "/shoppingmall/mypage/orderHistory";
+									}, 1600);
+							}
+						}
+					},
+					error:function(a,b,errMsg){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '오류가 발생했습니다.',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+					}
+				})
+		}
+		
+	})
+	</script>
 
 </body>
 </html>

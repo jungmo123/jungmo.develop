@@ -2,5 +2,74 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="jungmo.shoppingmall.user.mypage.dao.mapper.MyPageMapper">
-
+	<select id = "getReason" resultType = "reason">
+		select rea_code reaCode,rea_name reaName
+		from reasons
+	</select>
+	
+	<select id = "getRefund" parameterType = "string" resultType = "re">
+		select ord_num ordNum,ref_requestdate reDate,ref_reason reReason,rea_name reaName,ref_content reContent,ref_state reState
+		from refunds
+	    join reasons
+	    on (refunds.ref_reason = reasons.rea_code)
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getExchange" parameterType = "string" resultType = "re">
+		select ord_num ordNum,exc_requestdate reDate,exc_reason reaReason,rea_name reaName,exc_content reContent,exc_state reState
+		from exchanges
+	    join reasons
+	    on (exchanges.exc_reason = reasons.rea_code)
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getRefundImage" parameterType = "string" resultType = "imgl">
+		select  ref_imageurl imageUrl,ref_num excNum
+		from refund_images
+		where ord_num = #{ordNum}
+	</select>
+	
+	<select id = "getExchangeImage" parameterType = "string" resultType = "imgl">
+		select  exc_imageurl imageUrl,exc_num excNum
+		from exchange_images
+		where ord_num = #{ordNum}
+	</select>
+	
+	<insert id = "addRefund" parameterType = "re">
+		insert into refunds
+		values(#{ordNum},sysdate,#{reReason},#{reContent},'처리전',null,null,#{rePayNum})
+	</insert>
+	
+	<insert id = "addExchange" parameterType = "re">
+		insert into exchanges
+		values(#{ordNum},sysdate,#{reReason},#{reContent},'처리전',null,null,#{rePayNum})
+	</insert>
+	
+	<insert id = "addRefundImage" parameterType = "reai">
+		insert all
+		<foreach item = "rea" collection = "reaList" index = "index">
+			into refund_images
+			values(#{rea.imageUrl},#{ordNum},#{index}+1)
+		</foreach>
+		select 1 from dual
+	</insert>
+	
+	<delete id = "deleteRefund" parameterType = "string">
+		delete from refunds
+		where ord_num = #{ordNum}
+	</delete>
+	
+	<delete id = "deleteExchange" parameterType = "string">
+		delete from exchanges
+		where ord_num = #{ordNum}
+	</delete>
+	
+	<insert id = "addExchangeImage" parameterType = "reai">
+		insert all
+		<foreach item = "rea" collection = "reaList" index = "index">
+			into exchange_images
+			values(#{rea.imageUrl},#{ordNum},#{index}+1)
+		</foreach>
+		select 1 from dual
+	</insert>
 </mapper>

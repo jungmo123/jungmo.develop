@@ -15,7 +15,6 @@
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
@@ -367,13 +366,21 @@
 						<div>
 							<span>
 								<button class = "btn btn-default detail">주문 상세 내역</button>
-								<button class = "btn btn-default cacel">주문 취소</button>
+								<c:if test = "${order.ordType == '배송준비중' || order.ordType == '결제완료'}">
+								<button type = "button" id = "cancel" class = "btn btn-default" >주문 취소</button>
+								</c:if>
+								<c:if test = "${order.ordType == '배송중' || order.ordType == '배송완료'}">
+								<button type = "button"  id = "reex" class = "btn btn-default">교환/환불</button>
+								</c:if>
+								<c:if test = "${order.ordType == '교환' || order.ordType == '환불'}">
+								<button type = "button"  id = "rexxDetail" class = "btn btn-default">${purchase.ordType} 신청서 수정</button>
+								</c:if>
 							</span>							
 						</div>				
 						<hr>
 						<div>
 							<div class = "imageBox">
-								<img src = "upload/${order.goods[0].godListImageUrl}">
+								<img src = "../upload/${order.goods[0].godListImageUrl}">
 							</div>
 							<div class = "itemInfo">
 								<p>

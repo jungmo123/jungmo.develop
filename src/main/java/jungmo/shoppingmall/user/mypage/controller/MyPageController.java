@@ -1,5 +1,6 @@
 package jungmo.shoppingmall.user.mypage.controller;
 
+import java.io.*;
 import java.sql.Date;
 import java.text.*;
 import java.util.*;
@@ -9,6 +10,7 @@ import javax.servlet.http.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.policy.service.*;
+import jungmo.shoppingmall.user.mypage.domain.*;
 import jungmo.shoppingmall.user.mypage.service.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
+import org.apache.commons.io.FilenameUtils;
 
 @Controller
 public class MyPageController {
@@ -30,6 +33,10 @@ public class MyPageController {
 	private Date date3;
 	private String sdate;
 	private String edate;
+	private String reImageUrl1 = "";
+	private String reImageUrl2 = "";
+	private String reImageUrl3 = "";
+	private List<String> fileList;
 	
 	public void common(HttpServletRequest request,Model model,String idx,String Type){
 		String userId = (String)request.getSession().getAttribute("user");
@@ -55,18 +62,18 @@ public class MyPageController {
 		model.addAttribute("delivery",orderService.getDv(1));
 	}
 	
-	@RequestMapping("/orderHistory")
+	@RequestMapping("/mypage/orderHistory")
 	public String oH(){
 		return "redirect:orderHistory1";
 	}
 	
-	@RequestMapping("/orderHistory{idx}")
+	@RequestMapping("/mypage/orderHistory{idx}")
 	public String orderHistory(@PathVariable String idx,HttpServletRequest request,Model model){
 		common(request,model,idx,"");
 		return "user/mypage/shopping/orderHistory";
 	}
 	
-	@RequestMapping(value = "/orderHistorySearch{idx}",method=RequestMethod.POST)
+	@RequestMapping(value = "/mypage/orderHistorySearch{idx}",method=RequestMethod.POST)
 	public String search(HttpServletRequest request,Model model){
 		String str = request.getParameter("period");
 		if(str != null){
@@ -121,7 +128,7 @@ public class MyPageController {
 		return "user/mypage/shopping/orderHistory";
 	}
 	
-	@RequestMapping(value = "/orderHistorySearch{idx}",method=RequestMethod.GET)
+	@RequestMapping(value = "/mypage/orderHistorySearch{idx}",method=RequestMethod.GET)
 	public String Gsearch(@PathVariable String idx,HttpServletRequest request,Model model){
 		String userId = (String)request.getSession().getAttribute("user");
 		Page myPage = null;
@@ -146,7 +153,7 @@ public class MyPageController {
 		return "user/mypage/shopping/orderHistory";
 	}
 	
-	@RequestMapping(value = "/orderHistoryDetail{idx}",method=RequestMethod.POST)
+	@RequestMapping(value = "/mypage/orderHistoryDetail{idx}",method=RequestMethod.POST)
 	public String orderHistorySearch(@PathVariable String idx,HttpServletRequest request,Model model){
 		PurchaseList p = orderService.getPurchase(idx);
 		model.addAttribute("purchase", p);
@@ -156,7 +163,7 @@ public class MyPageController {
 		return "user/mypage/shopping/orderHistoryDetail";
 	}
 	
-	@RequestMapping("/modifyDI")
+	@RequestMapping("/mypage/modifyDI")
 	@ResponseBody
 	public PurchaseList modifyDI(MultipartHttpServletRequest request){
 		String ordNum = request.getParameter("ordNum");
@@ -174,7 +181,7 @@ public class MyPageController {
 		return p;
 	}
 	
-	@RequestMapping("/insertOrderCancel")
+	@RequestMapping("/mypage/insertOrderCancel")
 	@ResponseBody
 	public String insertOrderCancel(String ordNum){
 		try{
@@ -185,14 +192,86 @@ public class MyPageController {
 	}
 	
 	
-	@RequestMapping(value ="/refundAndExchange{idx}",method=RequestMethod.POST)
+	@RequestMapping(value ="/mypage/refundAndExchange{idx}",method=RequestMethod.POST)
 	public String refundAndExchange(@PathVariable String idx,HttpServletRequest request,Model model){
 		String type = request.getParameter("type");
 		String ordName = request.getParameter("ordName");
 		model.addAttribute("ordName", ordName);
-		if(type.equals("modify")){
-			
-		}
+		model.addAttribute("ordNum", idx);
+		model.addAttribute("reasons",mypageService.getReason());
+		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
 		return "user/mypage/shopping/refundAndExchange";
+	}
+	
+	@RequestMapping("/mypage/addRe")
+	@ResponseBody
+	public String addRe(MultipartHttpServletRequest request){
+		fileList = new ArrayList<>();
+		String dir = request.getServletContext().getRealPath("/upload");
+		try{
+			return mypageService.addRea(request,mypageService,fileList);
+		}catch(Exception e){
+			if(fileList.size() != 0){
+				for(int i = 0 ; i < fileList.size() ; i++){
+					String filePath = dir + "/" + fileList.get(i);
+					  File f = new File(filePath);
+					 if(f.exists()){
+						f.delete();
+					}					
+				}
+			}
+			return "error";
+		}
+	}
+	
+	@RequestMapping("/mypage/deleteRe")
+	@ResponseBody
+	public String deleteRe(String ordNum,String rx,HttpServletRequest request){
+		String dir = request.getServletContext().getRealPath("/upload");
+		if(rx.equals("exchange")){
+			mypageService.deleteExchange(ordNum);
+			if(fileList.size() != 0){
+				for(int i = 0 ; i < fileList.size() ; i++){
+					String filePath = dir + "/" + fileList.get(i);
+					  File f = new File(filePath);
+					 if(f.exists()){
+						f.delete();
+					}					
+				}
+			}
+		}else{
+			mypageService.deleteRefund(ordNum);
+			if(fileList.size() != 0){
+				for(int i = 0 ; i < fileList.size() ; i++){
+					String filePath = dir + "/" + fileList.get(i);
+					  File f = new File(filePath);
+					 if(f.exists()){
+						f.delete();
+					}					
+				}
+			}
+		}
+		return "";
+	}
+	
+	@RequestMapping(value = "/mypage/refundAndExchangeConfirm{idx}",method=RequestMethod.POST)
+	public String refundAndExchangeConfirm(@PathVariable String idx,HttpServletRequest request,Model model){
+		String ordName = request.getParameter("ordName");
+		String rea = request.getParameter("rea");
+		model.addAttribute("ordName", ordName);
+		if(rea.equals("교환")){
+			RefundAndExchange exc1 = mypageService.getExchange(idx);
+			List<ImageList> exc2 = mypageService.getExchangeImage(idx);
+			RefundAndExchangeImage exc3 = new RefundAndExchangeImage(idx,exc2);
+			model.addAttribute("rea", exc1);
+			model.addAttribute("imgList", exc3);
+		}else{
+			RefundAndExchange ref1 = mypageService.getRefund(idx);
+			List<ImageList> ref2 = mypageService.getRefundImage(idx);
+			RefundAndExchangeImage ref3 = new RefundAndExchangeImage(idx,ref2);
+			model.addAttribute("rea", ref1);
+			model.addAttribute("imgList", ref3);
+		}
+		return "user/mypage/shopping/reaConfirm";
 	}
 }

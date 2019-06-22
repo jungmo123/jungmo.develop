@@ -15,7 +15,7 @@
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
@@ -366,7 +366,7 @@
 						<td><span class="number">${state.index+1}</span></td>
 						<td>
 							<div class="image">
-								<img src = "upload/${goods.godListImageUrl}">
+								<img src = "../upload/${goods.godListImageUrl}">
 							</div>
 						</td>
 						<td class="item">
@@ -558,10 +558,10 @@
 						</td>
 						<td>
 							<c:if test = "${deliveryPolicy.freeDeliveryMp <= totalprice}">
-								<c:set var = "totalprice" value = "${(totalprice + purchase.usingPoint)}" />
+								<c:set var = "totalprice" value = "${(totalprice - purchase.usingPoint)}" />
 							</c:if>
 							<c:if test = "${deliveryPolicy.freeDeliveryMp > totalprice}">
-								<c:set var = "totalprice" value = "${(totalprice + purchase.usingPoint + deliveryPolicy.basicFee)}" />
+								<c:set var = "totalprice" value = "${(totalprice - purchase.usingPoint + deliveryPolicy.basicFee)}" />
 							</c:if>
 							<span><fmt:formatNumber value="${totalprice}" pattern="#,###" />원</span>
 						</td>
@@ -577,7 +577,7 @@
 				</table>
 			</div>
 			<div id = "buttonGroup">
-				<button class = "btn btn-default"  onclick = "location.href='/shoppingmall/orderHistory1'">목록</button>
+				<button class = "btn btn-default"  onclick = "location.href='/shoppingmall/mypage/orderHistory1'">목록</button>
 				<c:if test = "${purchase.ordType == '배송준비중' || purchase.ordType == '결제완료'}">
 				<button type = "button" id = "cancel" class = "btn btn-default" >주문 취소</button>
 				</c:if>
@@ -585,7 +585,7 @@
 				<button type = "button"  id = "reex" class = "btn btn-default">교환/환불</button>
 				</c:if>
 				<c:if test = "${purchase.ordType == '교환' || purchase.ordType == '환불'}">
-				<button type = "button"  id = "rexxDetail" class = "btn btn-default">${purchase.ordType} 신청서 조회</button>
+				<button type = "button"  id = "rexxDetail" class = "btn btn-default">${purchase.ordType} 신청서 확인</button>
 				</c:if>				
 			</div>
 	</div>
@@ -890,7 +890,7 @@ var ordLength = "${fn:length(purchase.goods)-1}"
 			}).then((result) => {
 			  if (result.value) {
 					$.ajax({
-						url:"insertOrderCancel",
+						url:"mypage/insertOrderCancel",
 						data: {
 							ordNum:ordNum
 						},
@@ -930,7 +930,7 @@ var ordLength = "${fn:length(purchase.goods)-1}"
 			  }
 			})		
 	})
-	
+
 	$(document).on("click","#reex",function(){
 		var form = $("<form style='display:none'></form>");
 		form.attr({
@@ -939,6 +939,25 @@ var ordLength = "${fn:length(purchase.goods)-1}"
 		})
 		var input = $("<input type = 'text' name = 'type'></input>");
 		input.val("add");
+		var input2 = $("<input type = 'text' name = 'ordName'></input>");
+		if(ordLength != 0){
+			ordName = ordName + " 외 " + ordLength + "건";
+		}
+		input2.val(ordName);
+		form.append(input2);
+		form.append(input);
+		$("body").append(form);
+		form.submit();
+	})
+	
+	$(document).on("click","#rexxDetail",function(){
+		var form = $("<form style='display:none'></form>");
+		form.attr({
+			action:"refundAndExchangeConfirm"+ordNum,
+			method:"post"
+		})
+		var input = $("<input type = 'text' name = 'rea'></input>");
+		input.val(ordType);
 		var input2 = $("<input type = 'text' name = 'ordName'></input>");
 		if(ordLength != 0){
 			ordName = ordName + " 외 " + ordLength + "건";
