@@ -55,4 +55,8 @@ public class MyPageDaoImpl implements MyPageDao{
 	public List<ImageList> getExchangeImage(String ordNum){
 		return mypageMapper.getExchangeImage(ordNum);
 	}
+	
+	public List<Cart> getCart(String userId){
+		return mypageMapper.getCart(userId);
+	}
 }

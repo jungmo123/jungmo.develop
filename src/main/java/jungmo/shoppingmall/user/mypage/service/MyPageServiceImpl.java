@@ -197,4 +197,8 @@ public class MyPageServiceImpl implements MyPageService{
 	public List<ImageList> getExchangeImage(String ordNum){
 		return mypageDao.getExchangeImage(ordNum);
 	}
+	
+	public List<Cart> getCart(String userId){
+		return mypageDao.getCart(userId);
+	}
 }

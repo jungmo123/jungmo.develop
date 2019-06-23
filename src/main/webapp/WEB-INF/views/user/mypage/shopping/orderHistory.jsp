@@ -295,7 +295,7 @@
 <body>
 
 	<div class="container">
-	<%@ include file = "../../header/userheader.jsp" %>
+	<%@ include file = "../../header/mypageHeader.jsp" %>
 	<div id = "content">
 		<div id = "navbar">
 			<div id="nav">
@@ -306,8 +306,8 @@
 					<p>쇼핑 이용 정보</p>
 					<hr>
 					<div>
-						<a href = "#" class= "activeMenu"><span onclick = "location.href = '01.html'">> 주문 내역</span></a>
-						<a href = "#"><span onclick = "location.href='04.html'">> 장바구니</span></a>
+						<a href = "orderHistory1" class= "activeMenu"><span>> 주문 내역</span></a>
+						<a href = "cart"><span>> 장바구니</span></a>
 						<a href = "#"><span onclick = "location.href = '05.html'">> 포인트 이용 내역</span></a>
 					</div>
 					<p>게시판 이용 내역</p>
@@ -364,7 +364,7 @@
 				<div id = "${order.ordNum}" class = "ContentBox">
 					<div>
 						<div>
-							<span>
+							<span id = "${order.ordType}" class = "ordType">
 								<button class = "btn btn-default detail">주문 상세 내역</button>
 								<c:if test = "${order.ordType == '배송준비중' || order.ordType == '결제완료'}">
 								<button type = "button" id = "cancel" class = "btn btn-default" >주문 취소</button>
@@ -373,7 +373,7 @@
 								<button type = "button"  id = "reex" class = "btn btn-default">교환/환불</button>
 								</c:if>
 								<c:if test = "${order.ordType == '교환' || order.ordType == '환불'}">
-								<button type = "button"  id = "rexxDetail" class = "btn btn-default">${purchase.ordType} 신청서 수정</button>
+								<button type = "button"  id = "rexxDetail" class = "btn btn-default">${purchase.ordType} 신청서 확인</button>
 								</c:if>
 							</span>							
 						</div>				
@@ -384,10 +384,7 @@
 							</div>
 							<div class = "itemInfo">
 								<p>
-									<span>${order.goods[0].godName}
-											<c:if test = "${(fn:length(order.goods)-1) != 0}">
-												외 ${fn:length(order.goods)-1}건
-											</c:if>
+									<span class = "ordName">${order.goods[0].godName}<c:if test = "${(fn:length(order.goods)-1) != 0}">&nbsp;외 ${fn:length(order.goods)-1}건</c:if>
 									 </span>
 								</p>
 								<p>
@@ -424,7 +421,7 @@
 										<strong>주문/배송</strong>
 									</div>
 									<div>
-										<span>
+										<span class = "deliveryState">
 											<c:if test = "${order.invoiceNumber eq null}">
 												<c:set var = "invoiceNum" value = "0" />
 												<c:set var = "tcode" value = "0" />
@@ -619,6 +616,98 @@ $(".detail").click(function(){
 	form.submit();
 })
 
+	$(document).on("click","#cancel",function(){
+		Swal.fire({
+			  title: '주문을 취소하시겠습니까?',
+			  type: 'info',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '네',
+			  cancelButtonText: '아니요'
+			}).then((result) => {
+			  if (result.value) {
+				  var ordNum = $(this).parents(".ContentBox").prop("id");
+				  var ord =  $(this).parents(".ContentBox").find(".deliveryState");
+				  var button = $(this).parents(".ContentBox").find("#cancel");
+					$.ajax({
+						url:"insertOrderCancel",
+						data: {
+							ordNum:ordNum
+						},
+						method:"post",
+						success:function(data){
+							if(data != 'error'){
+								ord.text("주문취소");
+								button.remove();
+								Swal.fire({
+									  position: 'top',
+									  type: 'success',
+									  title: '주문이 취소되었습니다!',
+									  showConfirmButton: false,
+									  timer: 1500
+									});										
+							}else{
+								Swal.fire({
+									  position: 'top',
+									  type: 'error',
+									  title: '오류가 발생했습니다.',
+									  showConfirmButton: false,
+									  timer: 1500
+									});								
+							}
+						},
+						error:function(a,b,errMsg){
+							Swal.fire({
+								  position: 'top',
+								  type: 'error',
+								  title: '오류가 발생했습니다.',
+								  showConfirmButton: false,
+								  timer: 1500
+								});
+						}
+					})				
+			  }
+			})		
+	})
+
+	$(document).on("click","#reex",function(){
+		var form = $("<form style='display:none'></form>");
+		var ordName =  $(this).parents(".ContentBox").find(".ordName").text().trim();
+		var ordNum = $(this).parents(".ContentBox").prop("id");
+ 		form.attr({
+			action:"refundAndExchange"+ordNum,
+			method:"post"
+		})
+		var input = $("<input type = 'text' name = 'type'></input>");
+		input.val("add");
+		var input2 = $("<input type = 'text' name = 'ordName'></input>");
+		input2.val(ordName);
+		form.append(input2);
+		form.append(input);
+		$("body").append(form);
+		form.submit();
+	})
+	
+	$(document).on("click","#rexxDetail",function(){
+		var ordName =  $(this).parents(".ContentBox").find(".ordName").text().trim();
+		var ordNum = $(this).parents(".ContentBox").prop("id");
+		var ordType = $(this).parents(".ContentBox").find(".ordType").prop("id");
+		console.log(ordType);
+ 		var form = $("<form style='display:none'></form>");
+		form.attr({
+			action:"refundAndExchangeConfirm"+ordNum,
+			method:"post"
+		})
+		var input = $("<input type = 'text' name = 'rea'></input>");
+		input.val(ordType);
+		var input2 = $("<input type = 'text' name = 'ordName'></input>");
+		input2.val(ordName);
+		form.append(input2);
+		form.append(input);
+		$("body").append(form);
+		form.submit();
+	})
 </script>	
 	
 </body>

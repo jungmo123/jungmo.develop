@@ -157,12 +157,17 @@
 	    padding: 0 !important;
 	    margin: 5px 0px 5px 10px;
 	}
+	.imagP button{
+	 border:0px;
+	 background-color:white;
+	 color:black;
+	}
 </style>
 </head>
 <body>
 
 	<div class="container">
-	<%@ include file = "../../header/userheader.jsp" %>
+	<%@ include file = "../../header/mypageHeader.jsp" %>
 		<div id="content">
 		<div id = "navbar">
 			<div id="nav">
@@ -173,8 +178,8 @@
 					<p>쇼핑 이용 정보</p>
 					<hr>
 					<div>
-						<a href = "#" class= "activeMenu"><span onclick = "location.href = '01.html'">> 주문 내역</span></a>
-						<a href = "#"><span onclick = "location.href='04.html'">> 장바구니</span></a>
+						<a href = "orderHistory1" class= "activeMenu"><span>> 주문 내역</span></a>
+						<a href = "cart"><span>> 장바구니</span></a>
 						<a href = "#"><span onclick = "location.href = '05.html'">> 포인트 이용 내역</span></a>
 					</div>
 					<p>게시판 이용 내역</p>
@@ -210,6 +215,14 @@
 							</tr>
 							<tr>
 								<td>						
+									<strong>처리상태</strong>
+								</td>
+								<td>
+									<span>${rea.reState}</span>
+								</td>
+							</tr>
+							<tr>
+								<td>						
 									<strong>사유</strong>
 								</td>
 								<td>
@@ -223,30 +236,23 @@
 									<strong>내용</strong>
 								</td>
 								<td>
-									<textarea id = "detailReason" name = "content" placeholder = "구체적인 내용을 입력해주세요.&#13;&#10;변경할 색상과 사이즈를 작성해주세요">${rea.reContent}</textarea>
+									<div style="white-space:pre;">${rea.reContent}</div>
 								</td>
 							</tr>
 							<tr>
 								<td>						
-									<strong>이미지 업로드</strong>
+									<strong>이미지</strong>
 								</td>
 								<td>
 									<c:forEach var = "img" items = "${imgList.reaList}">
-									<p>${img.imageUrl}</p>
+									<p class = "imagP"> <a href="../upload/${img.imageUrl}" download><button>${img.imageUrl}</button></a></p>
 									</c:forEach>
 								</td>
 							</tr>
-							<tr>
-								<td>						
-									<strong>배송비 결제</strong>
-								</td>
-								<td>
-									<span><fmt:formatNumber value="${deliveryPolicy.basicFee}" pattern="#,###" />원</span><br>
-									<span>※ 교환/환불 사유가 '사이즈 색상 변경','단순 변심'의 경우 배송비를 고객님께서
-									부담하셔야 하므로,<br>&nbsp;&nbsp;&nbsp;<strong>[교환/환불 신청하기]</strong>클릭 시 배송비 결제가 진행됩니다.</span>
-								</td>
-							</tr>
 						</table>				
+					</div>
+					<div id = "buttonGroup">
+						<button class = "btn btn-default"  onclick = "location.href='/shoppingmall/mypage/orderHistory1'">목록</button>		
 					</div>
 				</div>
 			</div>

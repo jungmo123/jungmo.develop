@@ -164,7 +164,7 @@
 <body>
 
 	<div class="container">
-	<%@ include file = "../../header/userheader.jsp" %>
+	<%@ include file = "../../header/mypageHeader.jsp" %>
 		<div id="content">
 		<div id = "navbar">
 			<div id="nav">
@@ -175,8 +175,8 @@
 					<p>쇼핑 이용 정보</p>
 					<hr>
 					<div>
-						<a href = "#" class= "activeMenu"><span onclick = "location.href = '01.html'">> 주문 내역</span></a>
-						<a href = "#"><span onclick = "location.href='04.html'">> 장바구니</span></a>
+						<a href = "orderHistory1" class= "activeMenu"><span>> 주문 내역</span></a>
+						<a href = "cart"><span>> 장바구니</span></a>
 						<a href = "#"><span onclick = "location.href = '05.html'">> 포인트 이용 내역</span></a>
 					</div>
 					<p>게시판 이용 내역</p>

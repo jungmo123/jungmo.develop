@@ -109,7 +109,7 @@
 					</c:if>
 					<c:if test = "${user!=null}">
 						<div id = "loginBar">
-							<a href = "../MYPAGE/SHOPPING/04.html"><span>장바구니</span></a>
+							<a href = "mypage/cart"><span>장바구니</span></a>
 							<span>&#124;</span>
 							<a href = "../MYPAGE/SHOPPING/01.html"><span>주문내역</span></a>
 							<span>&#124;</span>

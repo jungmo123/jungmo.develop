@@ -272,6 +272,21 @@ public class MyPageController {
 			model.addAttribute("rea", ref1);
 			model.addAttribute("imgList", ref3);
 		}
+		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
 		return "user/mypage/shopping/reaConfirm";
+	}
+	
+	@RequestMapping("/mypage/cart")
+	public String cart(HttpServletRequest request,Model model){
+		String userId = (String)request.getSession().getAttribute("user");
+		List<Cart> carts = mypageService.getCart(userId);
+		String cartNum = "";
+		for(int i = 0 ; i < carts.size() ; i++){
+			Cart cart = carts.get(i);
+			if(i == 0){
+				cartNum = cart.getCartNum();
+			}
+		}
+		return "user/mypage/shopping/cart";
 	}
 }
