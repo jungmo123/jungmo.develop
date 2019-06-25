@@ -11,6 +11,12 @@ public class GoodsOption {
 	
 	public GoodsOption(){}
 	
+	public GoodsOption(String optName, String optContent, String optPrice) {
+		this.optName = optName;
+		this.optContent = optContent;
+		this.optPrice = optPrice;
+	}
+	
 	public GoodsOption(int godNum, String optName,
 			String optContent, String optPrice) {
 		this.godNum = godNum;

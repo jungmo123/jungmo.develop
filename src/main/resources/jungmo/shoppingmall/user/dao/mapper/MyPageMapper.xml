@@ -36,8 +36,10 @@
 	</select>
 	
 	<select id = "getCart" parameterType = "string" resultMap = "cartMap">
-		select cart_num,user_id,god_num,cart_amount,opt_name,opt_content,opt_price,opt_num
+		select cart_num,user_id,carts.god_num,god_name,god_sellingprice,cart_amount,opt_name,opt_content,opt_price,opt_num
 		from carts
+	    join goods
+	    on(carts.god_num = goods.god_num)
 		where user_id = #{userId}
 		order by cart_num
 	</select>
@@ -84,6 +86,8 @@
 		<id property = "cartNum" column = "cart_num" />
 		<result property = "userId" column = "user_id" />
 		<result property = "godNum" column = "god_num" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = "godName" column = "god_name" />
 		<result property = "cartAmount" column = "cart_amount" />
 		<result property = "optName" column = "opt_name" />
 		<result property = "optContent" column = "opt_content" />

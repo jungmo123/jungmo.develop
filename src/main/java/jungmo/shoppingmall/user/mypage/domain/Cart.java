@@ -1,9 +1,13 @@
 package jungmo.shoppingmall.user.mypage.domain;
 
 public class Cart {
-	private String cartNum;
 	private String userId;
+	private String cartNum;
 	private String godNum;
+	private String godName;
+	private String godSellingPrice;
+	private String godAmount;
+	private String godPrice;
 	private String cartAmount;
 	private String optName;
 	private String optContent;
@@ -57,5 +61,29 @@ public class Cart {
 	}
 	public void setOptNum(String optNum) {
 		this.optNum = optNum;
+	}
+	public String getGodName() {
+		return godName;
+	}
+	public String getGodSellingPrice() {
+		return godSellingPrice;
+	}
+	public String getGodAmount() {
+		return godAmount;
+	}
+	public String getGodPrice() {
+		return godPrice;
+	}
+	public void setGodName(String godName) {
+		this.godName = godName;
+	}
+	public void setGodSellingPrice(String godSellingPrice) {
+		this.godSellingPrice = godSellingPrice;
+	}
+	public void setGodAmount(String godAmount) {
+		this.godAmount = godAmount;
+	}
+	public void setGodPrice(String godPrice) {
+		this.godPrice = godPrice;
 	}
 }
