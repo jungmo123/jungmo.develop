@@ -2,6 +2,8 @@ package jungmo.shoppingmall.user.mypage.dao.mapper;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
+
 import jungmo.shoppingmall.user.mypage.domain.*;
 
 public interface MyPageMapper {
@@ -17,4 +19,5 @@ public interface MyPageMapper {
 	List<ImageList> getRefundImage(String ordNum);
 	List<ImageList> getExchangeImage(String ordNum);
 	List<Cart> getCart(String userId);
+	int modifyCartAmount(@Param("cartNum") String cartNum,@Param("cartAmount") String cartAmount);
 }

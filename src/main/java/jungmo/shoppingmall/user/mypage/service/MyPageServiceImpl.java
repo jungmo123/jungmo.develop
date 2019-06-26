@@ -201,4 +201,8 @@ public class MyPageServiceImpl implements MyPageService{
 	public List<Cart> getCart(String userId){
 		return mypageDao.getCart(userId);
 	}
+	
+	public int modifyCartAmountString(String cartNum,String cartAmount){
+		return mypageDao.modifyCartAmountString(cartNum, cartAmount);
+	}
 }

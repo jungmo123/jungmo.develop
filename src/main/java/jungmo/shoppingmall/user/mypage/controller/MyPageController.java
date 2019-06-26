@@ -289,12 +289,13 @@ public class MyPageController {
 				cartNum = cart.getCartNum();
 				String godNum = cart.getGodNum();
 				String godName = cart.getGodName();
+				String godListImageUrl = cart.getGodListImageUrl();
 				String godSellingPrice = cart.getGodSellingPrice();
 				String godAmount = cart.getGodAmount();
 				String optName = cart.getOptName();
 				String optContent = cart.getOptContent();
 				String optPrice = cart.getOptPrice();
-				cart2 = new CartList(cartNum,godNum,godName,godSellingPrice,godAmount);
+				cart2 = new CartList(cartNum,godNum,godName,godListImageUrl,godSellingPrice,godAmount);
 				List<GoodsOption> godoList = cart2.getGodoList();
 				GoodsOption go = new GoodsOption(optName,optContent,optPrice);
 				godoList.add(go);
@@ -304,12 +305,13 @@ public class MyPageController {
 					cartNum = cart.getCartNum();
 					String godNum = cart.getGodNum();
 					String godName = cart.getGodName();
+					String godListImageUrl = cart.getGodListImageUrl();
 					String godSellingPrice = cart.getGodSellingPrice();
 					String godAmount = cart.getGodAmount();
 					String optName = cart.getOptName();
 					String optContent = cart.getOptContent();
 					String optPrice = cart.getOptPrice();
-					cart2 = new CartList(cartNum,godNum,godName,godSellingPrice,godAmount);
+					cart2 = new CartList(cartNum,godNum,godName,godListImageUrl,godSellingPrice,godAmount);
 					List<GoodsOption> godoList = cart2.getGodoList();
 					GoodsOption go = new GoodsOption(optName,optContent,optPrice);
 					godoList.add(go);
@@ -324,6 +326,14 @@ public class MyPageController {
 			}
 		}
 		cartList.add(cart2);
+		model.addAttribute("carts", cartList);
 		return "user/mypage/shopping/cart";
+	}
+	
+	@RequestMapping("/mypage/amountModify")
+	@ResponseBody
+	public String amountModify(String cartNum,String cartAmount){
+		mypageService.modifyCartAmountString(cartNum, cartAmount);
+		return "";
 	}
 }

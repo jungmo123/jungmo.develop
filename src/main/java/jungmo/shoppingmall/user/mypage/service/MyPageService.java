@@ -27,4 +27,5 @@ public interface MyPageService {
 	List<ImageList> getRefundImage(String ordNum);
 	List<ImageList> getExchangeImage(String ordNum);
 	List<Cart> getCart(String userId);
+	int modifyCartAmountString(String cartNum,String cartAmount);
 }

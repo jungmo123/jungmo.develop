@@ -8,6 +8,7 @@ public class CartList {
 	private String cartNum;
 	private String godNum;
 	private String godName;
+	private String godListImageUrl;
 	private String godSellingPrice;
 	private String godAmount;
 	private List<GoodsOption> godoList;
@@ -15,10 +16,11 @@ public class CartList {
 	public CartList(){}
 
 	public CartList(String cartNum, String godNum, String godName,
-			String godSellingPrice, String godAmount) {
+			String godListImageUrl, String godSellingPrice, String godAmount) {
 		this.cartNum = cartNum;
 		this.godNum = godNum;
 		this.godName = godName;
+		this.godListImageUrl = godListImageUrl;
 		this.godSellingPrice = godSellingPrice;
 		this.godAmount = godAmount;
 		this.godoList = new ArrayList<>();
@@ -67,5 +69,13 @@ public class CartList {
 
 	public void setGodAmount(String godAmount) {
 		this.godAmount = godAmount;
+	}
+
+	public String getGodListImageUrl() {
+		return godListImageUrl;
+	}
+
+	public void setGodListImageUrl(String godListImageUrl) {
+		this.godListImageUrl = godListImageUrl;
 	}
 }

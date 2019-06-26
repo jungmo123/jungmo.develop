@@ -112,7 +112,7 @@
 		width:30px;
 	}
 	#basket table tr th:nth-child(3){
-		width:400px;
+		width:390px;
 	}
 	#basket table tr td:nth-child(3){
 		text-align:left;
@@ -120,18 +120,19 @@
 	#item{
 		display:inline-block;
 		width:90px;
-		height:100px;
-		border:1px solid grey;
-		margin-left:70px;
-		float:left;
+		margin-left:10px;
+		float: left;
 	}
 	#itemInfo{
-		display:inline-block;
-		margin:8px 0 0 10px;
-		float:left;
+	    display: inline-block;
+	    width: 270px;
+	    height: 90px;
+	    margin: 8px 0 0 10px;
+	    float: left;
+	    overflow: auto;
 	}
 	#basket table tr td:nth-child(4){
-		width:80px;
+		width:90px;
 	}
 	#basket table tr td:nth-child(5){
 		width:120px;
@@ -148,6 +149,9 @@
 		font-weight:bold;
 		position:relative;
 		bottom:2px;
+	}
+	#basketFooter{
+	 margin-top:10px;
 	}
 	#basketFooter span{
 		float:right;
@@ -166,6 +170,19 @@
 		position:relative;
 		left:100px;
 		top:30px;
+	}
+	img{
+		width:90px;
+		height:100px;
+	}
+	#option{
+	    overflow: auto;
+	    height: 90px;	
+	}
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	    margin: 0;
 	}
 </style>
 </head>
@@ -232,188 +249,65 @@
 					</tr>
 				</thead>
 				<tbody>
+					<c:forEach var = "cart" items = "${carts}" varStatus = "state">
+					<c:set var = "total" value = "0" />
 					<tr>
 						<td>
-							<input type = "checkbox" name = "number" />
+							<input class = "${cart.cartNum}" type = "checkbox" name = "number" />
 						</td>
 						<td>
-							<span>4</span>
+							<span>${state.index+1}</span>
 						</td>
 						<td>
 							<div id = "item">
-							
+								<img src = "../upload/${cart.godListImageUrl}">
 							</div>
 							<div id = "itemInfo">
 								<p>
-									<strong>{상품명}</strong>
+									<strong>${cart.godName}</strong>
 								</p>
+								<c:if test = "${!empty cart.godoList[0].optName}">
+								<c:forEach var = "option" items = "${cart.godoList}">
 								<p>
-									<strong>{옵션명} : </strong>
-									<span>{옵션 내용}</span>
-								</p>
-								<p>
-									<strong>{옵션명} :</strong>
-									<span>{옵션 내용}</span>
-								</p>
+									<strong id = "${fn:length(cart.godoList)}">${option.optName} : </strong>
+									<span>${option.optContent}</span>
+									<c:set var = "total" value = "${(total + option.optPrice)}" />
+								</p>								
+								</c:forEach>
+								</c:if>
 							</div>
 						</td>
 						<td>
+							<div id = "option">
 							<p>
-								<span>(상품가)원</span>
+								<c:set var = "total" value = "${(total + cart.godSellingPrice)}" />
+								<span><fmt:formatNumber value="${cart.godSellingPrice}" pattern="#,###" />원</span>
+								<c:set var = "total" value = "${(total*cart.godAmount)}" />
 							</p>
+							<c:if test = "${!empty cart.godoList[0].optName}">
+							<c:forEach var = "option" items = "${cart.godoList}">
 							<p>
-								<span>(옵션가)원</span>
-							</p>
-							<p>
-								<span>-</span>
-							</p>
+								<span><fmt:formatNumber value="${option.optPrice}" pattern="#,###" />원</span>
+							</p>								
+							</c:forEach>
+							</c:if>
+							</div>
 						</td>
 						<td>
-							<input type = "number" name = "amount" />
-							<button class = "btn btn-default">수정</button>
-						</td>
+							<input type = "number" name = "amount" value = "${cart.godAmount}"/>
+							<button class = "btn btn-default modify">수정</button>
+						</td> 
 						<td>
-							<span>{합계금액}원</span>
+							<span id = "${total}" class = "total"><fmt:formatNumber value="${total}" pattern="#,###" />원</span>
 						</td>
 					</tr>
-					<tr>
-						<td>
-							<input type = "checkbox" name = "number" />
-						</td>
-						<td>
-							<span>3</span>
-						</td>
-						<td>
-							<div id = "item">
-							
-							</div>
-							<div id = "itemInfo">
-								<p>
-									<strong>자주 실크 린넨 브라우스</strong>
-								</p>
-								<p>
-									<strong>색상 : </strong>
-									<span>네이비</span>
-								</p>
-								<p>
-									<strong>사이즈 :</strong>
-									<span>80</span>
-								</p>
-							</div>
-						</td>
-						<td>
-							<p>
-								<span>55,000원</span>
-							</p>
-							<p>
-								<span>5,000원</span>
-							</p>
-							<p>
-								<span>-</span>
-							</p>
-						</td>
-						<td>
-							<input type = "number" name = "amount" placeholder = "1"/>
-							<button class = "btn btn-default">수정</button>
-						</td>
-						<td>
-							<span>60,000원</span>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input type = "checkbox" name = "number" />
-						</td>
-						<td>
-							<span>2</span>
-						</td>
-						<td>
-							<div id = "item">
-							
-							</div>
-							<div id = "itemInfo">
-								<p>
-									<strong>자주 실크 린넨 브라우스</strong>
-								</p>
-								<p>
-									<strong>색상 : </strong>
-									<span>네이비</span>
-								</p>
-								<p>
-									<strong>사이즈 :</strong>
-									<span>80</span>
-								</p>
-							</div>
-						</td>
-						<td>
-							<p>
-								<span>55,000원</span>
-							</p>
-							<p>
-								<span>5,000원</span>
-							</p>
-							<p>
-								<span>-</span>
-							</p>
-						</td>
-						<td>
-							<input type = "number" name = "amount" placeholder = "2"/>
-							<button class = "btn btn-default">수정</button>
-						</td>
-						<td>
-							<span>60,000원</span>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input type = "checkbox" name = "number" />
-						</td>
-						<td>
-							<span>1</span>
-						</td>
-						<td>
-							<div id = "item">
-							
-							</div>
-							<div id = "itemInfo">
-								<p>
-									<strong>자주 실크 린넨 브라우스</strong>
-								</p>
-								<p>
-									<strong>색상 : </strong>
-									<span>네이비</span>
-								</p>
-								<p>
-									<strong>사이즈 :</strong>
-									<span>80</span>
-								</p>
-							</div>
-						</td>
-						<td>
-							<p>
-								<span>55,000원</span>
-							</p>
-							<p>
-								<span>5,000원</span>
-							</p>
-							<p>
-								<span>-</span>
-							</p>
-						</td>
-						<td>
-							<input type = "number" name = "amount" placeholder = "1"/>
-							<button class = "btn btn-default">수정</button>
-						</td>
-						<td>
-							<span>60,000원</span>
-						</td>
-					</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 		<div id = "basketFooter">
 			<button class = "btn btn-default">선택 삭제</button>
-			<span>상품 총 금액 : <strong>120,000</strong>원</span>
+			<span>상품 총 금액 : <strong id = "totalprice">0</strong><strong>원</strong></span>
 		</div>
 		<div id = "buttonGroup">
 			<button class = "btn btn-default" onclick="location.href='../../GOODS/01.html'">계속 쇼핑하기</button>
@@ -422,6 +316,100 @@
 	</div>
 	</div>
 </div>
+
+<script>
+$("input[type='number']").keyup(function(){
+	var point = $(this).val();
+	if(point < 0){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '음수는 입력할 수 없습니다!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		$(this).val("");
+	}else if(point == "0"){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '수량은 최소 1개 이상입니다.',
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+		$(this).val("1");
+	}
+})
+
+function comma(num){
+    var len, point, str; 
+       
+    num = num + ""; 
+    point = num.length % 3 ;
+    len = num.length; 
+   
+    str = num.substring(0, point); 
+    while (point < len) { 
+        if (str != "") str += ","; 
+        str += num.substring(point, point + 3); 
+        point += 3; 
+    } 
+     
+    return str;
+}
+
+function commaDelete(str){
+	n = parseInt(str.replace(/,/g,""));
+	return n;
+}
+
+$("input[type='checkbox']").click(function(){
+    if($(this).is(":checked")){
+    	var total = $(this).parents("tr").find(".total").prop("id");
+    	var totalprice = $("#totalprice").text();
+    	$("#totalprice").text(comma(Number(total)+Number(commaDelete(totalprice))));
+    }else{
+    	var total = $(this).parents("tr").find(".total").prop("id");
+    	var totalprice = $("#totalprice").text();
+    	$("#totalprice").text(comma(Number(commaDelete(totalprice))-Number(total)));
+    }
+})
+
+$(".modify").click(function(){
+	var cartNum = $(this).parents("tr").find("input[type='checkbox']").prop("class");
+	var cartAmount = $(this).parents("tr").find("input[type='number']").val();
+	if(cartAmount != ""){
+		$.ajax({
+			url:"amountModify",
+			data:{
+				cartNum:cartNum,
+				cartAmount:cartAmount
+			},
+			method:"post",
+			success:function(data){
+				location.href = "/shoppingmall/mypage/cart";
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '수정에 실패했습니다!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});				
+			}
+		})		
+	}else{
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '수량을 입력해주세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});		
+	}
+})
+</script>
 
 </body>
 </html>

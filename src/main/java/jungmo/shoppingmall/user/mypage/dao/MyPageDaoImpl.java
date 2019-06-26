@@ -59,4 +59,8 @@ public class MyPageDaoImpl implements MyPageDao{
 	public List<Cart> getCart(String userId){
 		return mypageMapper.getCart(userId);
 	}
+	
+	public int modifyCartAmountString(String cartNum,String cartAmount){
+		return mypageMapper.modifyCartAmount(cartNum, cartAmount);
+	}
 }

@@ -2,6 +2,8 @@ package jungmo.shoppingmall.user.mypage.dao;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
+
 import jungmo.shoppingmall.user.mypage.domain.*;
 
 public interface MyPageDao {
@@ -17,4 +19,5 @@ public interface MyPageDao {
 	List<ImageList> getRefundImage(String ordNum);
 	List<ImageList> getExchangeImage(String ordNum);
 	List<Cart> getCart(String userId);
+	int modifyCartAmountString(String cartNum,String cartAmount);
 }
