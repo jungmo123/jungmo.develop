@@ -69,6 +69,14 @@
 		where cart_num = #{cartNum}
 	</update>
 	
+	<delete id = "deleteCart" parameterType = "map">
+		delete from carts
+		where cart_num in
+		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
+			#{ls}
+		</foreach>
+	</delete>
+	
 	<delete id = "deleteRefund" parameterType = "string">
 		delete from refunds
 		where ord_num = #{ordNum}

@@ -249,6 +249,7 @@
 					</tr>
 				</thead>
 				<tbody>
+					<c:set var = "totalprice" value = "0" /> 
 					<c:forEach var = "cart" items = "${carts}" varStatus = "state">
 					<c:set var = "total" value = "0" />
 					<tr>
@@ -299,6 +300,7 @@
 						</td> 
 						<td>
 							<span id = "${total}" class = "total"><fmt:formatNumber value="${total}" pattern="#,###" />원</span>
+							<c:set var = "totalprice" value = "${(totalprice + total)}"/> 
 						</td>
 					</tr>
 					</c:forEach>
@@ -306,18 +308,19 @@
 			</table>
 		</div>
 		<div id = "basketFooter">
-			<button class = "btn btn-default">선택 삭제</button>
+			<button id = "delete" class = "btn btn-default">선택 삭제</button>
 			<span>상품 총 금액 : <strong id = "totalprice">0</strong><strong>원</strong></span>
 		</div>
 		<div id = "buttonGroup">
-			<button class = "btn btn-default" onclick="location.href='../../GOODS/01.html'">계속 쇼핑하기</button>
-			<button class = "btn btn-default" onclick="location.href='../../BUY/01.html'">선택 구매</button>
+			<button class = "btn btn-default" onclick="location.href='/shoppingmall/styleshop1I1IAll'">계속 쇼핑하기</button>
+			<button id = "buy" class = "btn btn-default">선택 구매</button>
 		</div>
 	</div>
 	</div>
 </div>
 
 <script>
+var totalprice = "${totalprice}"
 $("input[type='number']").keyup(function(){
 	var point = $(this).val();
 	if(point < 0){
@@ -363,7 +366,7 @@ function commaDelete(str){
 	return n;
 }
 
-$("input[type='checkbox']").click(function(){
+$("table tr td input[type='checkbox']").click(function(){
     if($(this).is(":checked")){
     	var total = $(this).parents("tr").find(".total").prop("id");
     	var totalprice = $("#totalprice").text();
@@ -407,6 +410,82 @@ $(".modify").click(function(){
 			  showConfirmButton: false,
 			  timer: 1500
 			});		
+	}
+})
+
+$("input[name='Allnumber']").click(function(){
+	  if($(this).is(":checked")){
+		 $("#totalprice").text("0");
+		  $("table tr td input[type='checkbox']").prop("checked", false);
+		  $("table tr td input[type='checkbox']").trigger("click");
+	  }else{
+		  $("#totalprice").text(totalprice);
+		  $("table tr td input[type='checkbox']").prop("checked", true);
+		  $("table tr td input[type='checkbox']").trigger("click");
+	  }
+})
+
+$("#delete").click(function(){
+	var check = $("table tr td input[type='checkbox']:checked");
+	var list = [];
+	$.each(check,function(index,item){
+		list.push($(item).prop("class"));
+	})
+	if(list == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '삭제할 상품을 선택해주세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});		
+	}else{
+		$.ajax({
+		    method: 'POST',
+		    url: 'deleteCart',
+		    traditional : true,
+		    data : {
+		        'list' : list
+		    },
+		    success : function(data) {
+		    	location.href = "/shoppingmall/mypage/cart";
+		    },
+		    error : function(request, status, error) {
+		        console.log(error);
+		    }
+		});	
+	}
+})
+
+$("#buy").click(function(){
+	var check = $("table tr td input[type='checkbox']:checked");
+	var list = [];
+	$.each(check,function(index,item){
+		list.push($(item).prop("class"));
+	})
+	if(list == ""){
+		Swal.fire({
+			  position: 'top',
+			  type: 'error',
+			  title: '구매할 상품을 선택해주세요!',
+			  showConfirmButton: false,
+			  timer: 1500
+			});		
+	}else{
+		$.ajax({
+		    method: 'POST',
+		    url: 'addCart',
+		    traditional : true,
+		    data : {
+		        'list' : list
+		    },
+		    success : function(data) {
+		    	location.href = "/shoppingmall/mypage/cart";
+		    },
+		    error : function(request, status, error) {
+		        console.log(error);
+		    }
+		});	
 	}
 })
 </script>

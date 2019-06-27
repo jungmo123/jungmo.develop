@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.apache.ibatis.annotations.*;
 
+import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 
 public interface MyPageMapper {
@@ -20,4 +21,5 @@ public interface MyPageMapper {
 	List<ImageList> getExchangeImage(String ordNum);
 	List<Cart> getCart(String userId);
 	int modifyCartAmount(@Param("cartNum") String cartNum,@Param("cartAmount") String cartAmount);
+	int deleteCart(HashMap<String,List<String>> map);
 }

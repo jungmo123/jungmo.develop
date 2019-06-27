@@ -63,4 +63,8 @@ public class MyPageDaoImpl implements MyPageDao{
 	public int modifyCartAmountString(String cartNum,String cartAmount){
 		return mypageMapper.modifyCartAmount(cartNum, cartAmount);
 	}
+	
+	public int deleteCart(HashMap<String,List<String>> map){
+		return mypageMapper.deleteCart(map);
+	}
 }

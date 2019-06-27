@@ -28,4 +28,5 @@ public interface MyPageService {
 	List<ImageList> getExchangeImage(String ordNum);
 	List<Cart> getCart(String userId);
 	int modifyCartAmountString(String cartNum,String cartAmount);
+	int deleteCart(HashMap<String,List<String>> map);
 }

@@ -205,4 +205,8 @@ public class MyPageServiceImpl implements MyPageService{
 	public int modifyCartAmountString(String cartNum,String cartAmount){
 		return mypageDao.modifyCartAmountString(cartNum, cartAmount);
 	}
+	
+	public int deleteCart(HashMap<String,List<String>> map){
+		return mypageDao.deleteCart(map);
+	}
 }

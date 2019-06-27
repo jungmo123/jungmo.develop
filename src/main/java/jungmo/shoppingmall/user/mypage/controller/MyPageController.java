@@ -336,4 +336,17 @@ public class MyPageController {
 		mypageService.modifyCartAmountString(cartNum, cartAmount);
 		return "";
 	}
+	
+	@RequestMapping("/mypage/deleteCart")
+	@ResponseBody
+	public String deleteCart(String[] list){
+		List<String> array = new ArrayList<>();
+		for(int i = 0 ; i < list.length ; i++){
+			array.add(list[i]);
+		}
+		HashMap<String,List<String>> go = new HashMap<>(); 
+		go.put("list", array);
+		mypageService.deleteCart(go);
+		return "";
+	}
 }
