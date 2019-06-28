@@ -2,8 +2,9 @@ package jungmo.shoppingmall.user.mypage.dao;
 
 import java.util.*;
 
-import org.apache.ibatis.annotations.*;
-
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 
 public interface MyPageDao {
@@ -21,4 +22,8 @@ public interface MyPageDao {
 	List<Cart> getCart(String userId);
 	int modifyCartAmountString(String cartNum,String cartAmount);
 	int deleteCart(HashMap<String,List<String>> map);
-}
+	List<PointLogs> getPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<PointLogs> getSearchPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
+} 

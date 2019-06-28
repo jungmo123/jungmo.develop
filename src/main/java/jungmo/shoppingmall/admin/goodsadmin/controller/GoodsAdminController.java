@@ -74,12 +74,6 @@ public class GoodsAdminController {
 		List<String> repreFiles = new ArrayList<String>();
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
-		Goods god = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
-		try{
-		gaService.insertGoods(god);
-		}catch(Exception e){
-			return "nameoverlap";
-		}
 		String today = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
 		String dir = request.getServletContext().getRealPath("/upload");
 		String fullName = "";
@@ -104,6 +98,12 @@ public class GoodsAdminController {
 			}else{
 				repreFiles.add(files.get(i));
 			}
+		}
+		Goods god = new Goods(Integer.valueOf(normalPrice),Integer.valueOf(sellingPrice),mainFile,indexFile,Integer.valueOf(godStock),Integer.valueOf(godSellingLimit),godName,productState,Integer.valueOf(category),productInfo,memo,goodsIntroduce);
+		try{
+		gaService.insertGoods(god);
+		}catch(Exception e){
+			return "nameoverlap";
 		}
 		String godNum = String.valueOf(god.getGodNum());
 		List<String> num = new ArrayList<>();

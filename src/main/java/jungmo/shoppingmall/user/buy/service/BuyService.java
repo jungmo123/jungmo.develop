@@ -5,7 +5,6 @@ import java.util.*;
 import org.springframework.web.multipart.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
-import jungmo.shoppingmall.admin.policy.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.buy.domain.*;
 
@@ -16,4 +15,5 @@ public interface BuyService {
 	void createPurchaseOption(HashMap<String,List<GoodsOption>> hashmap);
 	void insertPointLogs(PointLogs pl);
 	String insertOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList);
+	String insertMOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList,List<String> cartNums);
 }

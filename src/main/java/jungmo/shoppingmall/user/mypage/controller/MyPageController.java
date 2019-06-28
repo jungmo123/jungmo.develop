@@ -2,16 +2,23 @@ package jungmo.shoppingmall.user.mypage.controller;
 
 import java.io.*;
 import java.sql.Date;
-import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
 
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.domain.PurchaseList;
 import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.policy.service.*;
+import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.admin.user.service.*;
+import jungmo.shoppingmall.user.buy.domain.*;
+import jungmo.shoppingmall.user.buy.service.*;
+import jungmo.shoppingmall.user.login.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 import jungmo.shoppingmall.user.mypage.service.*;
+import jungmo.shoppingmall.user.styleshop.service.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.dao.*;
@@ -19,7 +26,6 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
-import org.apache.commons.io.FilenameUtils;
 
 @Controller
 public class MyPageController {
@@ -28,15 +34,24 @@ public class MyPageController {
 	@Autowired private OrderService orderService;
 	@Autowired private MyPageService mypageService;
 	@Autowired private ClauseService clauseService;
+	@Autowired private UserService userService;
+	@Autowired private BuyService buyService;
+	@Autowired private UPageService upageService;
 	private Date date1;
 	private Date date2;
 	private Date date3;
 	private String sdate;
 	private String edate;
+	private String polgSDate;
+	private String polgEDate;
 	private String reImageUrl1 = "";
 	private String reImageUrl2 = "";
 	private String reImageUrl3 = "";
 	private List<String> fileList;
+	private List<CartList> cartList;
+	private List<BuyList> buyList;
+	private List<String>cartNums;
+	private String otoqContent;
 	
 	public void common(HttpServletRequest request,Model model,String idx,String Type){
 		String userId = (String)request.getSession().getAttribute("user");
@@ -280,7 +295,7 @@ public class MyPageController {
 	public String cart(HttpServletRequest request,Model model){
 		String userId = (String)request.getSession().getAttribute("user");
 		List<Cart> carts = mypageService.getCart(userId);
-		List<CartList> cartList = new ArrayList<>();
+		cartList = new ArrayList<>();
 		CartList cart2 = null;
 		String cartNum = "";
 		for(int i = 0 ; i < carts.size() ; i++){
@@ -289,13 +304,14 @@ public class MyPageController {
 				cartNum = cart.getCartNum();
 				String godNum = cart.getGodNum();
 				String godName = cart.getGodName();
+				String godcName = cart.getGodcName();
 				String godListImageUrl = cart.getGodListImageUrl();
 				String godSellingPrice = cart.getGodSellingPrice();
 				String godAmount = cart.getGodAmount();
 				String optName = cart.getOptName();
 				String optContent = cart.getOptContent();
 				String optPrice = cart.getOptPrice();
-				cart2 = new CartList(cartNum,godNum,godName,godListImageUrl,godSellingPrice,godAmount);
+				cart2 = new CartList(cartNum,godNum,godName,godcName,godListImageUrl,godSellingPrice,godAmount);
 				List<GoodsOption> godoList = cart2.getGodoList();
 				GoodsOption go = new GoodsOption(optName,optContent,optPrice);
 				godoList.add(go);
@@ -305,13 +321,14 @@ public class MyPageController {
 					cartNum = cart.getCartNum();
 					String godNum = cart.getGodNum();
 					String godName = cart.getGodName();
+					String godcName = cart.getGodcName();
 					String godListImageUrl = cart.getGodListImageUrl();
 					String godSellingPrice = cart.getGodSellingPrice();
 					String godAmount = cart.getGodAmount();
 					String optName = cart.getOptName();
 					String optContent = cart.getOptContent();
 					String optPrice = cart.getOptPrice();
-					cart2 = new CartList(cartNum,godNum,godName,godListImageUrl,godSellingPrice,godAmount);
+					cart2 = new CartList(cartNum,godNum,godName,godcName,godListImageUrl,godSellingPrice,godAmount);
 					List<GoodsOption> godoList = cart2.getGodoList();
 					GoodsOption go = new GoodsOption(optName,optContent,optPrice);
 					godoList.add(go);
@@ -348,5 +365,192 @@ public class MyPageController {
 		go.put("list", array);
 		mypageService.deleteCart(go);
 		return "";
+	}
+	
+	@RequestMapping("/mypage/addCart")
+	@ResponseBody
+	public String addCart(String[] list,HttpServletRequest request){
+		String userId = (String)request.getSession().getAttribute("user");
+		cartNums = new ArrayList<>();
+		List<String> array = new ArrayList<>();
+		buyList = new ArrayList<>();
+		for(int i = 0 ; i < list.length ; i++){
+			array.add(list[i]);
+		}		
+		for(int i = 0 ; i < cartList.size() ; i++){
+			CartList cl = cartList.get(i);
+			for(int j = 0 ; j < array.size() ; j++){
+				if(cl.getCartNum().equals(array.get(j))){
+					cartNums.add(cl.getCartNum());
+					BuyList buy = new BuyList(userId,cl.getGodNum(), cl.getGodAmount(),cl.getGodName(),cl.getGodcName(),cl.getGodSellingPrice(),cl.getGodListImageUrl(),cl.getGodoList());
+					buyList.add(buy);
+				}
+			}
+		}
+		return "";
+	}
+	
+	@RequestMapping(value = "/mypage/CartBuy",method=RequestMethod.POST)
+	public String CartBuy(HttpServletRequest request,Model model){
+		User user = userService.getUser(buyList.get(0).getUserId());
+		List<PointLogs> pl = userService.getPointLogs(user.getUserId());
+		int userPoint = 0;
+		for(int i = 0 ; i < pl.size() ; i++){
+			userPoint +=pl.get(i).getPolgChange();
+		}
+		model.addAttribute("userPoint",userPoint);
+		model.addAttribute("buys",buyList);
+		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
+		model.addAttribute("pointPolicy", clauseService.getPointPolicy());
+		model.addAttribute("nda",clauseService.getNoDeliveryArea());
+		model.addAttribute("user", user);
+		return "user/mypage/shopping/cartBuy";
+	}
+	
+	@RequestMapping(value = "/mypage/CartBuyResult",method=RequestMethod.POST)
+	public String CartBuyResult(HttpServletRequest request,Model model){
+		String ordNum = request.getParameter("ordNum");
+		PurchaseList p = orderService.getPurchase(ordNum);
+		model.addAttribute("purchase", p);
+		model.addAttribute("pointPolicy", clauseService.getPointPolicy());
+		model.addAttribute("deliveryPolicy", clauseService.getDeliveryPolicy());
+		return"user/mypage/shopping/cartBuyResult";
+	}
+	
+	@RequestMapping("/mypage/getOrderNum")
+	@ResponseBody
+	public int mgetOrderNum(HttpServletRequest request){
+		return buyService.getOrderNum();
+	}
+	
+	@RequestMapping("/mypage/createOrder")
+	@ResponseBody
+	public String mcreateOrder(MultipartHttpServletRequest request){
+		try{
+			return buyService.insertMOrder(request,buyService, buyList,cartNums);
+		}catch(DuplicateKeyException e){
+			return "error";
+		}
+	}
+	
+	// 포인트
+	
+	public void pointCommon(HttpServletRequest request,Model model,String idx){
+		String userId = (String)request.getSession().getAttribute("user");
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getPlTotRowCnt(userId));
+		model.addAttribute("pageMaker",ps);
+		int totalPoint = 0;
+		List<PointLogs> pointLogs = mypageService.getPl(myPage);
+		for(int i = 0 ; i < pointLogs.size() ; i++){
+			totalPoint += pointLogs.get(i).getPolgChange();
+		}
+		model.addAttribute("totalPoint", totalPoint);
+		model.addAttribute("pointLogs",pointLogs);
+		model.addAttribute("type","");
+	}
+	
+	public void pointSearch(HttpServletRequest request,Model model,String idx,String sdate,String edate){
+		String userId = (String)request.getSession().getAttribute("user");
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId,sdate,edate);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getSearchPlTotRowCnt(myPage));
+		model.addAttribute("pageMaker",ps);
+		int totalPoint = 0;
+		List<PointLogs> pointLogs = mypageService.getSearchPl(myPage);
+		List<PointLogs> pointLog = mypageService.getPl(myPage);
+		for(int i = 0 ; i < pointLog.size() ; i++){
+			totalPoint += pointLog.get(i).getPolgChange();
+		}
+		model.addAttribute("totalPoint", totalPoint);
+		model.addAttribute("pointLogs",pointLogs);
+		model.addAttribute("type","Search");		
+	}
+	
+	@RequestMapping("/mypage/pointLogs")
+	public String pl(){
+		return "redirect:pointLogs1";
+	}
+		
+	@RequestMapping("/mypage/pointLogs{idx}")
+	public String pointLogs(@PathVariable String idx,HttpServletRequest request,Model model){
+		pointCommon(request,model,idx);
+		return "user/mypage/shopping/pointLogs";
+	}
+	
+	@RequestMapping(value="/mypage/pointLogsSearch{idx}",method=RequestMethod.POST)
+	public String pointLogsPSearch(@PathVariable String idx,HttpServletRequest request,Model model){
+		date1 = Date.valueOf(request.getParameter("date1"));
+		date2 = Date.valueOf(request.getParameter("date2"));
+		int compare = date1.compareTo(date2);
+		if(compare > 0){
+			date3 = date1;
+			date1 = date2;
+			date2 = date3;
+		}
+		polgSDate = date1.toString();
+		polgEDate = date2.toString();
+		pointSearch(request,model,idx,polgSDate,polgEDate);
+		return "user/mypage/shopping/pointLogs";
+	}
+	
+	@RequestMapping(value="/mypage/pointLogsSearch{idx}",method=RequestMethod.GET)
+	public String pointLogsGSearch(@PathVariable String idx,HttpServletRequest request,Model model){
+		pointSearch(request,model,idx,polgSDate,polgEDate);
+		return "user/mypage/shopping/pointLogs";
+	}
+	
+	// 1:1 문의
+	
+	public void otoCommon(HttpServletRequest request,Model model,String idx){
+		String userId = (String)request.getSession().getAttribute("user");
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getOtoqTotRowCnt(userId));
+		model.addAttribute("pageMaker",ps);
+		List<OtoQuestion> otoq = mypageService.getMOtoq(myPage);
+		model.addAttribute("otoq", otoq);
+		model.addAttribute("type","");
+	}
+	
+	public void otoSearch(HttpServletRequest request,Model model,String idx,String otoqContent){
+		String userId = (String)request.getSession().getAttribute("user");
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId);
+		myPage.setOtoqContent(otoqContent);
+		UPageService ps = new UPageServiceImpl(10,myPage,upageService.getSearchOtoqTotRowCnt(otoqContent, userId));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("otoq",mypageService.getMOtoqSearch(myPage));
+		model.addAttribute("type","Search");
+	}
+	
+	@RequestMapping("/mypage/oneTwoOne")
+	public String oto(){
+		return "redirect:oneTwoOne1";
+	}
+	
+	@RequestMapping("/mypage/oneTwoOne{idx}")
+	public String oneTwoOne(@PathVariable String idx,HttpServletRequest request,Model model){
+		otoCommon(request,model,idx);
+		return "user/mypage/board/oneTwoOne";
+	}
+	
+	@RequestMapping(value="/mypage/oneTwoOneSearch{idx}",method=RequestMethod.POST)
+	public String oneTwoOnePSearch(@PathVariable String idx,HttpServletRequest request,Model model){
+		otoqContent = request.getParameter("otoqContent");
+		otoSearch(request,model,idx,otoqContent);
+		return "user/mypage/board/oneTwoOne";
+	}
+	
+	@RequestMapping(value="/mypage/oneTwoOneSearch{idx}",method=RequestMethod.GET)
+	public String oneTwoOneGSearch(@PathVariable String idx,HttpServletRequest request,Model model){
+		otoSearch(request,model,idx,otoqContent);
+		return "user/mypage/board/oneTwoOne";
+	}
+	
+	@RequestMapping("/mypage/oneTwoOneRead")
+	public String oneTwoOne(HttpServletRequest request,Model model){
+		return "user/mypage/board/oneTwoOneRead";
 	}
 }

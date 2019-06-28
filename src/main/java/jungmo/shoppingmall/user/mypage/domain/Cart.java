@@ -5,6 +5,7 @@ public class Cart {
 	private String cartNum;
 	private String godNum;
 	private String godName;
+	private String godcName;
 	private String godListImageUrl;
 	private String godSellingPrice;
 	private String godAmount;
@@ -92,5 +93,11 @@ public class Cart {
 	}
 	public void setGodListImageUrl(String godListImageUrl) {
 		this.godListImageUrl = godListImageUrl;
+	}
+	public String getGodcName() {
+		return godcName;
+	}
+	public void setGodcName(String godcName) {
+		this.godcName = godcName;
 	}
 }

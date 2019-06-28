@@ -2,8 +2,12 @@ package jungmo.shoppingmall.user.mypage.dao;
 
 import java.util.*;
 
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.dao.mapper.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
+import jungmo.shoppingmall.user.styleshop.domain.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -66,5 +70,21 @@ public class MyPageDaoImpl implements MyPageDao{
 	
 	public int deleteCart(HashMap<String,List<String>> map){
 		return mypageMapper.deleteCart(map);
+	}
+	
+	public List<PointLogs> getPl(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getPl(page);
+	}
+	
+	public List<PointLogs> getSearchPl(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getSearchPl(page);
+	}
+	
+	public List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getMOtoq(page);
+	}
+	
+	public List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getMOtoqSearch(page);
 	}
 }

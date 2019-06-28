@@ -111,4 +111,20 @@ public class UPageServiceImpl implements UPageService{
 	public int getQnATotRowCnt(String godNum){
 		return pageDao.getQnATotRowCnt(godNum);
 	}
+	
+	public int getPlTotRowCnt(String userId){
+		return pageDao.getPlTotRowCnt(userId);
+	}
+	
+	public int getSearchPlTotRowCnt(Page page){
+		return pageDao.getSearchPlTotRowCnt(page);
+	}
+	
+	public int getOtoqTotRowCnt(String userId){
+		return pageDao.getOtoqTotRowCnt(userId);
+	}
+	
+	public int getSearchOtoqTotRowCnt(String otoqContent,String userId){
+		return pageDao.getSearchOtoqTotRowCnt(otoqContent, userId);
+	}
 }

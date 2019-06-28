@@ -4,9 +4,12 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
+import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.dao.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
+import jungmo.shoppingmall.user.styleshop.domain.*;
 
 import org.apache.commons.io.*;
 import org.springframework.beans.factory.annotation.*;
@@ -208,5 +211,21 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	public int deleteCart(HashMap<String,List<String>> map){
 		return mypageDao.deleteCart(map);
+	}
+	
+	public List<PointLogs> getPl(Page page){
+		return mypageDao.getPl(page);
+	}
+	
+	public List<PointLogs> getSearchPl(Page page){
+		return mypageDao.getSearchPl(page);
+	}
+	
+	public List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageDao.getMOtoq(page);
+	}
+	
+	public List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageDao.getMOtoqSearch(page);
 	}
 }

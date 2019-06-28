@@ -15,7 +15,7 @@
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
@@ -272,7 +272,7 @@
 </head>
 <body>
 	<div class="container">
-		<%@ include file = "../header/userheader.jsp" %>
+		<%@ include file = "../../header/userheader.jsp" %>
 		<div id="content1" class = "center-block">
 			<strong>&#124;&nbsp;구매 리스트</strong>
 			<hr>
@@ -293,7 +293,7 @@
 						<td><span class="number">${state.index+1}</span></td>
 						<td>
 							<div class="image">
-								<img src = "upload/${buy.godListImageUrl}">
+								<img src = "../upload/${buy.godListImageUrl}">
 							</div>
 						</td>
 						<td class="item">
@@ -851,7 +851,7 @@
 									  timer: 1500
 									});							
 							}else{
-					    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
+					    	var form = $("<form action = 'CartBuyResult' method = 'post'></form>");
 					    	var input = $("<input name = 'ordNum'></input>");
 					    	input.val(data);
 					    	form.append(input);

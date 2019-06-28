@@ -206,9 +206,6 @@ public class UserController {
 	
 	@RequestMapping("/admin/checkPoint")
 	public String checkPoint(HttpServletRequest request,Model model){
-		System.out.println(request.getParameter("checkPoint"));
-		System.out.println(request.getParameter("reason"));
-		System.out.println(request.getParameter("point"));
 		List<String> userId = new ArrayList<>();
 		StringTokenizer st = new StringTokenizer(request.getParameter("checkPoint"),",");
 		while(st.hasMoreTokens()){

@@ -36,12 +36,79 @@
 	</select>
 	
 	<select id = "getCart" parameterType = "string" resultMap = "cartMap">
-		select cart_num,user_id,carts.god_num,god_name,god_listimageurl,god_sellingprice,cart_amount,opt_name,opt_content,opt_price,opt_num
+		select cart_num,user_id,carts.god_num,god_name,godc_name,god_listimageurl,god_sellingprice,cart_amount,opt_name,opt_content,opt_price,opt_num
 		from carts
 	    join goods
-	    on(carts.god_num = goods.god_num)
+	   	on(carts.god_num = goods.god_num)
+      	join goods_categories
+      	on(goods.godc_num = goods_categories.godc_num)
 		where user_id = #{userId}
 		order by cart_num
+	</select>
+	
+	<select id = "getPl" parameterType = "upage" resultType = "polg">
+		  select * from(
+		  	select rownum as rnum, x.* from(
+	            select user_id userid,polg_date polgDate, polg_content polgContent,polg_change polgChange
+	            from point_logs
+	            where user_id = #{userId}          
+		  		order by polg_date
+		  		<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+		  	]]>	
+	</select>
+	
+	<select id = "getSearchPl" parameterType = "upage" resultType = "polg">
+		 <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+	            select user_id userid,polg_date polgDate, polg_content polgContent,polg_change polgChange
+	            from point_logs
+	            where user_id = #{userId} and
+        		polg_date > to_date(#{sdate},'YYYY-MM-DD HH24:MI:SS') and
+				polg_date < to_date(#{edate},'YYYY-MM-DD HH24:MI:SS')
+		  		order by polg_date
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+		  	]]>
+	</select>
+	
+	<select id = "getMOtoq" parameterType = "upage" resultMap = "OtoqMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select otoq_num,oto_questions.otoc_num,otoc_name,otoq_title,otoq_content,user_id,otoq_writingdate
+		  		from oto_questions
+		  		join oto_categories
+		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
+		  		where user_id = #{userId}
+		  		order by otoq_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	 
+	<select id = "getMOtoqSearch" parameterType = "upage" resultMap = "OtoqMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select otoq_num,oto_questions.otoc_num,otoc_name,otoq_title,otoq_content,user_id,otoq_writingdate
+		  		from oto_questions
+		  		join oto_categories
+		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
+				where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
+				and user_id = #{userId}
+		  		order by oto_questions.otoq_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getMOtoa" parameterType = "int" resultType = "otoa">
+		select otoq_num otoqNum,otoa_content otoaContent,user_id userId,otoa_writingdate otoaWritingDate
+		from oto_anser
+		where otoq_num = #{otoqNum}
 	</select>
 	
 	<insert id = "addRefund" parameterType = "re">
@@ -95,18 +162,30 @@
 		</foreach>
 		select 1 from dual
 	</insert>
-	
+	 
 	<resultMap id = "cartMap" type = "cart">
 		<id property = "cartNum" column = "cart_num" />
 		<result property = "userId" column = "user_id" />
 		<result property = "godNum" column = "god_num" />
 		<result property = "godSellingPrice" column = "god_sellingprice" />
 		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
 		<result property = "godListImageUrl" column = "god_listimageurl" />
 		<result property = "godAmount" column = "cart_amount" />
 		<result property = "optName" column = "opt_name" />
 		<result property = "optContent" column = "opt_content" />
 		<result property = "optPrice" column = "opt_price" />
 		<result property = "optNum" column = "opt_num" />
+	</resultMap>
+	
+	<resultMap id = "OtoqMap" type = "otoq">
+	 	<id property = "otoqNum" column = "otoq_num" />
+	 	<result property = "otocNum" column = "otoc_num" />
+	 	<result property = "otocName" column = "otoc_name" />
+	 	<result property = "otoqTitle" column = "otoq_title" />
+	 	<result property = "otoqContent" column = "otoq_content" />
+	 	<result property = "otoqWritingDate" column = "otoq_writingdate" />
+	 	<result property = "userId" column = "user_id" />
+	 	<association property="otoa" column="otoq_num" select = "getMOtoa" />
 	</resultMap>
 </mapper>

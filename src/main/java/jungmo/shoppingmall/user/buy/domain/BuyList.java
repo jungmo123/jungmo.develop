@@ -28,6 +28,19 @@ public class BuyList {
 		this.godoList = new ArrayList<>();
 	}
 	
+	public BuyList(String userId, String godNum, String godAmount,
+			String godName, String godcName, String godSellingPrice,
+			String godListImageUrl, List<GoodsOption> godoList) {
+		this.userId = userId;
+		this.godNum = godNum;
+		this.godAmount = godAmount;
+		this.godName = godName;
+		this.godcName = godcName;
+		this.godSellingPrice = godSellingPrice;
+		this.godListImageUrl = godListImageUrl;
+		this.godoList = godoList;
+	}
+
 	public String getGodNum() {
 		return godNum;
 	}

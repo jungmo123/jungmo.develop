@@ -308,12 +308,12 @@
 					<div>
 						<a href = "orderHistory1" class= "activeMenu"><span>> 주문 내역</span></a>
 						<a href = "cart"><span>> 장바구니</span></a>
-						<a href = "#"><span onclick = "location.href = '05.html'">> 포인트 이용 내역</span></a>
+						<a href = "pointLogs"><span>> 포인트 이용 내역</span></a>
 					</div>
 					<p>게시판 이용 내역</p>
 					<hr>
 					<div>
-						<a href = "#"><span onclick = "location.href = '../BOARD/01.html'">> 1:1 문의</span></a>
+						<a href = "oneTwoOne"><span>> 1:1 문의</span></a>
 						<a href = "#"><span onclick = "location.href = '../BOARD/04.html'">> 나의 상품평</span></a>
 						<a href = "#"><span onclick = "location.href = '../BOARD/05.html'">> 나의 상품 문의</span></a>
 					</div>

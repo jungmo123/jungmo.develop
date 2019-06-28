@@ -2,10 +2,12 @@ package jungmo.shoppingmall.user.mypage.dao.mapper;
 
 import java.util.*;
 
-import org.apache.ibatis.annotations.*;
-
-import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
+
+import org.apache.ibatis.annotations.*;
 
 public interface MyPageMapper {
 	List<Reason> getReason();
@@ -22,4 +24,8 @@ public interface MyPageMapper {
 	List<Cart> getCart(String userId);
 	int modifyCartAmount(@Param("cartNum") String cartNum,@Param("cartAmount") String cartAmount);
 	int deleteCart(HashMap<String,List<String>> map);
+	List<PointLogs> getPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<PointLogs> getSearchPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
 }

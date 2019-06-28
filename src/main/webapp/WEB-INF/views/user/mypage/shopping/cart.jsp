@@ -184,6 +184,15 @@
 	    -webkit-appearance: none;
 	    margin: 0;
 	}
+	#noOrder{
+		border:0px;
+		text-align:center;
+		margin-top:50px
+	}
+	#noOrder p span{
+		font-size:35px;
+		color:#BABABA;
+	}
 </style>
 </head>
 <body>
@@ -202,7 +211,7 @@
 					<div>
 						<a href = "orderHistory1"><span>> 주문 내역</span></a>
 						<a href = "cart" class= "activeMenu"><span>> 장바구니</span></a>
-						<a href = "#"><span onclick = "location.href = '05.html'">> 포인트 이용 내역</span></a>
+						<a href = "pointLogs"><span>> 포인트 이용 내역</span></a>
 					</div>
 					<p>게시판 이용 내역</p>
 					<hr>
@@ -224,6 +233,7 @@
 		<div id = "tableDiv">
 		<strong>&#124;&nbsp;장바구니</strong>
 		<hr>
+		<c:if test = "${carts[0] != null}">
 		<div id = "basket">
 			<table>
 				<thead>
@@ -315,6 +325,13 @@
 			<button class = "btn btn-default" onclick="location.href='/shoppingmall/styleshop1I1IAll'">계속 쇼핑하기</button>
 			<button id = "buy" class = "btn btn-default">선택 구매</button>
 		</div>
+		</c:if>
+		<c:if test = "${carts[0] == null}">
+			<div id = "noOrder">
+				<p><span class = 'glyphicon glyphicon-info-sign'></span></p>
+				<p><span>장바구니가 비어있습니다</span></p>
+			</div>		
+		</c:if>
 	</div>
 	</div>
 </div>
@@ -480,10 +497,18 @@ $("#buy").click(function(){
 		        'list' : list
 		    },
 		    success : function(data) {
-		    	location.href = "/shoppingmall/mypage/cart";
+				var form = $("<form action = 'CartBuy' method = 'post'></form>");
+				$("body").append(form);
+				form.submit();
 		    },
 		    error : function(request, status, error) {
-		        console.log(error);
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '세션이 만료되었습니다.\n새로고침해주세요',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
 		    }
 		});	
 	}

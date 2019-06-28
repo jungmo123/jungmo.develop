@@ -19,4 +19,36 @@
 		from goods_questions
 	    where god_num = #{godNum}
 	</select>
+	 
+	<select id = "getPlTotRowCnt" parameterType="string" resultType = "int">
+		select count(*)
+		from point_logs
+		where user_id = #{userId}
+	</select>
+	
+	<select id = "getSearchPlTotRowCnt" parameterType="string" resultType = "int">
+		select count(*)
+		from point_logs
+	    where user_id = #{userId} and
+	     <![CDATA[
+        polg_date > to_date(#{sdate},'YYYY-MM-DD HH24:MI:SS') and
+		polg_date < to_date(#{edate},'YYYY-MM-DD HH24:MI:SS')
+		]]>
+	</select>
+
+	<select id = "getOtoqTotRowCnt"  parameterType = "string" resultType = "int">
+		select count(otoq_num)
+		from oto_questions
+		where user_id = #{userId}
+	</select> 
+	
+	<select id = "getSearchOtoqTotRowCnt"  parameterType = "map" resultType = "int">
+		select count(otoq_num)
+		 from oto_questions
+		 join oto_categories
+		 on (oto_questions.otoc_num = oto_categories.otoc_num)
+		where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
+		and user_id = #{userId}
+		order by oto_questions.otoq_num desc
+	</select> 
 </mapper>

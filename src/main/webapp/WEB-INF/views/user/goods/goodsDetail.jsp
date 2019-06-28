@@ -55,8 +55,8 @@
 	}
 	#thumbnail div{
 		display:inline-block;
-		width:120px;
-		height:100px;
+		width:100px;
+		height:90px;
 		border:1px solid #BABABA;
 		margin:10px;
 	}
@@ -641,8 +641,8 @@
 		font-size:12px;
 	}
 	#thumbnail div > img{
-		width:118px;
-		height:98px;
+		width:98px;
+		height:88px;
 		cursor:pointer;
 	}
 	.Optionprice{
