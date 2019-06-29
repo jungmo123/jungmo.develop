@@ -5,6 +5,7 @@ import java.text.*;
 import java.util.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview;
 import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.dao.*;
@@ -227,5 +228,21 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	public List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
 		return mypageDao.getMOtoqSearch(page);
+	}
+	
+	public List<OneTwoOneCategory> getOtoc(){
+		return mypageDao.getOtoc(); 
+	}
+	
+	public int modifyOtoq(OtoQuestion otoq){
+		return mypageDao.modifyOtoq(otoq);
+	}
+	
+	public int addOtoq(OtoQuestion otoq){
+		return mypageDao.addOtoq(otoq);
+	}
+	
+	public List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageDao.getMGodr(page);
 	}
 }

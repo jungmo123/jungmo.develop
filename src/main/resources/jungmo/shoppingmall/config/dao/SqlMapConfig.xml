@@ -61,5 +61,6 @@
 			<typeAlias alias = "reai" type = "jungmo.shoppingmall.user.mypage.domain.RefundAndExchangeImage" />
 			<typeAlias alias = "imgl" type = "jungmo.shoppingmall.user.mypage.domain.ImageList" />
 			<typeAlias alias = "cart" type = "jungmo.shoppingmall.user.mypage.domain.Cart" />
+			<typeAlias alias = "otoc" type = "jungmo.shoppingmall.user.mypage.domain.OneTwoOneCategory" />
 	</typeAliases>
 </configuration>

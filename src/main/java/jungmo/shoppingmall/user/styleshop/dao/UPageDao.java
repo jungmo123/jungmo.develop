@@ -12,4 +12,5 @@ public interface UPageDao {
 	int getSearchPlTotRowCnt(Page page);
 	int getOtoqTotRowCnt(String userId);
 	int getSearchOtoqTotRowCnt(String otoqContent,String userId);
+	int getMGodrTotRowCnt(String userId);
 }

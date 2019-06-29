@@ -12,6 +12,24 @@ public class OtoQuestion {
 	private Date otoqWritingDate;
 	private OtoAnser otoa;
 	
+	public OtoQuestion(){}
+	
+	public OtoQuestion(int otoqNum, int otocNum, String otoqTitle,
+			String otoqContent) {
+		this.otoqNum = otoqNum;
+		this.otocNum = otocNum;
+		this.otoqTitle = otoqTitle;
+		this.otoqContent = otoqContent;
+	}
+
+	public OtoQuestion(int otocNum, String otoqTitle, String otoqContent,
+			String userId) {
+		this.otocNum = otocNum;
+		this.otoqTitle = otoqTitle;
+		this.otoqContent = otoqContent;
+		this.userId = userId;
+	}
+
 	public int getOtoqNum() {
 		return otoqNum;
 	}

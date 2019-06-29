@@ -15,6 +15,7 @@
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
@@ -197,13 +198,13 @@
 						<hr>
 						<div>
 							<a href = "orderHistory1"><span>> 주문 내역</span></a>
-							<a href = "cart" class= "activeMenu"><span>> 장바구니</span></a>
+							<a href = "cart"><span>> 장바구니</span></a>
 							<a href = "pointLogs"><span>> 포인트 이용 내역</span></a>
 						</div>
 						<p>게시판 이용 내역</p>
 						<hr>
 						<div>
-							<a href = "#"><span onclick = "location.href = '../BOARD/01.html'">> 1:1 문의</span></a>
+							<a href = "oneTwoOne" class= "activeMenu"><span onclick = "location.href = '../BOARD/01.html'">> 1:1 문의</span></a>
 							<a href = "#"><span onclick = "location.href = '../BOARD/04.html'">> 나의 상품평</span></a>
 							<a href = "#"><span onclick = "location.href = '../BOARD/05.html'">> 나의 상품 문의</span></a>
 						</div>
@@ -232,7 +233,7 @@
 					<div id = "requestContent">
 							${oto.otoqContent}
 						<div class = "buttonBox">
-							<button id = "questionModify" class = "form-control" data-toggle = "modal" data-target = "#otom">수정</button>
+							<button id = "questionModify" class = "form-control">수정</button>
 							<button class = "form-control">삭제</button>
 						</div>
 					</div>
@@ -273,5 +274,30 @@
 				</div>
 		</div>
 	</div>
+	
+<script type="text/javascript">
+var otoqNum = "${oto.otoqNum}"
+var otoqTitle = "${oto.otoqTitle}"
+var otoqContent = "${fn:trim(oto.otoqContent)}"
+var otocNum = "${oto.otocNum}"
+    
+    $("#questionModify").click(function(){
+    	var form = $("<form action = 'otoqModify' method = 'post' style = 'display:none'></form>");
+    	var input1 = $("<input type = 'text' name = 'otoqNum'></input>");
+    	var input2 = $("<input type = 'text' name = 'otocNum'></input>");
+    	var input3 = $("<input type = 'text' name = 'otoqTitle'></input>");
+    	var input4 = $("<input type = 'text' name = 'otoqContent'></input>");
+    	input1.val(otoqNum);
+    	input2.val(otocNum);
+    	input3.val(otoqTitle);
+    	input4.val(otoqContent);
+    	form.append(input1);
+    	form.append(input2);
+    	form.append(input3);
+    	form.append(input4);
+    	$("body").append(form);
+    	form.submit();
+    })
+</script>
 </body>
 </html>

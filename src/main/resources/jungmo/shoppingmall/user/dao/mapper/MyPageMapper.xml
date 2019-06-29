@@ -111,6 +111,28 @@
 		where otoq_num = #{otoqNum}
 	</select>
 	
+	<select id = "getOtoc" resultType = "otoc">
+		select otoc_num otocNum,otoc_name otocName
+		from oto_categories
+	</select>
+	
+	<select id = "getMGodr" parameterType = "upage" resultMap = "godrMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+				select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+				from goods_reviews
+				join goods
+				on (goods_reviews.god_num = goods.god_num)
+				join goods_categories
+				on (goods.godc_num = goods_categories.godc_num)
+        		where user_id = #{userId}
+		  		order by godr_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
 	<insert id = "addRefund" parameterType = "re">
 		insert into refunds
 		values(#{ordNum},sysdate,#{reReason},#{reContent},'처리전',null,null,#{rePayNum})
@@ -129,11 +151,22 @@
 		</foreach>
 		select 1 from dual
 	</insert>
+	 
+	<insert id = "addOtoq" parameterType = "otoq">
+		insert into oto_questions
+		values(oto_seq.nextval,#{otocNum},#{otoqTitle},#{otoqContent},#{userId},sysdate)
+	</insert>
 	
 	<update id = "modifyCartAmount" parameterType = "map">
 		update carts
 		set cart_amount = #{cartAmount}
 		where cart_num = #{cartNum}
+	</update>
+	
+	<update id = "modifyOtoq" parameterType = "otoq">
+		update oto_questions
+		set otoc_num = #{otocNum},otoq_title = #{otoqTitle},otoq_content = #{otoqContent}
+		where otoq_num = #{otoqNum}
 	</update>
 	
 	<delete id = "deleteCart" parameterType = "map">
@@ -187,5 +220,17 @@
 	 	<result property = "otoqWritingDate" column = "otoq_writingdate" />
 	 	<result property = "userId" column = "user_id" />
 	 	<association property="otoa" column="otoq_num" select = "getMOtoa" />
+	</resultMap>
+	
+	<resultMap id = "godrMap" type = "godr">
+		<id property = "godrNum" column = "godr_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "userId" column = "user_id" />
+		<result property = "godrWritingDate" column = "godr_writingdate" />
+		<result property = "satisLevel" column = "satislevel" />
+		<result property = "godrContent" column = "godr_content" />
 	</resultMap>
 </mapper>

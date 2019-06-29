@@ -3,6 +3,7 @@ package jungmo.shoppingmall.user.mypage.dao;
 import java.util.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview;
 import jungmo.shoppingmall.admin.order.domain.Page;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.dao.mapper.*;
@@ -86,5 +87,21 @@ public class MyPageDaoImpl implements MyPageDao{
 	
 	public List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
 		return mypageMapper.getMOtoqSearch(page);
+	}
+		
+	public List<OneTwoOneCategory> getOtoc(){
+		return mypageMapper.getOtoc();
+	}
+	
+	public int modifyOtoq(OtoQuestion otoq){
+		return mypageMapper.modifyOtoq(otoq);
+	}
+	
+	public int addOtoq(OtoQuestion otoq){
+		return mypageMapper.addOtoq(otoq);
+	}
+	
+	public List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getMGodr(page);
 	}
 }

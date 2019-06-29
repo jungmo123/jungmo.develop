@@ -3,6 +3,7 @@ package jungmo.shoppingmall.user.mypage.service;
 import java.util.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 import jungmo.shoppingmall.user.styleshop.domain.*;
@@ -36,4 +37,8 @@ public interface MyPageService {
 	List<PointLogs> getSearchPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OneTwoOneCategory> getOtoc();
+	int modifyOtoq(OtoQuestion otoq);
+	int addOtoq(OtoQuestion otoq);
+	List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page);
 }

@@ -26,4 +26,8 @@ public interface MyPageDao {
 	List<PointLogs> getSearchPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OneTwoOneCategory> getOtoc();
+	int modifyOtoq(OtoQuestion otoq);
+	int addOtoq(OtoQuestion otoq);
+	List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page);
 } 

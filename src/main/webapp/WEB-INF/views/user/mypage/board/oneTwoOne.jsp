@@ -92,17 +92,6 @@
 		display:inline;
 		width:250px;
 	}
-	select{
-		display:inline !important;
-		width:130px !important;
-		position:relative;
-		top:1px;		
-	}
-	#searchBar .btn{
-		width:100px;
-		position:relative;
-		bottom:2px;
-	}
 	.table-hover{
 		margin-top:10px;
 		margin-bottom:10px;
@@ -254,7 +243,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
-						<button id="write" class="btn btn-default" onclick="location.href='03.html'">1:1 문의하기</button>
+						<button id="write" class="btn btn-default" onclick="location.href='/shoppingmall/mypage/otoqAdd'">1:1 문의하기</button>
 					</div>
 			 			<div id = "pagination">
 							<div>
@@ -282,7 +271,12 @@
 	<script type = "text/javascript">
 	$("table tr").click(function(){
 		var otoqNum = $(this).attr("id");
-		location.href="/shoppingmall/mypage/oneTwoOneRead";
+		var form = $("<form action = 'oneTwoOneRead' method = 'post' style = 'display:none' ></form>");
+		var input = $("<input type = 'text' name = 'otoqNum' />");
+		input.val(otoqNum);
+		form.append(input);
+		$("body").append(form);
+		form.submit();
 	})	
 	</script>
 </body>

@@ -7,6 +7,7 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
+import jungmo.shoppingmall.admin.boardadmin.service.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.domain.PurchaseList;
 import jungmo.shoppingmall.admin.order.service.*;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
+import org.springframework.web.servlet.mvc.support.*;
 
 @Controller
 public class MyPageController {
@@ -37,6 +39,10 @@ public class MyPageController {
 	@Autowired private UserService userService;
 	@Autowired private BuyService buyService;
 	@Autowired private UPageService upageService;
+	@Autowired private OtoQuestionService otoService;
+	@Autowired private GoodsCategoriesService godcService;
+	@Autowired private GoodsReviewService godrService;
+	@Autowired private StyleShopService ssService;
 	private Date date1;
 	private Date date2;
 	private Date date3;
@@ -52,6 +58,8 @@ public class MyPageController {
 	private List<BuyList> buyList;
 	private List<String>cartNums;
 	private String otoqContent;
+	private String reviewType;
+	private String reviewIdx;
 	
 	public void common(HttpServletRequest request,Model model,String idx,String Type){
 		String userId = (String)request.getSession().getAttribute("user");
@@ -549,8 +557,85 @@ public class MyPageController {
 		return "user/mypage/board/oneTwoOne";
 	}
 	
-	@RequestMapping("/mypage/oneTwoOneRead")
+	@RequestMapping(value="/mypage/oneTwoOneRead",method=RequestMethod.POST)
 	public String oneTwoOne(HttpServletRequest request,Model model){
+		String otoqNum = request.getParameter("otoqNum");
+		model.addAttribute("oto",otoService.getOto(Integer.parseInt(otoqNum)));
 		return "user/mypage/board/oneTwoOneRead";
+	}
+	
+	@RequestMapping(value="/mypage/otoqModify",method=RequestMethod.POST)
+	public String otoqPModify(Model model,HttpServletRequest request){
+		String otoqNum = request.getParameter("otoqNum");
+		String otocNum = request.getParameter("otocNum");
+		String otoqTitle = request.getParameter("otoqTitle");
+		String otoqContent = request.getParameter("otoqContent");
+		model.addAttribute("otoqNum", otoqNum);
+		model.addAttribute("otocNum", otocNum);
+		model.addAttribute("otoqTitle", otoqTitle);
+		model.addAttribute("otoqContent", otoqContent);
+		model.addAttribute("otoc", mypageService.getOtoc());
+		return "user/mypage/board/oneTwoOneWrite";
+	}
+	
+	@RequestMapping(value="/mypage/otoqAdd",method=RequestMethod.GET)
+	public String otoqGModify(Model model,HttpServletRequest request){
+		model.addAttribute("otoc", mypageService.getOtoc());
+		return "user/mypage/board/oneTwoOneWrite";
+	}
+	
+	@RequestMapping(value="/mypage/otoqAM",method=RequestMethod.POST)
+	public String otoqAM(Model model,HttpServletRequest request){
+		String userId = (String)request.getSession().getAttribute("user");
+		String otoqNum = request.getParameter("otoqNum");
+		String otocNum = request.getParameter("otocNum").trim();
+		String otoqTitle = request.getParameter("otoqTitle");
+		String otoqContent = request.getParameter("otoqContent");
+		if(!otoqNum.equals("")){
+			mypageService.modifyOtoq(new OtoQuestion(Integer.valueOf(otoqNum),Integer.valueOf(otocNum),otoqTitle,otoqContent));
+		}else{
+			mypageService.addOtoq(new OtoQuestion(Integer.valueOf(otocNum),otoqTitle,otoqContent,userId));
+		}
+		return "redirect:oneTwoOne";
+	}
+	
+	// 리뷰
+	
+	public void godr(HttpServletRequest request,Model model,String idx){
+		String userId = (String)request.getSession().getAttribute("user");
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getMGodrTotRowCnt(userId));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",mypageService.getMGodr(myPage));
+		model.addAttribute("category",godcService.getCategories());
+		reviewType = "";
+		reviewIdx = idx;
+	}
+	
+	@RequestMapping("/mypage/goodsReview")
+	public String mgodr(){
+		return "redirect:goodsReview1";
+	}
+	
+	@RequestMapping("/mypage/goodsReview{idx}")
+	public String mgoodsReview(@PathVariable String idx,Model model,HttpServletRequest request){
+		godr(request,model,idx);
+		return "user/mypage/board/goodsReview";
+	}
+	
+	
+	@RequestMapping("/mypage/modifyGoodsReview")
+	@ResponseBody
+	public String modifyGoodsReview(String godrNum,String godrContent,String grade,HttpServletRequest request){
+		ssService.modifyGoodsReview(godrNum, godrContent, grade);
+		return reviewType + reviewIdx;
+	}
+	
+	@RequestMapping("/mypage/godrDelete")
+	public String godrDelete(Model model,HttpServletRequest request){
+		String Num = request.getParameter("godrNum");
+		godrService.deleteGodr(Integer.parseInt(Num));
+		return "redirect:goodsReview" + reviewType + reviewIdx;
 	}
 }

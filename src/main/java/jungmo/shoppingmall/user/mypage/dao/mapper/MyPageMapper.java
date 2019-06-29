@@ -3,7 +3,6 @@ package jungmo.shoppingmall.user.mypage.dao.mapper;
 import java.util.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
-import jungmo.shoppingmall.admin.order.domain.Page;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 
@@ -28,4 +27,8 @@ public interface MyPageMapper {
 	List<PointLogs> getSearchPl(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	List<OtoQuestion> getMOtoq(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	List<OtoQuestion> getMOtoqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<OneTwoOneCategory> getOtoc();
+	int modifyOtoq(OtoQuestion otoq);
+	int addOtoq(OtoQuestion otoq);
+	List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page);
 }

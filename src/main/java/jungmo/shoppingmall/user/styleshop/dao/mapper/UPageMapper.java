@@ -12,4 +12,5 @@ public interface UPageMapper {
 	int getSearchPlTotRowCnt(Page page);
 	int getOtoqTotRowCnt(String userId);
 	int getSearchOtoqTotRowCnt(@Param("otoqContent") String otoqContent,@Param("userId") String userId);
+	int getMGodrTotRowCnt(String userId);
 }

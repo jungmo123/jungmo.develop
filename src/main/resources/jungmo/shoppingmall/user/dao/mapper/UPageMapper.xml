@@ -50,5 +50,11 @@
 		where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
 		and user_id = #{userId}
 		order by oto_questions.otoq_num desc
-	</select> 
+	</select>
+	
+	<select id = "getMGodrTotRowCnt" parameterType = "string" resultType = "int">
+		select count(godr_num)
+		from goods_reviews
+		where user_id = #{userId}
+	</select>
 </mapper>

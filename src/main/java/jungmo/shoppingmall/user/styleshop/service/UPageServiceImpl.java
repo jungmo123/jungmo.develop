@@ -127,4 +127,8 @@ public class UPageServiceImpl implements UPageService{
 	public int getSearchOtoqTotRowCnt(String otoqContent,String userId){
 		return pageDao.getSearchOtoqTotRowCnt(otoqContent, userId);
 	}
+	
+	public int getMGodrTotRowCnt(String userId){
+		return pageDao.getMGodrTotRowCnt(userId);
+	}
 }
