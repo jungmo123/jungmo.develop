@@ -97,11 +97,6 @@
 	font-weight: bold;
 	margin-right: 20px;
 }
-
-input[type="text"] {
-	display: inline;
-	width: 250px;
-}
 	#productSearch{
 		text-align:center;
 		margin:10px 0px 20px 0px;
@@ -309,12 +304,21 @@ input[type="text"] {
 	#grade div > div:last-child p:last-child label{
 		margin-right:104px;
 	}
-	p{
-		margin-bottom:3px;
-	}
 	#reference{
 		padding:10px;
 		line-height:25px;
+	}
+	form{
+		display: inline-block;
+	}
+	#noOrder{
+		border:0px;
+		text-align:center;
+		margin-top:50px
+	}
+	#noOrder p span{
+		font-size:35px;
+		color:#BABABA;
 	}
 </style>
 </head>
@@ -339,9 +343,9 @@ input[type="text"] {
 						<p>게시판 이용 내역</p>
 						<hr>
 						<div>
-							<a href = "oneTwoOne" class= "activeMenu"><span>> 1:1 문의</span></a>
-							<a href = "#"><span onclick = "location.href = '../BOARD/04.html'">> 나의 상품평</span></a>
-							<a href = "#"><span onclick = "location.href = '../BOARD/05.html'">> 나의 상품 문의</span></a>
+							<a href = "oneTwoOne"><span>> 1:1 문의</span></a>
+							<a href = "goodsReview" class = "activeMenu"><span>> 나의 상품평</span></a>
+							<a href = "goodsQuestion"><span>> 나의 상품 문의</span></a>
 						</div>
 						<p>개인정보 수정</p>
 						<hr>
@@ -358,18 +362,21 @@ input[type="text"] {
 				<div id="searchBar">
 					<hr>
 					<span>상품평 검색</span>
+					<form action = "goodsReviewSearch1" method = "post">
 					<select class = "form-control" name = "godcNum">
 						<option value = "0">카테고리 전체</option>
 						<c:forEach var = "cate" items = "${category}">
 							<option value = "${cate.godcNum}">${cate.godcName}</option>
 						</c:forEach>
 					</select>
-					<input type="text" class="form-control" name="title"
+					<input type="text" class="form-control" name="godrSearch"
 						placeholder="상품명을 입력해 주세요." />
-					<button type="button" class="btn btn-default">검색</button>
+					<button class="btn btn-default">검색</button>
+					</form>
 					<hr>
 				</div>
 				<div	id = "product">
+					<c:if test = "${posts[0] != null}">
 					<c:forEach var = "godr" items = "${posts}" varStatus = "state">
 					<div class = "rv">
 						<div class = "view">
@@ -415,6 +422,13 @@ input[type="text"] {
 					</div>
 				</div>
 				</c:forEach>
+				</c:if>
+				<c:if test = "${posts[0] == null}">
+					<div id = "noOrder">
+						<p><span class = 'glyphicon glyphicon-info-sign'></span></p>
+						<p><span>작성한 상품평이 없습니다.</span></p>
+					</div>				
+				</c:if>
 				 	<div id = "pagination">
 						<div>
 							<ul class = "pagination">

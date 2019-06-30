@@ -88,10 +88,6 @@
 		text-align:center;
 		margin-top:10px;
 	}
-	input[type="text"]{
-		display:inline;
-		width:250px;
-	}
 	.table-hover{
 		margin-top:10px;
 		margin-bottom:10px;
@@ -156,6 +152,15 @@
 	#table tr td:nth-child(5){
 		width:111px;
 	}
+	#noOrder{
+		border:0px;
+		text-align:center;
+		margin-top:50px
+	}
+	#noOrder p span{
+		font-size:35px;
+		color:#BABABA;
+	}
 </style>
 </head>
 <body>
@@ -179,9 +184,9 @@
 						<p>게시판 이용 내역</p>
 						<hr>
 						<div>
-							<a href = "oneTwoOne" class= "activeMenu"><span>> 1:1 문의</span></a>
-							<a href = "#"><span onclick = "location.href = '../BOARD/04.html'">> 나의 상품평</span></a>
-							<a href = "#"><span onclick = "location.href = '../BOARD/05.html'">> 나의 상품 문의</span></a>
+							<a href = "oneTwoOne" class = "activeMenu"><span>> 1:1 문의</span></a>
+							<a href = "goodsReview"><span>> 나의 상품평</span></a>
+							<a href = "goodsQuestion"><span>> 나의 상품 문의</span></a>
 						</div>
 						<p>개인정보 수정</p>
 						<hr>
@@ -206,6 +211,7 @@
 					</div>
 				</form>
 					<div>
+						<c:if test = "${otoq[0] != null}">
 						<table id="table" class="table table-hover">
 							<thead>
 								<tr>
@@ -243,6 +249,13 @@
 								</c:forEach>
 							</tbody>
 						</table>
+						</c:if>
+						<c:if test = "${otoq[0] == null}">
+							<div id = "noOrder">
+								<p><span class = 'glyphicon glyphicon-info-sign'></span></p>
+								<p><span>신청한 문의가 없습니다.</span></p>
+							</div>							
+						</c:if>
 						<button id="write" class="btn btn-default" onclick="location.href='/shoppingmall/mypage/otoqAdd'">1:1 문의하기</button>
 					</div>
 			 			<div id = "pagination">

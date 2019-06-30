@@ -164,8 +164,12 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(HttpSession session){
+	public String logout(HttpSession session,HttpServletResponse response){
 		session.removeAttribute("user");
+		Cookie kc = new Cookie("identification", null);
+		kc.setPath("/"); 
+		kc.setMaxAge(0);
+		response.addCookie(kc);
 		return "redirect:/";
 	}
 	

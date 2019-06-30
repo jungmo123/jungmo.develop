@@ -8,6 +8,7 @@ import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview;
 import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.user.login.domain.*;
 import jungmo.shoppingmall.user.mypage.dao.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 import jungmo.shoppingmall.user.styleshop.domain.*;
@@ -244,5 +245,25 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	public List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page){
 		return mypageDao.getMGodr(page);
+	}
+	
+	public List<GoodsReview> getMGodrSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageDao.getMGodrSearch(page); 
+	}
+	
+	public List<GoodsQuestion> getMGodq(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageDao.getMGodq(page);
+	}
+	
+	public List<GoodsQuestion> getMGodqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageDao.getMGodqSearch(page);
+	}
+	
+	public User getUser(String userId){
+		return mypageDao.getUser(userId);
+	}
+	
+	public int modifyUser(User user){
+		return mypageDao.modifyUser(user);
 	}
 }

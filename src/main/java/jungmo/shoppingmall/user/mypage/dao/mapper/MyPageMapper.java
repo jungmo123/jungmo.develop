@@ -4,6 +4,7 @@ import java.util.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.user.login.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 
 import org.apache.ibatis.annotations.*;
@@ -31,4 +32,9 @@ public interface MyPageMapper {
 	int modifyOtoq(OtoQuestion otoq);
 	int addOtoq(OtoQuestion otoq);
 	List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<GoodsReview> getMGodrSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<GoodsQuestion> getMGodq(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	List<GoodsQuestion> getMGodqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
+	User getUser(String userId);
+	int modifyUser(User user);
 }

@@ -97,7 +97,7 @@
 		  		from oto_questions
 		  		join oto_categories
 		  		on (oto_questions.otoc_num = oto_categories.otoc_num)
-				where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
+				where ((otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%'))
 				and user_id = #{userId}
 		  		order by oto_questions.otoq_num desc
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
@@ -131,6 +131,101 @@
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
+	</select>
+	 
+	<select id = "getMGodrSearch" parameterType = "upage" resultMap = "godrMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  	]]>
+		<if test = "godcNum == 0">
+			select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+		  	from goods_reviews
+			join goods
+			on (goods_reviews.god_num = goods.god_num)
+			join goods_categories
+			on (goods.godc_num = goods_categories.godc_num)
+			where (godr_content like '%' || #{godrContent} || '%')
+			and user_id = #{userId}
+		</if>
+		<if test = "godcNum != 0">
+			select godr_num,goods_reviews.god_num,god_name,godc_name,god_listimageurl,user_id,godr_writingdate,satislevel,godr_content
+		  	from goods_reviews
+			join goods
+			on (goods_reviews.god_num = goods.god_num)
+			join goods_categories
+			on (goods.godc_num = goods_categories.godc_num)
+			where (godr_content like '%' || #{godrContent} || '%') and (goods.godc_num = #{godcNum})
+			and user_id = #{userId}
+		</if>
+		  	order by godr_num desc
+		  	<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getMGodq" parameterType = "upage" resultMap = "goodsQAMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  		select godq_num,godq_content,godq_writingdate,user_id,god_num
+		  		from goods_questions
+		  		where user_id  = #{userId}
+		  		order by godq_num desc
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getMGoods" parameterType = "int" resultMap = "godMap">
+		select god_num,god_listimageurl,god_name,godc_num
+		from goods
+		where god_num = #{godNum}
+	</select>
+	
+	<select id = "getMGoda" parameterType = "int" resultType = "goda">
+		select godq_num godqNum,goda_content godaContent,goda_writingdate godaWritingDate,user_id userId
+		from goods_anser
+		where godq_num = #{godqNum}
+	</select>
+	
+	<select id = "getMGodc" parameterType = "int" resultType = "godc">
+		select godc_num godcNum,godc_name godcName
+		from goods_categories
+		where godc_num = #{godcNum}
+	</select>
+	 
+	<select id = "getMGodqSearch" parameterType = "upage" resultMap = "goodsQAMap">
+		  <![CDATA[
+		  select * from(
+		  	select rownum as rnum, x.* from(
+		  	]]>
+      		<if test = "godqType == 0">
+			select  godq_num,godq_content,godq_writingdate,user_id,god_num
+			from goods_questions
+			where godq_content like '%' || #{godqContent} || '%'
+			and user_id = #{userId}
+			</if>
+			<if test = "godqType != 0">
+			select goods_questions.godq_num,godq_content,godq_writingdate,goods_questions.user_id,goods_questions.god_num
+			from goods_questions
+		    join goods
+		    on (goods_questions.god_num = goods.god_num)
+	     	where godc_num = #{godqType} and godq_content like '%' || #{godqContent} || '%'
+	     	and user_id = #{userId}
+			</if>
+		  	order by godq_num desc
+		  	<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getUser" parameterType = "string" resultType = "user">
+		select user_id userId,user_name userName,user_phone userPhone,user_email userEmail,user_mailagreement userMailAgreement
+		from users
+		where user_id = #{userId}
 	</select>
 	
 	<insert id = "addRefund" parameterType = "re">
@@ -167,6 +262,12 @@
 		update oto_questions
 		set otoc_num = #{otocNum},otoq_title = #{otoqTitle},otoq_content = #{otoqContent}
 		where otoq_num = #{otoqNum}
+	</update>
+	
+	<update id = "modifyUser" parameterType = "user">
+		update users
+		set user_email = #{userEmail},user_phone = #{userPhone},user_mailagreement = #{userMailAgreement}
+		where user_id = #{userId}
 	</update>
 	
 	<delete id = "deleteCart" parameterType = "map">
@@ -232,5 +333,21 @@
 		<result property = "godrWritingDate" column = "godr_writingdate" />
 		<result property = "satisLevel" column = "satislevel" />
 		<result property = "godrContent" column = "godr_content" />
+	</resultMap>
+	
+	<resultMap id = "goodsQAMap" type = "godq">
+	 	<id property = "godqNum" column = "godq_num" />
+	 	<result property = "godqContent" column = "godq_content" />
+	 	<result property = "godqWritingDate" column = "godq_writingdate" />
+	 	<result property = "userId" column = "user_id" />
+	 	<association property="goods" column="god_num" select = "getMGoods" />
+	 	<association property="goda" column="godq_num" select = "getMGoda" />
+	</resultMap>
+	
+	<resultMap id = "godMap" type = "god">
+		<id property = "godNum" column = "god_num" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "godName" column = "god_name" />
+		<association property="godc" column="godc_num" select = "getMGodc" />
 	</resultMap>
 </mapper>

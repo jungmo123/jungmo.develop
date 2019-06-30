@@ -13,4 +13,7 @@ public interface UPageMapper {
 	int getOtoqTotRowCnt(String userId);
 	int getSearchOtoqTotRowCnt(@Param("otoqContent") String otoqContent,@Param("userId") String userId);
 	int getMGodrTotRowCnt(String userId);
+	int getMGodrSearchTotRowCnt(@Param("userId") String userId,@Param("godcNum") String godcNum,@Param("godrContent") String godrContent);
+	int getMGodqTotRowCnt(String userId);
+	int getMGodqSearchTotRowCnt(@Param("userId") String userId,@Param("godqType") String godqType,@Param("godqContent") String godqContent);
 }

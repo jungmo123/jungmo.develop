@@ -17,6 +17,7 @@ import jungmo.shoppingmall.admin.user.service.*;
 import jungmo.shoppingmall.user.buy.domain.*;
 import jungmo.shoppingmall.user.buy.service.*;
 import jungmo.shoppingmall.user.login.domain.*;
+import jungmo.shoppingmall.user.login.service.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 import jungmo.shoppingmall.user.mypage.service.*;
 import jungmo.shoppingmall.user.styleshop.service.*;
@@ -43,6 +44,8 @@ public class MyPageController {
 	@Autowired private GoodsCategoriesService godcService;
 	@Autowired private GoodsReviewService godrService;
 	@Autowired private StyleShopService ssService;
+	@Autowired private GoodsQuestionService godqService;
+	@Autowired private LoginService loginService;
 	private Date date1;
 	private Date date2;
 	private Date date3;
@@ -60,6 +63,12 @@ public class MyPageController {
 	private String otoqContent;
 	private String reviewType;
 	private String reviewIdx;
+	private String godrSearch;
+	private String godcNum;
+	private  String godqType;
+	private String godqIdx;
+	private String godqSearch;
+	private String godq;
 	
 	public void common(HttpServletRequest request,Model model,String idx,String Type){
 		String userId = (String)request.getSession().getAttribute("user");
@@ -599,6 +608,9 @@ public class MyPageController {
 		return "redirect:oneTwoOne";
 	}
 	
+	
+	
+	
 	// 리뷰
 	
 	public void godr(HttpServletRequest request,Model model,String idx){
@@ -613,6 +625,17 @@ public class MyPageController {
 		reviewIdx = idx;
 	}
 	
+	public void godrSearch(HttpServletRequest request,Model model,String idx){
+		String userId = (String)request.getSession().getAttribute("user"); 
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,godcNum,userId,godrSearch,true);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getMGodrSearchTotRowCnt(userId,godcNum,godrSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("posts",mypageService.getMGodrSearch(myPage));
+		model.addAttribute("type","Search");
+		model.addAttribute("category",godcService.getCategories());
+	} 
+	
 	@RequestMapping("/mypage/goodsReview")
 	public String mgodr(){
 		return "redirect:goodsReview1";
@@ -621,6 +644,24 @@ public class MyPageController {
 	@RequestMapping("/mypage/goodsReview{idx}")
 	public String mgoodsReview(@PathVariable String idx,Model model,HttpServletRequest request){
 		godr(request,model,idx);
+		return "user/mypage/board/goodsReview";
+	}
+	
+	@RequestMapping(value="/mypage/goodsReviewSearch{idx}",method=RequestMethod.POST)
+	public String goodsMReviewPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		if(request.getParameter("godrSearch") != null){
+			godrSearch = request.getParameter("godrSearch");		
+		}
+		if(request.getParameter("godcNum") != ""){
+			godcNum= request.getParameter("godcNum");
+		}
+		godrSearch(request,model,idx);
+		return "user/mypage/board/goodsReview";
+	}
+	
+	@RequestMapping(value="/mypage/goodsReviewSearch{idx}",method=RequestMethod.GET)
+	public String goodsMReviewGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		godrSearch(request,model,idx);
 		return "user/mypage/board/goodsReview";
 	}
 	
@@ -637,5 +678,136 @@ public class MyPageController {
 		String Num = request.getParameter("godrNum");
 		godrService.deleteGodr(Integer.parseInt(Num));
 		return "redirect:goodsReview" + reviewType + reviewIdx;
+	}
+	
+	
+	
+	
+	// 상품 문의
+	
+	public void godq(HttpServletRequest request,Model model,String idx){
+		String userId = (String)request.getSession().getAttribute("user"); 
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getMGodqTotRowCnt(userId));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("godq",mypageService.getMGodq(myPage));
+		model.addAttribute("category",godcService.getCategories());
+		godqType = "";
+		godqIdx = idx;
+	}
+	
+	public void godqSearch(HttpServletRequest request,Model model,String idx){
+		String userId = (String)request.getSession().getAttribute("user");
+		jungmo.shoppingmall.user.styleshop.domain.Page myPage = null;
+		myPage = new jungmo.shoppingmall.user.styleshop.domain.Page(Integer.parseInt(idx),5,userId);
+		myPage.setGodqContent(godqSearch);
+		myPage.setGodqType(godq);
+		UPageService ps = new UPageServiceImpl(5,myPage,upageService.getMGodqSearchTotRowCnt(userId, godq, godqSearch));
+		model.addAttribute("pageMaker",ps);
+		model.addAttribute("godq",mypageService.getMGodqSearch(myPage));
+		model.addAttribute("category",godcService.getCategories());
+		model.addAttribute("type","Search");
+		godqType = "Search";
+		godqIdx = idx;
+	}
+	
+	@RequestMapping("/mypage/goodsQuestion")
+	public String mgodq(){
+		return "redirect:goodsQuestion1";
+	}
+	
+	@RequestMapping("/mypage/goodsQuestion{idx}")
+	public String goodsQuestion(@PathVariable String idx,Model model,HttpServletRequest request){
+		godq(request,model,idx);
+		return "user/mypage/board/goodsQuestion";
+	}
+	
+	@RequestMapping(value="/mypage/goodsQuestionSearch{idx}",method=RequestMethod.POST)
+	public String goodsQuestionPSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		if(request.getParameter("godqSearch") != null){
+			godqSearch = request.getParameter("godqSearch");		
+		}
+		godq = request.getParameter("godqType");
+		godqSearch(request,model,idx);
+		return "user/mypage/board/goodsQuestion";
+	}
+	
+	@RequestMapping(value="/mypage/goodsQuestionSearch{idx}",method=RequestMethod.GET)
+	public String goodsQuestionGSearch(@PathVariable String idx,Model model,HttpServletRequest request){
+		godqSearch(request,model,idx);
+		return "user/mypage/board/goodsQuestion";
+	}
+	
+	@RequestMapping("/mypage/questionModify")
+	public String questionModify(HttpServletRequest request){
+		String Num = request.getParameter("godqNum");
+		String Content = "";
+		if(request.getParameter("godqContent") != ""){
+			Content = request.getParameter("godqContent");
+		}
+		godqService.updateGodq(Integer.parseInt(Num),Content);
+		return "redirect:goodsQuestion" + godqType + godqIdx;
+	}
+
+	@RequestMapping("/mypage/QuestionDelete")
+	public String QuestionDelete(HttpServletRequest request){
+		String godqNum = request.getParameter("godqNum");
+		godqService.deleteGodq(Integer.parseInt(godqNum));
+		return "redirect:goodsQuestion" + godqType + godqIdx;
+	}
+	
+	
+	
+	// 개인정보 수정
+	
+	@RequestMapping("/mypage/personalData")
+	public String personalData(HttpServletRequest request,Model model){
+		String userId = (String)request.getSession().getAttribute("user");
+		Cookie[] myCookies = request.getCookies();
+		boolean button = false;
+		String address = "";
+	    for(int i = 0; i < myCookies.length; i++) {
+	    	if(myCookies[i].getName().equals("identification")){
+	    		button = true;
+	    	}
+	    }
+	    if(button == true){
+	    	User user = mypageService.getUser(userId);
+	    	model.addAttribute("user", user);
+	    	address ="user/mypage/myinfo/personalData";
+	    }else{
+	    	address ="user/mypage/myinfo/identification";
+	    	request.setAttribute("address", "personalData");
+	    }
+		return address;
+	}
+	
+	@RequestMapping("/mypage/passCheck")
+	@ResponseBody
+	public String passCheck(String password,HttpServletRequest request,HttpServletResponse response){
+		String userId = (String)request.getSession().getAttribute("user");
+		User user = new User(userId,password);
+		boolean u = loginService.loginTest(user);
+		if(u == true){
+			Cookie myCookie = new Cookie("identification", userId);
+			myCookie.setMaxAge(60*60*24);
+			myCookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+			response.addCookie(myCookie);
+			return "true";
+		}else{
+			return "false";
+		}
+	}
+	
+	@RequestMapping("/mypage/modifyUser")
+	@ResponseBody
+	public String modifyUser(String phone1,String phone2,String phone3,String emailid,String emailAddress,String emailSelect,HttpServletRequest request,HttpServletResponse response){
+		String userId = (String)request.getSession().getAttribute("user");
+		String userPhone = phone1+"-"+phone2+"-"+phone3;
+		String userEmail = emailid + "@" + emailAddress;
+		User user = new User(userId,userEmail,userPhone,emailSelect);
+		mypageService.modifyUser(user);
+		return "";
 	}
 }

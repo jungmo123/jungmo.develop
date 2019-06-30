@@ -10,6 +10,9 @@ public class Page {
 	private String sdate;
 	private String edate;
 	private String otoqContent;
+	private String godrContent;
+	private String godqContent;
+	private String godqType;
 	
 	public Page(){
 		this(1,5);
@@ -44,6 +47,15 @@ public class Page {
 		this.userId = userId;
 		this.sdate = sdate;
 		this.edate = edate;
+	}
+	
+	public Page(int currentPage, int rowCnt, String godcNum, String userId,
+			String godrContent,boolean add) {
+		this.currentPage = currentPage;
+		this.rowCnt = rowCnt;
+		this.godcNum = godcNum;
+		this.userId = userId;
+		this.godrContent = godrContent;
 	}
 
 	public int getCurrentPage() {
@@ -116,5 +128,29 @@ public class Page {
 
 	public void setOtoqContent(String otoqContent) {
 		this.otoqContent = otoqContent;
+	}
+
+	public String getGodrContent() {
+		return godrContent;
+	}
+
+	public void setGodrContent(String godrContent) {
+		this.godrContent = godrContent;
+	}
+
+	public String getGodqContent() {
+		return godqContent;
+	}
+
+	public String getGodqType() {
+		return godqType;
+	}
+
+	public void setGodqContent(String godqContent) {
+		this.godqContent = godqContent;
+	}
+
+	public void setGodqType(String godqType) {
+		this.godqType = godqType;
 	}
 }

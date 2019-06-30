@@ -485,7 +485,7 @@ public class BoardAdminController {
 		return "redirect:oneTwoOne" + type + otoIdx;
 	}
 	
-	//GoodsReview
+	//리뷰
 	
 	public void godr(HttpServletRequest request,Model model,String idx){
 		Page myPage = null;

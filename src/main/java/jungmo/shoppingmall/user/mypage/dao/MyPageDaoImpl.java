@@ -6,6 +6,7 @@ import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview;
 import jungmo.shoppingmall.admin.order.domain.Page;
 import jungmo.shoppingmall.admin.user.domain.*;
+import jungmo.shoppingmall.user.login.domain.*;
 import jungmo.shoppingmall.user.mypage.dao.mapper.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
 import jungmo.shoppingmall.user.styleshop.domain.*;
@@ -103,5 +104,25 @@ public class MyPageDaoImpl implements MyPageDao{
 	
 	public List<GoodsReview> getMGodr(jungmo.shoppingmall.user.styleshop.domain.Page page){
 		return mypageMapper.getMGodr(page);
+	}
+	
+	public List<GoodsReview> getMGodrSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getMGodrSearch(page);
+	}
+	
+	public List<GoodsQuestion> getMGodq(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getMGodq(page);
+	}
+	
+	public List<GoodsQuestion> getMGodqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page){
+		return mypageMapper.getMGodqSearch(page);
+	}
+	
+	public User getUser(String userId){
+		return mypageMapper.getUser(userId);
+	}
+	
+	public int modifyUser(User user){
+		return mypageMapper.modifyUser(user);
 	}
 }

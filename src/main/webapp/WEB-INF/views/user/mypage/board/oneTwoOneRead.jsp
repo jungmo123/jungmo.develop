@@ -204,9 +204,9 @@
 						<p>게시판 이용 내역</p>
 						<hr>
 						<div>
-							<a href = "oneTwoOne" class= "activeMenu"><span onclick = "location.href = '../BOARD/01.html'">> 1:1 문의</span></a>
-							<a href = "#"><span onclick = "location.href = '../BOARD/04.html'">> 나의 상품평</span></a>
-							<a href = "#"><span onclick = "location.href = '../BOARD/05.html'">> 나의 상품 문의</span></a>
+							<a href = "oneTwoOne" class = "activeMenu"><span>> 1:1 문의</span></a>
+							<a href = "goodsReview"><span>> 나의 상품평</span></a>
+							<a href = "goodsQuestion"><span>> 나의 상품 문의</span></a>
 						</div>
 						<p>개인정보 수정</p>
 						<hr>

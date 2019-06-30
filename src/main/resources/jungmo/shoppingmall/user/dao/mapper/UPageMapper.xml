@@ -47,7 +47,7 @@
 		 from oto_questions
 		 join oto_categories
 		 on (oto_questions.otoc_num = oto_categories.otoc_num)
-		where (otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%')
+		where ((otoq_content like '%' || #{otoqContent} || '%') or (otoq_title like '%' || #{otoqContent} || '%'))
 		and user_id = #{userId}
 		order by oto_questions.otoq_num desc
 	</select>
@@ -56,5 +56,45 @@
 		select count(godr_num)
 		from goods_reviews
 		where user_id = #{userId}
+	</select> 
+	
+	<select id = "getMGodrSearchTotRowCnt"  parameterType="map" resultType = "int">
+		<if test = "godcNum == 0">
+			select count(godr_num)
+		  	from goods_reviews
+			where (godr_content like '%' || #{godrContent} || '%')
+			and user_id = #{userId}
+		</if>
+		<if test = "godcNum != 0">
+			select count(godr_num)
+		  	from goods_reviews
+		  	join goods
+		  	on (goods_reviews.god_num = goods.god_num)
+			where (godr_content like '%' || #{godrContent} || '%') and (goods.godc_num = #{godcNum})
+			and user_id = #{userId}
+		</if>
+	</select>
+	
+	<select id = "getMGodqTotRowCnt"  parameterType = "string" resultType = "int">
+		select count(godq_num)
+		from goods_questions
+		where user_id = #{userId}
+	</select>
+	
+	<select id = "getMGodqSearchTotRowCnt"  parameterType="map" resultType = "int">
+		<if test = "godqType == 0">
+			select count(godq_num)
+			from goods_questions
+			where godq_content like '%' || #{godqContent} || '%'
+			and user_id = #{userId}	
+		</if>
+		<if test = "godqType != 0">
+		select count(goods_questions.godq_num)
+		from goods_questions
+	    join goods
+	    on (goods_questions.god_num = goods.god_num)
+     	where godc_num = #{godqType} and godq_content like '%' || #{godqContent} || '%'
+     	and user_id = #{userId}	
+		</if>
 	</select>
 </mapper>

@@ -47,15 +47,22 @@ public class User {
 		this.userMailAgreement = userMailAgreement;
 	}	
 
-	// 회원 정보 수정
+	// 회원 정보 수정1
 	public User(String userEmail, String userPhone, String userPostcode,
 			String userStreet, String userDetailArea) {
-		super();
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
 		this.userPostcode = userPostcode;
 		this.userStreet = userStreet;
 		this.userDetailArea = userDetailArea;
+	}
+	
+	// 회원 정보 수정2
+	public User(String userId,String userEmail, String userPhone,String userMailAgreement) {
+		this.userId = userId;
+		this.userEmail = userEmail;
+		this.userPhone = userPhone;
+		this.userMailAgreement = userMailAgreement;
 	}
 	
 	//관리자 회원 정보 수정

@@ -131,4 +131,16 @@ public class UPageServiceImpl implements UPageService{
 	public int getMGodrTotRowCnt(String userId){
 		return pageDao.getMGodrTotRowCnt(userId);
 	}
+	
+	public int getMGodrSearchTotRowCnt(String userId,String godcNum,String godrContent){
+		return pageDao.getMGodrSearchTotRowCnt(userId,godcNum,godrContent);
+	}
+	
+	public int getMGodqTotRowCnt(String userId){
+		return pageDao.getMGodqTotRowCnt(userId);
+	}
+	
+	public int getMGodqSearchTotRowCnt(String userId,String godqType,String godqContent){
+		return pageDao.getMGodqSearchTotRowCnt(userId, godqType, godqContent);
+	}
 }
