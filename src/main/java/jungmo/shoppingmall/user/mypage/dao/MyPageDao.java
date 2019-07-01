@@ -2,6 +2,8 @@ package jungmo.shoppingmall.user.mypage.dao;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
+
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.order.domain.Page;
 import jungmo.shoppingmall.admin.user.domain.*;
@@ -36,4 +38,8 @@ public interface MyPageDao {
 	List<GoodsQuestion> getMGodqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	User getUser(String userId);
 	int modifyUser(User user);
+	int updatePassword(String userId,String userPwd);
+	List<secedeCategory> getScd();
+	int updateUserState(String userId);
+	int addSecedeUser(String userId,String scdCode,String scdContent);
 } 

@@ -481,6 +481,14 @@ input[type="number"]::-webkit-inner-spin-button {
 					|| /^[a-zA-Z](?=.{0,28}[0-9])[0-9a-zA-Z]{5,19}$/.test(value);
 			}
 		);
+	
+	$.validator.addMethod(
+			"pwdck",
+			function(value,element){
+				return this.optional(element)
+					|| /(?=.*\d{1,50})(?=.*[a-zA-Z]{1,50}).{8,20}$/.test(value);
+			}
+		);
 
 	$(function() {
 			$("#registerForm").validate({
@@ -499,7 +507,9 @@ input[type="number"]::-webkit-inner-spin-button {
 					},
 					userPwd : {
 						required : true,
-						minlength : 8
+						minlength : 8,
+						maxlength : 20,
+						pwdck : true
 					},
 					confirmpassword : {
 						required : true,
@@ -548,6 +558,12 @@ input[type="number"]::-webkit-inner-spin-button {
 						},
 						minlength : function(){
 							return "8글자 이상으로 입력하세요";
+						},
+						maxlength : function(){
+							return "20글자 이하으로 입력하세요";
+						},
+						pwdck : function(){
+							return "영문 숫자 혼합으로 입력하세요";
 						}
 					},
 					confirmpassword : {

@@ -5,7 +5,7 @@
 	<select id = "loginTest" parameterType = "user" resultType = "user">
 		select user_id userId,user_pwd userPwd,user_level userLevel
 		from users
-		where user_id = #{userId} and user_pwd = #{userPwd}
+		where user_id = #{userId} and user_pwd = #{userPwd} and user_state = '가입'
 	</select>
 	
 	<select id = "getTodayJoin"  resultType="int">

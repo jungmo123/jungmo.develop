@@ -228,6 +228,12 @@
 		where user_id = #{userId}
 	</select>
 	
+	<select id = "getScd" resultType = "scd">
+		select scd_code scdCode,scd_type scdType
+		from secede_categories
+		where scd_code > 0
+	</select>
+	
 	<insert id = "addRefund" parameterType = "re">
 		insert into refunds
 		values(#{ordNum},sysdate,#{reReason},#{reContent},'처리전',null,null,#{rePayNum})
@@ -252,6 +258,11 @@
 		values(oto_seq.nextval,#{otocNum},#{otoqTitle},#{otoqContent},#{userId},sysdate)
 	</insert>
 	
+	<insert id = "addSecedeUser" parameterType = "map">
+		insert into secede_users
+		values(#{userId},sysdate,#{scdCode},#{scdContent})
+	</insert>
+	
 	<update id = "modifyCartAmount" parameterType = "map">
 		update carts
 		set cart_amount = #{cartAmount}
@@ -267,6 +278,18 @@
 	<update id = "modifyUser" parameterType = "user">
 		update users
 		set user_email = #{userEmail},user_phone = #{userPhone},user_mailagreement = #{userMailAgreement}
+		where user_id = #{userId}
+	</update>
+	 
+	<update id = "updatePassword" parameterType = "map">
+		update users
+		set user_pwd = #{userPwd}
+		where user_id = #{userId}
+	</update>
+	
+	<update id = "updateUserState" parameterType = "string">
+		update users
+		set user_state = '탈퇴'
 		where user_id = #{userId}
 	</update>
 	

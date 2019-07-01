@@ -47,4 +47,9 @@ public interface MyPageService {
 	List<GoodsQuestion> getMGodqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	User getUser(String userId);
 	int modifyUser(User user);
+	int updatePassword(String userId,String userPwd);
+	List<secedeCategory> getScd();
+	int updateUserState(String userId);
+	int addSecedeUser(String userId,String scdCode,String scdContent);
+	String addSecede(String userId,String scdCode,String scdContent,String password,MyPageService mypageService);
 }

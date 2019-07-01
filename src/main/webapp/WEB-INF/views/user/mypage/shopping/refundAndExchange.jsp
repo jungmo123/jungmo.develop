@@ -189,10 +189,10 @@
 					<p>개인정보 수정</p>
 					<hr>
 					<div>
-						<a href = "#"><span onclick = "location.href = '../MYINFO/02.html'">> 개인정보 수정</span></a>
-						<a href = "#"><span onclick = "location.href = '../MYINFO/03.html'">> 비밀번호 변경</span></a>
+						<a href = "personalData"><span>> 개인정보 수정</span></a>
+						<a href = "passwordModify"><span>> 비밀번호 변경</span></a>
 					</div>
-					<a href = "#"><span onclick = "location.href = '../MYINFO/04.html'">회원탈퇴</span></a>
+					<a href = "unregister"><span>회원탈퇴</span></a>
 				</div>
 			</div>		
 		</div>

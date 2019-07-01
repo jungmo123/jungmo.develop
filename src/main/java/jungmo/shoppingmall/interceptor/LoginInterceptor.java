@@ -22,11 +22,17 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			request.setAttribute("user", user);
 			List<GoodsCategories> gc = gcService.getCategories();
 			request.setAttribute("goodsCategories", gc);
+			if(user == null){
+				Cookie myCookie = new Cookie("identification", null);
+				myCookie.setMaxAge(0);
+				myCookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+				response.addCookie(myCookie);				
+			}
 			if(request.getRequestURI().equals("/shoppingmall/login")){
 				if(user != null){
 					response.sendRedirect("/shoppingmall/");
 					return false;
-				}				
+				}
 			}			
 			return true;
 	}

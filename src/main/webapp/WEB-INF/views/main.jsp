@@ -90,10 +90,10 @@
 				<span>안 입는 옷을 판매하고, 새 옷으로 구매하세요!</span>
 				<div id = "searchBar">
 					<select class = "form-control">
-						<option>전체 검색</option>
+						<option value = "0">전체 검색</option>
 					</select>
-					<input type = "text" class = "form-control" name = "title" placeholder = "검색어를 입력하세요!"/>
-					<button type = "button" class = "btn btn-default" onclick = "location.href = '../SEARCH/01.html'">검색</button>
+					<input id = "Search" type = "text" class = "form-control" name = "Search" placeholder = "검색어를 입력하세요!"/>
+					<button id = "SearchB" type = "button" class = "btn btn-default">검색</button>
 				</div>
 				<div id = "navi">
 					<c:if test = "${user==null}">
@@ -111,11 +111,11 @@
 						<div id = "loginBar">
 							<a href = "mypage/cart"><span>장바구니</span></a>
 							<span>&#124;</span>
-							<a href = "../MYPAGE/SHOPPING/01.html"><span>주문내역</span></a>
+							<a href = "mypage/orderHistory1"><span>주문내역</span></a>
 							<span>&#124;</span>
-							<a href = "../MYPAGE/BOARD/01.html"><span>1:1 문의</span></a>
+							<a href = "mypage/oneTwoOne"><span>1:1 문의</span></a>
 							<span>&#124;</span>
-							<a href = "mypage/orderHistory"><span>마이 페이지</span></a>
+							<a href = "mypage/oneTwoOne"><span>마이 페이지</span></a>
 							<span>&#124;</span>
 							<a href = "logout"><span>로그아웃</span></a>
 						</div>
@@ -765,7 +765,16 @@
 	</div>
 
 <script type = "text/javascript">
-
+	$("#SearchB").click(function(){
+		var Search = $("#Search").val();
+		var form = $("<form></form>");
+		form.attr({
+			action:"unifiedSearch="+Search,
+			method:"post"
+		})
+		$("body").append(form);
+		form.submit();
+	})
 </script>
 
 </body>

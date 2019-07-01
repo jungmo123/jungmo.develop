@@ -37,4 +37,8 @@ public interface MyPageMapper {
 	List<GoodsQuestion> getMGodqSearch(jungmo.shoppingmall.user.styleshop.domain.Page page);
 	User getUser(String userId);
 	int modifyUser(User user);
+	int updatePassword(@Param("userId") String userId,@Param("userPwd") String userPwd);
+	List<secedeCategory> getScd();
+	int updateUserState(String userId);
+	int addSecedeUser(@Param("userId") String userId,@Param("scdCode") String scdCode,@Param("scdContent") String scdContent);
 }

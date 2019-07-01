@@ -266,4 +266,27 @@ public class MyPageServiceImpl implements MyPageService{
 	public int modifyUser(User user){
 		return mypageDao.modifyUser(user);
 	}
+	
+	public int updatePassword(String userId,String userPwd){
+		return mypageDao.updatePassword(userId, userPwd);
+	}
+	
+	public List<secedeCategory> getScd(){
+		return mypageDao.getScd();
+	}
+	
+	public int updateUserState(String userId){
+		return mypageDao.updateUserState(userId);
+	}
+	
+	public int addSecedeUser(String userId,String scdCode,String scdContent){
+		return mypageDao.addSecedeUser(userId, scdCode, scdContent);
+	}
+	
+	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
+	public String addSecede(String userId,String scdCode,String scdContent,String password,MyPageService mypageService){
+		mypageService.updateUserState(userId);
+		mypageService.addSecedeUser(userId, scdCode, scdContent);
+		return "";
+	}
 }

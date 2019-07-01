@@ -31,13 +31,13 @@
 					</c:if>
 					<c:if test = "${user!=null}">
 						<div id = "loginBar">
-							<a href = "../MYPAGE/SHOPPING/04.html"><span>장바구니</span></a>
+							<a href = "cart"><span>장바구니</span></a>
 							<span>&#124;</span>
-							<a href = "../MYPAGE/SHOPPING/01.html"><span>주문내역</span></a>
+							<a href = "orderHistory1"><span>주문내역</span></a>
 							<span>&#124;</span>
-							<a href = "../MYPAGE/BOARD/01.html"><span>1:1 문의</span></a>
+							<a href = "oneTwoOne"><span>1:1 문의</span></a>
 							<span>&#124;</span>
-							<a href = "../MYPAGE/SHOPPING/01.html"><span>마이 페이지</span></a>
+							<a href = "oneTwoOne"><span>마이 페이지</span></a>
 							<span>&#124;</span>
 							<a href = "../logout"><span>로그아웃</span></a>
 						</div>

@@ -810,4 +810,64 @@ public class MyPageController {
 		mypageService.modifyUser(user);
 		return "";
 	}
+	
+	@RequestMapping("/mypage/passwordModify")
+	public String passwordModify(HttpServletRequest request,Model model){
+		Cookie[] myCookies = request.getCookies();
+		boolean button = false;
+		String address = "";
+	    for(int i = 0; i < myCookies.length; i++) {
+	    	if(myCookies[i].getName().equals("identification")){
+	    		button = true;
+	    	}
+	    }
+	    if(button == true){
+	    	address ="user/mypage/myinfo/passwordModify";
+	    }else{
+	    	address ="user/mypage/myinfo/identification";
+	    	request.setAttribute("address", "passwordModify");
+	    }
+		return address;
+	}
+	
+	@RequestMapping("/mypage/passModify")
+	@ResponseBody
+	public String passModify(String current,String change,String changeC,HttpServletRequest request,HttpServletResponse response){
+		String userId = (String)request.getSession().getAttribute("user");
+		User user = new User(userId,current);
+		boolean u = loginService.loginTest(user);
+		if(u == true){
+			mypageService.updatePassword(userId, change);
+			return "true";
+		}else{
+			return "false";
+		}		
+	}
+	
+	@RequestMapping("/mypage/unregister")
+	public String unregister(HttpServletRequest request,Model model){
+		String userId = (String)request.getSession().getAttribute("user");
+		User user = mypageService.getUser(userId);
+		model.addAttribute("user", user);
+		model.addAttribute("scd", mypageService.getScd());
+		return "user/mypage/myinfo/unregister";
+	}
+	
+	@RequestMapping(value="/mypage/addSecedeUser",method = RequestMethod.POST)
+	@ResponseBody
+	public String addSecedeUser(String scdCode,String scdContent,String password,HttpServletRequest request,Model model){
+		String userId = (String)request.getSession().getAttribute("user");
+		User user = new User(userId,password);
+		boolean u = loginService.loginTest(user);
+		try{
+			if(u == true){
+				mypageService.addSecede(userId,scdCode, scdContent, password, mypageService);
+				return "true";
+			}else{
+				return "false";
+			}
+		}catch(Exception e){
+			return "error";
+		}
+	}
 }

@@ -2,17 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>GOODS</title>
+<title>Bootstrap</title>
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value="/css/main.css" />">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
+<script src = "<c:url value = "/js/Goods.js" />"></script>
 <style>
 		@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 		*{

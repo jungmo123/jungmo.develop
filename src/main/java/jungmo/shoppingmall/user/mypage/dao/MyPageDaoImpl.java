@@ -125,4 +125,20 @@ public class MyPageDaoImpl implements MyPageDao{
 	public int modifyUser(User user){
 		return mypageMapper.modifyUser(user);
 	}
+	
+	public int updatePassword(String userId,String userPwd){
+		return mypageMapper.updatePassword(userId, userPwd);
+	}
+	
+	public List<secedeCategory> getScd(){
+		return mypageMapper.getScd();
+	}
+	
+	public int updateUserState(String userId){
+		return mypageMapper.updateUserState(userId);
+	}
+	
+	public int addSecedeUser(String userId,String scdCode,String scdContent){
+		return mypageMapper.addSecedeUser(userId, scdCode, scdContent);
+	}
 }
