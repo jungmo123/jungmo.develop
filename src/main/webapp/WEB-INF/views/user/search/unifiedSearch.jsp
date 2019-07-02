@@ -12,6 +12,8 @@
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
+<script src = "<c:url value = "/js/Search.js" />"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 	*{
@@ -71,24 +73,25 @@
 		background-color:lightgrey;
 		text-align:center;
 	}
-	#styleShop a,
-	#productReview a,
-	#board a{
-		float:right;
-		color:black;
-	}
 	#styleShop table,
-	#productReview table,
-	#board > div{
+	#board table{
 		margin-top:10px;
+	}
+	#styleShop table .product,
+	#board > table{
+		cursor:pointer;
 	}
 	#styleShop table tr td:nth-child(1){
 		width:100px;
 	}
 	#styleShop table tr td:nth-child(1) > div{
 		width:110px;
-		height:120px;
+		height:130px;
 		border:1px solid lightgrey;
+	}
+	#styleShop table tr td img{
+		width:110px;
+		height:130px;
 	}
 	#styleShop table tr td:nth-child(2){
 		width:400px;
@@ -101,43 +104,157 @@
 	#styleShop table tr td:nth-child(2) > div > div:last-child{
 		height:50px;
 	}
-	#productReview table tr td:nth-child(1){
-		width:130px;
-		height:130px;
-	}
-	#productReview table tr td:nth-child(1) > div{
-		width:110px;
-		height:130px;
-		border:1px solid lightgrey;
-	}
-	#productReview table tr td:nth-child(2) > div > div:first-child span{
-		margin-left:345px;
-	}
-	#productReview table tr td:nth-child(2) > div{
-		line-height:25px;
-	}
-	#productReview table tr td:nth-child(2) > div > div:nth-child(2){
-		height:50px;
-	}
-	#productReview table tr td:nth-child(2) > div > div:last-child span{
-		margin-right:5px;
-	}
-	#board div{
+	#board table{
 		line-height:25px;
 		margin-bottom:10px;
 	}
-	#board > div{
+	#board > table{
 	    border-top: 1px solid lightgrey;
-	    border-bottom: 1px solid lightgrey;	
+	    border-bottom: 1px solid lightgrey;
+	    width: 800px;
 	}
-	#board > div span{
+	#board > table span{
 		margin-right:5px;
 	}
-	#board > div > div:first-child span:last-child{
+	#board > table div:first-child span:last-child{
 		float:right;
 	}
 	#board{
 		margin: 28px 0 100px 0;
+	}
+	#board div:nth-child(1){
+		margin-top:10px;
+	}
+	#board div:nth-child(2){
+		margin-top:20px;
+		margin-bottom:10px;
+	}
+	#godrPagination,
+	#godPagination,
+	#postsPagination{
+		margin-top:30px;
+		text-align:center;
+	}
+	.pagination li a{
+		border:0px;
+		cursor:pointer;
+	}
+	#godrPagination > div > .pagination .active a,
+	#godPagination > div > .pagination .active a,
+	#postsPagination > div > .pagination .active a{
+		background-color:#F2F5F7;
+		color:black;
+		font-weight:bold;
+	}
+	.pagination .active a:active{
+		background-color:grey;
+	}
+	#godrPagination .currentPage,
+	#godPagination .currentPage,
+	#postsPagination .currentPage{
+		color:#727272 !important;
+		font-weight:bold;
+	}
+	#godrPagination a,
+	#godPagination a,
+	#board #postsPagination a{
+		color:#878787;
+		margin-right:10px;
+	}
+	#productReview{
+		margin:10px 0 10px 0;
+	}
+	#productReview table{
+		width:100%;
+		text-align:center;
+	}
+	#productReview table tr:not(.commentTr){
+		border-top:1px solid #BABABA;
+		height:90px;
+	}
+	.container #productReview table .commentTr td:last-child > div{
+		background-color:#F2F5F7;
+	    width: 750px;
+	    height: 100px;
+	}
+	#productReview table .commentTr td:last-child{
+		border-top:2px dotted #BABABA;
+	}
+	.none{
+		display:none;
+	}
+	#productReview table{
+		margin-top:10px;
+		border-top:1px solid grey;
+		border-bottom:1px solid #BABABA;
+	}
+	#productReview table tr td:first-child{
+		width:50px;
+		height:100px;
+	}
+	#productReview table tr td:nth-child(2){
+		width:500px;
+	}
+	#productReview table tr td:nth-child(2) > div{
+		display:inline-block;
+		float:left;
+	}
+	#productReview table tr td:nth-child(2) > .image{
+		width:100px;
+		height:140px;
+		margin-right:10px;
+		border:1px solid black;
+	}
+	#productReview table tr td:nth-child(2) > div:last-child{
+		width:400px;
+		height:80px;
+		line-height:20px;
+		padding:5px;
+		text-align:left;
+	}
+	#productReview table tr td:nth-child(2) > div:last-child > span{
+		font-size:12px;
+		color:#878787;
+	}
+	.tableButton{
+	    border: 1px solid lightgrey;
+	    border-radius: 5px;
+	    background-color: white;
+	    font-weight: bold;	
+	}
+	#noProduct p{
+		position: relative;
+    	top: 15px;
+	}
+	#noReview,
+	#noProduct,
+	#noPosts{
+		text-align:center;
+		height: 100px;
+	}
+	#noReview p,
+	#noProduct p,
+	#noPosts p{
+		margin:0px;
+	}
+	#noReview p > .glyphicon,
+	#noProduct p > .glyphicon,
+	#noPosts p > .glyphicon{
+		font-size:30px;
+	}
+	#noReview p span,
+	#noProduct p span,
+	#noPosts p span{
+		color:lightgrey;
+	}
+	#postsTable tr td > div:nth-child(2){
+		height:60px;
+	}
+	#postsTable tr:not(:last-child){
+		border-bottom: 1px solid lightgrey;
+	}
+	#postsTable tr td > div:nth-child(1) span:nth-child(1){
+		font-weight:bold;
 	}
 </style>
 </head>
@@ -152,118 +269,51 @@
 			<hr>
 			<div id = "styleShop">
 				<strong>스타일 숍</strong>
-				<a href = "../GOODS/01.html">검색 결과 더 보기 ></a>
-				<table class = "table table-hover">
-					<tr>
-						<td>
-							<div onclick = "location.href = '../GOODS/02.html'">
-							</div>
-						</td>
-						<td>
-							<div>
-								<div>
-									<strong>{상품명}</strong>
-								</div>
-								<div>
-									<span>{상품 특징 표기 (2줄)}</span>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div>
-								<strong>42,000원</strong>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div onclick = "location.href = '../GOODS/02.html'">
-							</div>
-						</td>
-						<td>
-							<div>
-								<div>
-									<strong>기모 티셔츠</strong>
-								</div>
-								<div>
-									<span>깃털처럼 가벼운 것에 비해<br>최고의 보온 효과!</span>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div>
-								<strong>42,000원</strong>
-							</div>
-						</td>
-					</tr>
+				<table id = "godTable" class = "table table-hover">
+
 				</table>
+				 	<div id = "godPagination">
+	
+					</div>
 			</div>
 			<hr>
 			<div id = "productReview">
 				<strong>상품평</strong>
-				<a href = "../REVIEWS/01.html">검색 결과 더 보기 ></a>
-				<table id = "godrTable" class = "table table-hover">
-					<tr>
-						<td>
-							<div onclick = "location.href = '../GOODS/02.html'">
-							</div>
-						</td>
-						<td>
-							<div>
-								<div>
-									<strong>{상품명}</strong>
-									<span>조회수 : 100</span>
-								</div>
-								<div>
-									<span>{상품평}</span>
-								</div>
-								<div>
-									<span>{아이디}</span>
-									<span>&#124;</span>
-									<span>{등록일시}</span>
-								</div>
-							</div>
-						</td>
-					</tr>
+				<table id = "godrTable" class = "br">				
+
 				</table>
-				 	<div id = "godrPagination">
-						<div>
-							<ul class = "pagination">
-									<c:if test = "${pageMaker.prev}">
-										<li><a href = "goodsReview${type}${pageMaker.startPage-1}"><span class = "glyphicon glyphicon-chevron-left"></span></a>
-									</c:if>
-									
-									<c:forEach begin = "${pageMaker.startPage}" end = "${pageMaker.endPage}" var = "idx">
-										<li <c:out value = "${pageMaker.page.currentPage==idx ? 'class=active' : ''}"/>>
-											<a href = "goodsReview${type}${idx}">${idx}</a>
-										</li>
-									</c:forEach>
-					
-									<c:if test = "${pageMaker.next}">
-										<li><a href = "goodsReview${type}${pageMaker.endPage+1}"><span class = "glyphicon glyphicon-chevron-right"></span></a>
-									</c:if>
-								</ul>
-							</div>		
-						</div>		
+				<div id = "godrPagination">
+	
+				</div>	
 			</div>
 			<hr>
 			<div id = "board">
 				<strong>게시판</strong>
-				<a href = "../HELP/01.html">검색 결과 더 보기 ></a>
-				<div onclick = "location.href = '../HELP/02.html'">
-					<div>
-						<span>{[게시판 경로 표기]}</span>
-						<span>{글 제목 표기}</span>
-						<span>{작성일}</span>
-					</div>
-					<div>
-						<span>고객님 안녕하세요! 라라마켓 관리자입니다.추석 명절로 인해 택배 회사에서 더 이상 배송 접수를 하지<br> 않고
-						있습니다.이점 너그러운 양해를 부탁드리며,자세한 내용은 아래의 안내 사항을 참고 바랍니다....</span>
-					</div>
-				</div>
+				<table id = "postsTable">
+					<tr>
+						<td>
+							<div>
+								<span>{[게시판 경로 표기]}</span>
+								<span>{글 제목 표기}</span>
+								<span>{작성일}</span>							
+							</div>
+							<div>
+								<span>고객님 안녕하세요! 라라마켓 관리자입니다.추석 명절로 인해 택배 회사에서 더 이상 배송 접수를 하지<br> 않고
+								있습니다.이점 너그러운 양해를 부탁드리며,자세한 내용은 아래의 안내 사항을 참고 바랍니다....</span>							
+							</div>				
+						</td>						
+					</tr>
+				</table>
+				<div id = "postsPagination">
+	
+				</div>	
 			</div>
 		</div>
 	</div>
+
+<script type = "text/javascript">
+	var Search= "${Search}"
+</script>
 
 </body>
 </html>

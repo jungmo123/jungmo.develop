@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.user.search.dao.mapper.SearchMapper">
+	<select id = "getGoods" parameterType = "upage" resultMap = "godMap">
+	    select * from(
+			select rownum as rnum, x.* from(	
+				select god_num,god_name,god_sellingprice,god_listimageurl,god_intro
+				from goods
+				where god_name like '%' || #{search} || '%'
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>	
+	</select>
+	
+	<select id = "getGoodsReviews" parameterType = "upage" resultMap = "godrMap">
+	    select * from(
+			select rownum as rnum, x.* from(	
+				select godr_num,goods_reviews.god_num,god_name,user_id,godr_writingdate,satislevel,godr_content
+				from goods_reviews
+				join goods
+		    	on (goods.god_num = goods_reviews.god_num)
+				where god_name like '%' || #{search} || '%'
+				order by godr_num desc
+				<![CDATA[
+		  		)x where rownum <= #{rowCnt}*#{currentPage}
+		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
+			]]>
+	</select>
+	
+	<select id = "getPosts" parameterType ="upage" resultMap = "posMap">
+	    select * from(
+			select rownum as rnum, x.* from(		
+				select pos_num,pos_title,pos_content,pos_writingdate,posts.bor_num,bor_title,posts.posc_num
+				from posts
+				join boards
+				on (boards.bor_num = posts.bor_num)
+				where pos_title like '%' || #{search} || '%' or pos_content like '%' || #{search} || '%'
+		<![CDATA[
+			)x where rownum <= #{rowCnt}*#{currentPage}
+				)where rnum > #{rowCnt}*(#{currentPage}-1)
+		]]>
+	</select>
+	
+	<resultMap id = "godrMap" type = "ugodr">
+		<id property = "godrNum" column = "godr_num" />
+		<result property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "userId" column = "user_id" />
+		<result property = "godrWritingDate" column = "godr_writingdate" />
+		<result property = "satisLevel" column = "satislevel" />
+		<result property = "godrContent" column = "godr_content" />
+	</resultMap>
+	
+	<resultMap id = "godMap" type = "god">
+		<id property = "godNum" column = "god_num" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcNum" column = "godc_num" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godDisplayType" column = "god_displaytype" />
+		<result property = "godSellingLimit" column = "god_sellinglimit" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = 'godNormalPrice' column = "god_normalprice" />
+		<result property = 'godListImageUrl' column = "god_listimageurl" />
+		<result property = 'godMainImageUrl' column = "god_mainimageurl" />
+		<result property = 'godViewPoint' column = "god_viewpoint" />
+		<result property = "godRegDate" column = "god_regdate" />
+		<result property = "godStock" column = "god_stock" />
+		<result property = "godIntroduce" column = "god_intro" />
+		<result property = "memo" column = "god_memo" />
+		<result property = "godDetailInfo" column = "god_detailinfo" />
+	</resultMap> 
+	
+	<resultMap id = "posMap" type = "pos">
+		<id property = "posNum" column = "pos_num" />
+		<result property = "posImportance" column = "pos_importance" />
+		<result property = "posTitle" column = "pos_title" />
+		<result property = "borTitle" column = "bor_title" />
+		<result property = "posContent" column = "pos_content" />
+		<result property = "posWritingDate" column = "pos_writingdate" />
+		<result property = "posViewCnt" column = "pos_viewcnt" />
+		<result property = "userId" column = "user_id" />
+		<result property = "borNum" column = "bor_num" />
+		<result property = "poscNum" column = "posc_num" />
+	</resultMap>
+</mapper>

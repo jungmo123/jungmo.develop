@@ -13,6 +13,7 @@ public class Page {
 	private String godrContent;
 	private String godqContent;
 	private String godqType;
+	private String search;
 	
 	public Page(){
 		this(1,5);
@@ -152,5 +153,13 @@ public class Page {
 
 	public void setGodqType(String godqType) {
 		this.godqType = godqType;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 }

@@ -97,4 +97,26 @@
      	and user_id = #{userId}	
 		</if>
 	</select>
+	
+	<select id = "getGodTotRowCnt" parameterType ="string" resultType = "int">
+		select count(god_num)
+		from goods
+		where god_name like '%' || #{Search} || '%'
+	</select>
+	 
+	<select id = "getSGodrTotRowCnt" parameterType="string" resultType = "int">
+		select count(goods_reviews.god_num)
+		from goods_reviews
+		join goods
+    	on (goods.god_num = goods_reviews.god_num)
+		where god_name like '%' || #{Search} || '%'
+	</select>
+	
+	<select id = "getSPostsTotRowCnt" parameterType = "string" resultType = "int">
+		select count(*)
+		from posts
+		join boards
+		on (boards.bor_num = posts.bor_num)
+		where pos_title like '%' || #{Search} || '%' or pos_content like '%' || #{Search} || '%'	
+	</select>
 </mapper>

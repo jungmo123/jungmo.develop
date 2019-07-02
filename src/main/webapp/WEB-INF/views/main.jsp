@@ -770,7 +770,7 @@
 		var form = $("<form></form>");
 		form.attr({
 			action:"unifiedSearch="+Search,
-			method:"post"
+			method:"get"
 		})
 		$("body").append(form);
 		form.submit();

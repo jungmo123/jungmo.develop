@@ -16,4 +16,7 @@ public interface UPageDao {
 	int getMGodrSearchTotRowCnt(String userId,String godcNum,String godrContent);
 	int getMGodqTotRowCnt(String userId);
 	int getMGodqSearchTotRowCnt(String userId,String godqType,String godqContent);
+	int getGodTotRowCnt(String Search);
+	int getSGodrTotRowCnt(String Search);
+	int getSPostsTotRowCnt(String Search);
 }

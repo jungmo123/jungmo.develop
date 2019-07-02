@@ -53,4 +53,16 @@ public class UPageDaoImpl implements UPageDao{
 	public int getMGodqSearchTotRowCnt(String userId,String godqType,String godqContent){
 		return pageMapper.getMGodqSearchTotRowCnt(userId, godqType, godqContent);
 	}
+	
+	public int getGodTotRowCnt(String Search){
+		return pageMapper.getGodTotRowCnt(Search);
+	}
+	
+	public int getSGodrTotRowCnt(String Search){
+		return pageMapper.getSGodrTotRowCnt(Search);
+	}
+	
+	public int getSPostsTotRowCnt(String Search){
+		return pageMapper.getSPostsTotRowCnt(Search);
+	}
 }

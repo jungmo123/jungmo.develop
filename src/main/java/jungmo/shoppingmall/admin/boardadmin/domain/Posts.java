@@ -4,6 +4,7 @@ import java.sql.*;
 
 public class Posts {
 	private int borNum;
+	private String borTitle;
 	private int poscNum;
 	private int nextNum;
 	private int preNum;
@@ -125,6 +126,13 @@ public class Posts {
 	public void setNextc(int nextc) {
 		this.nextc = nextc;
 	}
-	
 
+	public String getBorTitle() {
+		return borTitle;
+	}
+
+	public void setBorTitle(String borTitle) {
+		this.borTitle = borTitle;
+	}
+	
 }
