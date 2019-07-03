@@ -22,6 +22,29 @@
 	body{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+	#noProduct p{
+		position: relative;
+    	top: 15px;
+	}
+	#noPosts{
+		text-align:center;
+		height: 100px;
+	}
+	#noPosts p{
+		margin:0px;
+		height:35px;
+	}
+	#noPosts p::after{
+		clear:both;
+	}
+	#noPosts p > .glyphicon{
+		font-size:30px;
+	}
+	#noPosts p span{
+		color:lightgrey;
+		position:relative;
+		right:0px;
+	}
 </style>
 </head>
 <body>
@@ -96,7 +119,7 @@
 		</div>
 		<div id = "topmenu">
 			<span>
-					<a href = "../">이용자 화면 보기</a>
+					<a href = "../" target = "_blank">이용자 화면 보기</a>
 					<span>&#124;</span>
 					<a href = "board">사내 게시판</a>
 					<span>&#124;</span>
@@ -129,7 +152,14 @@
 					<div>
 						<p><strong>호스팅 만료일</strong></p>
 						<p>- ${exp.hostDate}</p>
-						<p>- ${exp.hostDday}일 남음</p>			
+						<p>
+						<c:if test= "${exp.hostDday <= 0}">
+						- 만료
+						</c:if>
+						<c:if test= "${exp.hostDday > 0}">
+						- ${exp.hostDday}일 남음
+						</c:if>						
+						</p>		
 					</div>
 					<div>
 						<a id = "host" data-toggle = "modal" data-target = "#otom"><span class = "glyphicon glyphicon-cog"></span></a>						
@@ -140,7 +170,14 @@
 					<div>
 						<p><strong>도메인 만료일</strong></p>
 						<p>- ${exp.domainDate}</p>
-						<p>- ${exp.domainDday}일 남음</p>					
+						<p>
+						<c:if test= "${exp.domainDday <= 0}">
+						- 만료
+						</c:if>
+						<c:if test= "${exp.domainDday > 0}">
+						- ${exp.hostDday}일 남음
+						</c:if>	
+						</p>					
 					</div>
 					<div>
 						<a id = "domain" data-toggle = "modal" data-target = "#otom"><span class = "glyphicon glyphicon-cog"></span></a>						
@@ -201,6 +238,7 @@
 			</div>
 			<div>
 				<table id = "web1table">
+				<c:if test = "${boards[0] != null }">
 					<tr>
 						<th>제목</th>
 						<th>작성자</th>
@@ -213,6 +251,15 @@
 						<td>${post.posWritingDate}</td>
 					</tr>
 					</c:forEach>
+				</c:if>
+				<c:if test = "${boards[0] == null }">
+					<tr>
+						<td id = 'noPosts'>
+							<p><span class = 'glyphicon glyphicon-info-sign'></span></p>
+							<p><span>게시글이 없습니다</span></p>					
+						</td>
+					</tr>
+				</c:if>					
 				</table>
 			</div>
 		</div>

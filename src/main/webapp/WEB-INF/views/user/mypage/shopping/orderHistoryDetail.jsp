@@ -14,7 +14,7 @@
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src = "<c:url value = "/js/Navigation.js" />"></script>
+<script src = "<c:url value = "/js/MyNavigation.js" />"></script>
 <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <style>

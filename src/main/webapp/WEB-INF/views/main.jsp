@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +14,7 @@
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
+<script src = "<c:url value = "/js/Main.js" />"></script>
 <style>
 	.container{
 		width:1280px;
@@ -32,27 +35,31 @@
 		float:left;
 		width:150px;
 		height:803px;
-		position:relative;
-		bottom:617px;
+	    position: relative;
+	    top: 50px;
 	}
 	#rightBanner{
 		float:right;
 		width:150px;
 		height:803px;
-		position:relative;
-		bottom:617px;
+	    position: relative;
+	    top: 50px;
 	}
 	#left{
 		width:150px;
 		display:inline-block;
+		float: left;
 	}
 	#right{
 		width:150px;
 		display:inline-block;
+		float: left;
 	}
 	#middle{
 		display:inline-block;
 		width:820px;
+		float: left;
+		margin:0px 10px 0px 10px;
 	}
 	.carousel-inner > .item >img {
 		width:70%;
@@ -71,6 +78,14 @@
 	#footerLogo small:nth-child(5){
 		color: #5D646E;
 	}
+	.latelyGoods img{
+		width:110px;
+		height:130px;
+	}
+	.newGoods img{
+		width:120px;
+		height:150px;
+	}
 </style>
 </head>
 <body>
@@ -81,11 +96,11 @@
 					<img src = "IMAGE/noSearchX.jpg">
 				</c:if>
 				<c:if test = "${!empty topBanner}">
-					<img src = "upload/${topBanner.bnnImageUrl}">
+					<a href="${topBanner.bnnLink}" target="_black"><img src = "upload/${topBanner.bnnImageUrl}"></a>
 				</c:if>
 			</div>
 			<div id = "title">
-				<a href = "/shoppingmall'"><strong>라라</strong><strong>마켓</strong></a>
+				<a href = "/shoppingmall"><strong>라라</strong><strong>마켓</strong></a>
 				<br>
 				<span>안 입는 옷을 판매하고, 새 옷으로 구매하세요!</span>
 				<div id = "searchBar">
@@ -104,7 +119,7 @@
 							<span>&#124;</span>
 							<a href = "admin/login"><span>관리자 로그인</span></a>
 							<span>&#124;</span>
-							<a href = "USER/HELP/08.html"><span>ID/비밀번호 찾기</span></a>
+							<a href = "idSearch"><span>ID/비밀번호 찾기</span></a>
 						</div>
 					</c:if>
 					<c:if test = "${user!=null}">
@@ -115,7 +130,7 @@
 							<span>&#124;</span>
 							<a href = "mypage/oneTwoOne"><span>1:1 문의</span></a>
 							<span>&#124;</span>
-							<a href = "mypage/oneTwoOne"><span>마이 페이지</span></a>
+							<a href = "mypage/orderHistory1"><span>마이 페이지</span></a>
 							<span>&#124;</span>
 							<a href = "logout"><span>로그아웃</span></a>
 						</div>
@@ -170,7 +185,7 @@
 					<img src = "IMAGE/noSearchLR.jpg">
 				</c:if>
 				<c:if test = "${!empty leftBanner}">
-					<img src = "upload/${leftBanner.bnnImageUrl}">
+					<a href="${leftBanner.bnnLink}" target="_black"><img src = "upload/${leftBanner.bnnImageUrl}"></a>
 				</c:if>			
 			</div>		
 		</div>
@@ -182,7 +197,7 @@
 						<c:forEach var = "main" items = "${mainBanner}" varStatus = "state">
 							<c:choose>
 								<c:when test = "${state.first}">
-									<li data-target = "#myCarousel" data-slide-to = "0" class = "active"></li>
+									<li data-target = "#myCarousel" data-slide-to = "0" class = "active"></li></a>
 								</c:when>
 								<c:otherwise>
 									<li data-target = "#myCarousel" data-slide-to = "${state.index}"></li>
@@ -196,12 +211,12 @@
 							<c:choose>
 								<c:when test = "${state.first}">
 									<div class = "item active">
-										<img src = "upload/${main.bnnImageUrl}" alt = "a" width = "460" height = "345">
+										<a href="${main.bnnLink}" target="_black"><img src = "upload/${main.bnnImageUrl}" alt = "a" width = "460" height = "345"></a>
 									</div>	
 								</c:when>
 								<c:otherwise>
 								<div class = "item">
-									<img src = "upload/${main.bnnImageUrl}" alt = "b" width = "460" height = "345">
+									<a href="${main.bnnLink}" target="_black"><img src = "upload/${main.bnnImageUrl}" alt = "b" width = "460" height = "345"></a>
 								</div>
 								</c:otherwise>
 							</c:choose>												
@@ -216,496 +231,59 @@
 					</a>
 				</div>
 			</div>
-			<ul class = "nav nav-tabs">
-				<li class = "active"><a data-toggle="tab" href = "#home">Outer</a></li>
-				<li><a data-toggle="tab" href = "#menu1">Top</a></li>
-				<li><a data-toggle="tab" href = "#menu2">Bottom</a></li>
-				<li><a data-toggle="tab" href = "#menu3">Skirt</a></li>
-				<li><a data-toggle="tab" href = "#menu3">Dress</a></li>
+			<ul id = "latelyGoods" class = "nav nav-tabs">
+				<li class = "active"><a id = "${category[0].godcNum}" class = "home" data-toggle="tab" href = "#home">${category[0].godcName}</a></li>
+				<li><a id = "${category[1].godcNum}" class = "menu1" data-toggle="tab" href = "#menu1">${category[1].godcName}</a></li>
+				<li><a id = "${category[2].godcNum}" class = "menu2" data-toggle="tab" href = "#menu2">${category[2].godcName}</a></li>
+				<li><a id = "${category[3].godcNum}" class = "menu3" data-toggle="tab" href = "#menu3">${category[3].godcName}</a></li>
+				<li><a id = "${category[4].godcNum}" class = "menu4" data-toggle="tab" href = "#menu4">${category[4].godcName}</a></li>
 			</ul>
 			<div class = "tab-content">
 				<div id = "home" class = "tab-pane fade in active">
-					<p><span>최근 등록한 상품</span></p>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div >
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
+					<p><strong>최근 등록한 상품</strong></p>		
 				</div>
 				<div id = "menu1" class = "tab-pane fade">
-					<p><span>최근 등록한 상품</span></p>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div >
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
+					<p><strong>최근 등록한 상품</strong></p>
 				</div>
 				<div id = "menu2" class = "tab-pane fade">
-					<p><span>최근 등록한 상품</span></p>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div >
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
+					<p><strong>최근 등록한 상품</strong></p>
 				</div>
 				<div id = "menu3" class = "tab-pane fade">
-					<p><span>최근 등록한 상품</span></p>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div onclick = "location.href = 'USER/GOODS/02.html'">
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
-					<div >
-						<div>
-						
-						</div>
-						<div>
-							<span>{상품명}</span>
-							<br>
-							<span>{가격}원</span>
-						</div>
-					</div>
+					<p><strong>최근 등록한 상품</strong></p>
+				</div>				
+				<div id = "menu4" class = "tab-pane fade">
+					<p><strong>최근 등록한 상품</strong></p>
 				</div>
 			</div>
 		<div id = "newProduct">
 			<strong>스타일 숍 신상품</strong>
 			<hr>
-			<div onclick = "location.href = 'USER/GOODS/02.html'">
+			<c:forEach var = "goods" items = "${latelyGoods}">
+			<div id = "${goods.godNum}" class = "newGoods">
 				<div>
+					<img src = "upload/${goods.godListImageUrl}">
 				</div>
 				<div>
 					<div>
-						<span>{상품 가격표기}</span>
+						<span><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</span>
 					</div>
 					<div>
-						<span>{상품명 표기}</span>
+						<span>${goods.godName}</span>
 					</div>
 					<div>
-						<span>{상품 특징 100자 (2줄)}</span>
-					</div>
-					<div>
-						<span>{상품 특성 아이콘 노출}</span>
-					</div>
-				</div>
-			</div>
-			<div onclick = "location.href = 'USER/GOODS/02.html'">
-				<div>
-				</div>
-				<div>
-					<div>
-						<span>15,000원</span>
-					</div>
-					<div>
-						<span>기모 티셔츠</span>
-					</div>
-					<div>
-						<span>깃털처럼 가벼운 것에 비해<br>
-						초괴의 보온 효과!</span>
-					</div>
-					<div>
-						<span></span>
+						<span>
+							<c:if test = "${fn:length(goods.godIntroduce) > 20}">
+								${fn:substring(goods.godIntroduce,0,20)}...
+							</c:if>
+							<c:if test = "${fn:length(goods.godIntroduce) < 20}">
+								${goods.godIntroduce}
+							</c:if>	
+						</span>
 					</div>
 				</div>
 			</div>
-			<div onclick = "location.href = 'USER/GOODS/02.html'">
-				<div>
-				</div>
-				<div>
-					<div>
-						<span>15,000원</span>
-					</div>
-					<div>
-						<span>기모 티셔츠</span>
-					</div>
-					<div>
-						<span>깃털처럼 가벼운 것에 비해<br>
-						초괴의 보온 효과!</span>
-					</div>
-					<div>
-						<span></span>
-					</div>
-				</div>
-			</div>
-			<div onclick = "location.href = 'USER/GOODS/02.html'">
-				<div>
-				</div>
-				<div>
-					<div>
-						<span>10,000원</span>
-					</div>
-					<div>
-						<span>기모 티셔츠</span>
-					</div>
-					<div>
-						<span>깃털처럼 가벼운 것에 비해<br>
-						초괴의 보온 효과!</span>
-					</div>
-					<div>
-						<span></span>
-					</div>
-				</div>
-			</div>
-			<div onclick = "location.href = 'USER/GOODS/02.html'">
-				<div>
-				</div>
-				<div>
-					<div>
-						<span>10,000원</span>
-					</div>
-					<div>
-						<span>기모 티셔츠</span>
-					</div>
-					<div>
-						<span>깃털처럼 가벼운 것에 비해<br>
-						초괴의 보온 효과!</span>
-					</div>
-					<div>
-						<span></span>
-					</div>
-				</div>
-			</div>
+			</c:forEach>
 		</div>
-		<div id = "bestProduct">
-			<strong>스타일 숍 카테고리 별 BEST 상품</strong>
-			<div>
-				<div class = "activeDiv">
-					<div>
-						<span>Outer</span>
-					</div>
-					<div>
-						<div>
-							<span>Icon</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div>
-						<span>Top</span>
-					</div>
-					<div>
-						<div>
-							<span>Icon</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div>
-						<span>Bottom</span>
-					</div>
-					<div>
-						<div>
-							<span>Icon</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div>
-						<span>Skirt</span>
-					</div>
-					<div>
-						<div>
-							<span>Icon</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div>
-						<span>Dress</span>
-					</div>
-					<div>
-						<div>
-							<span>Icon</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id = "productList">
-			<div>
-				<div onclick = "location.href = 'USER/GOODS/02.html'">
-					<div>
-					
-					</div>
-					<div>
-						<div>
-							<span>{상품 가격표기}</span>
-						</div>
-						<div>
-							<span>{상품명 표기}</span>
-						</div>
-						<div>
-							<span>{상품 특징 100자 (2줄)}</span><br>
-							<span>{상품 특징 100자 (2줄)}</span>
-						</div>
-					</div>
-				</div>
-				<div onclick = "location.href = 'USER/GOODS/03.html'">
-					<div>
-					</div>
-					<div>
-						<div>
-							<span>15,000원</span>
-						</div>
-						<div>
-							<span>기모 티셔츠</span>
-						</div>
-						<div>
-							<span>깃털처럼 가벼운 것에 비해 따뜻한<br>
-							보온으로 다운 패딩과 찰떡 궁합</span>
-						</div>
-						<div>
-							<span></span>
-						</div>
-					</div>
-				</div>
-				<div onclick = "location.href = 'USER/GOODS/03.html'">
-					<div>
-					</div>
-					<div>
-						<div>
-							<span>15,000원</span>
-						</div>
-						<div>
-							<span>기모 티셔츠</span>
-						</div>
-						<div>
-							<span>깃털처럼 가벼운 것에 비해 따뜻한<br>
-							보온으로 다운 패딩과 찰떡 궁합</span>
-						</div>
-						<div>
-							<span></span>
-						</div>
-					</div>
-				</div>
-				<div onclick = "location.href = 'USER/GOODS/03.html'">
-					<div>
-					</div>
-					<div>
-						<div>
-							<span><del>15,000원</del>&nbsp;→&nbsp;10,000원</span>
-						</div>
-						<div>
-							<span>기모 티셔츠</span>
-						</div>
-						<div>
-							<span>깃털처럼 가벼운 것에 비해 따뜻한<br>
-							보온으로 다운 패딩과 찰떡 궁합</span>
-						</div>
-						<div>
-							<span></span>
-						</div>
-					</div>
-				</div>			
-			</div>
-		</div>
-		<div id = "footerBox">
-			<div onclick = "location.href = 'USER/HELP/01.html'">
-				<div>
-					<strong>고객센터</strong>
-				</div>
-				<div>
-					<strong>070-0000-0000</strong>
-				</div>
-				<div>
-					<span>평일 10-18시 공휴일,주말 휴무</span>
-				</div>
-			</div>
-			<div onclick = "location.href = 'USER/EVENT/01.html'">
-				<div>
-					<strong>이벤트</strong>
-				</div>
-				<div>
-					<div>
-					</div>
-					<div>
-						<span>지금 상품평을 등록하면<br>포인트가 2배!</span>
-					</div>
-				</div>
-			</div>
-			<div onclick = "location.href = 'USER/HELP/06.html'">
-				<div>
-					<strong>자주 하는 질문</strong>
-				</div>
-				<div>
-					<div>
-					</div>
-					<div>
-						<span>나의 궁금증을 가장 빨리<br>해결할 수 있는 방법!</span>
-					</div>
-				</div>
-			</div>
-		</div>
-			<div id = "board">
-				<div id = "notice">
-					<strong>공지사항</strong>
-					<a href = "../HELP/01.html">더보기 > </a>
-					<div>
-						<ul>
-							<li><a href = "../HELP/02.html">상품을 주문하는 방법 안내해 드립니다.</a></li>
-							<li><a href = "../HELP/02.html">결제가 잘 되지 않을 떄 이렇게 해보세요!</a></li>
-							<li><a href = "../HELP/02.html">장바구니를 이렇게 이용하면 좋습니다.</a></li>
-							<li><a href = "../HELP/02.html">배송은 주문 후 2일이내 완료 됩니다.</a></li>
-							<li><a href = "../HELP/02.html">상품 등록 시 주의 사항 알려드립니다.</a></li>
-						</ul>
-					</div>
-				</div>
-				<div id = "community">
-					<strong>커뮤니티</strong>
-					<a href = "USER/HELP/03.html">더보기 > </a>
-					<div>
-						<ul>
-							<li><a href = "USER/HELP/04.html">상품 판매는 어떻게 하나요?. 2023.07.07</a></li>
-							<li><a href = "USER/HELP/04.html">상품 판매 후 금액은 어떻..... 2023.07.07</a></li>
-							<li><a href = "USER/HELP/04.html">포인트는 어떻게 사용하면... 2023.07.07</a></li>
-							<li><a href = "USER/HELP/04.html">배송완료된 상품은 삭제해... 2023.07.07</a></li>
-							<li><a href = "USER/HELP/04.html">상품은 언제까지 배송가능... 2023.07.07</a></li>
-						</ul>
-					</div>
-				</div>
-				<div id = "productReview">
-					<strong>상품평</strong>
-					<a href = "../REVIEWS/01.html">더보기 > </a>
-					<div>
-						<ul>
-							<li><a href = "USER/REVIEWS/01.html">옷 정말 잘 산 거 같아요! 다음에도 또...</a></li>
-							<li><a href = "USER/REVIEWS/01.html">고급 소재라서 그런지 너무 부드럽고...</a></li>
-							<li><a href = "USER/REVIEWS/01.html">너무 좋아서 맨날 입고 다니고 있어요...</a></li>
-							<li><a href = "USER/REVIEWS/01.html">세탁을 해도 옷 색이 전혀 변하지 않아...</a></li>
-							<li><a href = "USER/REVIEWS/01.html">지금 입기에 딱 좋은 옷이네요?다른 색...</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
 		</div>
 		</div>
 		<div id = "right">
@@ -714,7 +292,7 @@
 					<img src = "IMAGE/noSearchLR.jpg">
 				</c:if>
 				<c:if test = "${!empty rightBanner}">
-					<img src = "upload/${rightBanner.bnnImageUrl}">
+					<a href="${rightBanner.bnnLink}" target="_black"><img src = "upload/${rightBanner.bnnImageUrl}"></a>
 				</c:if>			
 			</div>		
 		</div>
@@ -726,11 +304,11 @@
 			<div id = "footerNav">
 				<a href = "aboutUs01"><span>회사 소개</span></a>
 				<span>&nbsp;&#124;&nbsp;</span>
-				<a href = "#"><span>이용약관</span></a>
+				<a href = "accessTerms"><span>이용약관</span></a>
 				<span>&nbsp;&#124;&nbsp;</span>
-				<a href = "#"><strong>개인정보처리방침</strong></a>
+				<a href = "PersonalDataPolicy"><strong>개인정보처리방침</strong></a>
 				<span>&nbsp;&#124;&nbsp;</span>
-				<a href = "../HELP/01.html"><span>고객센터</span></a>
+				<a href = "notice1"><span>고객센터</span></a>
 			</div>
 			<div id = "footerLogo">
 				<span>라라&nbsp;</span><span>마켓</span>

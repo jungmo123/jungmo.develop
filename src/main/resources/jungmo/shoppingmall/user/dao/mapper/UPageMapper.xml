@@ -117,6 +117,6 @@
 		from posts
 		join boards
 		on (boards.bor_num = posts.bor_num)
-		where pos_title like '%' || #{Search} || '%' or pos_content like '%' || #{Search} || '%'	
+		where pos_title like '%' || #{Search} || '%' or pos_content like '%' || #{Search} || '%' and posts.bor_num > 0	
 	</select>
 </mapper>

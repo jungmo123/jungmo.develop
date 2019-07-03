@@ -203,7 +203,7 @@
 		padding:10px;
 		width:1200px;
 	}
-	.web1 span{
+	.web1 table tr td:not(#noPosts) span{
 		float:left;
 		position:relative;
 		right:250px;
@@ -211,7 +211,7 @@
 	.web1 strong{
 		float:left;
 		position:relative;
-		left:150px;
+		left:200px;
 	}
 	.webmenubar .view{
 		float:right;

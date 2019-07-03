@@ -66,7 +66,7 @@
 			select rownum as rnum, x.* from(
 			    select pos_num,pos_importance,pos_title,pos_content,pos_writingdate,pos_viewcnt,user_id,bor_num,posc_num
 			    from posts
-			    where bor_num = 3 and posc_num = 65
+			    where bor_num = 0 and posc_num = 65
 			    order by pos_num desc
 			    <![CDATA[
 				)x where rownum <= 5

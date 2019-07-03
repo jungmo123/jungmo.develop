@@ -135,9 +135,6 @@
 
 						</tbody>
 					</table>
-					<div id = "buttonBox">
-						<button class = "btn btn-default">수정 완료</button>					
-					</div>
 				</form>	
 			</div>
 		</div>

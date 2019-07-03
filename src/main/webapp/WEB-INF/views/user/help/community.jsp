@@ -124,15 +124,11 @@
 		text-align:center;
 		margin-top:10px;
 	}
-	input[type="text"]{
+	#content input[type="text"]{
 		display:inline;
 		width:250px;
 	}
-	select{
-		display:inline !important;
-		width:130px !important;
-	}
-	#searchBar .btn{
+	#content #searchBar .btn{
 		width:100px;
 		position:relative;
 		bottom:2px;

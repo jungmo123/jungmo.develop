@@ -55,8 +55,8 @@ function getGoods(data){
 			$("#godTable").text("");
 			$("#godPagination").text("");
 			$.each(data.god,function(index,item){
-				var tr = $("<tr></tr>");
-				tr.attr("class",item.godNum);
+				var tr = $("<tr class = 'product'></tr>");
+				tr.attr("id",item.godNum);
 				var td1 = $("<td></td>");
 				var div1 = $("<div></div>");
 				var img = $("<img></img>");
@@ -361,7 +361,14 @@ function getPosts(data){
 		$("#postsTable").text("");
 		$("#postsPagination").text("");
 		$.each(data.posts,function(index,item){
-			var tr = $("<tr></tr>");
+			var tr = $("<tr class = 'posts'></tr>");
+			var address = "";
+			if(item.borNum == 1){
+				address = "noticeRead0I" + item.poscNum +"I" + item.posNum; 
+			}else if(item.borNum == 2){
+				address = "communityRead0I" + item.poscNum +"I" + item.posNum; 
+			}
+			tr.attr("id",address);
 			var td = $("<td></td>");
 			var div1 = $("<div></div>");
 			var div2 = $("<div></div>");
@@ -469,6 +476,11 @@ function getPosts(data){
 				});
 		
 		$(document).on("click",".product",function(){
-			var godNum = $(this).prop("class");
+			var godNum = $(this).prop("id");
 			location.href = "/shoppingmall/goodsDetail"+godNum;
+		})
+		
+		$(document).on("click",".posts",function(){
+			var address = $(this).prop("id");
+			location.href = "/shoppingmall/"+address;
 		})

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="jungmo.shoppingmall.user.main.dao.mapper.MainMapper">
+	<select id = "getCategoryGoods" parameterType = "string" resultMap = "godMap">
+		SELECT god_num,godc_num,god_listimageurl,god_name,god_sellingprice
+		FROM 
+		 (
+		  SELECT god_num,godc_num,god_listimageurl,god_name,god_sellingprice
+		  FROM goods
+		  where godc_num = #{godcNum}
+		  ORDER BY god_regdate DESC
+		 )
+		 <![CDATA[
+		WHERE ROWNUM <= 5
+		  ]]>
+	</select>
+	
+	<select id = "getCategory" resultMap = "godMap">
+	SELECT godc_num,godc_name
+	FROM 
+	 (
+	  SELECT godc_num,godc_name
+	  FROM goods_categories
+	  ORDER BY godc_num
+	 )
+	  <![CDATA[
+	WHERE ROWNUM <= 5
+	 ]]>
+	</select>
+	
+	<select id = "getLatelyGoods" resultMap = "godMap">
+		SELECT god_num,godc_num,god_listimageurl,god_name,god_sellingprice,god_intro
+		FROM 
+		 (
+		  SELECT god_num,godc_num,god_listimageurl,god_name,god_sellingprice,god_intro
+		  FROM goods
+		  ORDER BY god_regdate DESC
+		 )
+		 <![CDATA[
+		WHERE ROWNUM <= 5
+		  ]]>
+	</select>
+	
+	<resultMap id = "godMap" type = "god">
+		<id property = "godNum" column = "god_num" />
+		<result property = "godcNum" column = "godc_num" />
+		<result property = "godListImageUrl" column = "god_listimageurl" />
+		<result property = "godName" column = "god_name" />
+		<result property = "godcName" column = "godc_name" />
+		<result property = "godSellingPrice" column = "god_sellingprice" />
+		<result property = "godIntroduce" column = "god_intro" />
+	</resultMap>
+</mapper>

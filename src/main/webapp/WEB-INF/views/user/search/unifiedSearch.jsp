@@ -78,7 +78,7 @@
 		margin-top:10px;
 	}
 	#styleShop table .product,
-	#board > table{
+	#board > table .posts{
 		cursor:pointer;
 	}
 	#styleShop table tr td:nth-child(1){
@@ -290,19 +290,7 @@
 			<div id = "board">
 				<strong>게시판</strong>
 				<table id = "postsTable">
-					<tr>
-						<td>
-							<div>
-								<span>{[게시판 경로 표기]}</span>
-								<span>{글 제목 표기}</span>
-								<span>{작성일}</span>							
-							</div>
-							<div>
-								<span>고객님 안녕하세요! 라라마켓 관리자입니다.추석 명절로 인해 택배 회사에서 더 이상 배송 접수를 하지<br> 않고
-								있습니다.이점 너그러운 양해를 부탁드리며,자세한 내용은 아래의 안내 사항을 참고 바랍니다....</span>							
-							</div>				
-						</td>						
-					</tr>
+
 				</table>
 				<div id = "postsPagination">
 	

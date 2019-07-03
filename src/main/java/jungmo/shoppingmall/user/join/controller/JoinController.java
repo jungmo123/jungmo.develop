@@ -112,7 +112,9 @@ public class JoinController {
 			joinService.mailSend(userEmail, mf.getMailTitle(),mailContent);
 		}
 		SmsForm sms = userService.getSmsForm(1);
-		//smsSend(phone,sms.getSmsContent());
+		if(sms.getSmsAutomaticallySend().equals("예")){
+			smsSend(phone,sms.getSmsContent());
+		}
 		return "redirect:/";
 	}
 }

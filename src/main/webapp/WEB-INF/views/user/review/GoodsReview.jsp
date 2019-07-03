@@ -31,14 +31,9 @@
 		font-weight: bold;
 		margin-right: 20px;
 	}
-	input[type="text"] {
+	#content #input[type="text"] {
 		display: inline;
 		width: 250px;
-	}
-	#searchBar .btn {
-		width: 100px;
-		position: relative;
-		bottom: 2px;
 	}
 	#pagination{
 		margin-top:30px;

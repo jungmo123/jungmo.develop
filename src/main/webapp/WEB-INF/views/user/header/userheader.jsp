@@ -14,7 +14,7 @@
 					<select class = "form-control">
 						<option>전체 검색</option>
 					</select>
-					<input type = "text" class = "form-control" name = "Search" placeholder = "검색어를 입력하세요!"/>
+					<input id = "Search" type = "text" class = "form-control" name = "Search" placeholder = "검색어를 입력하세요!"/>
 					<button id = "SearchB" type = "button" class = "btn btn-default">검색</button>
 				</div>
 				<div id = "navi">
@@ -26,7 +26,7 @@
 							<span>&#124;</span>
 							<a href = "admin/login"><span>관리자 로그인</span></a>
 							<span>&#124;</span>
-							<a href = "USER/HELP/08.html"><span>ID/비밀번호 찾기</span></a>
+							<a href = "idSearch"><span>ID/비밀번호 찾기</span></a>
 						</div>
 					</c:if>
 					<c:if test = "${user!=null}">
@@ -37,7 +37,7 @@
 							<span>&#124;</span>
 							<a href = "mypage/oneTwoOne"><span>1:1 문의</span></a>
 							<span>&#124;</span>
-							<a href = "mypage/oneTwoOne"><span>마이 페이지</span></a>
+							<a href = "mypage/orderHistory1"><span>마이 페이지</span></a>
 							<span>&#124;</span>
 							<a href = "logout"><span>로그아웃</span></a>
 						</div>

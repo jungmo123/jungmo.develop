@@ -88,62 +88,6 @@ public class LoginController {
 			posService.addNotice(pos);
 		}
 	}
-	
-	@RequestMapping("/")
-	public String home(HttpServletRequest request,Model model){
-		List<Banner> top = new ArrayList<>();
-		List<Banner> main = new ArrayList<>();
-		List<Banner> left = new ArrayList<>();
-		List<Banner> right = new ArrayList<>();
-		Banner t = null;
-		Banner m= null;
-		Banner l= null;
-		Banner r = null;
-		List<Banner> banners = loginService.getBanner();
-		for(int i = 0 ; i < banners.size() ; i++){
-			Banner b = banners.get(i);
-			if(b.getBnnLocation().equals("top")){
-				top.add(b);
-			}else if(b.getBnnLocation().equals("main")){
-				main.add(b);
-			}else if(b.getBnnLocation().equals("left")){
-				left.add(b);
-			}else if(b.getBnnLocation().equals("right")){
-				right.add(b);
-			}
-		}
-		int n;
-		for(int i = 0 ; i < 4 ; i++){
-			switch(i){
-			case 0: if(top.size() != 0){
-							n = (int)(Math.random()*top.size());
-							t = top.get(n);				
-						}
-						break;
-			case 1:if(main.size() != 0){
-
-						} 
-						break;
-			case 2: if(left.size() != 0){
-							n = (int)(Math.random()*left.size());
-							l = left.get(n);
-						} 
-						break;
-			case 3: if(right.size() != 0){
-							n = (int)(Math.random()*right.size());
-							r = right.get(n);
-						} 
-						break;
-			}
-		}
-		List<GoodsCategories> gc = gcService.getCategories();
-		model.addAttribute("topBanner", t);
-		model.addAttribute("leftBanner", l);
-		model.addAttribute("rightBanner", r);
-		model.addAttribute("mainBanner", main);
-		model.addAttribute("goodsCategories",gc);
-		return "main";
-	}
 
 	@RequestMapping("/login")
 	public String login(){
@@ -215,7 +159,7 @@ public class LoginController {
 	
 	@RequestMapping("/admin/board{idx}")
 	public String board(@PathVariable String idx,HttpServletRequest request,Model model){
-		common(request,model,3,idx,3,65);
+		common(request,model,0,idx,0,65);
 		return "manager/main/board";
 	}
 	
@@ -225,26 +169,26 @@ public class LoginController {
 		category = 65;
 		searchType = Integer.parseInt(request.getParameter("searchType"));
 		searchContent = request.getParameter("searchContent");
-		search(request,model,idx,3,category,searchType,searchContent);
+		search(request,model,idx,0,category,searchType,searchContent);
 		return	"manager/main/board";
 	}
 	
 	@RequestMapping("/admin/boardWrite")
 	public String boardWrite(Model model){
-		List<BoardCategories> board =  boscService.getBC(3);
+		List<BoardCategories> board =  boscService.getBC(0);
 		model.addAttribute("categories",board);
 		return "manager/main/boardWrite";
 	}
 	
 	@RequestMapping(value = "/admin/Bwrite",method=RequestMethod.POST)
 	public String boardWrite(HttpServletRequest request,Model model){
-		write(request,3);
+		write(request,0);
 		return "redirect:board1";
 	}
 	
 	@RequestMapping("/admin/boardRead{result}")
 	public String boardRead(@PathVariable String result,Model model,HttpServletRequest request){
-		read(model,result,3,request);
+		read(model,result,0,request);
 		return "manager/main/boardRead";
 	}
 	

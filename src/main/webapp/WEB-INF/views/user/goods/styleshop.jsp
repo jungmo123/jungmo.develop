@@ -15,7 +15,6 @@
 <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src = "<c:url value = "/js/Navigation.js" />"></script>
-<script src = "<c:url value = "/js/Goods.js" />"></script>
 <style>
 		@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
 		*{
@@ -212,6 +211,6 @@
 		</div>		
 	</div>
 </c:if>
-</div>     
+</div>
 </body>
 </html>

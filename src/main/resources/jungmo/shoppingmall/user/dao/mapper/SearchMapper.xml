@@ -36,7 +36,7 @@
 				from posts
 				join boards
 				on (boards.bor_num = posts.bor_num)
-				where pos_title like '%' || #{search} || '%' or pos_content like '%' || #{search} || '%'
+				where pos_title like '%' || #{search} || '%' or pos_content like '%' || #{search} || '%' and posts.bor_num > 0
 		<![CDATA[
 			)x where rownum <= #{rowCnt}*#{currentPage}
 				)where rnum > #{rowCnt}*(#{currentPage}-1)

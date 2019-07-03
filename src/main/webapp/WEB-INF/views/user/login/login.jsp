@@ -27,6 +27,18 @@
 	body{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+	#header #title > a > strong{
+		font-size:30px;
+		color: #FF6F43;
+	}
+	#header #title > a > strong:nth-child(2){
+		color: #5D646E;
+	}
+	a,
+	a:focus,
+	a:hover{
+		text-decoration:none !important;
+	}
 </style>
 </head>
 <body>
@@ -34,25 +46,26 @@
 	<div class = "container">
 		<div id = "header">
 			<div id = "title">
-				<strong>라라마켓</strong>
+				<a href = "/shoppingmall/"><strong>라라</strong><strong>마켓</strong></a>
 				<br>
 				<span>안 입는 옷을 판매하고, 새 옷으로 구매하세요!</span>
 				<div id = "searchBar">
 					<select class = "form-control">
 						<option>전체 검색</option>
 					</select>
-					<input type = "text" class = "form-control" name = "title" placeholder = "검색어를 입력하세요!"/>
-					<button type = "button" class = "btn btn-default">검색</button>
+					<input id = "Search" type = "text" class = "form-control" name = "Search" placeholder = "검색어를 입력하세요!"/>
+					<button id = "SearchB" type = "button" class = "btn btn-default">검색</button>
 				</div>
 				<div id = "nav">
-					<div id = "loginBar">
-						<a href = "join01"><span>회원가입</span></a>
-						<span>&#124;</span>
-						<a href = "login"><span>로그인</span></a>
-						<span>&#124;</span>
-						<a href = "../HELP/08.html"><span>ID/비밀번호 
-						찾기</span></a>
-					</div>
+						<div id = "loginBar">
+							<a href = "join01"><span>회원가입</span></a>
+							<span>&#124;</span>
+							<a href = "login"><span>로그인</span></a>
+							<span>&#124;</span>
+							<a href = "admin/login"><span>관리자 로그인</span></a>
+							<span>&#124;</span>
+							<a href = "idSearch"><span>ID/비밀번호 찾기</span></a>
+						</div>
 					<div class = "btn-group btn-group-justified">
 						<a href = "#" class = "btn btn-default">스타일 숍</a>
 						<a href = "#" class = "btn btn-default">라라마켓</a>
@@ -81,7 +94,7 @@
 				<div>
 					<a href = "join01"><span>회원 가입</span></a>
 					<span>&#124;</span>
-					<a href = "../HELP/08.html"><span>ID/비밀번호 찾기</span></a>				
+					<a href = idSearch><span>ID/비밀번호 찾기</span></a>				
 				</div>
 			</div>
 			<div id = "center">
