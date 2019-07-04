@@ -217,7 +217,7 @@ public class MyPageController {
 	@ResponseBody
 	public String insertOrderCancel(String ordNum){
 		try{
-			return mypageService.updateOrderCancel(ordNum);
+			return mypageService.updateOrderCancel(ordNum,mypageService);
 		}catch(Exception e){
 			return "error";
 		}

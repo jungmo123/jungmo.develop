@@ -96,4 +96,8 @@ public class GoodsAdminServiceImpl implements GoodsAdminService{
 	public List<GoodsManageLog> selectGml(String godNum){
 		return gaDao.selectGml(godNum);
 	}
+	
+	public Goods getGodDetail(String godNum){
+		return gaDao.getGodDetail(godNum);
+	}
 }

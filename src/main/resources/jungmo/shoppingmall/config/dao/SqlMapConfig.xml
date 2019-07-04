@@ -57,6 +57,7 @@
 			<typeAlias alias = "rg" type = "jungmo.shoppingmall.user.review.domain.ReviewGoods" />
 			<typeAlias alias = "customer" type = "jungmo.shoppingmall.user.customerSupport.domain.Customer" />
 			<typeAlias alias = "reason" type = "jungmo.shoppingmall.user.mypage.domain.Reason" />
+			<typeAlias alias = "purs" type = "jungmo.shoppingmall.user.mypage.domain.PurchaseStock" />
 			<typeAlias alias = "re" type = "jungmo.shoppingmall.user.mypage.domain.RefundAndExchange" />
 			<typeAlias alias = "reai" type = "jungmo.shoppingmall.user.mypage.domain.RefundAndExchangeImage" />
 			<typeAlias alias = "imgl" type = "jungmo.shoppingmall.user.mypage.domain.ImageList" />

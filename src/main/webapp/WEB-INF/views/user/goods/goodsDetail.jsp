@@ -745,6 +745,7 @@
 									<tr class = "optionClass optionFirst optionLast">
 									<td>
 										<span>${godo.optName} : </span>
+										<span class = 'optionName' style='display:none'>${godo.optName}</span>
 									</td>
 									<td>
 										<select class = "optionSelect">

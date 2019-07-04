@@ -141,4 +141,12 @@ public class MyPageDaoImpl implements MyPageDao{
 	public int addSecedeUser(String userId,String scdCode,String scdContent){
 		return mypageMapper.addSecedeUser(userId, scdCode, scdContent);
 	}
+	
+	public List<PurchaseStock> getPurs(String ordNum){
+		return mypageMapper.getPurs(ordNum);
+	}
+	
+	public int pluseStock(String godNum,String godStock){
+		return mypageMapper.pluseStock(godNum, godStock);
+	}
 }

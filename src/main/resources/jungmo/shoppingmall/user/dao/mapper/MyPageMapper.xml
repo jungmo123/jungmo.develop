@@ -234,6 +234,12 @@
 		where scd_code > 0
 	</select>
 	
+	<select id = "getPurs" parameterType = "string" resultType = "purs">
+		select ord_num ordNum,god_num godNum,god_amount godAmount
+		from purchases
+		where ord_num = #{ordNum}
+	</select>
+	 
 	<insert id = "addRefund" parameterType = "re">
 		insert into refunds
 		values(#{ordNum},sysdate,#{reReason},#{reContent},'처리전',null,null,#{rePayNum})
@@ -291,6 +297,12 @@
 		update users
 		set user_state = '탈퇴'
 		where user_id = #{userId}
+	</update>
+	
+	<update id = "pluseStock" parameterType = "map">
+		update goods
+		set god_stock = god_stock+#{godStock}
+		where god_num = #{godNum}
 	</update>
 	
 	<delete id = "deleteCart" parameterType = "map">

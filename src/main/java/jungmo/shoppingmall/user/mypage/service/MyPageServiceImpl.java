@@ -89,7 +89,7 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 	
 	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
-	public String updateOrderCancel(String ordNum){
+	public String updateOrderCancel(String ordNum,MyPageService mypageService){
 		orderService.modifyOrdType(ordNum, "주문취소");
 		List<String> ls = new ArrayList<>();
 		List<String> tp = new ArrayList<>();
@@ -100,6 +100,13 @@ public class MyPageServiceImpl implements MyPageService{
 		option.put("type", tp);
 		orderService.addMlc(option);
 		orderService.addOrdercancel(ordNum);	
+		List<PurchaseStock> purl = mypageService.getPurs(ordNum);
+		for(int i = 0 ; i < purl.size() ; i++){
+			PurchaseStock p = purl.get(i);
+			String godNum = p.getGodNum();
+			String godStock = p.getGodAmount();
+			mypageService.pluseStock(godNum, godStock);
+		}
 		return "";
 	}
 	
@@ -288,5 +295,13 @@ public class MyPageServiceImpl implements MyPageService{
 		mypageService.updateUserState(userId);
 		mypageService.addSecedeUser(userId, scdCode, scdContent);
 		return "";
+	}
+	
+	public List<PurchaseStock> getPurs(String ordNum){
+		return mypageDao.getPurs(ordNum);
+	}
+	
+	public int pluseStock(String godNum,String godStock){
+		return mypageDao.pluseStock(godNum, godStock);
 	}
 }

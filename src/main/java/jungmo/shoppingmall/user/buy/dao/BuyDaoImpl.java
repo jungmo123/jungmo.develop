@@ -6,6 +6,7 @@ import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.buy.dao.mapper.*;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -31,5 +32,9 @@ public class BuyDaoImpl implements BuyDao{
 	
 	public void insertPointLogs(PointLogs pl){
 		buyMapper.insertPointLogs(pl);
+	}
+	
+	public void minusStock(String godNum,String godStock){
+		buyMapper.minusStock(godNum, godStock);
 	}
 }

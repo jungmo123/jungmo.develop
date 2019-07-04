@@ -30,4 +30,10 @@
 		insert into point_logs
 		values(#{userid},sysdate,#{polgContent},#{polgChange})
 	</insert>
+	 
+	<update id = "minusStock" parameterType = "map">
+		update goods
+		set god_stock = god_stock-#{godStock}
+		where god_num = #{godNum}
+	</update>
 </mapper>

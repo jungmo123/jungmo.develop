@@ -13,6 +13,12 @@
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
 		  	)where rnum > #{rowCnt}*(#{currentPage}-1)
 			]]>
+	</select> 
+	
+	<select id = "getGodDetail" parameterType = "string" resultType = "god">
+		select god_detailinfo godDetailInfo
+		from goods
+		where god_num = #{godNum}
 	</select>
 	
 	<select id = "selectGoods" parameterType = "int" resultMap = "godMap">

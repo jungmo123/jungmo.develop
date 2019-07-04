@@ -950,6 +950,23 @@ $("#introduce").keyup(function(){
 			});		
 	}
 })
+
+    var checkUnload = true;
+    $(window).on("beforeunload", function(){
+        if(checkUnload){
+        	$.ajax({
+        		url:"deleteImg",
+        		data:"1",
+        		method:"post",
+        		success:function(data){
+        			console.log("성공");
+        		},
+        		error:function(a,b,errMsg){
+        			console.log("에러");
+        		}
+        	})
+        }
+    });
 </script>
 
 </body>

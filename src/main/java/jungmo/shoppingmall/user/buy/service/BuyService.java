@@ -2,6 +2,7 @@ package jungmo.shoppingmall.user.buy.service;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.web.multipart.*;
 
 import jungmo.shoppingmall.admin.order.domain.*;
@@ -16,4 +17,5 @@ public interface BuyService {
 	void insertPointLogs(PointLogs pl);
 	String insertOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList);
 	String insertMOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList,List<String> cartNums);
+	void minusStock(String godNum,String godStock);
 }

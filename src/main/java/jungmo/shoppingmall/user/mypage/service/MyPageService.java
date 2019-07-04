@@ -4,6 +4,7 @@ import java.util.*;
 
 import jungmo.shoppingmall.admin.boardadmin.domain.*;
 import jungmo.shoppingmall.admin.boardadmin.domain.GoodsReview;
+import jungmo.shoppingmall.admin.order.service.*;
 import jungmo.shoppingmall.admin.user.domain.*;
 import jungmo.shoppingmall.user.login.domain.*;
 import jungmo.shoppingmall.user.mypage.domain.*;
@@ -18,7 +19,7 @@ public interface MyPageService {
 	String week3();
 	String month1();
 	String month3();
-	String updateOrderCancel(String ordNum);
+	String updateOrderCancel(String ordNum,MyPageService mypageService);
 	List<Reason> getReason();
 	String addRea(MultipartHttpServletRequest request,MyPageService mypageService,List<String> fileList);
 	int addRefund(RefundAndExchange re);
@@ -52,4 +53,6 @@ public interface MyPageService {
 	int updateUserState(String userId);
 	int addSecedeUser(String userId,String scdCode,String scdContent);
 	String addSecede(String userId,String scdCode,String scdContent,String password,MyPageService mypageService);
+	List<PurchaseStock> getPurs(String ordNum);
+	int pluseStock(String godNum,String godStock);
 }

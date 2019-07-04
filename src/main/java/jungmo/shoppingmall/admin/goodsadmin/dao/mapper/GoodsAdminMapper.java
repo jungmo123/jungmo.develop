@@ -29,4 +29,5 @@ public interface GoodsAdminMapper {
 	int removeGoods(HashMap<String,List<String>> map);
 	int insertGml(@Param("godNum") String godNum,@Param("gmlContent") String gmlContent,@Param("userId") String userId);
 	List<GoodsManageLog> selectGml(String godNum);
+	Goods getGodDetail(String godNum);
 }

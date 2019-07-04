@@ -3,6 +3,7 @@ package jungmo.shoppingmall.admin.goodsadmin.controller;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.regex.*;
 
 import javax.servlet.http.*;
 
@@ -13,11 +14,14 @@ import jungmo.shoppingmall.admin.goodsadmin.service.*;
 import jungmo.shoppingmall.admin.order.domain.*;
 import jungmo.shoppingmall.admin.order.service.*;
 
+import org.apache.commons.lang3.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
+
+import com.google.gson.*;
 
 @Controller
 public class GoodsAdminController {
@@ -42,11 +46,13 @@ public class GoodsAdminController {
 	private String repreImageUrl2 = "";
 	private String repreImageUrl3 = "";
 	private String repreImageUrl4 = "";
+	private List<String> images;
 	
 	// 상품등록
 	
 	@RequestMapping("/admin/goodsRegister")
 	public String goodsadmin(HttpServletRequest request,Model model){
+		images = new ArrayList<>();
 		model.addAttribute("categories", godcService.getCategories());
 		return "manager/goodsadmin/goodsRegister";
 	}
@@ -292,6 +298,7 @@ public class GoodsAdminController {
 	
 	@RequestMapping("/admin/goodsModify{idx}")
 	public String goodsModify(@PathVariable String idx,HttpServletRequest request,Model model){
+		images = new ArrayList<>();
 		repreImageUrl1 = "";
 		repreImageUrl2 = "";
 		repreImageUrl3 = "";
@@ -378,6 +385,22 @@ public class GoodsAdminController {
 		String fullName = "";
 		Iterator<String> itr = request.getFileNames();
 		String filePath;
+		List<String> imgLink = new ArrayList<>();
+		Goods gooo = gaService.getGodDetail(godNum);
+        Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img 태그 src 추출 정규표현식
+        Matcher matcher = pattern.matcher(gooo.getGodDetailInfo());
+        while(matcher.find()){
+        	String [] value = matcher.group(1).split("/shoppingmall/upload");
+                if(productInfo.contains(value[1])){
+
+                }else{
+                	String root = dir+value[1];
+                	File f = new File(root);
+                    if (f.isFile()) {
+                    	f.delete();
+                      }
+                }    		
+        }
 		File f;
 		int idx = 1;
 		while(itr.hasNext()){
@@ -614,4 +637,71 @@ public class GoodsAdminController {
 		godcService.deleteCategory(categoryNum);
 		return "";
 	}
+	
+	@RequestMapping(value="/uploadImage",method=RequestMethod.POST)
+	public String uploadImage(HttpServletRequest req, HttpServletResponse resp, 
+            MultipartHttpServletRequest multiFile) throws Exception{
+		JsonObject json = new JsonObject();
+		PrintWriter printWriter = null;
+		OutputStream out = null;
+		MultipartFile file = multiFile.getFile("upload");
+		if(file != null){
+			if(file.getSize() > 0 && StringUtils.isNotBlank(file.getName())){
+				if(file.getContentType().toLowerCase().startsWith("image/")){
+					try{
+						String fileName = file.getName();
+						byte[] bytes = file.getBytes();
+						String uploadPath = req.getServletContext().getRealPath("/upload");
+						File uploadFile = new File(uploadPath);
+						if(!uploadFile.exists()){
+							uploadFile.mkdirs();
+						}
+						fileName = UUID.randomUUID().toString();
+						images.add(fileName);
+						uploadPath = uploadPath + "/" + fileName;
+						out = new FileOutputStream(new File(uploadPath));
+                        out.write(bytes);
+                        
+                        printWriter = resp.getWriter();
+                        resp.setContentType("text/html");
+                        String fileUrl = req.getContextPath() + "/upload/" + fileName;
+                        
+                        // json 데이터로 등록
+                        // {"uploaded" : 1, "fileName" : "test.jpg", "url" : "/img/test.jpg"}
+                        // 이런 형태로 리턴이 나가야함.
+                        json.addProperty("uploaded", 1);
+                        json.addProperty("fileName", fileName);
+                        json.addProperty("url", fileUrl);
+                        
+                        printWriter.println(json);
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }finally{
+                        if(out != null){
+                            out.close();
+                        }
+                        if(printWriter != null){
+                            printWriter.close();
+                        }		
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	@RequestMapping("/admin/deleteImg")
+	@ResponseBody
+	public String deleteImg(HttpServletRequest request){
+		String dir = request.getServletContext().getRealPath("/upload");
+		for(int i = 0 ; i < images.size() ; i++){
+			String address = dir + "/" + images.get(i);
+			  File f = new File(address);
+			 if(f.exists()){
+				f.delete();
+			}
+		}
+		return "";
+	}
+	
 }

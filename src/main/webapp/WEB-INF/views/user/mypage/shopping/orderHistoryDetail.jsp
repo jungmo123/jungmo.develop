@@ -890,7 +890,7 @@ var ordLength = "${fn:length(purchase.goods)-1}"
 			}).then((result) => {
 			  if (result.value) {
 					$.ajax({
-						url:"mypage/insertOrderCancel",
+						url:"insertOrderCancel",
 						data: {
 							ordNum:ordNum
 						},

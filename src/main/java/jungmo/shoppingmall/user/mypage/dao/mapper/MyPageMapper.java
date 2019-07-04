@@ -41,4 +41,6 @@ public interface MyPageMapper {
 	List<secedeCategory> getScd();
 	int updateUserState(String userId);
 	int addSecedeUser(@Param("userId") String userId,@Param("scdCode") String scdCode,@Param("scdContent") String scdContent);
+	List<PurchaseStock> getPurs(String ordNum);
+	int pluseStock(@Param("godNum") String godNum,@Param("godStock") String godStock);
 }

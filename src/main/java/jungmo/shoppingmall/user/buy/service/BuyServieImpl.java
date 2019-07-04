@@ -33,11 +33,15 @@ public class BuyServieImpl implements BuyService{
 	}
 	
 	public void createPurchaseOption(HashMap<String,List<GoodsOption>> hashmap){
-		buyDao.createPurchaseOption(hashmap);
+		buyDao.createPurchaseOption(hashmap); 
 	}
 	
 	public void insertPointLogs(PointLogs pl){
 		buyDao.insertPointLogs(pl);
+	}
+	
+	public void minusStock(String godNum,String godStock){
+		buyDao.minusStock(godNum, godStock);
 	}
 	
 	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
@@ -74,11 +78,12 @@ public class BuyServieImpl implements BuyService{
 				BuyList buy = buyList.get(i);
 				String godNum = buy.getGodNum();
 				String godAmount = buy.getGodAmount();
+				buyDao.minusStock(godNum, godAmount);
 				Purchase p = new Purchase(ordNum,godNum,String.valueOf(i+1),godAmount);
 				buyService.createPurchase(p);
 				List<GoodsOption> godo = buy.getGodoList();
-				List<GoodsOption> godoList = new ArrayList<>();
-				if(godo.get(0).getOptName() != null){
+				List<GoodsOption> godoList = new ArrayList<>();	
+				if(!godo.isEmpty()){
 					for(int j = 0 ; j < godo.size() ; j++){
 						GoodsOption g = godo.get(j);
 						String optName = g.getOptName();
@@ -134,6 +139,7 @@ public class BuyServieImpl implements BuyService{
 				BuyList buy = buyList.get(i);
 				String godNum = buy.getGodNum();
 				String godAmount = buy.getGodAmount();
+				buyService.minusStock(godNum, godAmount);
 				Purchase p = new Purchase(ordNum,godNum,String.valueOf(i+1),godAmount);
 				buyService.createPurchase(p);
 				List<GoodsOption> godo = buy.getGodoList();

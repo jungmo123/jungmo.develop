@@ -639,7 +639,7 @@
 				</div>
 				<div id = "buttonGroup">
 					<button id = "register" type = "button" class = "btn btn-default">등록</button>
-					<button class = "btn btn-default">취소</button>
+					<button type = "button" class = "btn btn-default" onclick = "location.href = '/shoppingmall/admin/main'">취소</button>
 				</div>
 			</form>
 		</div>
@@ -653,6 +653,7 @@ var repreImageUrl1 = "${repreImageUrl1}";
 var repreImageUrl2 = "${repreImageUrl2}";
 var repreImageUrl3 = "${repreImageUrl3}";
 var repreImageUrl4 = "${repreImageUrl4}";
+var godNum
 
 $(function(){
 	CKEDITOR.replace('WriteContent',{
@@ -1079,6 +1080,24 @@ $("input[name='optionCheck']").click(function(){
 		$("#option input").addClass("readonly");	
 	}
 })
+ 
+
+    var checkUnload = true;
+    $(window).on("beforeunload", function(){
+        if(checkUnload){
+        	$.ajax({
+        		url:"deleteImg",
+        		data:"1",
+        		method:"post",
+        		success:function(data){
+        			console.log("성공");
+        		},
+        		error:function(a,b,errMsg){
+        			console.log("에러");
+        		}
+        	})
+        }
+    });
 
 </script>
 

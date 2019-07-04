@@ -42,4 +42,6 @@ public interface MyPageDao {
 	List<secedeCategory> getScd();
 	int updateUserState(String userId);
 	int addSecedeUser(String userId,String scdCode,String scdContent);
+	List<PurchaseStock> getPurs(String ordNum);
+	int pluseStock(String godNum,String godStock);
 } 

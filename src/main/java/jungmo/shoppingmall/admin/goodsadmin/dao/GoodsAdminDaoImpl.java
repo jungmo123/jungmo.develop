@@ -96,4 +96,8 @@ public class GoodsAdminDaoImpl implements GoodsAdminDao{
 	public List<GoodsManageLog> selectGml(String godNum){
 		return gaMapper.selectGml(godNum);
 	}
+	
+	public Goods getGodDetail(String godNum){
+		return gaMapper.getGodDetail(godNum);
+	}
 }

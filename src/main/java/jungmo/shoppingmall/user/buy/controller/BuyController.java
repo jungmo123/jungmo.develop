@@ -48,7 +48,7 @@ public class BuyController {
 			String godListImageUrl = list.get("godListImageUrl");
 			String optionName = list.get("optionName");
 			String optionContent = list.get("optionContent");
-			String optionPrice = list.get("optionPrice");			
+			String optionPrice = list.get("optionPrice");	
 			if(i == 0){
 				buy = new BuyList(userId,godNum,godAmount,godName,godcName,godSellingPrice,godListImageUrl);
 				if(!optionName.equals("")){
