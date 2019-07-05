@@ -102,7 +102,7 @@
 						<tr>
 							<td id = "${event.eventNum}" class = "check">
 								<div>
-									<img src = "..${event.eventListImageUrl}" />
+									<img src = "upload/${event.eventListImageUrl}" />
 								</div>
 							</td>
 							<td id = "${event.eventNum}" class = "check">

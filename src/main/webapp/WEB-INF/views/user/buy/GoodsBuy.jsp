@@ -689,6 +689,8 @@
 	$("#usingPoint").click(function(){
 		point = $(this).prev().val();
 		var totalprice = "${totalprice}"
+		console.log(userPoint);
+		console.log(point);
 		if(point%100 != 0){
 			Swal.fire({
 				  position: 'top',
@@ -701,9 +703,11 @@
 			totalprice = comma(totalprice);
 			$("#totalPrice").text(totalprice +"원")
 			$(this).prev().val("");
+			point = "0";
 			return;
 		}
-		if(point > userPoint){
+		console.log(userPoint-point);
+		if(0 > userPoint-point){
 			Swal.fire({
 				  position: 'top',
 				  type: 'error',
@@ -715,6 +719,7 @@
 			totalprice = comma(totalprice);
 			$("#totalPrice").text(totalprice +"원")
 			$(this).prev().val("");
+			point = "0";
 			return;
 		}
 		total = totalprice-point;
@@ -787,6 +792,8 @@
 			point = "0";
 		}
 		
+		console.log(point);
+		
  		if(text != ""){
 			Swal.fire({
 				  position: 'top',
@@ -809,12 +816,12 @@
 	    leadingZeros(d.getSeconds(), 2) +
 	    ordNum;
 	    
-/* 		IMP.request_pay({
+ 		IMP.request_pay({
 		    pg : 'inicis', // version 1.1.0부터 지원.
 		    pay_method : pay,
 		    merchant_uid : day,
 		    name : godName,
-		    amount : "1",
+		    amount : total,
 		    buyer_email : 'endia1@daum.net',
 		    buyer_name : '성정모',
 		    buyer_tel : '010-4644-9858',
@@ -829,7 +836,7 @@
 		        success = false;
 		    }
 		    if(success == true){
-		    	*/
+		    	
 				var formData = new FormData($("#registerForm")[0]);
 				formData.append('usingPoint',point);
 				formData.append('payment',pay);
@@ -869,10 +876,10 @@
 							});
 					}
 				})
-/* 		    }else{
+ 		    }else{
 		    	 alert(msg);
 		    }
-		}); */
+		});
 	})
 	
 	$("#cancel").click(function(){	

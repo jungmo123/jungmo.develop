@@ -367,7 +367,7 @@ hr {
 							<div>
 							<p id = "${godq.godqNum}">${idx}</p>
 							<div>
-								<img src = "..${godq.goods.godListImageUrl}"/>
+								<img src = "../upload/${godq.goods.godListImageUrl}"/>
 							</div>
 							<div>
 								<p><span>${godq.goods.godc.godcName} > ${godq.goods.godName}</span><button class="form-control" onclick = "location.href = '../goodsDetail${godq.goods.godNum}'">제품보기</button></p>

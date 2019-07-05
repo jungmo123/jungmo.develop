@@ -163,7 +163,7 @@
 			</form>
 				<div id = "buttonGroup">
 					<button id = "submit" type = "button" class = "btn btn-default">작성 완료</button>
-					<button type = "button" class = "btn btn-default" onclick="location.href='01.html'">작성 취소</button>
+					<button type = "button" class = "btn btn-default" onclick="location.href='oneTwoOne1'">작성 취소</button>
 				</div>
 		</div>
 	</div>

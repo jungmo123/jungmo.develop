@@ -84,17 +84,12 @@ public class CustomerSupportController {
 	}
 	
 	public void write(HttpServletRequest request,int borNum){
-		String importance = request.getParameter("importance");
+		String importance = "N";
 		String categorySelect = request.getParameter("categorySelect");
 		String content = request.getParameter("writeContent");
 		String title = request.getParameter("title");
 		String userId = (String)request.getSession().getAttribute("user");
 		String posNum = request.getParameter("posNum");
-		if(importance != null){
-			importance = "Y";
-		}else{
-			importance = "N";
-		}
 		if(posNum != null){
 			posService.updatePosts(Integer.parseInt(posNum), importance, title, content);
 		}else{

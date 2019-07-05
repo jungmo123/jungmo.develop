@@ -161,7 +161,7 @@
 		   <br><br><br>
 		   <div id="button">
 		   <button class="btn btn-default" type = "submit"> 다음 </button>
-		   <button class="btn btn-default"> 취소 </button>
+		   <button type = "button" class="btn btn-default" onclick = "location.href = '/shoppingmall/'"> 취소 </button>
 		   </div>		
 		</div>
    </form>

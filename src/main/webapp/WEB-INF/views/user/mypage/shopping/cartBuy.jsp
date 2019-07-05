@@ -488,7 +488,7 @@
 	IMP.init('imp57728894'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 	var postCode = new Array();
 	var ordNum = "";
-	var point = "";
+	var point = "0";
 	var userPoint = "${userPoint}"
 	var total = "${totalprice}"
 	var godName = "${buys[0].godName}"
@@ -701,9 +701,10 @@
 			totalprice = comma(totalprice);
 			$("#totalPrice").text(totalprice +"원")
 			$(this).prev().val("");
+			point = "0";
 			return;
 		}
-		if(point > userPoint){
+		if(0 > userPoint-point){
 			Swal.fire({
 				  position: 'top',
 				  type: 'error',
@@ -715,6 +716,7 @@
 			totalprice = comma(totalprice);
 			$("#totalPrice").text(totalprice +"원")
 			$(this).prev().val("");
+			point = "0";
 			return;
 		}
 		total = totalprice-point;
@@ -809,12 +811,12 @@
 	    leadingZeros(d.getSeconds(), 2) +
 	    ordNum;
 	    
-/* 		IMP.request_pay({
+ 		IMP.request_pay({
 		    pg : 'inicis', // version 1.1.0부터 지원.
 		    pay_method : pay,
 		    merchant_uid : day,
 		    name : godName,
-		    amount : "1",
+		    amount : total,
 		    buyer_email : 'endia1@daum.net',
 		    buyer_name : '성정모',
 		    buyer_tel : '010-4644-9858',
@@ -829,7 +831,7 @@
 		        success = false;
 		    }
 		    if(success == true){
-		    	*/
+		    	
 				var formData = new FormData($("#registerForm")[0]);
 				formData.append('usingPoint',point);
 				formData.append('payment',pay);
@@ -869,10 +871,10 @@
 							});
 					}
 				})
-/* 		    }else{
+ 		    }else{
 		    	 alert(msg);
 		    }
-		}); */
+		});
 	})
 	
 	$("#cancel").click(function(){	

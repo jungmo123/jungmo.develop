@@ -262,11 +262,11 @@
 				</div>
 			</div>
 			</div>
-			<div id = "inquiry" onClick = "location.href='../MYPAGE/BOARD/01.html';">
-				<div onclick = "location.href = '../MYPAGE/BOARD/01.html'">
+			<div id = "inquiry" onClick = "location.href=mypage/otoqAdd';">
+				<div onclick = "location.href = 'mypage/otoqAdd'">
 					<strong>1:1 문의</strong>
 				</div>
-				<div onclick="location.href='../MYPAGE/BOARD/03.html'">
+				<div onclick="location.href='mypage/otoqAdd'">
 					<span>비공개로 고객님께</span>
 					<br>
 					<span> 맞춤 답변을 드립니다.</span>
@@ -336,7 +336,7 @@
 			<a href = "community0I1" class = "btn btn-default left">목록 보기</a>
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
 			<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
-			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/cicWrite'">글쓰기</button>
+			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/communityWrite'">글쓰기</button>
 			<c:if test = "${post.userId == user}">
 			<button id = "modify" class = "btn btn-default right">수정</button>
 			<button id = "delete" class = "btn btn-default right">삭제</button>

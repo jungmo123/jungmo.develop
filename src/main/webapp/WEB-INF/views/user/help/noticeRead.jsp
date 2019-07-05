@@ -194,11 +194,11 @@
 				</div>
 			</div>
 			</div>
-			<div id = "inquiry" onClick = "location.href='../MYPAGE/BOARD/01.html';">
-				<div onclick = "location.href = '../MYPAGE/BOARD/01.html'">
+			<div id = "inquiry" onClick = "location.href=mypage/otoqAdd';">
+				<div onclick = "location.href = 'mypage/otoqAdd'">
 					<strong>1:1 문의</strong>
 				</div>
-				<div onclick="location.href='../MYPAGE/BOARD/03.html'">
+				<div onclick="location.href='mypage/otoqAdd'">
 					<span>비공개로 고객님께</span>
 					<br>
 					<span> 맞춤 답변을 드립니다.</span>

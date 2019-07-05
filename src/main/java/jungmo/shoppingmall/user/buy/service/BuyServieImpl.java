@@ -97,7 +97,7 @@ public class BuyServieImpl implements BuyService{
 					buyService.createPurchaseOption(hashmap);					
 				}
 				if(!usingPoint.equals("0")){
-					PointLogs pl = new PointLogs(userId,ordNum,-Integer.valueOf(usingPoint));
+					PointLogs pl = new PointLogs(userId,ordNum + " 주문 적립금 사용",-Integer.valueOf(usingPoint));
 					buyService.insertPointLogs(pl);
 				}
 			}

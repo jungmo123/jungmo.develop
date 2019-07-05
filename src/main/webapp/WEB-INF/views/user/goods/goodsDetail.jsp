@@ -826,7 +826,7 @@
 		<div id = "evaluation">
 			<strong>&#124;&nbsp;상품평</strong>
 			<span>해당 상품에 대한 상품평을 보실 수 있습니다.</span>
-			<a id = "moreReview" href = "#"><strong>더 보기</strong><span class = "glyphicon glyphicon-plus"></span></a>
+			<a id = "moreReview" href = "#"><strong>처음으로</strong></a>
 			<div id = "evaluationTable">
 				<table id = "godrTable" class = "br">				
 
@@ -839,7 +839,7 @@
 		<div id = "productInquiry">
 			<strong>&#124;&nbsp;상품 문의</strong>
 			<span>상품에 대한 최신 Q&A를 보실 수 있습니다.</span>
-			<a id = "moreQna" href = "#"><strong>더 보기</strong><span class = "glyphicon glyphicon-plus"></span></a>
+			<a id = "moreQna" href = "#"><strong>처음으로</strong></a>
 			<div id = "orderitem">
 				<table id = "qnaTable" class = "br">				
 					<tr>

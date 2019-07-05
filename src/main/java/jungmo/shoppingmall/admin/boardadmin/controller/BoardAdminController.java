@@ -704,7 +704,7 @@ public class BoardAdminController {
 			int eventNum = Integer.valueOf(request.getParameter("eventNum"));
 			if(!file.getOriginalFilename().equals("")){
 				String fileName = file.getOriginalFilename();
-				fullname = "/upload" + "/" + id+today+fileName;
+				fullname = id+today+fileName;
 				save(dir + "/" + id+today+fileName,file);
 				eventService.modifyEvent(new Event(eventNum,title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
 			}else{
@@ -712,7 +712,7 @@ public class BoardAdminController {
 			}
 		}else{
 			String fileName = file.getOriginalFilename();
-			fullname = "/upload" + "/" + id+today+fileName;
+			fullname = id+today+fileName;
 			save(dir + "/" + id+today+fileName,file);
 			eventService.addEvent(new Event(title,summary,content,fullname,Integer.parseInt(view),sdate,edate));
 		} 			
