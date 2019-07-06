@@ -12,6 +12,7 @@ public interface BoardCategoriesService {
 	List<BoardCategories> getBorc(int borNum);
 	BoardCategories getExistBorc(@Param("borNum") int borNum,@Param("borcNum") int borcNum);
 	int updatePosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum);
+	int updateDeleteBorc(int borNum,Integer borcNum);
 	int downPosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum,@Param("currentBorcNum") int currentBorcNum);
 	int updateBorc(BoardCategories borc);
 	int addBorc(BoardCategories borc);

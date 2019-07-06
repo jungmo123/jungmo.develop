@@ -195,7 +195,7 @@
 			<div class ="modal-content">
 				<div class = "modal-header">
 					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-					<h4 class = "modal-title">&#124;&nbsp;카테고리 생성</h4>
+					<h4 class = "modal-title">&#124;&nbsp;카테고리 생성/수정</h4>
 					<hr>
 				</div>
 				<div class = "modal-body">
@@ -236,7 +236,7 @@
 			var button = $("<button></button>")
 			checkbox.attr({
 				type:"checkbox",
-				"class":list[i].poscNum
+				"class":list[i].borcNum
 			});
 			td.append(checkbox);
 			tr.append(td);
@@ -374,7 +374,7 @@
 					  timer: 1500
 					});				
 			}else{
-	 			$.ajax({
+ 	 			$.ajax({
 					url:"deleteBorc",
 					method:"post",
 					data: {
@@ -393,7 +393,7 @@
 							  timer: 1500
 							});
 					}
-				})				
+				})	
 			}
 		})
 		$(document).on("click",".borcModify",function(event){

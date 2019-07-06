@@ -100,7 +100,7 @@ textarea{
 			<div id="AllContent">
 				<div id="menuBar">
 					<p id="menuName">Board Managament</p>
-					<p id="currentIdx">&#124; 주문관리 > 스타일 숍 주문</p>
+					<p id="currentIdx">&#124; 게시판 관리 > 스타일 숍 공지</p>
 				</div>
 					<select id = "selectCategory">
 						<option>카테고리 선택</option>

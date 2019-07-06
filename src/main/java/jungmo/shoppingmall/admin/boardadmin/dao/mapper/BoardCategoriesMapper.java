@@ -12,7 +12,8 @@ public interface BoardCategoriesMapper {
 	List<BoardCategories> getBorc(int borNum);
 	BoardCategories getExistBorc(@Param("borNum") int borNum,@Param("borcNum") int borcNum);
 	int updatePosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum);
-	int downPosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum,@Param("currentBorcNum") int currentBorcNum);
+	int updateDeleteBorc(@Param("borNum") int borNum,@Param("borcNum") Integer borcNum);
+	int downPosc(@Param("borNum") int borNum,@Param("borcNum") Integer borcNum,@Param("currentBorcNum") int currentBorcNum);
 	int updateBorc(BoardCategories borc);
 	int addBorc(BoardCategories borc);
 	int deleteBorc(HashMap<String,List<Integer>> map);

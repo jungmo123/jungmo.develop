@@ -239,6 +239,15 @@ public class BoardAdminController {
 		return "manager/boardadmin/communityWrite";
 	}
 	
+	@RequestMapping("/admin/communityModify{idx}")
+	public String communityModify(@PathVariable String idx,Model model){
+		List<BoardCategories> board =  boscService.getBC(2);
+		model.addAttribute("categories",board);
+		model.addAttribute("idx",idx);
+		model.addAttribute("pos",posService.getPos(Integer.valueOf(idx)));
+		return "manager/boardadmin/communityWrite";
+	}
+	
 	@RequestMapping(value = "/admin/Cwrite",method=RequestMethod.POST)
 	public String CWrite(HttpServletRequest request,Model model){
 		write(request,2);
@@ -769,6 +778,15 @@ public class BoardAdminController {
 		bornum.add(borNum);
 		map.put("borNum", bornum);
 		boscService.deleteBorc(map);
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		for(int i = list.size()-1 ; 0 <= i ; i--){
+			System.out.println(borNum + " " + list.get(i));
+			boscService.updateDeleteBorc(borNum,list.get(i));
+		}
 		List<BoardCategories> bor = boscService.getBorc(borNum);
 		return bor;
 	}

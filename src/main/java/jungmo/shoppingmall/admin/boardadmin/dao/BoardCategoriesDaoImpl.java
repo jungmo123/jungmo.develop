@@ -33,6 +33,10 @@ public class BoardCategoriesDaoImpl implements BoardCategoriesDao{
 		return bm.updatePosc(borNum, borcNum);
 	}
 	
+	public int updateDeleteBorc(int borNum,Integer borcNum){
+		return bm.updateDeleteBorc(borNum, borcNum);
+	}
+	
 	public int downPosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum,@Param("currentBorcNum") int currentBorcNum){
 		return bm.downPosc(borNum, borcNum,currentBorcNum);
 	}

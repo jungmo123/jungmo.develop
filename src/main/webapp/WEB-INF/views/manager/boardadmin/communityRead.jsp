@@ -205,7 +205,7 @@
 			<a href = "community0I1" class = "btn btn-default left">목록 보기</a>
 			<button id = "pre" class = "btn btn-default left">이전글&nbsp;<span class = "glyphicon glyphicon-chevron-down" ></span></button>
 			<button id = "next" class = "btn btn-default left">다음글&nbsp;<span class = "glyphicon glyphicon-chevron-up" ></span></button>
-			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/cicWrite'">글쓰기</button>
+			<button class = "btn btn-default right"onclick="location.href='/shoppingmall/admin/communityWrite'">글쓰기</button>
 			<button id = "modify" class = "btn btn-default right">수정</button>
 			<button id = "delete" class = "btn btn-default right">삭제</button>
 		</div>
@@ -376,7 +376,7 @@
 				})			
 		})
 		$("#modify").click(function(){
-			location.href = "/shoppingmall/admin/cicModify"+idx;
+			location.href = "/shoppingmall/admin/communityModify"+idx;
 		})
 		$(document).on("click",".modify",function(event){
 			var cmtNum = $(this).parents(".cmtNum").attr("id");

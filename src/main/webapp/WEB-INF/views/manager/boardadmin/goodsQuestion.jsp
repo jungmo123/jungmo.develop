@@ -503,7 +503,7 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 							<div>
 							<p>${godq.godqNum}</p>
 							<div>
-								<img src = "..${godq.goods.godListImageUrl}"/>
+								<img src = "../upload/${godq.goods.godListImageUrl}"/>
 							</div>
 							<div>
 								<p><span>${godq.goods.godc.godcName} > ${godq.goods.godName}</span><button class="form-control">제품보기</button></p>

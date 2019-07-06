@@ -335,7 +335,7 @@
 						<span>TEL 070-0000-0000</span><span>FAX (02)000-00000</span><span>Email : help@style.co.kr</span>
 					</div>
 					<div>
-						<strong>Copyright 2023 라라마켓 Corp.All Rights Reserved</strong>
+						<strong>Copyright 2019 라라마켓 Corp.All Rights Reserved</strong>
 					</div>		
 				</div>
 			</div>

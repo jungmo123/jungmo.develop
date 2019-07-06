@@ -33,6 +33,10 @@ public class BoardCategoriesServiceImpl implements BoardCategoriesService{
 		return bd.updatePosc(borNum, borcNum);
 	}
 	
+	public int updateDeleteBorc(int borNum,Integer borcNum){
+		return bd.updateDeleteBorc(borNum, borcNum);
+	}
+	
 	public int downPosc(@Param("borNum") int borNum,@Param("borcNum") int borcNum,@Param("currentBorcNum") int currentBorcNum){
 		return bd.downPosc(borNum, borcNum,currentBorcNum);
 	}

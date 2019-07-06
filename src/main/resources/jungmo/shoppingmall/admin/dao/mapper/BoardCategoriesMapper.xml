@@ -52,13 +52,19 @@
 		]]>
 	</update>
 	
+	<update id = "updateDeleteBorc" parameterType = "map">
+		update board_categories
+		set borc_num = borc_num-1
+		where bor_num = #{borNum} and borc_num > #{borcNum}
+	</update>
+	
 	<delete id  = "deleteBorc" parameterType = "hashmap">
 		delete from board_categories
 		where
 		<foreach item="bor" collection = "borNum">
 			bor_num = #{bor} and
 		</foreach>
-		posc_num in
+		borc_num in
 		<foreach item = "ls" collection = "list" index = "index" open="(" separator="," close=")">
 			#{ls}
 		</foreach> 

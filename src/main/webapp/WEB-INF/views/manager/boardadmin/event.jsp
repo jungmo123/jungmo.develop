@@ -229,7 +229,7 @@ $("#delete").click(function(){
 			  type: 'info',
 			  title: '삭제할 이벤트를 선택하세요!',
 			  showConfirmButton: false,
-			  timer: 116500
+			  timer:1500
 			});
 	}else{
 		var $form = $("<form></form>");

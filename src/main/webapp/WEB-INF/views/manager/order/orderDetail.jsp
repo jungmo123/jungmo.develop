@@ -312,6 +312,9 @@
 		width:100px;
 		padding:0;
 	}
+	#submitForm{
+		margin-bottom:50px;
+	}
 </style>
 </head>
 <body>
@@ -684,6 +687,7 @@
 var ordType = "${purchase.ordType}"
 var invoice = "${purchase.invoiceNumber}"
 var ordNum = "${purchase.ordNum}"
+var submitCheck = false;
 function showPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -935,11 +939,19 @@ function chkword(obj, maxByte) {
 							}
 						}
 					},
+					invalidHandler:function(frm){
+						submitCheck == false;
+					},
+					submitHandler: function(frm){
+						if(submitCheck == true){
+							submit('저장을 성공했습니다.',$("#odState option:selected").val());
+						}
+		            }
 				})		
 		});
 		
 	var submit = function(title,Type){
-		var invoiceNum;
+		var invoiceNum; 
 		var tname;
 		var odState = $("#odState").val();
 		var tcode = $('#tekbeCompnayList option:selected').attr('value');
@@ -1012,18 +1024,7 @@ function chkword(obj, maxByte) {
 		
 		$("#submitForm").submit(function(e){
 			e.preventDefault();
-			var text = $(".buyerInfo2 label");
-			var trigger = 'Y';
-			if(text.length != 0){
-				$.each(text,function(index,item){
-					if($(item).text() != ''){
-						trigger = 'N';
-					}
-				})
-			}
-			if(trigger == 'Y'){
-				submit('저장을 성공했습니다.',$("#odState option:selected").val());
-			}
+			submitCheck = true;
 		})
 		
 	$("#odcancel").click(function(){
