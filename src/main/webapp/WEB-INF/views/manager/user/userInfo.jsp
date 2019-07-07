@@ -377,7 +377,7 @@
 		<div id = "AllContent">
 			<div id = "menuBar">
 				<p id = "menuName">Order Managament</p>
-				<p id = "currentIdx">&#124; 주문관리 > 교환/환불 > 상세보기</p>
+				<p id = "currentIdx">&#124; 회원 관리 > 회원 목록 > 상세보기</p>
 			</div>
 		<form id = "registerForm" action = "modifyUserInfo" method = "post">
 			<input type = "text" name = "userId" value = "${user.userId}" style = "display:none"/>

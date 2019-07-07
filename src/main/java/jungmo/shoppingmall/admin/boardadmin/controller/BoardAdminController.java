@@ -778,13 +778,7 @@ public class BoardAdminController {
 		bornum.add(borNum);
 		map.put("borNum", bornum);
 		boscService.deleteBorc(map);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
 		for(int i = list.size()-1 ; 0 <= i ; i--){
-			System.out.println(borNum + " " + list.get(i));
 			boscService.updateDeleteBorc(borNum,list.get(i));
 		}
 		List<BoardCategories> bor = boscService.getBorc(borNum);

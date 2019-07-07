@@ -20,6 +20,7 @@ public class User {
 	private int purchaseAmount;
 	private Date scdDate;
 	private int scdcCode;
+	private String scdType;
 	private String scdContent;
 	private Date dueDate;
 	private int dDay;
@@ -238,5 +239,13 @@ public class User {
 
 	public void setdDay(int dDay) {
 		this.dDay = dDay;
+	}
+
+	public String getScdType() {
+		return scdType;
+	}
+
+	public void setScdType(String scdType) {
+		this.scdType = scdType;
 	}
 }

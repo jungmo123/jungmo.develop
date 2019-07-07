@@ -34,4 +34,5 @@ public interface UserService {
 	SmsForm getSmsForm(int smsNum);
 	List<User> SearchMailUser(UserSearch us);
 	void mailshot(String [] userEmail,String mailTitle,String mailContent) throws AddressException;
+	int insertLeaveUser(String userId);
 }

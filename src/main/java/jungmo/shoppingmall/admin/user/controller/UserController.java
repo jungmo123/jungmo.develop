@@ -236,7 +236,6 @@ public class UserController {
 		String userStreet = request.getParameter("userStreet");
 		String userDetailArea = request.getParameter("userDetailArea");
 		String userLevel = request.getParameter("userLevel");
-		System.out.println(userId + " " + userPwd + " " + userEmail + " " + userPhone + " " + userPostcode + " " + userStreet + " " + userDetailArea + " " + userLevel);
 		User user = new User(userId,userPwd,userEmail,userPhone,userPostcode,userStreet,userDetailArea,Integer.valueOf(userLevel));
 		userService.updateUserInfo(user);
 		return "redirect:userIdx" + type+ index;
@@ -244,14 +243,14 @@ public class UserController {
 	
 	@RequestMapping(value="/admin/modifyUserState",method=RequestMethod.POST)
 	public String modifyUserState(HttpServletRequest request){
-		userService.updateUserState(request.getParameter("userId"));
+		String userId = request.getParameter("userId");
+		userService.updateUserState(userId);
+		userService.insertLeaveUser(userId);
 		return "redirect:userIdx" + type+ index;
 	}
 	
 	@RequestMapping(value="/admin/SearchPoint",method=RequestMethod.POST)
 	public String SearchPoint(HttpServletRequest request,Model model){
-		System.out.println(request.getParameter("reason"));
-		System.out.println(request.getParameter("point"));
 		Page myPage = null;
 		if(type == ""){
 			myPage = new Page();
@@ -261,7 +260,6 @@ public class UserController {
 		}
 		myPage.setPolgContent(request.getParameter("reason"));
 		myPage.setPolgChange(Integer.parseInt(request.getParameter("point")));
-		System.out.println(myPage.getTitle());
 		userService.SearchAddPoint(myPage);
 		return "redirect:userIdx" + type+ index;
 	}
@@ -300,7 +298,7 @@ public class UserController {
 		}
 		map.put("list", list);
 		userService.deleteUser(map);
-		return "redirect:leaveUserIdx" + type+ index;
+		return "redirect:leaveUserIdx" + leaveType+ leaveIndex;
 	}
 	
 	@RequestMapping("/admin/mail")
@@ -337,7 +335,6 @@ public class UserController {
 	@RequestMapping("/admin/modifySmsForm")
 	@ResponseBody
 	public List<SmsForm> modifySmsForm(int smsNum,String smsContent,boolean smsAutomaticallySend){
-		System.out.println(smsNum + " "  + smsContent + " " +smsAutomaticallySend);
 		SmsForm sms;
 		if(smsAutomaticallySend == true){
 			sms = new SmsForm(smsNum,smsContent,"예");

@@ -31,4 +31,5 @@ public interface UserDao {
 	int updateSmsForm(SmsForm sms);
 	SmsForm getSmsForm(int smsNum);
 	List<User> SearchMailUser(UserSearch us);
+	int insertLeaveUser(String userId);
 }

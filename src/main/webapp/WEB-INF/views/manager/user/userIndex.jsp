@@ -487,16 +487,36 @@ $(document).on("click","#detailClose",function(event){
 	})
 	
 	$("#submit").click(function(){
-		if($("tbody input:checked").length == 0){
 			if($("#pointForm").attr("action")=='checkPoint'){
-				Swal.fire({
-					  position: 'top',
-					  type: 'error',
-					  title: "포인트를 지급할 사용자를 선택하세요!",
-					  showConfirmButton: false,
-					  timer: 1500
-					});	
-			}else if($("#Reason").val() == ''){
+				if($("tbody input:checked").length == 0){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: "포인트를 지급할 사용자를 선택하세요!",
+						  showConfirmButton: false,
+						  timer: 1500
+						});	
+				}else if($("#Reason").val() == ''){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: "지급 사유를 입력하세요!",
+						  showConfirmButton: false,
+						  timer: 1500
+						});					
+				}else if($("#gp").val() == ''){
+					Swal.fire({
+						  position: 'top',
+						  type: 'error',
+						  title: "지급할 포인트를 입력하세요!",
+						  showConfirmButton: false,
+						  timer: 1500
+						});				
+				}else{
+					$("#pointForm").submit();	
+				}
+		}else{
+			if($("#Reason").val() == ''){
 				Swal.fire({
 					  position: 'top',
 					  type: 'error',
@@ -511,7 +531,7 @@ $(document).on("click","#detailClose",function(event){
 					  title: "지급할 포인트를 입력하세요!",
 					  showConfirmButton: false,
 					  timer: 1500
-					});				
+					})
 			}else{
 				$("#pointForm").submit();	
 			}

@@ -103,4 +103,8 @@ public class UserDaoImpl implements UserDao{
 	public List<User> SearchMailUser(UserSearch us){
 		return userMapper.SearchMailUser(us);
 	}
+	
+	public int insertLeaveUser(String userId){
+		return userMapper.insertLeaveUser(userId);
+	}
 }

@@ -25,7 +25,7 @@
 		display:inline;
 		width:250px;
 	}
-	select{
+	.container #content select{
 		display:inline !important;
 		width:130px !important;
 		position:relative;
@@ -177,15 +177,8 @@
 								<td>${post.userName}</td>
 								<td>${post.userId}</td>
 								<td><fmt:formatNumber value="${post.purchaseAmount}" pattern="#,###" />원</td>
-								<td>
-								<c:if test = "${fn:length(post.scdContent) > 10}" >
-										${fn:substring(post.scdContent,0,10)}...
-								</c:if>
-								<c:if test = "${fn:length(post.scdContent) < 10}" >
-										${post.scdContent}
-								</c:if>
-								</td>
-								<td><span>${post.dueDate}<br>${post.dDay}일 남음</span></td>
+								<td>${post.scdType}	</td>
+								<td><span>${post.dueDate}<br><c:if test = "${post.dDay > 0}">${post.dDay}일 남음</c:if><c:if test = "${post.dDay < 0}">만료</c:if></span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -219,6 +212,15 @@
 <script type = "text/javascript">
 	$("#delete").click(function(){
 		var input = $(".check:checked");
+		if(input.length == 0){
+			Swal.fire({
+				  position: 'top',
+				  type: 'error',
+				  title: "삭제할 유저를 선택해주세요!",
+				  showConfirmButton: false,
+				  timer: 1111500
+				});	
+		}else{
 		var list = [];
 		$.each(input,function(index,item){
 			list[index] = $(item).prop("id");
@@ -237,7 +239,8 @@
 		$input.val(list);
 		form.append($input);
 		$("body").append(form);
-		form.submit();
+		form.submit();		
+		}
 	})
 </script>
 

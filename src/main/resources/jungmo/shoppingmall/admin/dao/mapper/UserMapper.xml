@@ -60,7 +60,7 @@
 		  <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(	
-        		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,scd_date,scd_date+90 as duedate,trunc((scd_date+91)-sysdate) as dday,scdc_code,scd_content from(
+        		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,scd_date,scd_date+90 as duedate,trunc((scd_date+91)-sysdate) as dday,scdc_code,scd_type from(
         		select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement from(
 				select user_joindate,user_name,user_id,ord_num,
 				(case when sum(price)-usingpoint <  freedeliverymp then sum(price)-usingpoint+basic_fee
@@ -99,8 +99,10 @@
 				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level
 				order by user_joindate desc) c
         		full outer join
-        		(select user_id,scd_date,scdc_code,scd_content
-        		from secede_users) d
+        		(select secede_users.user_id,scd_date,scdc_code,scd_type
+        		from secede_users
+           	 	join secede_categories
+            	on (secede_users.scdc_code = secede_categories.scd_code)) d
         		on(c.user_id = d.user_id)
         		where c.user_id is not null
 		  		)x where rownum <= #{rowCnt}*#{currentPage}
@@ -203,7 +205,7 @@
 	 <![CDATA[
 		  select * from(
 		  	select rownum as rnum, x.* from(			
-        		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,scd_date,scd_date+90 as duedate,trunc((scd_date+91)-sysdate) as dday,scdc_code,scd_content from(
+        		select c.user_id,user_name,user_level,user_joindate,purchase_amount,visitcnt,user_mailagreement,scd_date,scd_date+90 as duedate,trunc((scd_date+91)-sysdate) as dday,scdc_code,scd_type from(
         		select user_joindate,user_name,user_level,user_id,sum(totalprice) as purchase_amount,visitcnt,user_mailagreement from(
 				select user_joindate,user_name,user_id,ord_num,
 				(case when sum(price)-usingpoint <  freedeliverymp then sum(price)-usingpoint+basic_fee
@@ -242,8 +244,10 @@
 				group by user_joindate,user_name,user_id,visitcnt,user_mailagreement,user_level
 				order by user_joindate desc) c
         		full outer join
-        		(select user_id,scd_date,scdc_code,scd_content
-        		from secede_users) d
+        		(select secede_users.user_id,scd_date,scdc_code,scd_type
+        		from secede_users
+           	 	join secede_categories
+            	on (secede_users.scdc_code = secede_categories.scd_code)) d
         		on(c.user_id = d.user_id)
         		where c.user_id is not null
 				]]>
@@ -438,9 +442,14 @@
 		insert all
 		<foreach item = "ls" collection = "list">
 			into secede_users
-			values(#{ls},sysdate,4,'관리자 지정 탈퇴')
+			values(#{ls},sysdate,0,'관리자 지정 탈퇴')
 		</foreach>
 		select 1 from dual
+	</insert>
+	 
+	<insert id = "insertLeaveUser" parameterType = "string">
+		insert into secede_users
+		values(#{userId},sysdate,0,'관리자 지정 탈퇴')
 	</insert>
 	 
 	<insert id = "addPoint" parameterType = "polg">
@@ -497,7 +506,7 @@
 		        from point_logs
 		        group by user_id) d
 		        on(c.user_id = d.user_id)
-		        where c.user_id is not null;
+		        where c.user_id is not null
 				]]>
 				<if test = "type != ''">
 					<if test = "SearchBar == 1" >
@@ -650,7 +659,8 @@
 		<result property = "scdDate" column = "scd_date" />
 		<result property = "scdcCode" column = "scdc_code" />
 		<result property = "scdContent" column = "scd_content" />
+		<result property = "scdType" column = "scd_type" />
 		<result property = "dueDate" column = "duedate" />
 		<result property = "dDay" column = "dday" />
-	</resultMap>
+	</resultMap> 
 </mapper>

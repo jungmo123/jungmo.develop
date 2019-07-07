@@ -124,4 +124,8 @@ public class UserServiceImpl implements UserService{
 		}catch(Exception e){}
 		mailSender.send(message);			
 	}
+	
+	public int insertLeaveUser(String userId){
+		return userDao.insertLeaveUser(userId);
+	}
 }
