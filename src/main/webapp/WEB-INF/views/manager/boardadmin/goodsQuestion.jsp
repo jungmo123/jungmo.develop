@@ -617,7 +617,7 @@ table tr:nth-child(3) td:nth-child(1)>div:nth-child(2) {
 			<div class ="modal-content">
 				<div class = "modal-header">
 					<button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-					<h4 class = "modal-title">&#124;&nbsp;상품 문의 : 수정하기</h4>
+					<h4 class = "modal-title">&#124;&nbsp;상품 문의 : 답변/수정하기</h4>
 					<hr>
 				</div>
 				<form id = "modalForm">
