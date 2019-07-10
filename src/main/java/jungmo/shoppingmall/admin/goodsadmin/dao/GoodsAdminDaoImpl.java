@@ -100,4 +100,8 @@ public class GoodsAdminDaoImpl implements GoodsAdminDao{
 	public Goods getGodDetail(String godNum){
 		return gaMapper.getGodDetail(godNum);
 	}
+	
+	public Goods getGodName(String godName){
+		return gaMapper.getGodName(godName);
+	}
 }

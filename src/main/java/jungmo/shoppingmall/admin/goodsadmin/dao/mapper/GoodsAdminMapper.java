@@ -30,4 +30,5 @@ public interface GoodsAdminMapper {
 	int insertGml(@Param("godNum") String godNum,@Param("gmlContent") String gmlContent,@Param("userId") String userId);
 	List<GoodsManageLog> selectGml(String godNum);
 	Goods getGodDetail(String godNum);
+	Goods getGodName(String godName);
 }

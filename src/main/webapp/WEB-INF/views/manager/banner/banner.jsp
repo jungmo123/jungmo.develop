@@ -152,7 +152,7 @@
 				<hr>
 			</div>
 			<div id="submenu">
-				<a href="banner" class = "activeMenu"><span>GNB</span></a>
+				<a href="banner" class = "activeMenu"><span>메인</span></a>
 			</div>
 		</div>
 		<div id="content">

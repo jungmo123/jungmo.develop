@@ -437,13 +437,13 @@
 									<strong>판매 가격</strong>
 								</td>
 								<td>
-									<span><input id = "sellingPrice" type = "number" name = "sellingPrice">원</span>
+									<span><input id = "sellingPrice" type = "number" name = "sellingPrice" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">원</span>
 								</td>
 								<td>
 									<strong>정상 가격</strong>
 								</td>
 								<td>
-									<span><input id = "normalPrice" type = "number" name = "normalPrice">원</span>
+									<span><input id = "normalPrice" type = "number" name = "normalPrice" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">원</span>
 								</td>
 							</tr>
 							<tr>
@@ -451,13 +451,13 @@
 									<strong>재고</strong>
 								</td>
 								<td>
-									<span><input id = "godStock" type = "number" name = "godStock">개</span>
+									<span><input id = "godStock" type = "number" name = "godStock" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">개</span>
 								</td>
 								<td>
 									<strong>최대 구매 개수</strong>
 								</td>
 								<td>
-									<span><input id = "godSellingLimit" type = "number" name = "godSellingLimit">개</span>
+									<span><input id = "godSellingLimit" type = "number" name = "godSellingLimit" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">개</span>
 								</td>
 							</tr>
 							<tr>
@@ -796,7 +796,7 @@ $("#register").click(function(){
 				contentType:false,
 				type:'POST',
 				success:function(data){
-					if(data == "Gioverlap"){
+					if(data == "itr"){
 						Swal.fire({
 							  position: 'top',
 							  type: 'error',
@@ -804,7 +804,7 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});					
-					}else if(data == "Gooverlap"){
+					}else if(data == "godo"){
 						Swal.fire({
 							  position: 'top',
 							  type: 'error',
@@ -820,6 +820,14 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});								
+					}else if(data == "error"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '실패하였습니다.',
+							  showConfirmButton: false,
+							  timer: 1500
+							});						
 					}else{
 						Swal.fire({
 							  position: 'top',
@@ -881,10 +889,18 @@ $("#addOption").click(function(){
 		span1.append($("<input type = 'checkbox'>"));
 		span1.append($("<input type = 'text' name = 'goodsOptionName' placeholder = '옵션명'>"));
 		span1.append($("<input type = 'text' name = 'goodsOptionIntroduce' placeholder = '설명'>"));
-		span1.append($("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>"));
+		var input1 = $("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>");
+		input1.attr({
+			onkeyup:"this.value=this.value.replace(/[^0-9]/g,'')"
+		})
+		span1.append(input1);
 		span1.append($("<button id = 'optionAdd' type = 'button' class = 'btn btn-default'>항목 추가</button>"));
 		span2.append($("<input type = 'text' name = 'goodsOptionIntroduce' placeholder = '설명'>"));
-		span2.append($("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>"));
+		var input2 = $("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>");
+		input2.attr({
+			onkeyup:"this.value=this.value.replace(/[^0-9]/g,'')"
+		})		
+		span2.append(input2);
 		span2.append($("<button id = 'optionDelete' type = 'button' class = 'btn btn-default'>항목 삭제</button>"));
 		p.append(span1);
 		p.append(span2);
@@ -918,7 +934,11 @@ $(document).on("click","#optionAdd",function(){
 	var td = $(this).parents("p");
 	var span = $("<span></span>");
 	span.append($("<input type = 'text' name = 'goodsOptionIntroduce' placeholder = '설명'>"));
-	span.append($("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>"));
+	var input1 = $("<input type = 'number' name = 'goodsOptionPrice' placeholder = '가격'>");
+	input1.attr({
+		onkeyup:"this.value=this.value.replace(/[^0-9]/g,'')"
+	})
+	span.append(input1);
 	td.append(span);
 })
 

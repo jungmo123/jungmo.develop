@@ -28,6 +28,12 @@
 			on (goods.godc_num = goods_categories.godc_num)
 			where god_num = #{godNum}
 	</select>
+	
+	<select id ="getGodName" parameterType = "string" resultMap = "godMap">
+		select god_name
+		from goods
+		where god_name = #{godName}
+	</select>
 	 
 	<select id = "selectSubImg" parameterType = "int" resultType = "gsi">
 		select subimageurl subImageUrl,god_num godNum,imgnum imgNum

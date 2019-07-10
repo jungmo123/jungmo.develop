@@ -54,7 +54,7 @@
 							<button type="button" class="btn btn-default dropdown-toggle"
 								type="button" data-toggle="dropdown">배너 관리</button>
 							<ul class="dropdown-menu">
-								<li><a href="banner">GNB</a></li>
+								<li><a href="banner">메인</a></li>
 							</ul>
 						</div>
 						<div class="btn-group drop">

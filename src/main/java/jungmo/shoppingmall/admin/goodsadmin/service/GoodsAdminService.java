@@ -4,8 +4,10 @@ import java.util.*;
 
 import jungmo.shoppingmall.admin.goodsadmin.domain.*;
 import jungmo.shoppingmall.admin.order.domain.*;
+import jungmo.shoppingmall.admin.order.service.*;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.multipart.*;
 
 public interface GoodsAdminService {
 	int insertGoods(Goods god);
@@ -30,4 +32,7 @@ public interface GoodsAdminService {
 	int insertGml(@Param("godNum") String godNum,@Param("gmlContent") String gmlContent,@Param("userId") String userId);
 	List<GoodsManageLog> selectGml(String godNum);
 	Goods getGodDetail(String godNum);
+	String addGoods(MultipartHttpServletRequest request,GoodsAdminService gaService);
+	String modifyGoods(MultipartHttpServletRequest request,GoodsAdminService gaService,OrderService orderService,String ListImageUrl,String MainImageUrl,String repreImageUrl1,String repreImageUrl2,String repreImageUrl3,String repreImageUrl4);
+	Goods getGodName(String godName);
 }
