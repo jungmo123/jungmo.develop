@@ -885,7 +885,7 @@ $("#register").click(function(){
 				contentType:false,
 				type:'POST',   
 				success:function(data){
-					if(data == "Gioverlap"){
+					if(data == "itr"){
 						Swal.fire({
 							  position: 'top',
 							  type: 'error',
@@ -893,7 +893,7 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});					
-					}else if(data == "Gooverlap"){
+					}else if(data == "godo"){
 						Swal.fire({
 							  position: 'top',
 							  type: 'error',
@@ -909,14 +909,22 @@ $("#register").click(function(){
 							  showConfirmButton: false,
 							  timer: 1500
 							});								
+					}else if(data == "error"){
+						Swal.fire({
+							  position: 'top',
+							  type: 'error',
+							  title: '실패하였습니다.',
+							  showConfirmButton: false,
+							  timer: 1500
+							});						
 					}else{
 						Swal.fire({
 							  position: 'top',
 							  type: 'success',
-							  title: '저장되었습니다!',
+							  title: '등록되었습니다!',
 							  showConfirmButton: false,
 							  timer: 1500
-							});								
+							});
 					}
 				},
 				error:function(a,b,errMsg){

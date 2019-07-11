@@ -76,7 +76,7 @@
 				</div>
 				<div id = "buttonGroup">
 					<button id = "save" class = "btn btn-default">저장</button>
-					<button id = "cancel" class = "btn btn-default">취소</button>
+					<button id = "cancel" class = "btn btn-default" onclick = "location.href = '/shoppingmall/admin/main'">취소</button>
 				</div>
 			</div>
 		</div>
@@ -249,7 +249,13 @@
 			method:"post",
 			contentType:"application/json",
 			success:function(data){
-				console.log("성공");
+				Swal.fire({
+					  position: 'top',
+					  type: 'success',
+					  title: '저장 되었습니다!',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
 			},
 			error:function(a,b,errMsg){
 				Swal.fire({

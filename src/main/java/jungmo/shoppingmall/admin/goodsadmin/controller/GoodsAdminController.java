@@ -46,7 +46,7 @@ public class GoodsAdminController {
 	private String repreImageUrl3 = "";
 	private String repreImageUrl4 = "";
 	private List<String> images;
-	
+
 	// 상품등록
 	
 	@RequestMapping("/admin/goodsRegister")

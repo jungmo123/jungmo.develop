@@ -134,7 +134,7 @@
 		height:20px;
 		padding:0;
 		position:relative;
-		left:10px;
+		left:20px;
 	}
 	#table tr:nth-child(1) th {
     border-top: 1px solid #878787;
@@ -180,6 +180,10 @@
 	}	
 	.none{
 		display:none;
+	}
+	.container #table a,
+	.container #table a:hover{
+		text-decoration:none;
 	}
 </style>
 </head>
@@ -307,7 +311,7 @@
 								<td>
 									<span>${goods.godcName}</span>
 									<br>
-									<a>${goods.godName}</a>
+									<a href = "../goodsDetail${goods.godNum}" target = "_blank">${goods.godName}</a>
 								</td>
 								<td>
 									<span><fmt:formatNumber value="${goods.godSellingPrice}" pattern="#,###" />원</span>

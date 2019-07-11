@@ -199,11 +199,11 @@
 					<div id = "deliveryCharge">
 						<p>
 							<span>기본 배송료 : </span>
-							<input type = "number" name = "basicFee" value = "${delivery.basicFee}"/><span>원</span>
+							<input type = "number" name = "basicFee" value = "${delivery.basicFee}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')"/><span>원</span>
 						</p>
 						<p>
 							<span>무료 배송 : </span>
-							<input type = "number" name = "freeDeliveryMp" value = "${delivery.freeDeliveryMp}" /><span>원 이상 구매시 무료 배송</span>
+							<input type = "number" name = "freeDeliveryMp" value = "${delivery.freeDeliveryMp}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" /><span>원 이상 구매시 무료 배송</span>
 						</p>
 					</div>
 					<div id = "AddressForm">
@@ -233,11 +233,11 @@
 					<div>
 						<p>
 							<span>가입 포인트 :</span>
-							<span>회원 가입 시 <input type = "number" name = "joinP" value = "${pp.joinPoint}" />원 적립</span>
+							<span>회원 가입 시 <input type = "number" name = "joinP" value = "${pp.joinPoint}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" />원 적립</span>
 						</p>
 						<p>
 							<span>구매 포인트 :</span>
-							<span>구매 금액의 <input type = "number" name = "saveP" value = "${pp.savePointPercent}" />% 적립</span>
+							<span>구매 금액의 <input type = "number" name = "saveP" value = "${pp.savePointPercent}"  onkeyup="this.value=this.value.replace(/[^0-9]/g,'')"/>% 적립</span>
 						</p>
 					</div>
 				</div>
@@ -264,7 +264,7 @@
 			</form>
 			<div id = "buttonGroup">
 				<button id = "save" class = "btn btn-default">저장</button>
-				<button class = "btn btn-default">취소</button>
+				<button class = "btn btn-default" onclick ="location.href = '/shoppingmall/admin/main'">취소</button>
 			</div>
 			</div>
 		</div>
