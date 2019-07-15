@@ -14,4 +14,5 @@ public interface BuyMapper {
 	void createPurchaseOption(HashMap<String,List<GoodsOption>> hashmap);
 	void insertPointLogs(PointLogs pl);
 	void minusStock(@Param("godNum") String godNum,@Param("godStock") String godStock);
+	void deleteOrder(String ordNum);
 }

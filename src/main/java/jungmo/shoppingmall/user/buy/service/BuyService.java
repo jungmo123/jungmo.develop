@@ -18,4 +18,5 @@ public interface BuyService {
 	String insertOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList);
 	String insertMOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList,List<String> cartNums);
 	void minusStock(String godNum,String godStock);
+	void deleteOrder(String ordNum);
 }

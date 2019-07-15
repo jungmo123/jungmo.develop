@@ -44,6 +44,10 @@ public class BuyServieImpl implements BuyService{
 		buyDao.minusStock(godNum, godStock);
 	}
 	
+	public void deleteOrder(String ordNum){
+		buyDao.deleteOrder(ordNum);
+	}
+	
 	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
 	public String insertOrder(MultipartHttpServletRequest request,BuyService buyService,List<BuyList> buyList){
 		String ordNum = request.getParameter("ordNum");

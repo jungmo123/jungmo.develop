@@ -37,4 +37,8 @@ public class BuyDaoImpl implements BuyDao{
 	public void minusStock(String godNum,String godStock){
 		buyMapper.minusStock(godNum, godStock);
 	}
+	
+	public void deleteOrder(String ordNum){
+		buyMapper.deleteOrder(ordNum);
+	}
 }

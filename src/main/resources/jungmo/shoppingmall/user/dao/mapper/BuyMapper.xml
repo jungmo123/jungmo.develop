@@ -30,6 +30,11 @@
 		insert into point_logs
 		values(#{userid},sysdate,#{polgContent},#{polgChange})
 	</insert>
+	
+	<delete id = "deleteOrder" parameterType = "string">
+		delete from orders
+		where ord_num = #{ordNum}
+	</delete>
 	 
 	<update id = "minusStock" parameterType = "map">
 		update goods

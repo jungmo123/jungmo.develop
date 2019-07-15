@@ -107,4 +107,11 @@ public class BuyController {
 			return "error";
 		}
 	}
+	
+	@RequestMapping("/deleteOrder")
+	@ResponseBody
+	public String deleteOrder(String day){
+		buyService.deleteOrder(day);
+		return "";
+	}
 }

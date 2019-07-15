@@ -14,4 +14,5 @@ public interface BuyDao {
 	void createPurchaseOption(HashMap<String,List<GoodsOption>> hashmap);
 	void insertPointLogs(PointLogs pl);
 	void minusStock(String godNum,String godStock);
+	void deleteOrder(String ordNum);
 }

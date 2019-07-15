@@ -450,6 +450,13 @@ public class MyPageController {
 		}
 	}
 	
+	@RequestMapping("/mypage/deleteOrder")
+	@ResponseBody
+	public String deleteOrder(String day){
+		buyService.deleteOrder(day);
+		return "";
+	}
+	
 	// 포인트
 	
 	public void pointCommon(HttpServletRequest request,Model model,String idx){

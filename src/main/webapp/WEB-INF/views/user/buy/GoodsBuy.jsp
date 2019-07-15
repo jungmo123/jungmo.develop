@@ -792,8 +792,6 @@
 			point = "0";
 		}
 		
-		console.log(point);
-		
  		if(text != ""){
 			Swal.fire({
 				  position: 'top',
@@ -815,71 +813,90 @@
 	    leadingZeros(d.getMinutes(), 2) +
 	    leadingZeros(d.getSeconds(), 2) +
 	    ordNum;
-	    
- 		IMP.request_pay({
-		    pg : 'inicis', // version 1.1.0부터 지원.
-		    pay_method : pay,
-		    merchant_uid : day,
-		    name : godName,
-		    amount : total,
-		    buyer_email : 'endia1@daum.net',
-		    buyer_name : '성정모',
-		    buyer_tel : '010-4644-9858',
-		    buyer_addr : '서울특별시 강남구 삼성동',
-		    buyer_postcode : '123-456',
-		}, function(rsp) {
-		    if ( rsp.success ) {
-		        success = true;
-		    } else {
-		        var msg = '결제에 실패하였습니다.';
-		        msg += '에러내용 : ' + rsp.error_msg;
-		        success = false;
-		    }
-		    if(success == true){
-		    	
-				var formData = new FormData($("#registerForm")[0]);
-				formData.append('usingPoint',point);
-				formData.append('payment',pay);
-				formData.append('ordNum',day);
-				$.ajax({
-					url:"createOrder",
-					data: formData,
-					processData:false,
-					contentType:false,
-					type:'POST',   
-					success:function(data){
-						console.log(data);
-						 if(data == "error"){
-								Swal.fire({
-									  position: 'top',
-									  type: 'error',
-									  title: '오류가 발생했습니다.',
-									  showConfirmButton: false,
-									  timer: 1500
-									});							
-							}else{
-					    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
-					    	var input = $("<input name = 'ordNum'></input>");
-					    	input.val(data);
-					    	form.append(input);
-					    	$("body").append(form);
-					    	form.submit();							
-						}
-					},
-					error:function(a,b,errMsg){
+
+		var formData = new FormData($("#registerForm")[0]);
+		formData.append('usingPoint',point);
+		formData.append('payment',pay);
+		formData.append('ordNum',day);
+		$.ajax({
+			url:"createOrder",
+			data: formData,
+			processData:false,
+			contentType:false,
+			type:'POST',   
+			success:function(data){
+				 if(data == "error"){
 						Swal.fire({
 							  position: 'top',
 							  type: 'error',
 							  title: '오류가 발생했습니다.',
 							  showConfirmButton: false,
 							  timer: 1500
-							});
-					}
-				})
- 		    }else{
-		    	 alert(msg);
-		    }
-		});
+							});							
+					}else{
+						var ordNum = data;
+				 		IMP.request_pay({
+						    pg : 'inicis', // version 1.1.0부터 지원.
+						    pay_method : pay,
+						    merchant_uid : day,
+						    name : godName,
+						    amount : total,
+						    buyer_email : 'endia1@daum.net',
+						    buyer_name : '성정모',
+						    buyer_tel : '010-4644-9858',
+						    buyer_addr : '서울특별시 강남구 삼성동',
+						    buyer_postcode : '123-456',
+						}, function(rsp) {
+						    if ( rsp.success ) {
+						        success = true;
+						    } else {
+						        var msg = '결제에 실패하였습니다.';
+						        msg += '에러내용 : ' + rsp.error_msg;
+						        success = false;
+						    }
+						    if(success == true){
+						    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
+						    	var input = $("<input name = 'ordNum'></input>");
+						    	input.val(data);
+						    	form.append(input);
+						    	$("body").append(form);
+						    	form.submit();		
+				 		    }else{
+				 				$.ajax({
+				 					url:"deleteOrder",
+				 					data:{
+				 						day:day
+				 					},
+				 					method:"post",
+				 					success:function(data){
+				 						
+				 					},
+				 					error:function(a,b,errMsg){
+				 						Swal.fire({
+				 							  position: 'top',
+				 							  type: 'error',
+				 							  title: '오류가 발생했습니다.',
+				 							  showConfirmButton: false,
+				 							  timer: 1500
+				 							});
+				 						return;
+				 					}
+				 				})
+						    	 alert(msg);
+						    }
+						});													
+				}
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '오류가 발생했습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+			}
+		})
 	})
 	
 	$("#cancel").click(function(){	
