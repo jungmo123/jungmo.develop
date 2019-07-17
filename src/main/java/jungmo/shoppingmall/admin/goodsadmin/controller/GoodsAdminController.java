@@ -236,6 +236,8 @@ public class GoodsAdminController {
 		String result = gaService.modifyGoods(request, gaService, orderService, ListImageUrl, MainImageUrl, repreImageUrl1, repreImageUrl2, repreImageUrl3, repreImageUrl4);
 		if(result.equals("nameoverlap")){
 			return "nameoverlap";
+		}else{
+			images = new ArrayList<>();
 		}
 		return "success";
 		}catch(Exception e){
