@@ -1,5 +1,9 @@
 package jungmo.shoppingmall.user.buy.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -22,6 +26,10 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 
+import com.siot.IamportRestClient.*;
+import com.siot.IamportRestClient.exception.*;
+import com.siot.IamportRestClient.response.*;
+
 @Controller
 public class BuyController {
 	@Autowired private ClauseService clauseService;
@@ -29,6 +37,7 @@ public class BuyController {
 	@Autowired private BuyService buyService;
 	@Autowired private OrderService orderService;
 	private List<BuyList> buyList;
+	private IamportClient client;
 	
 	@RequestMapping("/addBuy")
 	@ResponseBody
@@ -113,5 +122,47 @@ public class BuyController {
 	public String deleteOrder(String day){
 		buyService.deleteOrder(day);
 		return "";
+	}
+	
+	@RequestMapping("/payment")
+	@ResponseBody
+	public String payment(String imp){
+		String test_imp_uid = imp;
+		String test_api_key = "5368000379886321";
+		String test_api_secret = "Qoutm7mTq3Jx5ORMKICp6UBHCmYrfSS6hmADtWxU0gr55jSP2ue9pQQ1dPstHkzYHaCb6966qxbvR4lT";
+		client = new IamportClient(test_api_key, test_api_secret);
+		try {
+			IamportResponse<Payment> payment_response = client.paymentByImpUid(test_imp_uid);
+			assertNotNull(payment_response.getResponse());
+			assertEquals(test_imp_uid, payment_response.getResponse().getImpUid());
+			String ordNum = payment_response.getResponse().getMerchantUid();
+			System.out.println(payment_response.getResponse().getStatus());
+			System.out.println(payment_response.getResponse().getName());
+			System.out.println(payment_response.getResponse().getPayMethod());
+			System.out.println(payment_response.getResponse().getBuyerAddr());
+			System.out.println(payment_response.getResponse().getBuyerName());
+			System.out.println(payment_response.getResponse().getCancelReason());
+			System.out.println(payment_response.getResponse().getApplyNum());
+			System.out.println(payment_response.getResponse().getMerchantUid());
+			System.out.println(payment_response.getResponse().getPaidAt());
+			System.out.println(payment_response.getResponse().getReceiptUrl());
+			System.out.println(payment_response.getResponse().getAmount());
+			System.out.println("끝");
+			return "success";
+		} catch (IamportResponseException e) {
+			String error = "";
+			switch(e.getHttpStatusCode()) {
+			case 401 :
+				error = "401";
+				break;
+			case 500 :
+				error = "500";
+				break;
+			}
+			return error;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "ioe";
+		}		
 	}
 }

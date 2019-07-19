@@ -855,12 +855,25 @@
 						        success = false;
 						    }
 						    if(success == true){
-						    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
-						    	var input = $("<input name = 'ordNum'></input>");
-						    	input.val(data);
-						    	form.append(input);
-						    	$("body").append(form);
-						    	form.submit();		
+						    	jQuery.ajax({
+						    		url: "payment", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+						    		method:"post",
+						    		data: {
+							    		imp : rsp.imp_uid
+							    		//기타 필요한 데이터가 있으면 추가 전달
+						    		},
+						    		success:function(data){
+								    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
+								    	var input = $("<input name = 'ordNum'></input>");
+								    	input.val(data);
+								    	form.append(input);
+								    	$("body").append(form);
+								    	form.submit();
+						    		},
+						    		error:function(a,b,errMsg){
+						    			console.log("실패");
+						    		}
+						    	})		
 				 		    }else{
 				 				$.ajax({
 				 					url:"deleteOrder",
