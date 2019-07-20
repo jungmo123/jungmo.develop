@@ -135,20 +135,12 @@ public class BuyController {
 			IamportResponse<Payment> payment_response = client.paymentByImpUid(test_imp_uid);
 			assertNotNull(payment_response.getResponse());
 			assertEquals(test_imp_uid, payment_response.getResponse().getImpUid());
-			String ordNum = payment_response.getResponse().getMerchantUid();
-			System.out.println(payment_response.getResponse().getStatus());
-			System.out.println(payment_response.getResponse().getName());
-			System.out.println(payment_response.getResponse().getPayMethod());
-			System.out.println(payment_response.getResponse().getBuyerAddr());
-			System.out.println(payment_response.getResponse().getBuyerName());
-			System.out.println(payment_response.getResponse().getCancelReason());
-			System.out.println(payment_response.getResponse().getApplyNum());
-			System.out.println(payment_response.getResponse().getMerchantUid());
-			System.out.println(payment_response.getResponse().getPaidAt());
-			System.out.println(payment_response.getResponse().getReceiptUrl());
-			System.out.println(payment_response.getResponse().getAmount());
-			System.out.println("끝");
-			return "success";
+			String state = payment_response.getResponse().getStatus();
+			if(state.equals("paid")) {
+				return "success";
+			}else {
+				return "cancel";
+			}
 		} catch (IamportResponseException e) {
 			String error = "";
 			switch(e.getHttpStatusCode()) {

@@ -761,6 +761,29 @@
 			$(this).val("");
 		}
 	})
+
+	function deleteOrder(day){
+		$.ajax({
+			url:"deleteOrder",
+			data:{
+				day:day
+			},
+			method:"post",
+			success:function(data){
+						
+			},
+			error:function(a,b,errMsg){
+				Swal.fire({
+					  position: 'top',
+					  type: 'error',
+					  title: '오류가 발생했습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+					});
+				return;
+			}
+		})
+	}
 	
 	$("#payment").click(function(){
  		var success;
@@ -863,39 +886,27 @@
 							    		//기타 필요한 데이터가 있으면 추가 전달
 						    		},
 						    		success:function(data){
-								    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
-								    	var input = $("<input name = 'ordNum'></input>");
-								    	input.val(data);
-								    	form.append(input);
-								    	$("body").append(form);
-								    	form.submit();
+							    		if(data == "success"){
+									    	var form = $("<form action = 'GoodsBuyResult' method = 'post'></form>");
+									    	var input = $("<input name = 'ordNum'></input>");
+									    	input.val(day);
+									    	form.append(input);
+									    	$("body").append(form);
+									    	form.submit();
+								    	}else{
+								    		console.log("결제에 실패했습니다.");
+								    		deleteOrder(day);
+									    }
+
 						    		},
 						    		error:function(a,b,errMsg){
-						    			console.log("실패");
+						    			console.log("결제에 실패했습니다.");
+						    			deleteOrder(day);
 						    		}
 						    	})		
 				 		    }else{
-				 				$.ajax({
-				 					url:"deleteOrder",
-				 					data:{
-				 						day:day
-				 					},
-				 					method:"post",
-				 					success:function(data){
-				 						
-				 					},
-				 					error:function(a,b,errMsg){
-				 						Swal.fire({
-				 							  position: 'top',
-				 							  type: 'error',
-				 							  title: '오류가 발생했습니다.',
-				 							  showConfirmButton: false,
-				 							  timer: 1500
-				 							});
-				 						return;
-				 					}
-				 				})
-						    	 alert(msg);
+				 		    	deleteOrder(day);
+						    	alert(msg);
 						    }
 						});													
 				}
