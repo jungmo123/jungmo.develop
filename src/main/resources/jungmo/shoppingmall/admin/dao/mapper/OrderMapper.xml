@@ -8,6 +8,11 @@
 		where god_name = #{godName}
 	</select> 
 	
+	<select id = "sOrder" resultMap = "getOrder">
+		select ord_num,ord_type,ord_date
+		from orders
+	</select>
+	
 	<select id = "getOrderRefund" parameterType = "string" resultMap = "refMap">
 		select refunds.ord_num,ref_requestdate,ref_reason,rea_name,ref_content,ref_completeDate,ref_memo,users.user_id,user_name,user_phone,ref_state
 		from refunds

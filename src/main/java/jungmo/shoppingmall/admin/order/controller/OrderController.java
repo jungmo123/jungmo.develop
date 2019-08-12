@@ -1,17 +1,36 @@
 package jungmo.shoppingmall.admin.order.controller;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import jungmo.shoppingmall.admin.order.domain.*;
-import jungmo.shoppingmall.admin.order.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.*;
+import jungmo.shoppingmall.admin.order.domain.Exchange;
+import jungmo.shoppingmall.admin.order.domain.GoodsList;
+import jungmo.shoppingmall.admin.order.domain.Order;
+import jungmo.shoppingmall.admin.order.domain.OrderCancel;
+import jungmo.shoppingmall.admin.order.domain.OrderExcel;
+import jungmo.shoppingmall.admin.order.domain.Page;
+import jungmo.shoppingmall.admin.order.domain.PurchaseList;
+import jungmo.shoppingmall.admin.order.domain.Refund;
+import jungmo.shoppingmall.admin.order.service.OrderService;
+import jungmo.shoppingmall.admin.order.service.PageService;
+import jungmo.shoppingmall.admin.order.service.PageServiceImpl;
+import jungmo.shoppingmall.admin.order.service.PostService;
 
 @Controller
 public class OrderController {
@@ -626,4 +645,37 @@ public class OrderController {
 		modify(ordNum);
 		return "redirect:orderExchangeOne1";
 	}
+	
+    @RequestMapping(value="/admin/excelDownload",method=RequestMethod.GET)
+    public String excelView(@RequestParam Map<String, Object> paramMap, Map<String, Object> ModelMap, HttpServletResponse response)throws Exception{
+        
+        /*
+        excelDownload?target=books&id=b2
+         
+        위와 같은 형식으로 파라미터가 온다고 가정
+        target에 따라서 가져올 리스트를 선택
+         */
+         
+        response.setHeader("Content-disposition", "attachment; filename=orders.xlsx"); //target명을 파일명으로 작성
+
+        //엑셀에 작성할 리스트를 가져온다.
+        List<Order> excelList= orderService.sOrder();
+        for(int i = 0 ; i < excelList.size() ; i++) {
+        	Order ol = excelList.get(i);
+        	System.out.println("시작" + i);
+        	System.out.println(ol.getOrdNum());
+        	System.out.println();
+        	System.out.println();
+        	System.out.println();
+        	System.out.println();
+        	System.out.println();
+        	System.out.println();
+        }
+         
+        //ExcelView(kr.co.myapp.util.ExcelView) 에 넘겨줄 값 셋팅
+        ModelMap.put("excelList", excelList); 
+        ModelMap.put("target", "orders");
+
+       return "excelView";
+    }
 }

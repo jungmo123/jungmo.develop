@@ -20,10 +20,17 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<context:component-scan base-package="jungmo.shoppingmall"/>
 	<mvc:annotation-driven />
+	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
+	
 	<bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name = "prefix" value = "/WEB-INF/views/"/>
 		<property name = "suffix" value = ".jsp"/>
+		<property name = "order" value = "1" />
 	</bean>
+	
+	<bean name="excelView" class="jungmo.shoppingmall.admin.order.util.ExcelView"/>
 	
 	<mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**"/>
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>
@@ -57,6 +64,7 @@
 	<bean id = "loginInterceptor" class = "jungmo.shoppingmall.interceptor.LoginInterceptor"></bean>
 	<bean id = "AdminInterceptor" class = "jungmo.shoppingmall.interceptor.AdminInterceptor"></bean>
 	<bean id = "MyPageInterceptor" class = "jungmo.shoppingmall.interceptor.MyPageInterceptor"></bean>
+	
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
@@ -97,5 +105,4 @@
 			</props>
 		</property>
 	</bean>
-	
 </beans>

@@ -6,7 +6,7 @@ import java.util.*;
 import jungmo.shoppingmall.user.login.domain.*;
 
 public class Order {
-	private int ordNum;
+	private String ordNum;
 	private String orderNum;
 	private String ordType;
 	private Date ordDate;
@@ -42,9 +42,6 @@ public class Order {
 		this.userId = userId;
 	}
 	
-	public int getOrdNum() {
-		return ordNum;
-	}
 	public List<ManageLogCategories> getMlc() {
 		return mlc;
 	}
@@ -92,9 +89,6 @@ public class Order {
 	}
 	public User getUser() {
 		return user;
-	}
-	public void setOrdNum(int ordNum) {
-		this.ordNum = ordNum;
 	}
 	public void setOrdType(String ordType) {
 		this.ordType = ordType;
@@ -150,4 +144,13 @@ public class Order {
 	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
+
+	public String getOrdNum() {
+		return ordNum;
+	}
+
+	public void setOrdNum(String ordNum) {
+		this.ordNum = ordNum;
+	}
+	
 }

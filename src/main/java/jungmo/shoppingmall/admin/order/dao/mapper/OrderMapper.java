@@ -62,4 +62,5 @@ public interface OrderMapper {
 			@Param("userName") String userName,
 			@Param("phone") String phone);
 	int modifyOrdType(@Param("ordNum") String ordNum,@Param("ordType") String ordType);
+	List<Order> sOrder();
 }

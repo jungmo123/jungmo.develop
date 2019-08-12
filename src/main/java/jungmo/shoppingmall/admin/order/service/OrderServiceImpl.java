@@ -103,4 +103,8 @@ public class OrderServiceImpl implements OrderService{
 	public int modifyOrdType(String ordNum,String ordType){
 		return orderDao.modifyOrdType(ordNum, ordType);
 	}
+	
+	public List<Order> sOrder(){
+		return orderDao.sOrder();
+	}
 }

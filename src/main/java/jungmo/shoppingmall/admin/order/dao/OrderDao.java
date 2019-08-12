@@ -30,4 +30,5 @@ public interface OrderDao {
 	OrderCancel getOrderCancel(String ordNum);
 	int modifyDi(String ordNum,String postCode,String street,String detailArea,String deliveryRequest,String userName,String phone);
 	int modifyOrdType(String ordNum,String ordType);
+	List<Order> sOrder();
 }

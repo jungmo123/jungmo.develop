@@ -103,4 +103,8 @@ public class OrderDaoImpl implements OrderDao{
 	public int modifyOrdType(String ordNum,String ordType){
 		return orderMapper.modifyOrdType(ordNum, ordType);
 	}
+	
+	public List<Order> sOrder(){
+		return orderMapper.sOrder();
+	}
 }

@@ -193,6 +193,10 @@
 		color:#878787;
 		margin-right:10px;
 	}
+	#excel{
+		position: relative;
+    	bottom: 10px;
+	}
 </style>
 </head>
 <body>
@@ -257,6 +261,7 @@
 				<a href = "orderListThree1">배송 완료</a>
 				<span  class = "Y">&#124;</span>
 				<a href = "orderListAll1">주문 모두 보기</a>
+				<a id = "excel" class = "btn btn-default" href="excelDownload" style = "float:right">엑셀 다운</a>
 			</div>
 			<form id = "orderList" action = "dvModify" method="post">
 			<div id = "resultbox">
